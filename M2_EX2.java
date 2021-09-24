@@ -25,8 +25,9 @@ public class M2_EX2 {
                 && senha.equals("12345-abcde")) { /** Aqui armazenamos as variaveis do login e senha */
             /** Verificamos se o login e a senha estao corretos */
             System.out.printf("%s sua senha esta correta.", login); /** Obtemos os resultados caso correctos */
-        } else { // ou invalidos */
+        } else {
             System.out.println("Senha invalida!");
+            return;
         }
 
     }
