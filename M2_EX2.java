@@ -1,4 +1,10 @@
+
+import java.security.Principal;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+import jdk.javadoc.internal.doclets.toolkit.taglets.SystemPropertyTaglet;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,23 +19,33 @@ import java.util.Scanner;
 public class M2_EX2 {
 
     public static void main(String args[]) {
-        Scanner in = new Scanner(System.in);
+        Scanner in = new Scanner (System.in);
 
-        System.out.println("login> "); /** Escolha um user */
-        String login = in.nextLine();
 
-        System.out.println("senha> "); /** Escolhe a senha */
+        String senhaOriginal  = "123456-ABCdef";
+        
+        int tentativas = 3;
+        int chances = 0;
+
+        System.out.println("senha> ");
         String senha = in.nextLine();
 
-        if (login.equals("paodequeijo")
-                && senha.equals("12345-abcde")) { /** Aqui armazenamos as variaveis do login e senha */
-            /** Verificamos se o login e a senha estao corretos */
-            System.out.printf("%s sua senha esta correta.", login); /** Obtemos os resultados caso correctos */
-        } else {
-            System.out.println("Senha invalida!");
+        
+        while (tentativas > chances);
+        if (senha.equals(senhaOriginal))
+        {
+            System.out.println("Senha Correta");
             return;
+            
+        }else{
+            System.out.println("Senha Incorreta");
+            tentativas--;
+            
         }
 
-    }
 
+        }
 }
+
+
+
