@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import jdk.javadoc.internal.doclets.toolkit.taglets.SystemPropertyTaglet;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
