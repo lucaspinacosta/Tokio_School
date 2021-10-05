@@ -1,50 +1,29 @@
+import java.io.IOException;
 
-import java.security.Principal;
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
-
-
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Pao de Queijo(Lucas Costa)
- */
 public class M2_EX2 {
 
-    public static void main(String args[]) {
-        Scanner in = new Scanner (System.in);
+    public static void main(String args[]) throws IOException {
 
+        String senha = "12345";
 
-        String senhaOriginal  = "123456-ABCdef";
-        
-        int tentativas = 3;
-        int chances = 0;
+        int tentativas = 0;
+        int chances = 3;
 
-        System.out.println("senha> ");
-        String senha = in.nextLine();
-
-        
-        while (tentativas > chances);
-        if (senha.equals(senhaOriginal))
-        {
-            System.out.println("Senha Correta");
-            return;
-            
-        }else{
-            System.out.println("Senha Incorreta");
-            tentativas--;
-            
-        }
-
+        while (tentativas < chances) {
+            chances--;
+            String inpsenha = JOptionPane.showInputDialog("Digite a senha");
+            if (inpsenha == senha) {
+                JOptionPane.showMessageDialog(null, "Senha correta");
+                break;
+            } else {
+                JOptionPane.showMessageDialog(null, "Senha Errada");
+            }
 
         }
+        JOptionPane.showMessageDialog(null, "Ficou sem tentativas");
+
+    }
+
 }
-
-
-
