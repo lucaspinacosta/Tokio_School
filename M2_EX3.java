@@ -10,40 +10,62 @@
  */
 
 
+
+/**
+ * M2_EX3
+ */
 public class M2_EX3 {
 
-
-
-     class Programa{
-         c
-               Conta minhaConta;
-               minhaConta = new Conta();
-
-               minhaConta.titular = "Duke";
-               minhaConta.numero_de_conta = 15489;
-               minhaConta.quantidade = 150.50;
-
-
-               System.out.println("Saldo Atual:" + minhaConta.Saldo);
-
-          }
-     }
-
-
+}
      class Conta{
+                    String titular;
+                    int numero_conta;
+                    double quantidade;
+               
+     
 
-          String titular;
-          int numero_de_conta;
-          double quantidade;
+     public static void main(String[] args) {
+          
+
+
+               Conta minhaConta1;
+               minhaConta1 = new Conta();
+
+               minhaConta1.titular = "Duke";
+               minhaConta1.quantidade = 1500.50;
+               minhaConta1.numero_conta = 54612;
+
+
+               Conta minhaConta2;
+               minhaConta2 = new Conta();
+
+               minhaConta2.titular = "Irene";
+               minhaConta2.numero_conta = 54156;
+               minhaConta2.quantidade = 15464.54;
+
+               if (minhaConta1.quantidade > minhaConta2.quantidade){
+                    System.out.printf(
+                         "Titular: " + minhaConta1.titular + '\n' +
+                         "Quantidade: "+ minhaConta1.quantidade +"€" + '\n'+
+                         "Numero de Conta: " + minhaConta1.numero_conta 
+                    );
+               } else {
+                    System.out.println(
+                         "Titular: " + minhaConta2.titular + '\n'+
+                         "Quantia: " + minhaConta2.quantidade + "€" + '\n'+
+                         "Numero de Conta: " + minhaConta2.numero_conta
+                         );
+               }
+
+               
+
+          
+          
+
+          
+     
+
      }
-
-     
-
-
-
-
-
-     
 }
 
 
