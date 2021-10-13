@@ -1,9 +1,7 @@
 import java.io.IOException;
-import java.lang.invoke.VarHandle;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextPane;
+
 
 public class M2_EX2 {
 
