@@ -6,7 +6,7 @@ public class M2_EX2 {
 
     public static void main(String args[]) throws IOException {
 
-        String senha = "paodequeijo";
+        String senha = "pãodequeijo";
 
         int tentativas = 0;
         int chances = 3;
@@ -14,7 +14,7 @@ public class M2_EX2 {
         while (tentativas < chances) {
             chances--;
             String inpsenha = JOptionPane.showInputDialog("Digite a senha");
-            if (senha == inpsenha) {
+            if (inpsenha.equals(senha)) {
                 JOptionPane.showMessageDialog(null, "Senha correta", inpsenha, JOptionPane.PLAIN_MESSAGE);
                 return;
             } else {
