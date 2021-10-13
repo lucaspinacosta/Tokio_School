@@ -22,7 +22,7 @@ public class M2_EX2 {
                 JOptionPane.showMessageDialog(null, "Senha correta", inpsenha, JOptionPane.PLAIN_MESSAGE);
                 return;
             } else {
-                JOptionPane.showMessageDialog(null, "Senha Errada", "Senha inserida " + ippsenha,
+                JOptionPane.showMessageDialog(null, "Senha Errada", "Senha inserida " + inpsenha,
                         JOptionPane.PLAIN_MESSAGE);
             }
 
