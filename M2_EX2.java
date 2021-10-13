@@ -1,6 +1,9 @@
 import java.io.IOException;
+import java.lang.invoke.VarHandle;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextPane;
 
 public class M2_EX2 {
 
@@ -12,17 +15,20 @@ public class M2_EX2 {
         int chances = 3;
 
         while (tentativas < chances) {
+
             chances--;
             String inpsenha = JOptionPane.showInputDialog("Digite a senha");
             if (inpsenha.equals(senha)) {
                 JOptionPane.showMessageDialog(null, "Senha correta", inpsenha, JOptionPane.PLAIN_MESSAGE);
                 return;
             } else {
-                JOptionPane.showMessageDialog(null, "Senha Errada", inpsenha, JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Senha Errada", "Senha inserida " + ippsenha,
+                        JOptionPane.PLAIN_MESSAGE);
             }
 
         }
         JOptionPane.showMessageDialog(null, "Ficou sem tentativas");
+        return;
 
     }
 
