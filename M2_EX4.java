@@ -7,9 +7,7 @@ public class M2_EX4 {
         int base_quadrado;
         base_quadrado = Integer.parseInt(a);
 
-        int multiplicador = 2;
-
-        int area_quadrado = (base_quadrado * multiplicador);
+        int area_quadrado = (base_quadrado * base_quadrado);
 
         System.out.println("A Area do Quadrado é:" + area_quadrado);
 
