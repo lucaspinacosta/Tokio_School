@@ -1,18 +1,10 @@
 from tkinter import *
 
-
-
-
-
-
 master = Tk()
 master.geometry("800x800")
 
 w = Canvas(master, width=800, height=800)
 w.pack()
-
-
-
 
 canvas_vert= 100
 canvas_hori = 100
@@ -84,13 +76,8 @@ def casas_pretas_d1():
      w.grid(row=3,column=2)
 
 
-
-         
-         
-         
-
-
 def casas_geral():
+     casas_brancas_a1()
      casas_pretas_b1()
      casas_brancas_a1()
      casas_brancas_c1()
