@@ -10,54 +10,54 @@ canvas_vert= 100
 canvas_hori = 100
 
 def Coluna_A():
-     w.create_rectangle (0, 1,canvas_vert, canvas_hori, fill = "mint cream")
-     w.grid(row=0,column=0)
+     casa_a1= { w.create_rectangle (0, 1,canvas_vert, canvas_hori, fill = "mint cream"),
+     w.grid(row=0,column=0)}
 
-     w.create_rectangle(200,1,canvas_vert,canvas_hori,fill="black")
-     w.grid(row=0,column=1)
+     casa_a2 = {w.create_rectangle(200,1,canvas_vert,canvas_hori,fill="black"),
+     w.grid(row=0,column=1)}
 
-     w.create_rectangle(300,1, canvas_vert+100,canvas_hori, fill="mint cream")
-     w.grid(row=0,column=2)
+     casa_a3 = {w.create_rectangle(300,1, canvas_vert+100,canvas_hori, fill="mint cream"),
+     w.grid(row=0,column=2)}
 
-     w.create_rectangle(400,1,canvas_hori+200,canvas_vert,fill="black")
-     w.grid(row=0,column=3)
+     casa_a4 = {w.create_rectangle(400,1,canvas_hori+200,canvas_vert,fill="black"),
+     w.grid(row=0,column=3)}
 
-     w.create_rectangle(500,1,canvas_hori+300,canvas_vert,fill="mint cream")
-     w.grid(row=0,column=4)
+     casa_a5 = {w.create_rectangle(500,1,canvas_hori+300,canvas_vert,fill="mint cream"),
+     w.grid(row=0,column=4)}
 
-     w.create_rectangle(600,1,canvas_hori+400,canvas_vert,fill="black")
-     w.grid(row=0,column=5)
+     casa_a6 = {w.create_rectangle(600,1,canvas_hori+400,canvas_vert,fill="black"),
+     w.grid(row=0,column=5)}
 
-     w.create_rectangle(700, 1, canvas_hori+500,canvas_vert,fill="mint cream")
-     w.grid(row=0,column=6)
+     casa_a7 = {w.create_rectangle(700, 1, canvas_hori+500,canvas_vert,fill="mint cream"),
+     w.grid(row=0,column=6)}
 
-     w.create_rectangle(800,1,canvas_hori+600, canvas_vert,fill="black")
-     w.grid(row=0,column=7)
+     casa_a8 = {w.create_rectangle(800,1,canvas_hori+600, canvas_vert,fill="black"),
+     w.grid(row=0,column=7)}
 
 def Coluna_B():
-     w.create_rectangle (0, 200, canvas_vert,canvas_hori, fill= "black")
-     w.grid(row=1,column=0)
+     casa_b1 = {w.create_rectangle (0, 200, canvas_vert,canvas_hori, fill= "black"),
+     w.grid(row=1,column=0)}
 
-     w.create_rectangle (200,200, canvas_vert,canvas_hori, fill= "mint cream")
-     w.grid(row=1,column=1)
+     casa_b2 = {w.create_rectangle (200,200, canvas_vert,canvas_hori, fill= "mint cream"),
+     w.grid(row=1,column=1)}
 
-     w.create_rectangle(300,200,canvas_vert+100,canvas_hori,fill="black")
-     w.grid(row=1,column=2)
+     casa_b3 = {w.create_rectangle(300,200,canvas_vert+100,canvas_hori,fill="black"),
+     w.grid(row=1,column=2)}
 
-     w.create_rectangle(400,200,canvas_hori+200,canvas_vert,fill="mint cream")
-     w.grid(row=1,column=3)
+     casa_b4 = {w.create_rectangle(400,200,canvas_hori+200,canvas_vert,fill="mint cream"),
+     w.grid(row=1,column=3)}
 
-     w.create_rectangle(500,200,canvas_hori+300,canvas_vert,fill="black")
-     w.grid(row=1,column=4)
+     casa_b5 = {w.create_rectangle(500,200,canvas_hori+300,canvas_vert,fill="black"),
+     w.grid(row=1,column=4)}
 
-     w.create_rectangle(600,200,canvas_hori+400,canvas_vert,fill="mint cream")
-     w.grid(row=1,column=5)
+     casa_b6 = {w.create_rectangle(600,200,canvas_hori+400,canvas_vert,fill="mint cream"),
+     w.grid(row=1,column=5)}
 
-     w.create_rectangle(700,200,canvas_hori+500,canvas_vert,fill="black")
-     w.grid(row=1,column=6)
+     casa_b7 = {w.create_rectangle(700,200,canvas_hori+500,canvas_vert,fill="black"),
+     w.grid(row=1,column=6)}
 
-     w.create_rectangle(800,200,canvas_hori+600,canvas_vert,fill="mint cream")
-     w.grid(row=1,column=7)
+     casa_b8 = {w.create_rectangle(800,200,canvas_hori+600,canvas_vert,fill="mint cream"),
+     w.grid(row=1,column=7)}
 
 def Coluna_C():
      casa_c1 = {w.create_rectangle(0,300,canvas_vert,canvas_hori+100,fill="mint cream"),
@@ -66,23 +66,23 @@ def Coluna_C():
      casa_c2 = {w.create_rectangle(200,300,canvas_vert,canvas_hori+100,fill="black"),
           w.grid(row=2,column=1)}
 
-     w.create_rectangle(300,300,canvas_vert+100,canvas_hori+100,fill="mint cream")
-     w.grid(row=2,column=2)
+     casa_c3 = {w.create_rectangle(300,300,canvas_vert+100,canvas_hori+100,fill="mint cream"),
+     w.grid(row=2,column=2)}
 
-     w.create_rectangle(400,300,canvas_hori+200,canvas_vert+100,fill="black")
-     w.grid(row=2,column=3)
+     casa_c4 = {w.create_rectangle(400,300,canvas_hori+200,canvas_vert+100,fill="black"),
+     w.grid(row=2,column=3)}
 
-     w.create_rectangle(500,300,canvas_vert+300,canvas_vert+100,fill="mint cream")
-     w.grid(row=2,column=4)
+     casa_c5 = {w.create_rectangle(500,300,canvas_vert+300,canvas_vert+100,fill="mint cream"),
+     w.grid(row=2,column=4)}
 
-     w.create_rectangle(600,300,canvas_hori+400,canvas_vert+100,fill="black")
-     w.grid(row=2,column=5)
+     casa_c6 = {w.create_rectangle(600,300,canvas_hori+400,canvas_vert+100,fill="black"),
+     w.grid(row=2,column=5)}
 
-     w.create_rectangle(700,300,canvas_hori+500,canvas_vert+100,fill="mint cream")
-     w.grid(row=2,column=6)
+     casa_c7 = {w.create_rectangle(700,300,canvas_hori+500,canvas_vert+100,fill="mint cream"),
+     w.grid(row=2,column=6)}
 
-     w.create_rectangle(800,300,canvas_hori+600,canvas_vert+100,fill="black")
-     w.grid(row=2,column=7)
+     casa_c7 = {w.create_rectangle(800,300,canvas_hori+600,canvas_vert+100,fill="black"),
+     w.grid(row=2,column=7)}
 
 def Coluna_D():
      casa_d1 = {w.create_rectangle(0,400,canvas_vert,canvas_hori+200,fill="black"),
@@ -219,6 +219,12 @@ def casas_geral():
      Coluna_G()
      Coluna_H()
      
+
+def pecas():
+     piao_br = Label
+
+
+
 casas_geral()
 
 
