@@ -15,8 +15,8 @@
  * M2_EX3
  */
 public class M2_EX3 {
-
 }
+
      class Conta{
                     private String titular;
                     private int numero_conta;
@@ -60,5 +60,6 @@ public class M2_EX3 {
 
      }
 }
+
 
 
