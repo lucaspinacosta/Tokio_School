@@ -18,23 +18,23 @@ public class M2_EX3 {
 }
 
      class Conta{
-                    private String titular;
-                    private int numero_conta;
-                    private double quantidade;
+          private String titular;
+          private int numero_conta;
+          private double quantidade;
 
-                    public Conta(String titular,int numero_conta,  double quantidade){
-                         this.titular = titular;
-                         this.numero_conta = numero_conta;
-                         this.quantidade = quantidade;
+          public Conta(String titular,int numero_conta,  double quantidade){
+               this.titular = titular;
+               this.numero_conta = numero_conta;
+               this.quantidade = quantidade;
 
-                    }
-                    public String getTitular() {  return titular; }
-                    public int getNumero_conta() { return numero_conta; }
-                    public double getQuantidade() { return quantidade; }
+               }
+          public String getTitular() {  return titular; }
+          public int getNumero_conta() { return numero_conta; }
+          public double getQuantidade() { return quantidade; }
 
-                    public void setTitular(String titular) {this.titular = titular;}
-                    public void setNumero_conta(int numero_conta) { this.numero_conta = numero_conta;}
-                    public void setQuantidade(double quantidade) { this.quantidade = quantidade;}
+          public void setTitular(String titular) {this.titular = titular;}
+          public void setNumero_conta(int numero_conta) { this.numero_conta = numero_conta;}
+          public void setQuantidade(double quantidade) { this.quantidade = quantidade;}
      
 
 
