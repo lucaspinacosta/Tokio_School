@@ -1,19 +1,13 @@
-import javax.swing.JOptionPane;
+
+import java.util.Scanner;
 
 public class M3_EX4 {
 }
 
 class PC {
 
-     private String modelo, marca;
+     private String marca, modelo;
      private int ram, hdd;
-
-     public PC(String modelo, String marca, int hdd, int ram) {
-          this.modelo = modelo;
-          this.marca = marca;
-          this.hdd = hdd;
-          this.ram = ram;
-     }
 
      public String getModelo() {
           return modelo;
@@ -53,33 +47,37 @@ class Insert_prod {
 
      public static void main(String[] args) {
 
-          PC perifericos1;
-          perifericos1 = new PC("Desktop", "Asus", 560, 16);
+          Scanner dados = new Scanner(System.in);
 
-          PC perifericos2;
-          perifericos2 = new PC("Laptop", "Gygabyte", 1, 32);
+          boolean criar = true;
+          PC perifericos = new PC();
 
-          String modelo_inp = JOptionPane.showInputDialog("PC: " + "\n" + "(perifericos1/perifericos2)");
+          while (criar == true) {
 
-          if (modelo_inp.equals("perifericos1")) {
-               JOptionPane.showMessageDialog(null,
-                         "O seu modelo: " + perifericos1.getModelo() + "\n" + perifericos1.getMarca() + "\n"
-                                   + perifericos1.getHdd() + "GB" + "\n" + perifericos1.getRam() + "GB",
-                         "Modelo", JOptionPane.INFORMATION_MESSAGE);
-               return;
+               System.out.println("Insira a Marca:\s");
+               perifericos.setMarca(dados.next());
+
+               System.out.println("Insira GB do HDD:\s");
+               perifericos.setHdd(dados.nextInt());
+
+               System.out.println("Insira o Modelo:\s");
+               perifericos.setModelo(dados.next());
+
+               System.out.println("Insira GB da RAM:\s");
+               perifericos.setRam(dados.nextInt());
+
+               System.out.println("Marca: " + perifericos.getMarca() + "\nModelo:\s" + perifericos.getModelo()
+                         + "\nHdd:\s" + perifericos.getHdd() + "\nMemoria Ram:\s" + perifericos.getRam() + "\n");
+
+               System.out.println("Pretende criar mais algum PC?\n" + "S\\N");
+
+               String info = dados.next();
+               if (info.equals("S")) {
+                    continue;
+               } else {
+                    break;
+               }
 
           }
-          if (modelo_inp.equals("perifericos2")) {
-               JOptionPane.showMessageDialog(null,
-                         "Modelo: " + perifericos2.getModelo() + "\n" + "Marca: " + perifericos2.getMarca() + "\n"
-                                   + "Memoria Ram: " + perifericos2.getRam() + "GB" + "\n" + "Tamanho HD: "
-                                   + perifericos2.getHdd() + "TB",
-                         "Informação", JOptionPane.INFORMATION_MESSAGE);
-
-          } else {
-               System.out.println("Erro!");
-          }
-
      }
-
 }
