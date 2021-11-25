@@ -54,6 +54,10 @@ class B_1 {
           return morada;
      }
 
+     protected void setMorada(String morada) {
+          this.morada = morada;
+     }
+
      int getIdade() {
           return idade;
      }
@@ -66,14 +70,16 @@ class B_1 {
 class C_1 extends A_1 {
      private String visa;
      protected int visa_num;
-     public String estado_civ;
+     public String est_soci;
 
-     public C_1(String nome, String morada, int idade, int num_agreg, String visa, int visa_num, String estado_civ) {
-
+     public C_1(String nome, String morada, int idade, int num_agreg, String visa, int visa_num, String est_soci) {
           super(nome, morada, idade, num_agreg);
+          this.visa = visa;
+          this.est_soci = est_soci;
+          this.visa_num = visa_num;
      }
 
-     public String getVisa() {
+     String getVisa() {
           return visa;
      }
 
@@ -81,14 +87,9 @@ class C_1 extends A_1 {
           return visa_num;
      }
 
-     protected void setVisa_num() {
-          this.visa_num = visa_num;
+     public String getEst_soci() {
+          return est_soci;
      }
-
-     public String getEstado_civ() {
-          return estado_civ;
-     }
-
 }
 
 class Principal {
@@ -100,8 +101,7 @@ class Principal {
           B_1 pessoa2;
           pessoa2 = new B_1("Lucas", "Guimarães", 27, 0);
 
-          C_1 pessoa3;
-          pessoa3 = new C_1("Josh", "England", 46, 1, "Trabalhador", 1651320, "Casado");
+          C_1 pessoa3 = new C_1("Josh", "Inglaterra", 32, 1, "Trabalhador", 234234765, "Casado");
 
           JOptionPane.showMessageDialog(null,
                     pessoa1.getNome() + "\n" + pessoa1.morada + "\n" + pessoa1.idade + "\n" + pessoa1.getNum_agreg(),
@@ -112,8 +112,8 @@ class Principal {
                     "Dados class B", JOptionPane.INFORMATION_MESSAGE);
 
           JOptionPane.showMessageDialog(null,
-                    pessoa3.getNome() + "\n" + pessoa3.morada + "\n" + pessoa3.idade + "\n" + pessoa3.getNum_agreg()
-                              + "\n" + pessoa3.getVisa() + "\n" + pessoa3.getVisa_num() + "\n" + pessoa3.estado_civ,
+                    pessoa3.getNome() + "\n" + pessoa3.morada + "\n" + pessoa3.idade + "\n" + pessoa3.num_agreg + "\n"
+                              + pessoa3.getEst_soci() + "\n" + pessoa3.getVisa_num() + "\n" + pessoa3.getVisa(),
                     "Dados class C", JOptionPane.INFORMATION_MESSAGE);
 
      }
