@@ -75,6 +75,7 @@ class Insert_prod {
                if (info.equals("S")) {
                     continue;
                } else {
+                    dados.close();
                     break;
                }
 
