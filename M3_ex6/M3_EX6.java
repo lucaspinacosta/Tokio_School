@@ -3,19 +3,14 @@ public class M3_EX6 {
 }
 
 class Natureza {
-     static String reino;
-     static String filo;
-     static String classe;
-     static String familia;
-     static String genero;
-     static String especie;
+     String reino, filo, classe, familia, genero, especie;
 
      public Natureza(String reino, String filo, String classe, String familia, String genero, String especie) {
-          Natureza.reino = reino;
-          Natureza.filo = filo;
-          Natureza.classe = classe;
-          Natureza.familia = familia;
-          Natureza.especie = especie;
+          this.reino = reino;
+          this.filo = filo;
+          this.classe = classe;
+          this.familia = familia;
+          this.especie = especie;
      }
 
      String getReino() {
