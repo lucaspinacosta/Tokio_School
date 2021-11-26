@@ -47,10 +47,10 @@ class Insert_prod {
 
      public static void main(String[] args) {
 
-          Scanner dados = new Scanner(System.in);
-
           boolean criar = true;
           PC perifericos = new PC();
+
+          Scanner dados = new Scanner(System.in);
 
           while (criar == true) {
 
@@ -66,19 +66,27 @@ class Insert_prod {
                System.out.println("Insira GB da RAM:\s");
                perifericos.setRam(dados.nextInt());
 
-               System.out.println("Marca: " + perifericos.getMarca() + "\nModelo:\s" + perifericos.getModelo()
-                         + "\nHdd:\s" + perifericos.getHdd() + "\nMemoria Ram:\s" + perifericos.getRam() + "\n");
-
-               System.out.println("Pretende criar mais algum PC?\n" + "S\\N");
+               System.out.println("Pretende criar mais algum PC?\n" + "Sim\\Nao");
 
                String info = dados.next();
-               if (info.equals("S")) {
+               if (info.equals("Sim")) {
                     continue;
                } else {
                     dados.close();
                     break;
                }
-
           }
+
+          System.out.println("Pretende ver os seus dados?");
+          String info = dados.next();
+
+          if (info.equals("Sim")) {
+               System.out.println("Marca: " + perifericos.getMarca() + "\nModelo:\s" + perifericos.getModelo()
+                         + "\nHdd:\s" + perifericos.getHdd() + "\nMemoria Ram:\s" + perifericos.getRam() + "\n");
+          } else {
+               dados.close();
+               return;
+          }
+          dados.close();
      }
 }
