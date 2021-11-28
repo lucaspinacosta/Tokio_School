@@ -73,7 +73,7 @@ class Insert_prod {
                     continue;
                } else {
                     dados.close();
-                    break;
+                    return;
                }
           }
 

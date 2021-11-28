@@ -1,3 +1,5 @@
+package M3_EX6;
+
 import javax.swing.JOptionPane;
 
 public class M3_EX6 {
@@ -42,67 +44,6 @@ class Natureza {
      String getEspecie() {
           return especie;
      }
-}
-
-class Animais extends Natureza {
-     /**
-      * Dentro da classe Animais, que é uma classe derivada de Natureza, vamos
-      * incluir novas informações que seram obtidas somente pelos animais
-      */
-     String ordem;
-
-     public Animais(String reino, String filo, String classe, String familia, String genero, String especie,
-               String ordem) {
-          super(reino, filo, classe, familia, genero, especie);
-          /**
-           * usamos o super para obter os dados ja definidos na classe Mãe, evitanto assim
-           * termos de reescrever todas as linhas de codigo novamente
-           */
-          this.ordem = ordem;
-     }
-
-     String getReino() {
-          return ordem;
-     }
-
-}
-
-class Felidae extends Animais {
-
-     /**
-      * Felidae sendo uma classe que deriva de Animais, tambem ira derivar de
-      * Natureza, obtendo assim os dados de Animais e Natureza
-      */
-     int idade;
-
-     public Felidae(String reino, String filo, String classe, String familia, String genero, String especie,
-               String ordem, int idade) {
-          super(reino, filo, classe, familia, genero, especie, ordem);
-          /**
-           * No caso o super irá obter os dados ja definidos da classe Animais e Natureza
-           */
-          this.idade = idade;
-     }
-
-     int getIdade() {
-          return idade;
-     }
-
-}
-
-class Gato extends Felidae {
-     String nome;
-
-     public Gato(String reino, String filo, String classe, String familia, String genero, String especie, String ordem,
-               int idade, String nome) {
-          super(reino, filo, classe, familia, genero, especie, ordem, idade);
-          this.nome = nome;
-     }
-
-     String getGato() {
-          return nome;
-     }
-
 }
 
 /**
