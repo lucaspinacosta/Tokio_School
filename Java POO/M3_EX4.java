@@ -51,7 +51,6 @@ class Insert_prod {
           PC perifericos = new PC();
 
           Scanner dados = new Scanner(System.in);
-
           while (criar == true) {
 
                System.out.println("Insira a Marca:\s");
@@ -73,8 +72,10 @@ class Insert_prod {
                     continue;
                } else {
                     dados.close();
-                    System.out.println("\nMarca: " + perifericos.getMarca() + "\nModelo:\s" + perifericos.getModelo()
-                              + "\nHdd:\s" + perifericos.getHdd() + "\nMemoria Ram:\s" + perifericos.getRam() + "\n");
+                    System.out.println(
+                              "\nMarca: " + perifericos.getMarca() + "\nModelo:\s" + perifericos.getModelo()
+                                        + "\nHdd:\s" + perifericos.getHdd() + "\nMemoria Ram:\s"
+                                        + perifericos.getRam() + "\n");
                }
                return;
           }
