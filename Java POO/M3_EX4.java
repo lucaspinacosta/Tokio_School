@@ -1,16 +1,21 @@
-
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class M3_EX4 {
+
 }
 
 class PC {
 
      private String marca, modelo;
-     private int ram, hdd;
+     private int hdd, ram;
 
      public String getModelo() {
           return modelo;
+     }
+
+     public void setModelo(String modelo) {
+          this.modelo = modelo;
      }
 
      public String getMarca() {
@@ -23,10 +28,6 @@ class PC {
 
      public int getHdd() {
           return hdd;
-     }
-
-     public void setModelo(String modelo) {
-          this.modelo = modelo;
      }
 
      public void setMarca(String marca) {
@@ -44,40 +45,42 @@ class PC {
 }
 
 class Insert_prod {
-
      public static void main(String[] args) {
 
-          boolean criar = true;
-          PC perifericos = new PC();
+          try (Scanner dados = new Scanner(System.in)) {
+               ArrayList<PC> lista = new ArrayList<PC>();
+               PC componentes = null;
+               for (int i = 0; i < 99; i++) {
+                    componentes = new PC();
+                    System.out.println("Insira a Marca:\s");
+                    componentes.setMarca(dados.next());
+                    System.out.println("Insira o Modelo:\s");
+                    componentes.setModelo(dados.next());
+                    System.out.println("Insira GB do HDD:\s");
+                    componentes.setHdd(dados.nextInt());
+                    System.out.println("Insira GB da RAM:\s");
+                    componentes.setRam(dados.nextInt());
+                    lista.add(componentes);
 
-          Scanner dados = new Scanner(System.in);
-          while (criar == true) {
+                    System.out.println("Pretende criar mais algum PC?\n" + "(Sim\\Nao)");
+                    String info = dados.next();
+                    if (info.equals("Sim")) {
+                         continue;
+                    } else {
+                         dados.close();
+                         for (PC str : lista) {
+                              // System.out.println("\n" + str);//
+                              System.out.println(
+                                        "Marca: " + str.getMarca() + "\nModelo:\s" + str.getModelo()
+                                                  + "\nHdd:\s" + str.getHdd() + "\nMemoria Ram:\s"
+                                                  + str.getRam() + "\n\n");
 
-               System.out.println("Insira a Marca:\s");
-               perifericos.setMarca(dados.next());
+                         }
 
-               System.out.println("Insira GB do HDD:\s");
-               perifericos.setHdd(dados.nextInt());
-
-               System.out.println("Insira o Modelo:\s");
-               perifericos.setModelo(dados.next());
-
-               System.out.println("Insira GB da RAM:\s");
-               perifericos.setRam(dados.nextInt());
-
-               System.out.println("Pretende criar mais algum PC?\n" + "(Sim\\Nao)");
-
-               String info = dados.next();
-               if (info.equals("Sim")) {
-                    continue;
-               } else {
-                    dados.close();
-                    System.out.println(
-                              "\nMarca: " + perifericos.getMarca() + "\nModelo:\s" + perifericos.getModelo()
-                                        + "\nHdd:\s" + perifericos.getHdd() + "\nMemoria Ram:\s"
-                                        + perifericos.getRam() + "\n");
+                         return;
+                    }
                }
-               return;
           }
+
      }
 }
