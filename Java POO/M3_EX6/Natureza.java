@@ -2,10 +2,7 @@ package M3_EX6;
 
 import javax.swing.JOptionPane;
 
-public class M3_EX6 {
-}
-
-class Natureza {
+public class Natureza {
      /**
       * Dentro da classe Natureza (classe mae), inserimos todos os gerais (que vao
       * ser comuns nas proximas classes derivadas)

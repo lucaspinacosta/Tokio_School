@@ -1,6 +1,6 @@
 package M3_EX6;
 
-class Felidae extends Animais {
+public class Felidae extends Animais {
 
      /**
       * Felidae sendo uma classe que deriva de Animais, tambem ira derivar de

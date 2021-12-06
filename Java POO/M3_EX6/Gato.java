@@ -1,6 +1,6 @@
 package M3_EX6;
 
-class Gato extends Felidae {
+public class Gato extends Felidae {
      String nome;
 
      public Gato(String reino, String filo, String classe, String familia, String genero, String especie, String ordem,

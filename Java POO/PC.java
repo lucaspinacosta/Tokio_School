@@ -1,11 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class M3_EX4 {
-
-}
-
-class PC {
+public class PC {
 
      private String marca, modelo;
      private int hdd, ram;
@@ -42,9 +38,6 @@ class PC {
           this.hdd = hdd;
      }
 
-}
-
-class Insert_prod {
      public static void main(String[] args) {
 
           try (Scanner dados = new Scanner(System.in)) {
@@ -71,7 +64,7 @@ class Insert_prod {
                          for (PC str : lista) {
                               // System.out.println("\n" + str);//
                               System.out.println(
-                                        "Marca: " + str.getMarca() + "\nModelo:\s" + str.getModelo()
+                                        "\nMarca: " + str.getMarca() + "\nModelo:\s" + str.getModelo()
                                                   + "\nHdd:\s" + str.getHdd() + "\nMemoria Ram:\s"
                                                   + str.getRam() + "\n\n");
 
