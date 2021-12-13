@@ -1,6 +1,6 @@
 package Natureza;
 
-public class Natureza_ex extends App {
+public class Natureza_ex {
      /**
       * Dentro da classe Natureza (classe mae), inserimos todos os gerais (que vao
       * ser comuns nas proximas classes derivadas)
