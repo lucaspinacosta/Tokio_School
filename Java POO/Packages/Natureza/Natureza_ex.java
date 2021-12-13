@@ -7,7 +7,9 @@ public class Natureza_ex extends App {
       */
      String reino, filo, classe, familia, genero, especie;
 
-     public void Natureza(String reino, String filo, String classe, String familia, String genero, String especie) {
+     
+
+     public Natureza_ex(String reino, String filo, String classe, String familia, String genero, String especie) {
           this.reino = reino;
           this.filo = filo;
           this.classe = classe;

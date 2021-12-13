@@ -1,6 +1,6 @@
-package M3_EX6;
+package Natureza;
 
-public class Animais extends Natureza {
+public class Animais extends Natureza_ex {
      /**
       * Dentro da classe Animais, que é uma classe derivada de Natureza, vamos
       * incluir novas informações que seram obtidas somente pelos animais

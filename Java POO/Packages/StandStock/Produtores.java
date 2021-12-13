@@ -1,6 +1,6 @@
 package StandStock;
 public class Produtores {
-     String marca;
+     static String marca;
      
      public Produtores(String marca){
           this.marca=marca;

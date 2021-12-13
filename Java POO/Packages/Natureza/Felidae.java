@@ -1,6 +1,6 @@
 package Natureza;
 
-public class Felidae extends App{
+public class Felidae extends Animais{
 
      /**
       * Felidae sendo uma classe que deriva de Animais, tambem ira derivar de
@@ -10,7 +10,7 @@ public class Felidae extends App{
 
      public Felidae(String reino, String filo, String classe, String familia, String genero, String especie,
                String ordem, int idade) {
-          super();
+          super(reino, filo, classe, familia, genero, especie,ordem);
           /**
            * No caso o super irá obter os dados ja definidos da classe Animais e Natureza
            */
