@@ -13,5 +13,8 @@ public class Gato extends Felidae{
      String getGato() {
           return nome;
      }
+     public String toString(){
+          return "Reino:\s"+reino+"\nFilo:\s"+filo+"\nClasse:\s"+classe+"\nFamilia:\s"+familia+"\nGenero:\s"+genero+"\nEspecie:\s"+especie+"\nOrdem:\s"+ordem+"\nNome:\s"+nome+"\nIdade:\s"+idade;
+     }
 
 }
