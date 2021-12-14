@@ -5,7 +5,7 @@ public class Carro extends Produtores {
         public double valor;
         private int kmh, num_portas;
    
-        public Carro(String modelo, String string, double valor, int kmh, int num_portas){
+        public Carro(String marca,String modelo, double valor, int kmh, int num_portas){
             super (marca);
              this.modelo=modelo;
              this.valor=valor;
@@ -40,5 +40,7 @@ public class Carro extends Produtores {
              return num_portas;
         }
         
-    
+    public String toString(){
+         return "Marca:\s"+marca+"\nModelo:\s"+modelo+"\nValor:\s"+valor+"\nKm:\s"+kmh+"\nPortas:\s"+num_portas;
+    }
 }

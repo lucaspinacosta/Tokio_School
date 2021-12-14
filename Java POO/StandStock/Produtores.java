@@ -1,6 +1,6 @@
 package StandStock;
 public class Produtores {
-     static String marca;
+     public String marca;
      
      public Produtores(String marca){
           this.marca=marca;
@@ -11,6 +11,10 @@ public class Produtores {
      }
      String getMarca(){
           return marca;
+     }
+
+     public String toString(){
+          return "\nMarca:\s"+marca;
      }
 
      
