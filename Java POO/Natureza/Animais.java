@@ -20,5 +20,8 @@ public class Animais extends Natureza_ex {
      String getReino() {
           return ordem;
      }
+     public String setOrdem(String ordem) {
+         return ordem;
+     }
 
 }

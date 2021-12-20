@@ -16,7 +16,6 @@ public class M2_EX1 {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        // TODO code application logic here
 
         int n1, n2, n3, n4, n5, n6, total; /** */
 

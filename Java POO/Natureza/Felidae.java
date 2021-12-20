@@ -20,5 +20,8 @@ public class Felidae extends Animais{
      int getIdade() {
           return idade;
      }
+     int setIdade(int idade){
+          return this.idade= idade;
+     }
 
 }
