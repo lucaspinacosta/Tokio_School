@@ -13,7 +13,7 @@ class A_1 extends App{
           this.num_agreg = num_agreg;
     }
 
-    String getNome() {
+    private String getNome() {
          return nome;
     }
 
