@@ -1,4 +1,4 @@
-package ABC;
+package Packages.ABC;
 
 class A_1 extends App{
     private String nome;

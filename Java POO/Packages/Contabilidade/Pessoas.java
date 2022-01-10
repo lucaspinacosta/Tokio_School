@@ -1,4 +1,4 @@
-package Contabilidade;
+package Packages.Contabilidade;
 
 public class Pessoas extends App {
      static String nome;

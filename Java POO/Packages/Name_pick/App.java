@@ -1,4 +1,4 @@
-package Name_pick;
+package Packages.Name_pick;
 
 public class App{
     public static void mostrarCalculo(OperacaoMats operacao , double x, double y){

@@ -1,4 +1,4 @@
-package Contabilidade;
+package Packages.Contabilidade;
 
 public class Detalhes_cont extends Pessoas {
 

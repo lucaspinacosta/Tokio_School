@@ -1,4 +1,4 @@
-package StandStock;
+package Packages.StandStock;
 
 public class App{
 

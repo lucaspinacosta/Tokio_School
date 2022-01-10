@@ -1,4 +1,4 @@
-package ABC;
+package Packages.ABC;
 
 public class B_1 {
     protected String nome, morada;

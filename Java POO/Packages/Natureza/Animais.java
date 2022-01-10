@@ -1,4 +1,4 @@
-package Natureza;
+package Packages.Natureza;
 
 public class Animais extends Natureza_ex {
      /**

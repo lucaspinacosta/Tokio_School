@@ -1,4 +1,4 @@
-package Contabilidade;
+package Packages.Contabilidade;
 
 import java.util.Scanner;
 

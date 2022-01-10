@@ -1,4 +1,4 @@
-package Natureza;
+package Packages.Natureza;
 
 public class Gato extends Felidae{
      String nome;
