@@ -23,10 +23,6 @@ public class App{
         System.out.println("\nIdade:\s"+A_1.dados_gerais(idade, num_agreg));
     }
 
-    private static void private_info(A_1 private_info, String nomes, String last_name) {
-        System.out.println("\nNome:\s"+A_1.private_info(nomes, last_name));
-        
-    }
 
     
     public static void main(String[] args) {

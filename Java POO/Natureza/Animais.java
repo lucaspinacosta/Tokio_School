@@ -21,7 +21,10 @@ public class Animais extends Natureza_ex {
           return ordem;
      }
      public String setOrdem(String ordem) {
-         return ordem;
+         return this.ordem = ordem;
      }
 
+     public String toString(){
+          return "Reino:\s"+reino+"\nFilo:\s"+filo+"\nClasse:\s"+classe+"\nFamilia:\s"+familia+"\nGenero:\s"+genero+"\nEspecie:\s"+especie+"\nOrdem:\s"+ordem;
+     }
 }

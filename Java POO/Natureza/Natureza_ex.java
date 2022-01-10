@@ -23,43 +23,45 @@ public class Natureza_ex {
           return reino;
      }
      String setReino(String reino){
-          return reino;
+          return this.reino = reino;
      }
 
      String getFilo() {
           return filo;
      }
      String setFilo(String filo){
-          return filo;
+          return this.filo = filo;
      }
 
      String getClasse() {
           return classe;
      }
      String setClasse(String classe){
-          return classe;
+          return this.classe;
      }
 
      String getFamilia() {
           return familia;
      }
      String setFamilia(String familia){
-          return familia;
+          return this.familia = familia;
      }
 
      String getGenero() {
           return genero;
      }
      String setGenero(String genero){
-          return genero;
+          return this.genero = genero;
      }
 
      String getEspecie() {
           return especie;
      }
-     String setEspecies(String especies){
-          return especie;
+     String setEspecie(String especie){
+          return this.especie = especie;
      }
 
-
+     public String toString(){
+          return "Reino:\s"+reino+"\nFilo:\s"+filo+"\nClasse:\s"+classe+"\nFamilia:\s"+familia+"\nGenero:\s"+genero+"\nEspecie:\s"+especie;
+     }
 }

@@ -24,4 +24,8 @@ public class Felidae extends Animais{
           return this.idade= idade;
      }
 
+     public String toString(){
+          return "Reino:\s"+reino+"\nFilo:\s"+filo+"\nClasse:\s"+classe+"\nFamilia:\s"+familia+"\nGenero:\s"+genero+"\nEspecie:\s"+especie+"\nOrdem:\s"+ordem+"\nIdade:\s"+idade;
+     }
+
 }
