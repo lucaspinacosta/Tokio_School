@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -38,6 +39,7 @@ public class PC {
           this.hdd = hdd;
      }
 
+
      public static void main(String[] args) {
 
           try (Scanner dados = new Scanner(System.in)) {
@@ -64,7 +66,7 @@ public class PC {
                          for (PC str : lista) {
                               // System.out.println("\n" + str);//
                               System.out.println(
-                                        "\nMarca: " + str.getMarca() + "\nModelo:\s" + str.getModelo()
+                                        "Marca: " + str.getMarca() + "\nModelo:\s" + str.getModelo()
                                                   + "\nHdd:\s" + str.getHdd() + "\nMemoria Ram:\s"
                                                   + str.getRam() + "\n\n");
 

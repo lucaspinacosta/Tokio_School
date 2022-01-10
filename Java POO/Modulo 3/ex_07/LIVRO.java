@@ -1,10 +1,6 @@
 
-import javax.swing.JOptionPane;
 
-public class M3_EX7 {
-}
-
-class Livro {
+public class LIVRO {
      private String autor;
      private String titulo;
      private int numero_pag;
@@ -43,17 +39,14 @@ class Livro {
      }
 
      public String toString() {
-          return "O Livro com título " + titulo + " e " + isbn + " e autor " + autor + " tem " + numero_pag + ".";
+          return "\nO Livro com título " + titulo + " e isbn " + isbn + " e autor " + autor + " tem " + numero_pag + " páginas.";
 
      }
 
-}
-
-class Bibliotecario {
      public static void main(String[] args) {
 
-          Livro livro1 = new Livro();
-          Livro livro2 = new Livro();
+          LIVRO livro1 = new LIVRO();
+          LIVRO livro2 = new LIVRO();
 
           livro1.setAutor("Collen McCullough");
           livro1.setIsbn("9789722907972");
@@ -65,19 +58,21 @@ class Bibliotecario {
           livro2.setNumero_pag(504);
           livro2.setTitulo("O Mapa dos Osso");
 
-          JOptionPane.showMessageDialog(null, livro1, "Dados", JOptionPane.INFORMATION_MESSAGE);
-          JOptionPane.showMessageDialog(null, livro2, "Dados", JOptionPane.INFORMATION_MESSAGE);
-
+          System.out.println("\nAutor:\s"+livro1.getAutor()+"\nTitulo:\s"+livro1.getTitulo()+"\nISBN:\s"+livro1.getIsbn()+"\nNº de Paginas:\s"+livro1.getNumero_pag());     
+          System.out.println("\nAutor:\s"+livro2.getAutor()+"\nTitulo:\s"+livro2.getTitulo()+"\nISBN:\s"+livro2.getIsbn()+"\nNº de Paginas:\s"+livro2.getNumero_pag());
+          
+          System.out.println(livro1);
+          System.out.println(livro2);
+          
           if (livro1.getNumero_pag() > livro2.getNumero_pag()) {
-               JOptionPane.showMessageDialog(null,
-                         "O livro " + livro1.getTitulo() + " com " + livro1.getNumero_pag() + ". Tem mais paginas que "
-                                   + livro2.getTitulo() + ", que só contem " + livro2.getNumero_pag() + " páginas",
-                         "Livros", JOptionPane.INFORMATION_MESSAGE);
+               System.out.println(
+                         "\nO livro " + livro1.getTitulo() + " com " + livro1.getNumero_pag() + ". Tem mais paginas que "
+                                   + livro2.getTitulo() + ", que só contem " + livro2.getNumero_pag() + " páginas"
+                         );
           } else {
-               JOptionPane.showMessageDialog(null,
-                         "O livro " + livro2.getTitulo() + " com " + livro2.getNumero_pag() + ". Tem mais paginas que "
-                                   + livro1.getTitulo() + ", que só contem " + livro1.getNumero_pag() + " páginas",
-                         "Livros", JOptionPane.INFORMATION_MESSAGE);
+               System.out.println(
+                         "\nO livro " + livro2.getTitulo() + " com " + livro2.getNumero_pag() + ". Tem mais paginas que "
+                                   + livro1.getTitulo() + ", que só contem " + livro1.getNumero_pag() + " páginas\n");
           }
      }
 }
