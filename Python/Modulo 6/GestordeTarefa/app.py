@@ -21,9 +21,15 @@ def home():
     todas_as_tarefas = Tarefa.query.all() #Consulta e armazena todas as tarefas da base de dados
     return render_template("index.html",lista_de_tarefas=todas_as_tarefas)
 
-@app.route('/eleminar-tarefa/<id>')
+@app.route('/eliminar-tarefa/<id>')
 def eliminar(id):
     tarefa = Tarefa.query.filter_by(id=int(id)).delete()
+    db.session.commit()
+    return redirect(url_for('home'))
+@app.route('/tarefa-feita/<id>')
+def feita(id):
+    tarefa = Tarefa.query.filter_by(id=int(id)).first()
+    tarefa.feita = not(tarefa.feita)
     db.session.commit()
     return redirect(url_for('home'))
 
