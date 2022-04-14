@@ -4,12 +4,13 @@
     color: #375a7f;
 }
 
-body {
-    background: #232526;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-.tarefa_feita {
+.tarefa_feita{
     text-decoration: line-through;
     color: black;
+}
+
+body {
+    background-image: url('13e46fmoa5w71.png');
+    background-attachment: fixed;
+    background-size: 100% 100%;
 }
