@@ -18,21 +18,23 @@
 </head>
 <body>
     <main class="container p-3">
-        <h1 class="display-3 text-center mt-5 title">Memorado</h1>
+        <h1 class="display-3 text-center mt-4 title">Memorado</h1>
 
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
         <div class="row">
-            <div class="col-md-5 offset-md-3 my-auto">
+            <div class="col-md-6 offset-md-3 my-auto">
                 <div class="card">
                     <div class="card-header">
                         <form action="/criar-tarefa" method="post">
                             <div class="form-group">
                                 <input type="text" name="conteudo_tarefa" placeholder="Tarefa" class="form-control" autofocus>
                             </div>
+                            <li class="list-group">
                             <button type="submit" class="btn btn-primary btn-block">
                                                     Guardar
                             </button>
+                            </li>
                         </form>
                     </div>
                     <div class="card-body">
