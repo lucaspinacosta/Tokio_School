@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Site-tab definitions -->
+    <meta name="title" content="LIC - Loja de Informatica | LIC">
+    <meta name="description" content="Loja expecializada em produtos de informatica">
+    <meta property="og:title" content="LIC - Loja de Informatica | LIC">
+    <meta property="og:description" content="Loja expecializada em produtos de informatica">
+
+    <meta name="theme-color" content="#2c3e50">
+
+    <!-- Bootsrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Fonte do site-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto+Slab:wght@100;200;500&display=swap"
+        rel="stylesheet">
+    <!-- Tab-Icon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="static/configuration.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/configuration.png">
+    <!-- Background color-->
+    <link rel="stylesheet" href="static/main.css">
+
+
+</head>
+
+<body>
+    <main id="main">
+        <!--Header layout-->
+        <nav class="py-2 bg-light border-bottom">
+            <div class="container d-flex flex-wrap">
+                <ul class="nav me-auto">
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2 active" aria-current="page">Home</a>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Features</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Pricing</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">FAQs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
+                </ul>
+                <ul class="nav">
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Login</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Sign up</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="row row-center title">
+            <li>
+                <a href="/" class="d-flex text-dark text-decoration-none">
+                    <h1 class="display-3 title">LIC Informatica </h1>
+                </a>
+            </li>
+        </div>
+        <!-- Search bar -->
+        <div class="container">
+            <form class="col-2 my-auto align-items-left ">
+                <input type="search" name="search" class="form-control" placeholder="Search..." aria-label="Search"
+                    autofocus>
+            </form>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-auto">
+                <!-- Categorie layer -->
+                <div class="best-seller" id="categorias">
+                    <form class="col-cols-md-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="heading-1 sub_title my-2"> Categorias </h4>
+                                <h6 class="heading-1 mb-3 text-left text-align-center">Computadores </h6>
+                                <h6 class="heading-1 mb-3 text-left align-items-left">Componentes</h6>
+                                <h6 class="heading-1 mb-3 text-left align-items-left">Aircooling</h6>
+                                <h6 class="heading-1 mb-3 text-left align-items-left">Watercooling</h6>
+                                <h6 class="heading-1 mb-3 text-left align-items-left">Perifericos</h6>
+                                <h6 class="heading-1 mb-3 text-left align-items-left">Imagem e Som</h6>
+                                <h6 class="heading-1 mb-3 text-left align-items-left">Armazenamento</h6>
+                            </div>
+                            <!--Produtos Em Destaque -->
+                        <div class="highlight">
+                            <div class="card shadow-sm">
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                    xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                    preserveAspectRatio="xMidYMid slice" focusable="false">
+                                    <title>Placeholder</title>
+                                    <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%"
+                                        fill="#eceeef" dy=".3em">Thumbnail</text>
+                                </svg>
+
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural
+                                        lead-in to additional content. This content is a little bit longer.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                        </div>
+                                        <small class="text-muted">9 mins</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="produtos" id="produtos_em_destaque">
+            <form class="col-2 my-auto"></form>
+        </div>
+    </main>
+</body>
+
+</html>

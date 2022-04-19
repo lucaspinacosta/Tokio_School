@@ -1,0 +1,23 @@
+
+.title{
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Roboto Slab', serif;
+    padding-inline-end: 80px;
+}
+.sub_titulo{
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Roboto Slab', serif;
+}
+
+
+body{
+    background: rgb(33,147,176);
+    background: linear-gradient(90deg, #000000 , #0082c8 ,#0082c8,#000000);
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+    text-align: var(--bs-body-text-align);
+}
+
+
