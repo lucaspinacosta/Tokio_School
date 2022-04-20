@@ -1,6 +1,14 @@
+
 #titulo{
     text-align:center;
 }
+.aligncenter{
+    text-align:center;
+}
+.alignright{
+    text-align:right;
+}
+
 .title{
     font-family: 'Permanent Marker', cursive;
     font-family: 'Roboto Slab', serif;
@@ -8,6 +16,7 @@
 .sub_titulo{
     font-family: 'Permanent Marker', cursive;
     font-family: 'Roboto Slab', serif;
+    background-color:white;
 }
 body{
     background: rgb(33,147,176);
