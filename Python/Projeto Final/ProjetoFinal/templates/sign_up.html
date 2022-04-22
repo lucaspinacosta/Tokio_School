@@ -59,39 +59,40 @@
             <nav class="row row-cols-3 rounded px-5 text-center">
                 <div class="aligncenter offset-4">
                     <div class="card">
-
-                        <div class="card-header row-cols-5em text-center">
-                            Sign up
-                        </div>
                         <form action="/sign-up" method="post">
-                            <div class="form-group row-cols-5em text-center">
-                                <input type="text" name="email" placeholder="Email" class="form-control" autofocus>
-                                <input type="text" name="password_usuario" placeholder="Senha" class="form-control">
-                                <input type="text" name="nome_usuario" placeholder="Nome Completo" class="form-control">
-                                <input type="text" name="re_senha" placeholder="Re-introduza Senha"
-                                    class="form-control">
-                                <input type="text" name="morada_usuario" placeholder="Morada" class="form-control">
-                                <input type="Integer" name="codigoPostal_usuario" placeholder="Codigo Postal"
-                                    class="form-control">
-                                <input type="String" name="cidade_usuario" placeholder="Cidade" class="form-control">
+                            <div class="card-header row-cols-5em text-center">
+                                Sign up
                             </div>
 
-                            <button type="submit"  class="btn sub_titulo btn-block">Confirm
-                                Registration</button>
-                            <div>
-
+                            <div class="form-group row-cols-5em text-center">
+                                <input type="text" name="email_signup" placeholder="Email" class="form-control"
+                                    autofocus>
+                                <input type="text" name="password_signup" placeholder="Senha" class="form-control">
+                                <input type="text" name="nome_usuario_signup" placeholder="Nome Completo"
+                                    class="form-control">
+                                <input type="text" name="re_senha_check_signup" placeholder="Re-introduza Senha"
+                                    class="form-control">
+                                <input type="text" name="morada_usuario_signup" placeholder="Morada"
+                                    class="form-control">
+                                <input type="Integer" name="codigoPostal_usuario_signup" placeholder="Codigo Postal"
+                                    class="form-control">
+                                <input type="String" name="cidade_usuario_signup" placeholder="Cidade"
+                                    class="form-control">
+                            </div>
+                            <button type="submit" class="btn sub_titulo btn-block">Confirm
+                                Registration
+                            </button>
                         </form>
-                        <button type="submit" href="/user-login"
-                            class="btn btn-default btn-group btn-primary">Login</button>
-                        <button type="submit" class="btn btn-default bg-light">Restore Password</button>
                     </div>
 
+
+                    <div class="form-group row-cols-5em text-center">
+                        <button type="button" href="/user-login" method="get"
+                            class="btn btn-default btn-group btn-primary">Login</button>
+                        <button type="button" class="btn btn-default bg-light">Restore Password</button>
+                    </div>
                 </div>
-
-        </div>
-
-        </nav>
-
+            </nav>
         </div>
     </main>
 </body>
