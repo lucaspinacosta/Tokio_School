@@ -47,12 +47,13 @@ class Clientes(db.Model):
     db.session.commit()
 
 
-def db_consulta(self, consulta, parametros=()):
-    with sqlite3.connect(self.db) as con:
+def db_verificar_email(self):
+        con = sqlite3.connect('database/dados_informacoes.db')
         cursor = con.cursor()
-        resultados = cursor.execute(consulta, parametros)
-        con.commit()
-        return resultados
+        cursor.execute("SELECT * FROM usuarios")
+        emails = cursor.fetchall()
+        con.close()
+        return emails
 
 
 @root.route('/', methods=['GET'])
@@ -65,37 +66,32 @@ def home():
 
 @root.route('/user-login', methods=['GET', 'POST'])
 def login():
-    try:
-        if request.method == 'POST':
+    if request.method == 'POST':
             log_in = False
             pass_word = False
             verify_loggin = request.form['email_login']
-            verify_password = request.form['password_login']
-            dados_database = "SELECT email FROM usuarios"
-            pass_database = "SELECT password FROM usuarios"
-            verificado_email = db_consulta(dados_database)
-            verificado_pass = db_consulta(pass_database)
+            verify_pswd = request.form['password_login']
+            dados_database = "SELECT * FROM usuarios"
+            verificado_email = db_verificar_email(dados_database)
             for user in verificado_email:
-                if user == verify_loggin:
+                print(user,verify_loggin)
+                if verify_loggin == user[0] and verify_pswd == user[3]:
                     log_in = True
-                else:
-                    print('Email nao encontrado')
-                
-            for pswd in verificado_pass:
-                if pswd == verify_password:
                     pass_word = True
+                    return redirect(url_for('home'))
+                    break
+                elif verify_loggin == user[0] and verify_pswd != user[3]:
+                    print('Password errada')
+                elif verify_loggin != user[0]:
+                    print('Email nao encontrado')
                 else:
-                    print('pass errada')
+                    print('Faca o seu registo.')
             if log_in == True and pass_word == True:
+                print('loggin')
                 return redirect(url_for('home'))
             else:
-                return redirect(url_for('login'))
-
-    except TypeError as e:
-        if e == TypeError:
-            print('favor introduzir dados')
-            return redirect(url_for('sign-up'))
-
+                print('nao loggin')
+                pass
     if request.method == 'GET':
         return render_template('login.html')
     return render_template('login.html')

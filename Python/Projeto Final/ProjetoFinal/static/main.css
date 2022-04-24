@@ -16,7 +16,16 @@
 .sub_titulo{
     font-family: 'Permanent Marker', cursive;
     font-family: 'Roboto Slab', serif;
-    background-color:white;
+    background-color:rgb(255, 255, 255);
+}
+.btn_links{
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Roboto Slab', serif;
+    background-color:rgb(33, 147, 176);
+    color:rgb(255, 255, 255);
+}
+.btn_smalsize{
+    font-size: smaller;
 }
 body{
     background: rgb(33,147,176);
