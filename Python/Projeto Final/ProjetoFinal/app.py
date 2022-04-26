@@ -74,12 +74,10 @@ def login():
             dados_database = "SELECT * FROM usuarios"
             verificado_email = db_verificar_email(dados_database)
             for user in verificado_email:
-                print(user,verify_loggin)
                 if verify_loggin == user[0] and verify_pswd == user[3]:
                     log_in = True
                     pass_word = True
                     return redirect(url_for('home'))
-                    break
                 elif verify_loggin == user[0] and verify_pswd != user[3]:
                     print('Password errada')
                 elif verify_loggin != user[0]:
@@ -114,6 +112,11 @@ def sign_up():
         return redirect(url_for('login'))
 
     return render_template('sign_up.html')
+
+@root.route('/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x',methods=['GET'])
+def asusgeforce_rtx3080():
+    return render_template('produtos.html')
+
 
 
 db.create_all()

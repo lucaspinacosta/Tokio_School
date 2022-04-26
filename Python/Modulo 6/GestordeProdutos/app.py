@@ -94,6 +94,7 @@ class Produto:
         preco_introduzido_por_utilizador = self.preco.get()
         return len(preco_introduzido_por_utilizador) !=0
 
+    #Adicionar produtos na base de dados
     def add_produto(self):
         if self.validacao_nome() and self.validacao_preco():
             query='INSERT INTO produto VALUES(NULL,?,?)'
@@ -128,7 +129,6 @@ class Produto:
         self.mensagem['text'] = f'Produto {nome} eliminado com exito'
         self.get_produtos()
 
-
     def editar_produtos(self):
         self.mensagem['text']=''
         try:
@@ -145,7 +145,7 @@ class Produto:
         self.janela_edit.wm_iconbitmap('recursos/M6_P2_icon.ico')
         self.janela_edit.configure(background="#283c86")
         
-        titulo = Label(self.janela_edit,text='Edicao de Produtos',font=('Calibri',50,'bold'))
+        titulo = Label(self.janela_edit,text='Edicao de Produtos',font=('Calibri',50,'bold'),bg="#283c86")
         titulo.grid(column=0,row=0)
 
         frame_ep = LabelFrame(self.janela_edit,text='Editar o seguinte produto')

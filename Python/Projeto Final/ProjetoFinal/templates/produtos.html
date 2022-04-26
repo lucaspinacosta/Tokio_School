@@ -25,10 +25,11 @@
 </head>
 
 <body>
-    <main id="main">
+    <main>
         <!--Header layout-->
         <nav class="py-2 bg-light border-bottom">
             <div class="container d-flex flex-wrap">
+                    <img alt="lefters" src="static/LIC_Informatica3.png" width="80" height="50">
                 <ul class="nav me-auto">
                     <li class="nav-item"><a href="/" class="nav-link link-dark px-2 active" aria-current="page">Home</a>
                     </li>
@@ -36,45 +37,35 @@
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Pricing</a></li>
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
                 </ul>
-                
+                <form action="login" method="post">
+                    <ul class="nav">
+                        <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a></li>
+                        <li class="nav-item"><a href="/sign-up" class="nav-link link-dark px-2">Sign up</a></li>
+                    </ul>
+                </form>
             </div>
         </nav>
+        
+        <div class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
 
-        <!-- Caixa de Login -->
-        <div class="col-12 my-auto ">
-
-            <div class="title ">
-                <a href="/">
-                    <p class="aligncenter">
-                        <img alt="centered image" src="static/LIC_Informatica.png" width="500" height="300" />
-                    </p>
-                </a>
-            </div>
-
-            <nav class="row row-cols-3 rounded px-5 text-center">
-                <div class="aligncenter offset-4">
-                    <div class="card">
-                        <div class="card-header row-cols-5em text-center">
-                            Login
-                        </div>
-                        <form action="/user-login" method="post">
-                            <div class="card-body row-cols-5em text-center">
-                                <input type="text" name="email_login" placeholder="Email" class="form-control"
-                                    autofocus>
-                                <input type="text" name="password_login" placeholder="Senha" class="form-control">
-                            
-                            <button type="submit" class="btn btn-primary btn-block">Login</button></div>
-                        </form>
-                        <div>
-                            <a type="submit" href="/sign-up"method="get" class="btn btn_smalsize btn-default btn-group bg-light">Sign
-                                up</a>
-
-                            <a type="submit" href="#" class="btn btn_smalsize btn-default bg-light">Restore Password</a>
-                        </div>
-                    </div>
+                <!-- Search-->
+                <div class="input-group d-none d-lg-flex flex-nowrap mx-4"><i
+                        class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                    <input class="form-control rounded-start w-100" type="text" placeholder="Search for products">
+                    <select class="form-select flex-shrink-0" style="width: 10.5rem;">
+                        <option>All categories</option>
+                        <option>Computers</option>
+                        <option>Componentes</option>
+                        <option>TV, Video, Audio</option>
+                        <option>Video Games</option>
+                        <option>Data Storage</option>
+                    </select>
                 </div>
-            </nav>
+            </div>
         </div>
+
+
     </main>
 </body>
 
