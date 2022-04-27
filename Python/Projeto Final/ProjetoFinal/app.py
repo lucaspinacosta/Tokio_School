@@ -1,4 +1,4 @@
-
+#imports
 import sqlite3
 from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -9,7 +9,7 @@ root.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/dados_informacoes.d
 db = SQLAlchemy(root)
 root.config['DEBUG'] = True
 
-
+#DataBase Produtos
 class Produtos(db.Model):
     __tablename__ = "produto"
     numero_serie = db.Column(db.Integer, primary_key=True)
@@ -21,18 +21,8 @@ class Produtos(db.Model):
     db.session.commit()
 
 
-@root.route('/criar-produtos', methods=['GET', 'POST'])
-def criar_produtos():
-    if request.method == 'GET':
-        return redirect(url_for('home'))
-    if request.method == 'POST':
-        produto = Produtos(nome_de_produto=request.form['nome_de_produto'])
-        db.session.add(produto)
-        db.session.commit()
-        pass
-    return redirect(url_for('criar_produtos'))
 
-
+#DataBase Clientes
 class Clientes(db.Model):
     __tablename__ = 'usuarios'
     email = db.Column(db.String(128))
@@ -45,6 +35,24 @@ class Clientes(db.Model):
     direitos_admin = db.Column(db.Boolean)
     db.create_all()
     db.session.commit()
+
+
+#
+@root.route('/criar-produtos', methods=['GET', 'POST'])
+def criar_produtos():
+    #informação apresentada ao cliente
+    if request.method == 'GET':
+        return redirect(url_for('home'))
+    
+    #Criação de produtos (Acessivel apenas pelo admin)
+    if request.method == 'POST':
+        if Clientes.direitos_admin == True:
+            produto = Produtos(nome_de_produto=request.form['nome_de_produto'])
+            db.session.add(produto)
+            db.session.commit()
+            pass
+            return redirect(url_for('criar_produtos'))
+        else: return redirect(url_for('home'))
 
 
 def db_verificar_email(self):
@@ -108,7 +116,6 @@ def sign_up():
                          direitos_admin=False)
         db.session.add(email)
         db.session.commit()
-        print(email)
         return redirect(url_for('login'))
 
     return render_template('sign_up.html')

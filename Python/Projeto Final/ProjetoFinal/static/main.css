@@ -11,17 +11,21 @@ body{
     line-height: var(--bs-body-line-height);
     text-align: var(--bs-body-text-align);
 }
+
 img{
     max-width: 50%;
     max-height: 50%;
     object-fit: scale-down;
 }
+
 .aligncenter{
     text-align:center;
 }
+
 .alignright{
     text-align:right;
 }
+
 .alignleft{
     text-align:left;
 }
@@ -30,17 +34,20 @@ img{
     font-family: 'Permanent Marker', cursive;
     font-family: 'Roboto Slab', serif;
 }
+
 .sub_titulo{
     font-family: 'Permanent Marker', cursive;
     font-family: 'Roboto Slab', serif;
     font-size:large;
 }
+
 .btn_links{
     font-family: 'Permanent Marker', cursive;
     font-family: 'Roboto Slab', serif;
     background-color:rgb(33, 147, 176);
     color:rgb(255, 255, 255);
 }
+
 .btn_smalsize{
     font-size: smaller;
 }
