@@ -46,13 +46,11 @@ def criar_produtos():
     
     #Criação de produtos (Acessivel apenas pelo admin)
     if request.method == 'POST':
-        if Clientes.direitos_admin == True:
             produto = Produtos(nome_de_produto=request.form['nome_de_produto'])
             db.session.add(produto)
             db.session.commit()
             pass
             return redirect(url_for('criar_produtos'))
-        else: return redirect(url_for('home'))
 
 
 def db_verificar_email(self):
