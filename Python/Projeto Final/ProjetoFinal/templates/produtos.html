@@ -31,8 +31,7 @@
             <div class="container d-flex flex-wrap">
                 <img alt="lefters" src="static/LIC_Informatica3.png" width="80" height="50">
                 <ul class="nav me-auto">
-                    <li class="nav-item"><a href="/" class="nav-link link-dark px-2 active" aria-current="page">Home</a>
-                    </li>
+                    <li class="nav-item"><a href="/" class="nav-link link-dark px-2 " aria-current="page">Home</a></li>
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Features</a></li>
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Pricing</a></li>
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
@@ -82,10 +81,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="card aligncenter" >
-                    1599,90€
+                <div class="card aligncenter value_showstyle">
+                    1 599,90€
                 </div>
-                <div class="card col-sm-12">
+                <p></p>
+                <div class="col-sm-12">
+                    <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>
+                    <h4 class="aligncenter">PREPARA-TE PARA VOAR</h4>
+                    <p>De cima abaixo, a ROG Strix GeForce RTX™ 3080 foi radicalmente melhorada para acomodar os
+                        novos e impressionantes chips Ampere da NVIDIA e para fornecer a próxima onda de
+                        inovação de performance gaming ao mercado. Um novo design e mais metal envolvem um
+                        conjunto de ventoinhas Axial-tech.
+
+                        A disposição uniforme das ventoinhas da última geração foi usurpada por um novo esquema
+                        de rotação e funções especializadas para as ventoinhas centrais e auxiliares. Por baixo
+                        das pás, um dissipador maior e mais impressionante está pronto para as cargas térmicas
+                        mais exigentes.
+
+                        A PCB tem alguns novos truques na manga, e até a placa traseira recebeu algumas
+                        alterações de para melhorarem a performance. Tens estado à espera das últimas e maiores
+                        novidades no design do GPU - e são estas!
+                    </p>
+                    <p></p>
+                    <h4 class="aligncenter">DESIGN DE 2.9 RANHURAS</h4>
+                    <p>O dissipador de calor direciona o calor para os heatpipes que o transportam através de um
+                        conjunto de aletas que preenche a grande placa de 2.9 ranhuras. Aumentar o tamanho do dissipador
+                        comparativamente à última geração proporciona mais amplitude térmica para contabilizar o novo
+                        chipset de alta performance.
+                    </p>
+                    <p></p>
+                    <button type="button" class="collapsible sub_titulo">Especificações</button>
                     <dl class="row">
                         <dt class="col-sm-3">
                             <p>Processador Grafico</p>
@@ -117,11 +142,43 @@
 
                         <dt class="col-sm-3">Velocidade de Memoria</dt>
                         <dd class="col-sm-8">19 Gbps</dd>
+                        <p></p>
+                        <dt class="col-sm-3">Interface de Memoria</dt>
+                        <dd class="col-sm-8">384-bit</dd>
+                        <p></p>
+                        <dt class="col-sm-3">Suporte para multi-monitor</dt>
+                        <dd class="col-sm-8">Até 4 monitores</dd>
+                        <p></p>
+                        <dt class="col-sm-3">Interface</dt>
+                        <dd class="col-sm-8">
+                            3 x DisplayPort 1.4a
+                            <p>2 x HDMI 2.1</p>
+                        </dd>
                     </dl>
+
+                    <button type="button" class="collapsible sub_titulo">Revisões</button>
+                    
+                    <script>
+                        var coll = document.getElementsByClassName("collapsible");
+                        var i;
+                        for (i = 0; i < coll.length; i++) {
+                            coll[i].addEventListener("click", function () {
+                                this.classList.toggle("active");
+                                var content = this.nextElementSibling;
+                                if (content.style.maxHeight) {
+                                    content.style.maxHeight = null;
+                                } else {
+                                    content.style.maxHeight = content.scrollHeight + "px";
+                                }
+                            });
+                        }
+                    </script>
                 </div>
             </nav>
         </div>
     </main>
+
+
 </body>
 
 </html>
