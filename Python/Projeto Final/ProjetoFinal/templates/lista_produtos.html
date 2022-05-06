@@ -35,9 +35,12 @@
                     </li>
                 </ul>
                 <ul class="nav">
+                    {% if log_in_admin == False and pass_word_admin == False %}
                     <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a></li>
                     <li class="nav-item"><a href="/" class="nav-link link-dark px-2">Sign up</a></li>
+                    {% endif %}
                 </ul>
+            </div>
         </nav>
 
         <div class="container">
@@ -49,135 +52,246 @@
         </div>
 
         <div class="col-12 my-auto" style="margin-left: auto">
-            <div class="col-12">
-                <nav class="row col-sm-12">
-                    <div class="aligncenter">
-                        <div class="card">
-                            <nav class="row container-fluid row-cols-5 col-auto">
-                                <div class="card row-col-auto">
-                                    <div class="aligncenter">
-                                        <dt>Asus Geforce RTX 3080</dt>
-                                    </div>
-                                    <div class="aligncenter">
-                                        <dt>
+            <nav class="row col-sm-10 offset-1">
+                <div class="aligncenter">
+                    <div class="card">
+                        <nav class="row container-fluid row-cols-6 col-auto">
+                            <div class="card row-col-auto">
+                                <div class="aligncenter">
+                                    <dt>Asus Geforce RTX 3080</dt>
+                                </div>
+                                <div class="aligncenter">
+                                    <dt>
                                         <img class="fit-picture "
                                             src="static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png"
                                             height="200">
-                                        <dt>1 599,90 € </dt>
-                                    </dt>
-                                    </div>
-                                    <dt>
-                                        <button type="button" href="#" class="btn btn-sm btn-outline-secondary">Buy</button>
+                                    <dt>1 599,90 € </dt>
                                     </dt>
                                 </div>
-                                <!--</nav>
+                                <dt>
+                                    <div class="btn-group">
+                                        <form action="/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">Buy</button>
+                                        </form>
+                                        <ul>
+                                            {% if log_in_admin == True and pass_word_admin == True %}
+
+                                            <form action="#" method="post">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
+                                            </form>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </dt>
+                            </div>
+                            <!--</nav>
                                 <nav class="row container-fluid row-cols-4 row-col-auto">-->
-                                <div class="card row-col-auto">
-                                    <div class="aligncenter">
-                                        <dt>Asus VivoBook K513EP</dt>
-                                    </div>
-                                    <div class="aligncenter">
-                                        <dt>
-                                            <img class="fit-picture " src="static/produtos/Asus VivoBook K513EP.png"
-                                                height="200">
-                                        <dt>1 599,90</dt>
-                                        </dt>
-                                        <dt>
-                                            <button type="button" href="#" class="btn btn-sm btn-outline-secondary">Buy</button>
-                                        </dt>
-                                    </div>
+                            <div class="card row-col-auto">
+                                <div class="aligncenter">
+                                    <dt>Asus VivoBook K513EP</dt>
                                 </div>
-                                <div class="card row-col-auto">
-                                    <div class="aligncenter">
-                                        <dt>Computador King Mod</dt>
-                                    </div>
-                                    <div class="aligncenter">
-                                        <dt>
-                                            <img class="" src="static/produtos/Computador King Mod.png" height="200">
-                                        <dt>1 599,90</dt>
-                                        </dt>
-                                        <dt>
-                                            <button type="button" href="#" class="btn btn-sm btn-outline-secondary">Buy</button>
-                                        </dt>
-                                    </div>
+                                <div class="aligncenter">
+                                    <dt>
+                                        <img class="fit-picture " src="static/produtos/Asus VivoBook K513EP.png"
+                                            height="200">
+                                    <dt>1 599,90</dt>
+                                    </dt>
+                                    <dt>
+                                        <div class="btn-group">
+                                            <form action="/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
+                                            </form>
+                                            <ul>
+                                                {% if log_in_admin == True and pass_word_admin == True %}
+
+                                                <form action="/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="post">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </form>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </dt>
                                 </div>
-                                <div class="card row-col-auto">
-                                    <div class="aligncenter">
-                                        <dt>RTX 3070 Aorus Master</dt>
-                                    </div>
-                                    <div class="aligncenter">
-                                        <dt>
-                                            <img class=""
-                                                src="static/produtos/Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6.png"
-                                                height="200">
-                                        <dt>1 599,90</dt>
-                                        </dt>
-                                        <dt>
-                                            <button type="button" href="#" class="btn btn-sm btn-outline-secondary">Buy</button>
-                                        </dt>
-                                    </div>
+                            </div>
+                            <div class="card row-col-auto">
+                                <div class="aligncenter">
+                                    <dt>Computador King Mod</dt>
                                 </div>
-                                <div class="card row-col-auto">
-                                    <div class="aligncenter">
-                                        <dt>HP Pavillon x360</dt>
-                                    </div>
-                                    <div class="aligncenter">
-                                        <dt>
-                                            <img class="" src="static/produtos/HP Pavillon x360.png" height="200">
-                                        <dt>1 599,90</dt>
-                                        </dt>
-                                        <dt>
-                                            <button type="button" href="#" class="btn btn-sm btn-outline-secondary">Buy</button>
-                                        </dt>
-                                    </div>
+                                <div class="aligncenter">
+                                    <dt>
+                                        <img class="" src="static/produtos/Computador King Mod.png" height="200">
+                                    <dt>1 599,90</dt>
+                                    </dt>
+                                    <dt>
+                                        <div class="btn-group">
+                                            <form action="/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
+                                            </form>
+                                            <ul>
+                                                {% if log_in_admin == True and pass_word_admin == True %}
+
+                                                <form action="#" method="post">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </form>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </dt>
                                 </div>
-                                <div class="card row-col-auto">
-                                    <div class="aligncenter">
-                                        <dt>SSD Kingston NV1</dt>
-                                    </div>
-                                    <div class="aligncenter">
-                                        <dt>
-                                            <img class="" src="static/produtos/SSD Kingston NV1.png" height="200">
-                                        <dt>1 599,90</dt>
-                                        </dt>
-                                        <dt>
-                                            <button type="button" href="#" class="btn btn-sm btn-outline-secondary">Buy</button>
-                                        </dt>
-                                    </div>
+                            </div>
+                            <div class="card row-col-auto">
+                                <div class="aligncenter">
+                                    <dt>RTX 3070 Aorus Master</dt>
                                 </div>
-                                <div class="card row-col-auto">
-                                    <div class="aligncenter">
-                                        <dt>Monitor Dell 27 S2721HGF Curvo FHD 144hz FreeSync Premium 1ms</dt>
-                                    </div>
-                                    <div class="aligncenter">
-                                        <dt>
-                                            <img class="" src="static/produtos/Monitor Dell 27 S2721HGF Curvo FHD 144hz FreeSync Premium 1ms.png" height="200">
-                                        <dt>259,90 € </dt>
-                                        </dt>
-                                        <dt>
-                                            <button type="button" href="#" class="btn btn-sm btn-outline-secondary">Buy</button>
-                                        </dt>
-                                    </div>
+                                <div class="aligncenter">
+                                    <dt>
+                                        <img class=""
+                                            src="static/produtos/Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6.png"
+                                            height="200">
+                                    <dt>1 599,90</dt>
+                                    </dt>
+                                    <dt>
+                                        <div class="btn-group">
+                                            <form action="/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
+                                            </form>
+                                            <ul>
+                                                {% if log_in_admin == True and pass_word_admin == True %}
+
+                                                <form action="#" method="post">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </form>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </dt>
                                 </div>
-                                <div class="card row-col-auto">
-                                    <div class="aligncenter">
-                                        <dt>Monitor LG 34" 34WL500-B </dt>
-                                    </div>
-                                    <div class="aligncenter">
-                                        <dt>
-                                            <img class="" src="static/produtos/Monitor LG 34 34WL500-B.png" height="200">
-                                        <dt>285,08€</dt>
-                                        </dt>
-                                        <dt>
-                                            <button type="button" href="#" class="btn btn-sm btn-outline-secondary">Buy</button>
-                                        </dt>
-                                    </div>
+                            </div>
+                            <div class="card row-col-auto">
+                                <div class="aligncenter">
+                                    <dt>HP Pavillon x360</dt>
                                 </div>
-                            </nav>
-                        </div>
+                                <div class="aligncenter">
+                                    <dt>
+                                        <img class="" src="static/produtos/HP Pavillon x360.png" height="200">
+                                    <dt>1 599,90</dt>
+                                    </dt>
+                                    <dt>
+                                        <div class="btn-group">
+                                            <form action="/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
+                                            </form>
+                                            <ul>
+                                                {% if log_in_admin == True and pass_word_admin == True %}
+
+                                                <form action="#" method="post">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </form>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </dt>
+                                </div>
+                            </div>
+                            <div class="card row-col-auto">
+                                <div class="aligncenter">
+                                    <dt>SSD Kingston NV1</dt>
+                                </div>
+                                <div class="aligncenter">
+                                    <dt>
+                                        <img class="" src="static/produtos/SSD Kingston NV1.png" height="200">
+                                    <dt>1 599,90</dt>
+                                    </dt>
+                                    <dt>
+                                        <div class="btn-group">
+                                            <form action="/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
+                                            </form>
+                                            <ul>
+                                                {% if log_in_admin == True and pass_word_admin == True %}
+
+                                                <form action="#" method="post">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </form>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </dt>
+                                </div>
+                            </div>
+                            <div class="card row-col-auto">
+                                <div class="aligncenter">
+                                    <dt>Monitor Dell 27 S2721HGF Curvo FHD 144hz FreeSync Premium 1ms</dt>
+                                </div>
+                                <div class="aligncenter">
+                                    <dt>
+                                        <img class=""
+                                            src="static/produtos/Monitor Dell 27 S2721HGF Curvo FHD 144hz FreeSync Premium 1ms.png"
+                                            height="200">
+                                    <dt>259,90 € </dt>
+                                    </dt>
+                                    <dt>
+                                        <div class="btn-group">
+                                            <form action="/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
+                                            </form>
+                                            <ul>
+                                                {% if log_in_admin == True and pass_word_admin == True %}
+
+                                                <form action="#" method="post">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </form>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </dt>
+                                </div>
+                            </div>
+                            <div class="card row-col-auto">
+                                <div class="aligncenter">
+                                    <dt>Monitor LG 34" 34WL500-B </dt>
+                                </div>
+                                <div class="aligncenter">
+                                    <dt>
+                                        <img class="" src="static/produtos/Monitor LG 34 34WL500-B.png" height="200">
+                                    <dt>285,08€</dt>
+                                    </dt>
+                                    <dt>
+                                        <div class="btn-group">
+                                            <form action="/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
+                                            </form>
+                                            <ul>
+                                                {% if log_in_admin == True and pass_word_admin == True %}
+
+                                                <form action="#" method="post">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </form>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </dt>
+                                </div>
+                            </div>
+                        </nav>
                     </div>
-                </nav>
-            </div>
+                </div>
+            </nav>
         </div>
 
     </main>

@@ -62,9 +62,12 @@
                             <div class="card-body row-cols-5em text-center">
                                 <input type="text" name="email_login" placeholder="Email" class="form-control"
                                     autofocus>
-                                <input type="text" name="password_login" placeholder="Senha" class="form-control">
-                            
-                            <button type="submit" class="btn btn-primary btn-block">Login</button></div>
+                                <input type="password" name="password_login" placeholder="Senha" class="form-control">
+                            <ul> {% if erro == True %}
+                                <p><h6>Reveja as suas credencias</h6></p>
+                                {%endif%}
+                            </ul>
+                            <p></p><button type="submit" class="btn btn-primary btn-block">Login</button></div>
                         </form>
                         <div>
                             <a type="submit" href="/sign-up"method="get" class="btn btn_smalsize btn-default btn-group bg-light">Sign
