@@ -197,21 +197,20 @@ def criar_produtos():
 
 
 #Pagina Exibicao do produto detalhado
-@root.route('/listagem_produto/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x',methods=['GET'])
+@root.route('/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x',methods=['GET'])
 def asusgeforce_rtx3080():
-    #request_nome = request.form['nome_produto']
-    #request_valor = request.form['valor']
-    #request_quantida = request.form['em_armazem']
-    #request_descricao = request.form['descricao']
-
     for produto_select in sync_inventario_database.sheet_produtos.rows:
             if produto_select[0].value == 2:
                 asusgeforce_rtx3080 = produto_select[1].value
                 asusgeforce_rtx3080_price =produto_select[5].value
-
+                asusgeforce_rtx3080_img = '/static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png'
+                
                 return render_template('produtos.html',aasusgeforce_rtx3080 = asusgeforce_rtx3080, 
-                asusgeforce_rtx3080_price=asusgeforce_rtx3080_price)
+                asusgeforce_rtx3080_price=asusgeforce_rtx3080_price, asusgeforce_rtx3080_img=asusgeforce_rtx3080_img)
 
+@root.route('/listagem_produto/armazem',methods=['GET'])
+def showProdutos():
+    return render_template('produtos.html')
 
 db.create_all()
 db.session.commit()
