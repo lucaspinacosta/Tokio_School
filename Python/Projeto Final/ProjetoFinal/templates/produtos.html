@@ -73,27 +73,27 @@
         </div>
         <div class="card col-sm-10 offset-1 my-auto">
             <nav class="row container-fluid row-cols-2">
-                <div class="card-body">
-                    <dt>Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X</dt>
-                    <p class="aligncenter">
-                        <img alt="centered" src="static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png"
-                            height="400">
-                    </p>
-                    </a>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <form type="button" action="#">
-                                <button type="submit" class="btn btn-sm btn-outline-secondary">Buy</button>
-                            </form>
-                            <form type="button" action="/admin" method="post">
-                                <button type="submit" 
-                                    class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </form>
+                <ul>
+                    <div class="card-body">
+                        <h4>{{aasusgeforce_rtx3080}}</h4>
+                        <p class="aligncenter">
+                            <img alt="centered" src="static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png"
+                                height="400">
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <form type="button" action="#">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Buy</button>
+                                </form>
+                                <form type="button" action="/admin" method="post">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </ul>
                 <div class="card aligncenter value_showstyle">
-                    1 599,90€
+                    <ul>{{asusgeforce_rtx3080_price}}€</ul>
                 </div>
                 <p></p>
                 <div class="col-sm-12">
@@ -170,8 +170,6 @@
             </nav>
         </div>
     </main>
-
-
 </body>
 
 </html>

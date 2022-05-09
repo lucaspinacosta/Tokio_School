@@ -1,0 +1,2 @@
+document.cookie = "";
+function checkACookieExists()
