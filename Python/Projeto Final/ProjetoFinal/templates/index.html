@@ -31,19 +31,21 @@
             <div class="container d-flex flex-wrap my-auto">
                 <img alt="lefters" src="static/LIC_Informatica3.png" width="80" height="50">
                 <ul class="nav me-auto">
-                    <li class="nav-item"><a href="/" class="nav-link link-dark px-2" aria-current="page">Home</a>
+                    <li class="nav-item"><a href="/home" class="nav-link link-dark px-2" aria-current="page">Home</a>
                     </li>
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Features</a></li>
-                    <li class="nav-item"><a href="/listagem-produtos" class="nav-link link-dark px-2">Pricing</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Pricing</a></li>
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
                 </ul>
                 <ul>
                     {% if log_in == True or log_in_admin == True %}
                     <a class="nav-link link-dark px-0 py-2 btn_smalsize sub_titulo alignright">{{user}}
                         <a class="nav-link" href="/user-login/carrinho"><img rel="icon lefters" type="image/png"
-                                src="/static/carrinho-de-compras.png" height="30" width="30"></a></a>
+                                src="/static/carrinho-de-compras.png" height="30" width="30">
+                        </a>
+                    </a>
 
-                    {% elif log_in == False and log_in_admin == False %}
+                    {%elif log_in == False and log_in_admin == False or log_in == null and log_in_admin == null%}
                     <form action="login" method="post">
                         <ul class="nav">
                             <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
@@ -95,7 +97,8 @@
                             <div class="card-highlight">
                                 <div class="card shadow-sm">
                                     <dt name="nome_produto">Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X</dt>
-                                    <a href="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" class="nav-link">
+                                    <a href="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x"
+                                        class="nav-link">
                                         <p class="aligncenter imgautosize">
                                             <img alt="centered"
                                                 src="static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png">
@@ -156,7 +159,8 @@
                             <div class="card-highlight">
                                 <div class="card shadow-sm ">
                                     <dt>Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6</dt>
-                                    <a href="#" class="nav-link">
+                                    <a href="/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6"
+                                        class="nav-link">
                                         <p class="aligncenter">
                                             <img alt="centered"
                                                 src="static/produtos/Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6.png">
@@ -217,7 +221,7 @@
                             <div class="card-highlight">
                                 <div class="card shadow-sm ">
                                     <dt>Asus VivoBook K513EP</dt>
-                                    <a href="#" class="nav-link">
+                                    <a href="/listagem_produto/armazem/Asus-VivoBook-K513EP" class="nav-link">
                                         <p class="aligncenter">
                                             <img alt="centered" src="static/produtos/Asus VivoBook K513EP.png">
                                         </p>
@@ -228,7 +232,8 @@
                                                 <p>Processador Sistema </p>
                                             </dt>
                                             <dd class="col-sm-9">Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz,
-                                                4 cores)</dd><p></p>
+                                                4 cores)</dd>
+                                            <p></p>
 
                                             <dt class="col-sm-3">
                                                 <p>Sistema Operativo</p>
@@ -291,7 +296,8 @@
             <div class="column">
                 <nav class="row col-12">
                     <div class="card aligncenter">
-                        <link class="nav-item"><a href="" class="nav-link sub_titulo link-dark px-1">Produtos</a>
+                        <link class="nav-item"><a href="{{asusgeforce_rtx2080}}"
+                            class="nav-link sub_titulo link-dark px-1">Produtos</a>
                         </li>
                         <div class="col-12 my-auto" style="margin-left: auto">
                             <div class="col-12">
@@ -301,39 +307,38 @@
                                         <p></p>
                                         <nav class="row container-fluid row-cols-5 col-auto">
                                             <div class="card row-col-auto">
-                                                <div class="aligncenter">
-                                                    <dt>Asus Geforce RTX 3080</dt>
-                                                </div>
-                                                <div class="aligncenter">
+                                                <ul>
+                                                    <div class="aligncenter">
+                                                        <dt>Asus Geforce RTX 3080</dt>
+                                                    </div>
+                                                    <div class="aligncenter">
+                                                        <dt>
+                                                            <img class="fit-picture "
+                                                                src="static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png"
+                                                                height="200">
+                                                        <dt>1 599,90 € </dt>
+                                                        </dt>
+                                                    </div>
                                                     <dt>
-                                                        <img class="fit-picture "
-                                                            src="static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png"
-                                                            height="200">
-                                                    <dt>1 599,90 € </dt>
-                                                    </dt>
-                                                </div>
-                                                <dt>
-                                                    <div class="btn-group">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <ul>
+                                                        <div class="btn-group">
+                                                            <div class="d-flex justify-content-between align-items-center">
 
                                                                 {% if log_in == True %}
                                                                 <form
-                                                                    action="/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x"
+                                                                    action="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x"
                                                                     method="get">
                                                                     <button type="button"
                                                                         class="btn btn-sm btn-outline-secondary">Buy</button>
-                                                                
-                                                                {% elif log_in_admin == True%}
-                                                                <button type="button"
-                                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                                {%endif%}
 
-
-                                                            </ul>
+                                                                    {% elif log_in_admin == True%}
+                                                                    <button type="button"
+                                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                                    {%endif%}
+                                                                    </a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </dt>
+                                                    </dt>
+                                                </ul>
                                             </div>
                                             <div class="card row-col-auto">
                                                 <div class="aligncenter">
@@ -345,21 +350,22 @@
                                                             src="static/produtos/Asus VivoBook K513EP.png" height="200">
                                                     <dt>1 599,90</dt>
                                                     </dt>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <ul>
-                                                            <div class="btn-group">
-                                                                {% if log_in == True %}
-                                                                <form action="#" method="get">
-                                                                    <button type="button"
-                                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
-                                                                </form>
-                                                                {% elif log_in_admin == True%}
-                                                                <button type="button"
-                                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                                {%endif%}
 
-                                                            </div>
-                                                        </ul>
+                                                    <div class="btn-group">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            {% if log_in == True %}
+                                                            <form
+                                                                action="/listagem_produto/armazem/Asus-VivoBook-K513EP"
+                                                                method="get">
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
+                                                            </form>
+                                                            {% elif log_in_admin == True%}
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                            {%endif%}
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -377,7 +383,9 @@
                                                         <ul>
                                                             <div class="btn-group">
                                                                 {% if log_in == True %}
-                                                                <form action="#" method="get">
+                                                                <form action="kingModDesktop"
+                                                                    href="/listagem_produto/armazem/Computador-King-Mod"
+                                                                    method="get">
                                                                     <button type="button"
                                                                         class="btn btn-sm btn-outline-secondary">Buy</button>
                                                                 </form>

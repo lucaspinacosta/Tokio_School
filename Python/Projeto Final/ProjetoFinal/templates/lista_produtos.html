@@ -34,11 +34,22 @@
                     <li class="nav-item"><a href="/" class="nav-link link-dark px-2" aria-current="page">Home</a>
                     </li>
                 </ul>
-                <ul class="nav">
-                    {% if log_in_admin == False and pass_word_admin == False %}
-                    <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a></li>
-                    <li class="nav-item"><a href="/" class="nav-link link-dark px-2">Sign up</a></li>
-                    {% endif %}
+                <ul>
+                    {% if log_in == True or log_in_admin == True %}
+                    <a class="nav-link link-dark px-0 py-2 btn_smalsize sub_titulo alignright">{{user}}
+                        <a class="nav-link" href="/user-login/carrinho"><img rel="icon lefters" type="image/png"
+                                src="/static/carrinho-de-compras.png" height="30" width="30"></a></a>
+
+                    {% elif log_in == False and log_in_admin == False %}
+                    <form action="login" method="post">
+                        <ul class="nav">
+                            <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
+                            </li>
+                            <li class="nav-item"><a href="/sign-up" class="nav-link link-dark px-2">Sign up</a></li>
+                        </ul>
+                    </form>
+                    {% endif%}
+
                 </ul>
             </div>
         </nav>
@@ -70,7 +81,7 @@
                                 </div>
                                 <dt>
                                     <div class="btn-group">
-                                        <form action="/listagem_produto/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                        <form action="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Buy</button>
                                         </form>
                                         <ul>
@@ -157,7 +168,7 @@
                                     </dt>
                                     <dt>
                                         <div class="btn-group">
-                                            <form action="/listagem_produto/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                            <form action="/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6" method="get">
                                                 <button type="submit"
                                                     class="btn btn-sm btn-outline-secondary">Buy</button>
                                             </form>

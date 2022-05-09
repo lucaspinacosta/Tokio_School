@@ -39,7 +39,7 @@
                     {% if log_in == True or log_in_admin == True %}
                     <a class="nav-link link-dark px-1 py-2 btn_smalsize sub_titulo">{{user}}</a>
 
-                    {% elif log_in == False and log_in_admin == False %}
+                    {% elif log_in == False and log_in_admin == False or log_in_admin == null and log_in == null %}
                     <form action="login" method="post">
                         <ul class="nav">
                             <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
@@ -75,10 +75,9 @@
             <nav class="row container-fluid row-cols-2">
                 <ul>
                     <div class="card-body">
-                        <h4>{{aasusgeforce_rtx3080}}</h4>
+                        <h4>{{nome_produto}}</h4>
                         <p class="aligncenter">
-                            <img alt="centered" src="{{asusgeforce_rtx3080_img}}"
-                                height="400">
+                            <img alt="centered" src="{{imagem_produto}}" height="400">
                         </p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
@@ -93,79 +92,78 @@
                     </div>
                 </ul>
                 <div class="card aligncenter value_showstyle">
-                    <ul>{{asusgeforce_rtx3080_price}}€</ul>
+                    <ul>{{preco_produto}}€</ul>
                 </div>
                 <p></p>
                 <div class="col-sm-12">
                     <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>
-                    <h4 class="aligncenter">PREPARA-TE PARA VOAR</h4>
-                    <p>De cima abaixo, a ROG Strix GeForce RTX™ 3080 foi radicalmente melhorada para acomodar os
-                        novos e impressionantes chips Ampere da NVIDIA e para fornecer a próxima onda de
-                        inovação de performance gaming ao mercado. Um novo design e mais metal envolvem um
-                        conjunto de ventoinhas Axial-tech.
-
-                        A disposição uniforme das ventoinhas da última geração foi usurpada por um novo esquema
-                        de rotação e funções especializadas para as ventoinhas centrais e auxiliares. Por baixo
-                        das pás, um dissipador maior e mais impressionante está pronto para as cargas térmicas
-                        mais exigentes.
-
-                        A PCB tem alguns novos truques na manga, e até a placa traseira recebeu algumas
-                        alterações de para melhorarem a performance. Tens estado à espera das últimas e maiores
-                        novidades no design do GPU - e são estas!
-                    </p>
-                    <p></p>
-                    <h4 class="aligncenter">DESIGN DE 2.9 RANHURAS</h4>
-                    <p>O dissipador de calor direciona o calor para os heatpipes que o transportam através de um
-                        conjunto de aletas que preenche a grande placa de 2.9 ranhuras. Aumentar o tamanho do dissipador
-                        comparativamente à última geração proporciona mais amplitude térmica para contabilizar o novo
-                        chipset de alta performance.
-                    </p>
-                    <p></p>
-                    <button type="button" class="collapsible sub_titulo">Especificações</button>
-                    <dl class="row">
-                        <dt class="col-sm-3">
-                            <p>Processador Grafico</p>
-                        </dt>
-                        <dd class="col-sm-9">
-                            <p>NVIDIA® GeForce® RTX 3080</p>
-                        </dd>
-
-                        <dt class="col-sm-3">BUS</dt>
-                        <dd class="col-sm-9">
-                            <p>PCI Express 4.0 16x</p>
-                        </dd>
-                        <dt class="col-sm-3">
-                            <p>Memoria de Video</p>
-                        </dt>
-                        <dd class="col-sm-9">12GB GDDR6X
-                        </dd>
-
-                        <dt class="col-sm-3">Velocidade</dt>
-                        <dd class="col-sm-8">OC mode: 1890 MHz (Boost Clock)
-                            <p>Gaming mode: 1860 MHz (Boost Clock)</p>
-                        </dd>
-
-
-                        <dt class="col-sm-3">
-                            <p>CUDA Cores</p>
-                        </dt>
-                        <dd class="col-sm-8">8960</dd>
-
-                        <dt class="col-sm-3">Velocidade de Memoria</dt>
-                        <dd class="col-sm-8">19 Gbps</dd>
+                    <ul>
+                        <h4 class="aligncenter">{{descricao_prod['arquitetura'][0]}}</h4>
+                        <p>{{descricao_prod['arquitetura'][1]}}
+                        <p></p>{{descricao_prod['arquitetura'][2]}}<p></p>{{descricao_prod['arquitetura'][3]}}</p>
                         <p></p>
-                        <dt class="col-sm-3">Interface de Memoria</dt>
-                        <dd class="col-sm-8">384-bit</dd>
+                        <h4 class="aligncenter">{{descricao_prod['aceleracao'][0]}}</h4>
+                        <p>{{descricao_prod['aceleracao'][1]}}
+                        <p></p>{{descricao_prod['aceleracao'][2]}}<p></p>{{descricao_prod['aceleracao'][3]}}</p>
                         <p></p>
-                        <dt class="col-sm-3">Suporte para multi-monitor</dt>
-                        <dd class="col-sm-8">Até 4 monitores</dd>
-                        <p></p>
-                        <dt class="col-sm-3">Interface</dt>
-                        <dd class="col-sm-8">
-                            3 x DisplayPort 1.4a
-                            <p>2 x HDMI 2.1</p>
-                        </dd>
-                    </dl>
+                    </ul>
+                    <button type="button" class="collapsible sub_titulo">Especificacoes</button>
+                    <ul>
+                        <dl class="row">
+                            <dt class="col-sm-3">
+                                <p>{{especificacoes['sistema_operativo'][0]}}</p>
+                            </dt>
+                            <dd class="col-sm-9">
+                                <p>{{especificacoes['sistema_operativo'][1]}}</p>
+                            </dd>
+
+                            <dt class="col-sm-3">{{especificacoes['Processador'][0]}}</dt>
+                            <dd class="col-sm-9">
+                                <p>{{especificacoes['Processador'][1]}}</p>
+                            </dd>
+                            <dt class="col-sm-3">
+                                <p>{{especificacoes['memoria_ram'][0]}}</p>
+                            </dt>
+                            <dd class="col-sm-9">{{especificacoes['memoria_ram'][1]}}
+                            </dd>
+
+                            <dt class="col-sm-3">{{especificacoes['armazenamento'][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['armazenamento'][1]}}
+                                <p>{{especificacoes['armazenamento'][2]}}</p>
+                            </dd>
+
+
+                            <dt class="col-sm-3">
+                                <p>{{especificacoes['audio'][0]}}</p>
+                            </dt>
+                            <dd class="col-sm-8">{{especificacoes['audio'][1]}}</dd>
+
+                            <dt class="col-sm-3">{{especificacoes['ecra'][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['ecra'][1]}}</dd>
+                            <p></p>
+                            <dt class="col-sm-3">{{especificacoes['grafica'][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['grafica'][1]}}</dd>
+                            <p></p>
+                            <dt class="col-sm-3">{{especificacoes['cor'][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['cor'][1]}}
+                                <p>{{especificacoes['cor'][2]}}</p>
+                            </dd>
+                            <p></p>
+                            <dt class="col-sm-3">{{especificacoes['interface'][0]}}</dt>
+                            <dd class="col-sm-8">
+                                <a>{{especificacoes['interface'][1]}}</a>
+                                <P></P>
+                                <a>{{especificacoes['interface'][2]}}</a>
+                                <p></p>
+                                <a>{{especificacoes['interface'][3]}}</a>
+                                <p></p>
+                                <a>{{especificacoes['interface'][4]}}</a>
+                                <p></p>
+                                <a>{{especificacoes['interface'][5]}}</a>
+                                <p></p>
+                            </dd>
+                        </dl>
+                    </ul>
                 </div>
             </nav>
         </div>
