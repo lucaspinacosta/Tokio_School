@@ -98,8 +98,6 @@ def home():
         return redirect(url_for('/user-login'))
 
 # Home Page
-
-
 @root.route('/home', methods=['GET', 'POST'])
 def homee():
     if request.method == 'GET':
@@ -108,9 +106,8 @@ def homee():
     if request.method == 'POST':
         return redirect(url_for('/user-login'))
 
+
 # Pagina de Registro de utilizador
-
-
 @root.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     if request.method == 'GET':
@@ -126,9 +123,8 @@ def sign_up():
         db.session.commit()
         return redirect(url_for('login'))
 
+
 ##Pagina de LOGIN##
-
-
 @root.route('/user-login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -219,10 +215,12 @@ def gestao_admin():
 
     if request.method == 'POST':
         return redirect(url_for('/admin'))
+
+
+
         ##
 ##Products Section ##
         ##
-
 
 # Listagem dos produtos
 @root.route('/listagem_produto', methods=['GET', 'POST'])
@@ -240,7 +238,7 @@ def criar_produtos():
 # Showcase Template
 @root.route('/listagem_produto/armazem', methods=['GET'])
 def showProdutos():
-    return render_template('produtos.html')
+    return redirect(url_for('criar_produtos'),methods = 'get')
 
 
 # Pagina Exibicao do produto detalhado asus geforce 3080
