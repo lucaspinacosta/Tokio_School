@@ -75,25 +75,28 @@
             <nav class="row container-fluid row-cols-2">
                 <ul>
                     <div class="card-body">
-                        <h4>{{nome_produto}}</h4>
-                        <p class="aligncenter">
-                            <img alt="centered" src="{{imagem_produto}}" height="400">
+                        <p class="aligncenter ">
+                            <img alt="centered" src="{{imagem_produto}}" height="300">
                         </p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <form type="button" action="#">
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Buy</button>
-                                </form>
-                                <form type="button" action="/admin" method="post">
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                </form>
-                            </div>
-                        </div>
                     </div>
                 </ul>
                 <div class="card aligncenter value_showstyle">
+                    <h4>{{nome_produto}}</h4>
+                    <p></p>
                     <ul>{{preco_produto}}€</ul>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="btn-group">
+                            <form type="button" action="#">
+                                <button type="submit" class="btn btn-sm btn-outline-secondary">Buy</button>
+                            </form>
+                            <form type="button" action="/admin" method="post">
+                                <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+
                 <p></p>
                 <div class="col-sm-12">
                     <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>

@@ -54,6 +54,14 @@ class Fornecedor(db.Model):
     db.create_all()
     db.session.commit()
 
+#Produtos em Stock
+def lista_produtos():
+    con = sqlite3.connect('database/dados_informacoes2.db')
+    cursor = con.cursor()
+    cursor.execute("SELECT * FROM Produtos")
+    produtos = cursor.fetchall()
+    return produtos
+
 
 # Verificar Usuario
 def db_verificar_email_admin():
@@ -80,8 +88,9 @@ def db_verificar_email():
 
 @root.route('/', methods=['GET', 'POST'])
 def home():
+    todos_os_produtos = lista_produtos()
     if request.method == 'GET':
-        return render_template('index.html')
+        return render_template('index.html',todos_os_produtos=todos_os_produtos)
 
     if request.method == 'POST':
         return redirect(url_for('/user-login'))
@@ -191,8 +200,6 @@ def login():
         return render_template('login.html')
 
 # Pagina do carrinho
-
-
 @root.route('/user-login/carrinho')
 def carrinho():
     if request.method == 'GET':
@@ -201,13 +208,22 @@ def carrinho():
     if request.method == 'POST':
         return redirect(url_for('/user-login/carrinho'))
 
+
+# Pagina do carrinho
+@root.route('/admin')
+def gestao_admin():
+    if request.method == 'GET':
+        return render_template('lista_produtos.html')
+
+    if request.method == 'POST':
+        return redirect(url_for('/admin'))
         ##
 ##Products Section ##
         ##
 
 
 # Listagem dos produtos
-@root.route('/listagem-produtos', methods=['GET', 'POST'])
+@root.route('/listagem_produto', methods=['GET', 'POST'])
 def criar_produtos():
     # informação apresentada ao cliente
     if request.method == 'GET':
@@ -223,9 +239,8 @@ def criar_produtos():
 def showProdutos():
     return render_template('produtos.html')
 
+
 # Pagina Exibicao do produto detalhado asus geforce 3080
-
-
 @root.route('/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x', methods=['GET'])
 def asusgeforce_rtx3080():
     for produto_select in sheet_produtos.rows:
@@ -252,6 +267,7 @@ def asusgeforce_rtx3080():
             return render_template('produtos.html', nome_produto=nome_produto,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod,especificacoes=especificacoes)
+
 # Pagina Exibicao do produto detalhado asus geforce 3070
 @root.route('/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6', methods=['GET'])
 def geforce_3070():
@@ -277,7 +293,7 @@ def geforce_3070():
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod,especificacoes=especificacoes)
 
-# Pagina Exibicao do produto detalhado asus geforce 3070
+# Pagina Exibicao do produto detalhado Computador King
 @root.route('/listagem_produto/armazem/Computador-King-Mod', methods=['GET'])
 def kingModDesktop():
     for produto_select in sheet_produtos.rows:
@@ -285,22 +301,19 @@ def kingModDesktop():
                 nome_produto = produto_select[1].value
                 preco_produto = produto_select[5].value
                 imagem_produto = '/static/produtos/Computador King Mod.png'
-                descricao_prod ={'arquitetura':["PREPARA-TE PARA VOAR", "De cima abaixo, a ROG Strix GeForce RTX™ 3080 foi radicalmente melhorada para acomodar os novos e impressionantes chips Ampere da NVIDIA e para fornecer a próxima onda de inovação de performance gaming ao mercado. Um novo design e mais metal envolvem um conjunto de ventoinhas Axial-tech.",
-                "A disposição uniforme das ventoinhas da última geração foi usurpada por um novo esquema de rotação e funções especializadas para as ventoinhas centrais e auxiliares. Por baixo das pás, um dissipador maior e mais impressionante está pronto para as cargas térmicas mais exigentes.","A PCB tem alguns novos truques na manga, e até a placa traseira recebeu algumas alterações de para melhorarem a performance. Tens estado à espera das últimas e maiores novidades no design do GPU - e são estas!",
-                "A PCB tem alguns novos truques na manga, e até a placa traseira recebeu algumas alterações de para melhorarem a performance. Tens estado à espera das últimas e maiores novidades no design do GPU - e são estas!"],
-                    'aceleracao':["MELHORAMENTOS AXIAL-TECH","O nosso design de ventoinhas Axial-tech foi otimizado com um dissipador novo e maior, com mais aletas e área de superfície do que o da última geração. A contagem de pás foi aumentada nas três ventoinhas, com 13 na ventoinha central e 11 nas ventoinhas auxiliares.",
-                    "O anel de barreira nas ventoinhas laterais foi encolhido para permitir uma maior entrada de ar lateral e para proporcionar um melhor fluxo de ar através do conjunto de arrefecimento. As pás adicionais da ventoinha central e o anel com altura total proporcionam uma pressão estática mais forte para disparar ar diretamente para o dissipador do GPU."],
-                    'extra':["DESIGN DE 2.9 RANHURAS"," O dissipador de calor direciona o calor para os heatpipes que o transportam através de um conjunto de aletas que preenche a grande placa de 2.9 ranhuras. Aumentar o tamanho do dissipador comparativamente à última geração proporciona mais amplitude térmica para contabilizar o novo chipset de alta performance."],
-                    'extra2': ["MAXCONTACT","O encaminhamento do calor para o dissipador, que permite beneficiar do novo design das ventoinhas requer uma atenção especial. Usamos um processo de fabrico que pole a superfície do dissipador de calor para melhorar a suavidade ao nível microscópico. Sendo extra plano permite um melhor contacto com o molde para uma melhor transferência térmica."]}
+                descricao_prod ={'arquitetura':["KING MOD GAMER MSI i5", "Intel Core i5 11400F | 16GB DDR4 | SSD 500GB | RTX 2060"],
+                'aceleracao':["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!","Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
+                'extra':["DIRECTX 12 ULTIMATE"," Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
+                'extra2': ["RGB FUSION 2.0","Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
 
-                especificacoes = {'sistema_operativo':['Processador Gráfico','GeForce RTX 3080'],'Processador':['BUS',"PCI Express 4.0 16x"],
-                'memoria_ram':['Memória de Vídeo','12GB GDDR6X'],
-                'armazenamento':['Velocidade','OC mode: 1890 MHz (Boost Clock)','Gaming mode: 1860 MHz (Boost Clock)'],
-                'audio':['CUDA cores','8960'],
-                'ecra':['Velocidade de Memória','19 Gbps'],
-                'grafica':['Interface de Memória','384-bit'],
-                'cor':['Suporte para multi-monitor','Até 4 monitores'],
-                'interface':['Interface','3 x DisplayPort 1.4a','2 x HDMI 2.1']}
+                especificacoes = {'sistema_operativo':['Sistema Operativo','Nao incluido'],'Processador':['Processador',"Intel Core i5 11400F (2.6GHz-4.4GHz) 12MB Socket 1200"],
+            'memoria_ram':['Memoria Ram','Kit 16GB (2 x 8GB) DDR4 3200MHz'],
+            'armazenamento':['Armazenamento','Disco SSD 500GB M.2 NVMe'],
+            'audio':['Fonte de Alimentacao','Fonte 600W 80+ Gold'],
+            'ecra':['Motherboard','Motherboard MSI H510 PRO'],
+            'grafica':['Grafica','Placa Gráfica MSI GeForce® RTX 2060'],
+            'cor':['Cor','Caixa ATX, Preta, Vidro Temperado'],
+            'interface':['Interface','1 x USB 3.2 Gen 1 Type-A','1 x USB 3.2 Gen 1 Type-C','2 x USB 2.0 Tipo A','1 x HDMI 1.4','1 x Leitor de auscultadores//micro SD card']}
                 return render_template('produtos.html', nome_produto=nome_produto,
                                     preco_produto=preco_produto, imagem_produto=imagem_produto,
                                     descricao_prod=descricao_prod,especificacoes=especificacoes)
@@ -313,6 +326,31 @@ def vivoBook_K513EP():
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/Asus VivoBook K513EP.png'
+            descricao_prod ={'arquitetura':["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
+                'aceleracao':["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!","Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
+                'extra':["DIRECTX 12 ULTIMATE"," Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
+                'extra2': ["RGB FUSION 2.0","Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
+
+            especificacoes = {'sistema_operativo':['Sistema Operativo','Windows 10 Home'],'Processador':['Processador',"Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
+            'memoria_ram':['Memoria Ram',' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
+            'armazenamento':['Armazenamento','SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
+            'audio':['Audio','Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
+            'ecra':['Ecra','15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
+            'grafica':['Grafica','Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
+            'cor':['Cor','Prateado'],
+            'interface':['Interface','1 x USB 3.2 Gen 1 Type-A','1 x USB 3.2 Gen 1 Type-C','2 x USB 2.0 Tipo A','1 x HDMI 1.4','1 x Leitor de auscultadores//micro SD card']}
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                    descricao_prod=descricao_prod,especificacoes=especificacoes)
+
+# Pagina Exibicao do produto detalhado Asus VivoBook K513EP
+@root.route('/listagem_produto/armazem/HP-Pavillon-x360', methods=['GET'])
+def hp_pavillon_360():
+    for produto_select in sheet_produtos.rows:
+        if produto_select[0].value == 6:
+            nome_produto = produto_select[1].value
+            preco_produto = produto_select[5].value
+            imagem_produto = '/static/produtos/HP Pavillon x360.png'
             descricao_prod ={'arquitetura':["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
                 'aceleracao':["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!","Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
                 'extra':["DIRECTX 12 ULTIMATE"," Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],

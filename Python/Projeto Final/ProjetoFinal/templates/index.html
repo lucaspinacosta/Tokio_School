@@ -140,12 +140,11 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <ul>
                                                 <div class="btn-group">
-                                                    {% if log_in == True %}
                                                     <form action="#" method="get">
                                                         <button type="button"
                                                             class="btn  btn-sm btn-outline-secondary">Buy</button>
                                                     </form>
-                                                    {% elif log_in_admin == True%}
+                                                    {% if log_in_admin == True%}
                                                     <button type="button"
                                                         class="btn btn-sm btn-outline-secondary">Edit</button>
                                                     {%endif%}
@@ -202,17 +201,14 @@
                                         </dl>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <ul>
-
-                                                {% if log_in == True %}
                                                 <form action="#" method="get">
                                                     <button type="button"
                                                         class="btn btn-sm btn-outline-secondary">Buy</button>
                                                 </form>
-                                                {% elif log_in_admin == True%}
+                                                {% if log_in_admin == True%}
                                                 <button type="button"
                                                     class="btn btn-sm btn-outline-secondary">Edit</button>
                                                 {%endif%}
-
                                             </ul>
                                         </div>
                                     </div>
@@ -270,18 +266,14 @@
                                         </dl>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <ul>
-
-                                                {% if log_in == True %}
                                                 <form action="#" method="get">
                                                     <button type="button"
                                                         class="btn btn-sm btn-outline-secondary">Buy</button>
                                                 </form>
-                                                {% elif log_in_admin == True%}
+                                                {% if log_in_admin == True%}
                                                 <button type="button"
                                                     class="btn btn-sm btn-outline-secondary">Edit</button>
                                                 {%endif%}
-
-
                                             </ul>
                                         </div>
                                     </div>
@@ -296,274 +288,266 @@
             <div class="column">
                 <nav class="row col-12">
                     <div class="card aligncenter">
-                        <link class="nav-item"><a href="{{asusgeforce_rtx2080}}"
+                        <link class="nav-item"><a href="/listagem_produto"
                             class="nav-link sub_titulo link-dark px-1">Produtos</a>
                         </li>
                         <div class="col-12 my-auto" style="margin-left: auto">
                             <div class="col-12">
                                 <nav class="row col-sm-12">
                                     <div class="aligncenter">
-
                                         <p></p>
+
                                         <nav class="row container-fluid row-cols-5 col-auto">
-                                            <div class="card row-col-auto">
+                                            {%for produtos in todos_os_produtos%}
+                                            <div class="card  row-cols-auto">
                                                 <ul>
-                                                    <div class="aligncenter">
-                                                        <dt>Asus Geforce RTX 3080</dt>
+                                                    <div class="aligncenter col-row-2">
+                                                        <dt>{{produtos[1]}}</dt>
                                                     </div>
                                                     <div class="aligncenter">
-                                                        <dt>
-                                                            <img class="fit-picture "
-                                                                src="static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png"
-                                                                height="200">
-                                                        <dt>1 599,90 € </dt>
+                                                        <dt><a
+                                                                href="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x">
+                                                                <img class="fit-picture "
+                                                                    src="static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png"
+                                                                    height="200"></a>
+                                                        <dt>{{produtos[5]}} € </dt>
                                                         </dt>
                                                     </div>
                                                     <dt>
                                                         <div class="btn-group">
-                                                            <div class="d-flex justify-content-between align-items-center">
-
-                                                                {% if log_in == True %}
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center">
                                                                 <form
                                                                     action="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x"
                                                                     method="get">
                                                                     <button type="button"
                                                                         class="btn btn-sm btn-outline-secondary">Buy</button>
 
-                                                                    {% elif log_in_admin == True%}
+                                                                    {% if log_in_admin == True%}
                                                                     <button type="button"
                                                                         class="btn btn-sm btn-outline-secondary">Edit</button>
                                                                     {%endif%}
-                                                                    </a>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </dt>
+
                                                 </ul>
-                                            </div>
+                                            </div>{%endfor%}
                                             <div class="card row-col-auto">
-                                                <div class="aligncenter">
-                                                    <dt>Asus VivoBook K513EP</dt>
-                                                </div>
-                                                <div class="aligncenter">
-                                                    <dt>
-                                                        <img class="fit-picture "
-                                                            src="static/produtos/Asus VivoBook K513EP.png" height="200">
-                                                    <dt>1 599,90</dt>
-                                                    </dt>
-
-                                                    <div class="btn-group">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            {% if log_in == True %}
-                                                            <form
-                                                                action="/listagem_produto/armazem/Asus-VivoBook-K513EP"
-                                                                method="get">
-                                                                <button type="button"
-                                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
-                                                            </form>
-                                                            {% elif log_in_admin == True%}
-                                                            <button type="button"
-                                                                class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                            {%endif%}
-
-                                                        </div>
+                                                <ul>
+                                                    <div class="aligncenter">
+                                                        <dt>Asus VivoBook K513EP</dt>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="card row-col-auto">
-                                                <div class="aligncenter">
-                                                    <dt>Computador King Mod</dt>
-                                                </div>
-                                                <div class="aligncenter">
-                                                    <dt>
-                                                        <img class="" src="static/produtos/Computador King Mod.png"
-                                                            height="200">
-                                                    <dt>1 599,90</dt>
-                                                    </dt>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <ul>
-                                                            <div class="btn-group">
-                                                                {% if log_in == True %}
-                                                                <form action="kingModDesktop"
-                                                                    href="/listagem_produto/armazem/Computador-King-Mod"
+                                                    <div class="aligncenter">
+                                                        <dt><a href="/listagem_produto/armazem/Asus-VivoBook-K513EP">
+                                                                <img class="fit-picture "
+                                                                    src="static/produtos/Asus VivoBook K513EP.png"
+                                                                    height="200"></a>
+                                                        <dt>1 599,90</dt>
+                                                        </dt>
+                                                        <div class="btn-group">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center">
+                                                                <form
+                                                                    action="/listagem_produto/armazem/Asus-VivoBook-K513EP"
                                                                     method="get">
                                                                     <button type="button"
                                                                         class="btn btn-sm btn-outline-secondary">Buy</button>
                                                                 </form>
-                                                                {% elif log_in_admin == True%}
+                                                                {% if log_in_admin == True%}
                                                                 <button type="button"
                                                                     class="btn btn-sm btn-outline-secondary">Edit</button>
                                                                 {%endif%}
-
                                                             </div>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card row-col-auto">
-                                                <div class="aligncenter">
-                                                    <dt>RTX 3070 Aorus Master</dt>
-                                                </div>
-                                                <div class="aligncenter">
-                                                    <dt>
-                                                        <img class=""
-                                                            src="static/produtos/Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6.png"
-                                                            height="200">
-                                                    <dt>1 599,90</dt>
-                                                    </dt>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <ul>
-                                                            <div class="btn-group">
-                                                                {% if log_in == True %}
-                                                                <form action="#" method="get">
-                                                                    <button type="button"
-                                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
-                                                                </form>
-                                                                {% elif log_in_admin == True%}
-                                                                <button type="button"
-                                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                                {%endif%}
-
-                                                            </div>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card row-col-auto">
-                                                <div class="aligncenter">
-                                                    <dt>HP Pavillon x360</dt>
-                                                    <p></p>
-                                                </div>
-                                                <div class="aligncenter">
-                                                    <dt>
-                                                        <img class="" src="static/produtos/HP Pavillon x360.png"
-                                                            height="200">
-                                                    <dt>1 599,90</dt>
-
-
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <ul>
-                                                            <div class="btn-group">
-                                                                {% if log_in == True %}
-                                                                <form action="#" method="get">
-                                                                    <button type="button"
-                                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
-                                                                </form>
-                                                                {% elif log_in_admin == True%}
-                                                                <button type="button"
-                                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                                {%endif%}
-
-                                                            </div>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card row-col-auto">
-                                                <div class="aligncenter">
-                                                    <dt>SSD Kingston NV1</dt>
-                                                </div>
-                                                <p></p>
-                                                <div class="aligncenter">
-                                                    <dt>
-                                                        <img class="" src="static/produtos/SSD Kingston NV1.png"
-                                                            height="200">
-
-                                                    <dt>1 599,90</dt>
-                                                    </dt>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <ul>
-                                                                <div class="btn-group">
-                                                                    {% if log_in == True %}
-                                                                    <form action="#" method="get">
-                                                                        <button type="button"
-                                                                            class="btn btn-sm btn-outline-secondary">Buy</button>
-                                                                    </form>
-                                                                    {% elif log_in_admin == True%}
-                                                                    <button type="button"
-                                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                                    {%endif%}
-
-                                                                </div>
-                                                            </ul>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </ul>
                                             </div>
                                             <div class="card row-col-auto">
-                                                <div class="aligncenter">
-                                                    <dt>Monitor Dell 27 S2721HGF Curvo FHD 144hz FreeSync Premium 1ms
-                                                    </dt>
-                                                </div>
-
-                                                <div class="aligncenter">
-                                                    <dt>
-                                                        <img class=""
-                                                            src="static/produtos/Monitor Dell 27 S2721HGF Curvo FHD 144hz FreeSync Premium 1ms.png"
-                                                            height="200">
-
-                                                    <dt>259,90 € </dt>
-                                                    </dt>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <ul>
-                                                            <div class="btn-group">
-                                                                {% if log_in == True %}
+                                                <ul>
+                                                    <div class="aligncenter">
+                                                        <dt>Computador King Mod</dt>
+                                                    </div>
+                                                    <div class="aligncenter">
+                                                        <dt><a href="/listagem_produto/armazem/Computador-King-Mod">
+                                                                <img class="fit-picture"
+                                                                    src="static/produtos/Computador King Mod.png"
+                                                                    height="200"></a>
+                                                        <dt>1 599,90</dt>
+                                                        </dt>
+                                                        <div class="btn-group">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center">
+                                                                <form
+                                                                    action="/listagem_produto/armazem/Computador-King-Mod"
+                                                                    method="get">
+                                                                    <button type="button"
+                                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
+                                                                </form>
+                                                                {% if log_in_admin == True%}
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                                {%endif%}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                            <div class="card row-col-auto">
+                                                <ul>
+                                                    <div class="aligncenter">
+                                                        <dt>RTX 3070 Aorus Master</dt>
+                                                    </div>
+                                                    <div class="aligncenter">
+                                                        <dt><a
+                                                                href="/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6">
+                                                                <img class="fit-picture"
+                                                                    src="static/produtos/Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6.png"
+                                                                    height="200"></a>
+                                                        <dt>1 599,90</dt>
+                                                        </dt>
+                                                        <div class="btn-group">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center">
+                                                                <form
+                                                                    action="/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6"
+                                                                    method="get">
+                                                                    <button type="button"
+                                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
+                                                                </form>
+                                                                {% if log_in_admin == True%}
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                                {%endif%}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                            <div class="card row-col-auto">
+                                                <ul>
+                                                    <div class="aligncenter">
+                                                        <dt>HP Pavillon x360</dt>
+                                                        <p></p>
+                                                    </div>
+                                                    <div class="aligncenter">
+                                                        <dt><a href="/listagem_produto/armazem/HP-Pavillon-x360">
+                                                                <img class="" src="static/produtos/HP Pavillon x360.png"
+                                                                    height="200"></a>
+                                                        <dt>1 599,90</dt>
+                                                        </dt>
+                                                        <div class="btn-group">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center">
                                                                 <form action="#" method="get">
                                                                     <button type="button"
                                                                         class="btn btn-sm btn-outline-secondary">Buy</button>
                                                                 </form>
-                                                                {% elif log_in_admin == True%}
+                                                                {% if log_in_admin == True%}
                                                                 <button type="button"
                                                                     class="btn btn-sm btn-outline-secondary">Edit</button>
                                                                 {%endif%}
-
                                                             </div>
-                                                        </ul>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </ul>
+                                            </div>
+                                            <div class="card row-col-auto">
+                                                <ul>
+                                                    <div class="aligncenter">
+                                                        <dt>SSD Kingston NV1</dt>
+                                                        <p></p>
+                                                    </div>
+                                                    <div class="aligncenter">
+                                                        <dt><a href="/listagem_produto/armazem/#">
+                                                                <img class="fit-picture"
+                                                                    src="static/produtos/SSD Kingston NV1.png"
+                                                                    height="200"></a>
+                                                        <dt>1 599,90</dt>
+                                                        </dt>
+                                                        <div class="btn-group">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center">
+                                                                <form action="#" method="get">
+                                                                    <button type="button"
+                                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
+                                                                </form>
+                                                                {% if log_in_admin == True%}
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                                {%endif%}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                            <div class="card row-col-auto">
+                                                <ul>
+                                                    <div class="aligncenter">
+                                                        <dt>Monitor Dell 27 S2721HGF
+                                                        </dt>
+                                                    </div>
+                                                    <div class="aligncenter">
+                                                        <dt><a href="/listagem_produto/armazem/#">
+                                                                <img class="fit-picture"
+                                                                    src="static/produtos/Monitor Dell 27 S2721HGF Curvo FHD 144hz FreeSync Premium 1ms.png"
+                                                                    height="200"></a>
+                                                        <dt>259,90 € </dt>
+                                                        </dt>
+                                                        <div class="btn-group">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center">
+                                                                <form action="#" method="get">
+                                                                    <button type="button"
+                                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
+                                                                </form>
+                                                                {% if log_in_admin == True%}
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                                {%endif%}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ul>
                                             </div>
                                             <div class="card row-col-auto">
                                                 <div class="aligncenter">
                                                     <dt>Monitor LG 34" 34WL500-B </dt>
                                                 </div>
                                                 <div class="aligncenter">
-                                                    <dt>
-                                                        <img class="" src="static/produtos/Monitor LG 34 34WL500-B.png"
-                                                            height="200">
+                                                    <dt><a href="/listagem_produto/armazem/#">
+                                                            <img class="fit-picture"
+                                                                src="static/produtos/Monitor LG 34 34WL500-B.png"
+                                                                height="200"></a>
                                                         <p></p>
                                                     <dt>285,08€</dt>
                                                     </dt>
-
-                                                    <ul>
-                                                        <div class="btn-group">
-                                                            {% if log_in == True %}
+                                                    <div class="btn-group">
+                                                        <div class="d-flex justify-content-between align-items-center">
                                                             <form action="#" method="get">
                                                                 <button type="button"
                                                                     class="btn btn-sm btn-outline-secondary">Buy</button>
                                                             </form>
-                                                            {% elif log_in_admin == True%}
+                                                            {% if log_in_admin == True%}
                                                             <button type="button"
                                                                 class="btn btn-sm btn-outline-secondary">Edit</button>
                                                             {%endif%}
-
                                                         </div>
-                                                    </ul>
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                        </nav>
                                     </div>
                                 </nav>
                             </div>
                         </div>
-
                     </div>
+                </nav>
             </div>
-            </nav>
         </div>
-        </div>
-
-
         <p></p>
-        </div>
     </main>
 </body>
 
