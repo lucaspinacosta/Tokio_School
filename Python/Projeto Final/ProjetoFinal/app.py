@@ -228,8 +228,9 @@ def gestao_admin():
 @root.route('/listagem_produto', methods=['GET', 'POST'])
 def criar_produtos():
     # informação apresentada ao cliente
+    todos_os_produtos = lista_produtos()
     if request.method == 'GET':
-        return render_template('lista_produtos.html')
+        return render_template('lista_produtos.html',todos_os_produtos=todos_os_produtos)
 
     # Criação de produtos (Acessivel apenas pelo admin)
     if request.method == 'POST':
