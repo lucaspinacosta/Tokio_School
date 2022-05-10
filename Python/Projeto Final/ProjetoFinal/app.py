@@ -24,6 +24,8 @@ class Produtos(db.Model):
     prateleira = db.Column(db.String(3))
     descricao = db.Column(db.String)
     fornecedor = db.Column(db.Integer)
+    url_prod = db.Column(db.String)
+    img_dir = db.Column(db.String)
     db.create_all()
     db.session.commit()
 
