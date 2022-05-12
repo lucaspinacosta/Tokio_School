@@ -38,6 +38,7 @@
                 <ul>
                     {% if log_in == True or log_in_admin == True %}
                     <a class="nav-link link-dark px-1 py-2 btn_smalsize sub_titulo">{{user}}</a>
+                    
 
                     {% elif log_in == False and log_in_admin == False or log_in_admin == null and log_in == null %}
                     <form action="login" method="post">
@@ -80,7 +81,7 @@
                         </p>
                     </div>
                 </ul>
-                <div class="card aligncenter value_showstyle">
+                <div class="aligncenter value_showstyle">
                     <h4>{{nome_produto}}</h4>
                     <p></p>
                     <ul>{{preco_produto}}€</ul>

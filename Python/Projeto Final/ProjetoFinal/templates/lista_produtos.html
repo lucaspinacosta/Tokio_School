@@ -36,11 +36,8 @@
                 </ul>
                 <ul>
                     {% if log_in == True or log_in_admin == True %}
-                    <a class="nav-link link-dark px-0 py-2 btn_smalsize sub_titulo alignright">{{user}}
-                        <a class="nav-link" href="/user-login/carrinho"><img rel="icon lefters" type="image/png"
-                                src="/static/carrinho-de-compras.png" height="30" width="30"></a></a>
-
-                    {% elif log_in == False and log_in_admin == False %}
+                    <a class="nav-link link-dark px-10 py-2 btn_smalsize sub_titulo aligncenter">{{user}}</a>
+                    {% elif log_in == False and log_in_admin == False or log_in == null or log_in_admin == null%}
                     <form action="login" method="post">
                         <ul class="nav">
                             <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
@@ -49,18 +46,33 @@
                         </ul>
                     </form>
                     {% endif%}
-
                 </ul>
             </div>
         </nav>
-
-        <div class="container">
-            <a href="/">
-                <p class="aligncenter" width="300" height="300">
-                    <img alt="centered image" src="static/LIC_Informatica.png" width="900" height="300">
-                </p>
-            </a>
-        </div>
+        <ul>
+            {% if log_in == True or log_in_admin == True %}
+            <div class="header col-2 offset-9 ">
+                <nav class="nav ">
+                    <a class="nav-link py-1 px-3 " href="/user-login/carrinho">
+                        <img action="submit" alt="centered image" href="/user-login/carrinho" rel="icon lefters"
+                            type="image/png" src="/static/carrinho-de-compras.png" height="55" width="55">
+                    </a>
+                    <a class="nav-link py-1 px-3 " href="/">
+                        <img action="submit" alt="centered image" src="/static/logout.png" height="55" width="55">
+                    </a>
+                </nav>
+            </div>
+            {% endif%}
+        </ul>
+        <ul>
+            <div class="container">
+                <a href="{{logout}}">
+                    <p class="aligncenter" width="300" height="300">
+                        <img alt="centered image" sc="static/LIC_Informatica.png" width="900" height="300">
+                    </p>
+                </a>
+            </div>
+        </ul>
 
         <div class="col-12 my-auto" style="margin-left: auto">
             <nav class="row col-sm-10 offset-1">
@@ -105,6 +117,7 @@
             </nav>
         </div>
         <p></p>
+        {%if log_in_admin == True%}
         <div class="col-12 my-auto" style="margin-left: auto">
             <nav class="row col-sm-10 offset-1">
                 <div class="aligncenter">
@@ -113,7 +126,7 @@
                     </div>
                 </div>
             </nav>
-        </div>
+        </div>{%endif%}
 
     </main>
 </body>

@@ -1,18 +1,21 @@
 # imports
 import sqlite3
 from colorama import Cursor
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import null
 from sync_inventario_database import sheet_produtos
 
 root = Flask(__name__)
 root.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/dados_informacoes2.db'
+root.secret_key = "aht278945ht2h49sdfgsdfg5t9h"
 db = SQLAlchemy(root)
 root.config['DEBUG'] = True
 
+
+
+
 # DataBase Produtos
-
-
 class Produtos(db.Model):
     __tablename__ = "Produtos"
     numero_serie = db.Column(db.Integer, primary_key=True)
@@ -56,14 +59,6 @@ class Fornecedor(db.Model):
     db.create_all()
     db.session.commit()
 
-#Produtos em Stock
-def lista_produtos():
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Produtos")
-    produtos = cursor.fetchall()
-    return produtos
-
 
 # Verificar Usuario
 def db_verificar_email_admin():
@@ -92,17 +87,9 @@ def db_verificar_email():
 def home():
     todos_os_produtos = lista_produtos()
     if request.method == 'GET':
-        return render_template('index.html',todos_os_produtos=todos_os_produtos)
-
-    if request.method == 'POST':
-        return redirect(url_for('/user-login'))
-
-# Home Page
-@root.route('/home', methods=['GET', 'POST'])
-def homee():
-    if request.method == 'GET':
-        return redirect(url_for('home'))
-
+        try:    
+            return render_template('index.html',todos_os_produtos=todos_os_produtos,log_in = session['log_in'],log_in_admin = session['log_in_admin'],user = session['username'])
+        except: return render_template('index.html',todos_os_produtos=todos_os_produtos)
     if request.method == 'POST':
         return redirect(url_for('/user-login'))
 
@@ -129,15 +116,11 @@ def sign_up():
 def login():
     if request.method == 'POST':
         # Permissoes de login
-        log_in_admin = False
-        pass_word_admin = False
-        log_in = False
-        pass_word = False
-
+        
         # Input for log in
-        verify_loggin = request.form['email_login']
-        verify_pswd = request.form['password_login']
-
+        user_loggin = request.form['email_login']
+        user_pswd = request.form['password_login']
+        
         # Base de dados User
         #dados_database = "SELECT * FROM Usuarios"
         verificado_email = db_verificar_email()  # dados_database
@@ -145,63 +128,70 @@ def login():
         # Base de dados admin
         #dados_database_admin = "SELECT * FROM Admin"
         verificado_email_admin = db_verificar_email_admin()  # dados_database_admin
+        
+        # Verificar admin
+        for user in verificado_email_admin:
+            if user_loggin == user[1] and user_pswd == user[3]:
+                session['log_in_admin'] = True
+                session['pass_word_admin'] = True
+                session["user"] = user_loggin
+                session["password"] = user_pswd
+                session['username'] = user[2]
+        else:        
+            for user in verificado_email:
+                if user_loggin == user[0] and user_pswd == user[3]:
+                    session['log_in'] = True
+                    session['pass_word'] = True
+                    session["user"] = user_loggin
+                    session["password"] = user_pswd
+                    session['username'] = user[2]
+            
+                elif user_loggin == user[1] and user_pswd != user[3]:
+                    print('Password errada')
+                elif user_loggin != user[0]:
+                    print('Email nao encontrado')
+                else:
+                    print('Faca o seu registo')
 
+        # Iniciar como Buyer
+        todos_produto = lista_produtos()
         try:
-            # Verificar admin
-            for user in verificado_email_admin:
-                if verify_loggin == user[1] and verify_pswd == user[3]:
-                    log_in_admin = True
-                    pass_word_admin = True
-                    return render_template('lista_produtos.html', log_in_admin=log_in_admin, pass_word_admin=pass_word_admin, user=user[1])
-
-            for user in verificado_email:
-                if verify_loggin == user[0] and verify_pswd == user[3]:
-                    log_in = True
-                    pass_word = True
-                    return render_template("index.html", log_in=log_in, user=user)
-                elif verify_loggin == user[1] and verify_pswd != user[3]:
-                    print('Password errada')
-
-                elif verify_loggin != user[0]:
-                    print('Email nao encontrado')
-
-                else:
-                    print('Faca o seu registo.')
-
-        except:
-            # Verificar buyer
-            for user in verificado_email:
-                if verify_loggin == user[0] and verify_pswd == user[3]:
-                    log_in = True
-                    pass_word = True
-
-                elif verify_loggin == user[0] and verify_pswd != user[3]:
-                    print('Password errada')
-                elif verify_loggin != user[0]:
-                    print('Email nao encontrado')
-                else:
-                    print('Faca o seu registo.')
-
-        finally:
-
-            # Iniciar como Buyer
-            if log_in == True and pass_word == True:
+            if session['log_in'] == True and session['pass_word'] == True:
                 print('loggin')
-                return render_template("index.html", log_in=log_in, user=user[2])
-
-            # Iniciar como admin
-            elif log_in_admin == True and pass_word_admin == True:
+                session["user"] = user_loggin
+                session["password"] = user_pswd
+                session['username']=user[2]
+                
+                return render_template("index.html", log_in=session['log_in'], user=session['username'],todos_os_produto=todos_produto)
+        except :
+        # Iniciar como admin
+            if session['log_in_admin'] == True and session['pass_word_admin'] == True:
                 print('loggin admin')
-                return render_template('index.html', log_in_admin=log_in_admin, pass_word_admin=pass_word_admin, user=user[2])
+                session["user"] = user_loggin
+                session["password"] = user_pswd
+                session['username']=user[2]
+                return render_template('lista_produtos.html',todos_os_produtos =todos_produto, log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], user=session['username'])
+            else:
+                return render_template('login.html')
 
     if request.method == 'GET':
         return render_template('login.html')
+
+def logout():
+    session['username'] = null()
+    session['log_in'] = False
+    session['log_in_admin'] = False
+    session['pass_word']= False
+    session['pass_word_admin'] = False
+    session['user'] = null()
+
+    return render_template('login.html')
 
 # Pagina do carrinho
 @root.route('/user-login/carrinho')
 def carrinho():
     if request.method == 'GET':
-        return render_template('index.html')
+        return render_template('index.html', log_in=session['log_in'], user=session['username'])
 
     if request.method == 'POST':
         return redirect(url_for('/user-login/carrinho'))
@@ -211,7 +201,7 @@ def carrinho():
 @root.route('/admin')
 def gestao_admin():
     if request.method == 'GET':
-        return render_template('lista_produtos.html')
+        return render_template('lista_produtos.html',log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], user=session['username'])
 
     if request.method == 'POST':
         return redirect(url_for('/admin'))
@@ -222,23 +212,35 @@ def gestao_admin():
 ##Products Section ##
         ##
 
+        #Produtos em Stock
+def lista_produtos():
+    con = sqlite3.connect('database/dados_informacoes2.db')
+    cursor = con.cursor()
+    cursor.execute("SELECT * FROM Produtos")
+    produtos = cursor.fetchall()
+    return produtos
+
 # Listagem dos produtos
 @root.route('/listagem_produto', methods=['GET', 'POST'])
 def criar_produtos():
     # informação apresentada ao cliente
     todos_os_produtos = lista_produtos()
     if request.method == 'GET':
-        return render_template('lista_produtos.html',todos_os_produtos=todos_os_produtos)
-
+        if session['log_in'] == True:
+            return render_template('lista_produtos.html',todos_os_produtos=todos_os_produtos, log_in = session['log_in'],user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('lista_produtos.html',todos_os_produtos=todos_os_produtos, log_in_admin = session['log_in_admin'],user=session['username'])
+        else:
+            return render_template('lista_produtos.html',todos_os_produtos=todos_os_produtos,log_in_admin = False, log_in = False,user = null)
     # Criação de produtos (Acessivel apenas pelo admin)
     if request.method == 'POST':
-        return render_template('lista_produtos.html')
+        return redirect(url_for('home'))
 
 
 # Showcase Template
-@root.route('/listagem_produto/armazem', methods=['GET'])
+@root.route('/listagem_produto/armazem', methods=['GET','POST'])
 def showProdutos():
-    return redirect(url_for('criar_produtos'),methods = 'get')
+    return redirect(url_for('criar_produtos'),methods = 'post')
 
 
 # Pagina Exibicao do produto detalhado asus geforce 3080
@@ -265,9 +267,21 @@ def asusgeforce_rtx3080():
             'grafica':['Interface de Memória','384-bit'],
             'cor':['Suporte para multi-monitor','Até 4 monitores'],
             'interface':['Interface','3 x DisplayPort 1.4a','2 x HDMI 2.1']}
-            return render_template('produtos.html', nome_produto=nome_produto,
+            if session['log_in'] == True: 
+                return render_template('produtos.html', nome_produto=nome_produto,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod,especificacoes=especificacoes)
+                                   descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                   log_in_admin=session['log_in'], pass_word_admin=session['pass_word'], 
+                                   user=session['username'])
+
+            elif session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], 
+                                   user=session['username'])
+            else:
+                return redirect(url_for('login'))
 
 # Pagina Exibicao do produto detalhado asus geforce 3070
 @root.route('/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6', methods=['GET'])
@@ -290,9 +304,20 @@ def geforce_3070():
             'grafica':['Interface de Memória','256 Bits'],
             'cor':['Dimensões','290 x 131 x 60 mm'],
             'interface':['Interface','3 x DisplayPort 1.4a','1 x HDMI 2.1','1 x HDMI 2.0','Suporte HDCP 2.3']}
-            return render_template('produtos.html', nome_produto=nome_produto,
+            if session['log_in'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod,especificacoes=especificacoes)
+                                   descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                   log_in_admin=session['log_in'], pass_word_admin=session['pass_word'],
+                                    user=session['username'])
+            elif session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], 
+                                   user=session['username'])
+            else:
+                return redirect(url_for('login'))
 
 # Pagina Exibicao do produto detalhado Computador King
 @root.route('/listagem_produto/armazem/Computador-King-Mod', methods=['GET'])
@@ -315,9 +340,21 @@ def kingModDesktop():
             'grafica':['Grafica','Placa Gráfica MSI GeForce® RTX 2060'],
             'cor':['Cor','Caixa ATX, Preta, Vidro Temperado'],
             'interface':['Interface','1 x USB 3.2 Gen 1 Type-A','1 x USB 3.2 Gen 1 Type-C','2 x USB 2.0 Tipo A','1 x HDMI 1.4','1 x Leitor de auscultadores//micro SD card']}
+
+            if session['log_in'] == True:    
                 return render_template('produtos.html', nome_produto=nome_produto,
                                     preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                    descricao_prod=descricao_prod,especificacoes=especificacoes)
+                                    descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                    log_in_admin=session['log_in'], pass_word_admin=session['pass_word'], 
+                                    user=session['username'])
+            elif session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], 
+                                   user=session['username'])
+            else:
+                return redirect(url_for('login'))
 
 # Pagina Exibicao do produto detalhado Asus VivoBook K513EP
 @root.route('/listagem_produto/armazem/Asus-VivoBook-K513EP', methods=['GET'])
@@ -340,9 +377,20 @@ def vivoBook_K513EP():
             'grafica':['Grafica','Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
             'cor':['Cor','Prateado'],
             'interface':['Interface','1 x USB 3.2 Gen 1 Type-A','1 x USB 3.2 Gen 1 Type-C','2 x USB 2.0 Tipo A','1 x HDMI 1.4','1 x Leitor de auscultadores//micro SD card']}
-            return render_template('produtos.html', nome_produto=nome_produto,
+            if session['log_in'] == True or session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                    descricao_prod=descricao_prod,especificacoes=especificacoes)
+                                    descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                    log_in_admin=session['log_in'], pass_word_admin=session['pass_word'], 
+                                    user=session['username'])
+            elif session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], 
+                                   user=session['username'])
+            else:
+                return redirect(url_for('login'))
 
 # Pagina Exibicao do produto detalhado Asus VivoBook K513EP
 @root.route('/listagem_produto/armazem/HP-Pavillon-x360', methods=['GET'])
@@ -365,9 +413,92 @@ def hp_pavillon_360():
             'grafica':['Grafica','Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
             'cor':['Cor','Prateado'],
             'interface':['Interface','1 x USB 3.2 Gen 1 Type-A','1 x USB 3.2 Gen 1 Type-C','2 x USB 2.0 Tipo A','1 x HDMI 1.4','1 x Leitor de auscultadores//micro SD card']}
-            return render_template('produtos.html', nome_produto=nome_produto,
+            if session['log_in'] == True or session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                    descricao_prod=descricao_prod,especificacoes=especificacoes)
+                                    descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word'], 
+                                    user=session['username'])
+            elif session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], 
+                                   user=session['username'])
+            else:
+                return redirect(url_for('login'))
+
+# Pagina Exibicao do produto detalhado SSD Kingston NV1
+@root.route('/listagem_produto/armazem/SSD-Kingston-NV1', methods=['GET'])
+def ssd_kingston_nv1():
+    for produto_select in sheet_produtos.rows:
+        if produto_select[0].value == 6:
+            nome_produto = produto_select[1].value
+            preco_produto = produto_select[5].value
+            imagem_produto = '/static/produtos/HP Pavillon x360.png'
+            descricao_prod ={'arquitetura':["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
+                'aceleracao':["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!","Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
+                'extra':["DIRECTX 12 ULTIMATE"," Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
+                'extra2': ["RGB FUSION 2.0","Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
+
+            especificacoes = {'sistema_operativo':['Sistema Operativo','Windows 10 Home'],'Processador':['Processador',"Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
+            'memoria_ram':['Memoria Ram',' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
+            'armazenamento':['Armazenamento','SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
+            'audio':['Audio','Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
+            'ecra':['Ecra','15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
+            'grafica':['Grafica','Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
+            'cor':['Cor','Prateado'],
+            'interface':['Interface','1 x USB 3.2 Gen 1 Type-A','1 x USB 3.2 Gen 1 Type-C','2 x USB 2.0 Tipo A','1 x HDMI 1.4','1 x Leitor de auscultadores//micro SD card']}
+            if session['log_in'] == True or session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                    descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word'], 
+                                    user=session['username'])
+            elif session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], 
+                                   user=session['username'])
+            else:
+                return redirect(url_for('login'))
+
+# Pagina Exibicao do produto detalhado Monitor Dell 27 S2721HGF Curvo FHD
+@root.route('/listagem_produto/armazem/Monitor-Dell-27-S2721HGF-Curvo-FHD', methods=['GET'])
+def monitor_dell_s2721hgf():
+    for produto_select in sheet_produtos.rows:
+        if produto_select[0].value == 6:
+            nome_produto = produto_select[1].value
+            preco_produto = produto_select[5].value
+            imagem_produto = '/static/produtos/HP Pavillon x360.png'
+            descricao_prod ={'arquitetura':["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
+                'aceleracao':["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!","Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
+                'extra':["DIRECTX 12 ULTIMATE"," Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
+                'extra2': ["RGB FUSION 2.0","Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
+
+            especificacoes = {'sistema_operativo':['Sistema Operativo','Windows 10 Home'],'Processador':['Processador',"Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
+            'memoria_ram':['Memoria Ram',' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
+            'armazenamento':['Armazenamento','SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
+            'audio':['Audio','Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
+            'ecra':['Ecra','15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
+            'grafica':['Grafica','Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
+            'cor':['Cor','Prateado'],
+            'interface':['Interface','1 x USB 3.2 Gen 1 Type-A','1 x USB 3.2 Gen 1 Type-C','2 x USB 2.0 Tipo A','1 x HDMI 1.4','1 x Leitor de auscultadores//micro SD card']}
+            if session['log_in'] == True or session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                    descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word'], 
+                                    user=session['username'])
+            elif session['log_in_admin'] == True:
+                return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod,especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], 
+                                   user=session['username'])
+            else:
+                return redirect(url_for('login'))
 
 
 db.create_all()
