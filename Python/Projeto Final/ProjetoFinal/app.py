@@ -197,9 +197,12 @@ def logout():
 @root.route('/user-login/carrinho')
 def carrinho():
     if request.method == 'GET':
+        carrinho_cliente =[]
+        todos_os_produtos = lista_produtos()
         
+
         try:
-            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'], lista_de_compra=lista_produtos)
+            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'])
         except:
             return render_template('login.htm')
     if request.method == 'POST':
@@ -472,7 +475,7 @@ def ssd_kingston_nv1():
         if produto_select[0].value == 6:
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/SSD Kingston NV1.png'
+            imagem_produto = '/static/produtos/HP Pavillon x360.png'
             descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
                               'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
                               'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
@@ -514,7 +517,7 @@ def monitor_dell_s2721hgf():
         if produto_select[0].value == 6:
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/Monitor Dell 27 S2721HGF.png'
+            imagem_produto = '/static/produtos/HP Pavillon x360.png'
             descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
                               'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
                               'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
