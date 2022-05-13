@@ -86,9 +86,12 @@ def home():
     todos_os_produtos = lista_produtos()
     if request.method == 'GET':
         try:
-            return render_template('index.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in'], log_in_admin=session['log_in_admin'], user=session['username'])
+            if session['log_in'] == True:
+                return render_template('index.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in'], user=session['username'])
+            elif session['log_in_admin'] == True:
+                return render_template('index.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in_admin'], user=session['username'])
         except:
-            return render_template('index.html', todos_os_produtos=todos_os_produtos)
+            return render_template('index.html', todos_os_produtos=todos_os_produtos, log_in=False, user=None)
     if request.method == 'POST':
         return redirect(url_for('/user-login'))
 
@@ -154,21 +157,22 @@ def login():
                 print('Faca o seu registo')
 
         # Iniciar como Buyer
-        todos_produto = lista_produtos()
+
         try:
+            todos_os_produto = lista_produtos()
             if session['log_in'] == True and session['pass_word'] == True:
                 print('loggin')
                 session["user"] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
-                return render_template("index.html", log_in=session['log_in'], user=session['username'], todos_os_produto=todos_produto)
+                return render_template("index.html", log_in=session['log_in'], user=session['username'], todos_os_produtos=todos_os_produto)
         # Iniciar como admin
             elif session['log_in_admin'] == True and session['pass_word_admin'] == True:
                 print('loggin admin')
                 session["user"] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
-                return render_template('lista_produtos.html', todos_os_produtos=todos_produto, log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], user=session['username'])
+                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produto, log_in_admin=session['log_in_admin'], user=session['username'])
         except:
             return render_template('login.html')
 
@@ -193,8 +197,9 @@ def logout():
 @root.route('/user-login/carrinho')
 def carrinho():
     if request.method == 'GET':
+        
         try:
-            return render_template('index.html', log_in=session['log_in'], user=session['username'])
+            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'], lista_de_compra=lista_produtos)
         except:
             return render_template('login.htm')
     if request.method == 'POST':
@@ -276,21 +281,23 @@ def asusgeforce_rtx3080():
                               'grafica': ['Interface de Memória', '384-bit'],
                               'cor': ['Suporte para multi-monitor', 'Até 4 monitores'],
                               'interface': ['Interface', '3 x DisplayPort 1.4a', '2 x HDMI 2.1']}
-            try:
-                if session['log_in'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in=session['log_in'], pass_word=session['pass_word'],
-                                           user=session['username'])
-                elif session['log_in_admin'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                           user=session['username'])
-            except:
-                return redirect(url_for('login'))
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
 
 # Pagina Exibicao do produto detalhado asus geforce 3070
 
@@ -315,21 +322,23 @@ def geforce_3070():
                               'grafica': ['Interface de Memória', '256 Bits'],
                               'cor': ['Dimensões', '290 x 131 x 60 mm'],
                               'interface': ['Interface', '3 x DisplayPort 1.4a', '1 x HDMI 2.1', '1 x HDMI 2.0', 'Suporte HDCP 2.3']}
-            try:
-                if session['log_in'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in=session['log_in'], pass_word=session['pass_word'],
-                                           user=session['username'])
-                elif session['log_in_admin'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                           user=session['username'])
-            except:
-                return redirect(url_for('login'))
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
 
 # Pagina Exibicao do produto detalhado Computador King
 
@@ -354,21 +363,23 @@ def kingModDesktop():
                               'grafica': ['Grafica', 'Placa Gráfica MSI GeForce® RTX 2060'],
                               'cor': ['Cor', 'Caixa ATX, Preta, Vidro Temperado'],
                               'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
-        try:
-            if session['log_in'] == True:
-                return render_template('produtos.html', nome_produto=nome_produto,
-                                       preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                       descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                       log_in=session['log_in'], pass_word=session['pass_word'],
-                                       user=session['username'])
-            elif session['log_in_admin'] == True:
-                return render_template('produtos.html', nome_produto=nome_produto,
-                                       preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                       descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                       log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                       user=session['username'])
-        except:
-            return redirect(url_for('login'))
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
 
 # Pagina Exibicao do produto detalhado Asus VivoBook K513EP
 
@@ -393,21 +404,23 @@ def vivoBook_K513EP():
                               'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
                               'cor': ['Cor', 'Prateado'],
                               'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
-            try:
-                if session['log_in'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in=session['log_in'], pass_word=session['pass_word'],
-                                           user=session['username'])
-                elif session['log_in_admin'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                           user=session['username'])
-            except:
-                return redirect(url_for('login'))
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
 
 # Pagina Exibicao do produto detalhado Asus VivoBook K513EP
 
@@ -432,21 +445,23 @@ def hp_pavillon_360():
                               'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
                               'cor': ['Cor', 'Prateado'],
                               'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
-            try:
-                if session['log_in'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in=session['log_in'], pass_word=session['pass_word'],
-                                           user=session['username'])
-                elif session['log_in_admin'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                           user=session['username'])
-            except:
-                return redirect(url_for('login'))
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
 
 # Pagina Exibicao do produto detalhado SSD Kingston NV1
 
@@ -457,7 +472,7 @@ def ssd_kingston_nv1():
         if produto_select[0].value == 6:
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/HP Pavillon x360.png'
+            imagem_produto = '/static/produtos/SSD Kingston NV1.png'
             descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
                               'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
                               'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
@@ -472,21 +487,23 @@ def ssd_kingston_nv1():
                               'cor': ['Cor', 'Prateado'],
                               'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
 
-            try:
-                if session['log_in'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in=session['log_in'], pass_word=session['pass_word'],
-                                           user=session['username'])
-                elif session['log_in_admin'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                           user=session['username'])
-            except:
-                return redirect(url_for('login'))
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
 
 # Pagina Exibicao do produto detalhado Monitor Dell 27 S2721HGF Curvo FHD
 
@@ -497,7 +514,7 @@ def monitor_dell_s2721hgf():
         if produto_select[0].value == 6:
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/HP Pavillon x360.png'
+            imagem_produto = '/static/produtos/Monitor Dell 27 S2721HGF.png'
             descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
                               'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
                               'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
@@ -511,21 +528,23 @@ def monitor_dell_s2721hgf():
                               'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
                               'cor': ['Cor', 'Prateado'],
                               'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
-            try:
-                if session['log_in'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in=session['log_in'], pass_word=session['pass_word'],
-                                           user=session['username'])
-                elif session['log_in_admin'] == True:
-                    return render_template('produtos.html', nome_produto=nome_produto,
-                                           preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                           descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                           log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                           user=session['username'])
-            except:
-                return redirect(url_for('login'))
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
 
 
 db.create_all()
