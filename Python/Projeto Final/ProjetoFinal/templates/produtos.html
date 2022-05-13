@@ -38,8 +38,6 @@
                 <ul>
                     {% if log_in == True or log_in_admin == True %}
                     <a class="nav-link link-dark px-1 py-2 btn_smalsize sub_titulo">{{user}}</a>
-                    
-
                     {% elif log_in == False and log_in_admin == False or log_in_admin == null and log_in == null %}
                     <form action="login" method="post">
                         <ul class="nav">
@@ -49,10 +47,24 @@
                         </ul>
                     </form>
                     {% endif%}
-
                 </ul>
             </div>
         </nav>
+        <ul>
+            {% if log_in == True or log_in_admin == True %}
+            <div class="header col-2 offset-9 ">
+                <nav class="nav">
+                    <a class="nav-link py-1 px-0" href="/user-login/carrinho">
+                        <img action="submit" alt="centered image" href="/user-login/carrinho" rel="icon lefters"
+                            type="image/png" src="/static/carrinho-de-compras.png" height="55" width="55">
+                    </a>
+                    <a class="nav-link py-1 px-2 " href="/logout">
+                        <img action="submit" alt="centered image" src="/static/logout.png" height="55" width="55">
+                    </a>
+                </nav>
+            </div>
+            {% endif%}
+        </ul>
 
         <div class="navbar navbar-expand-lg navbar-light">
             <div class="container">

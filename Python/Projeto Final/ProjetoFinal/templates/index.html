@@ -34,18 +34,13 @@
                     <li class="nav-item"><a href="/" class="nav-link link-dark px-2" aria-current="page">Home</a>
                     </li>
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Features</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Pricing</a></li>
+                    <li class="nav-item"><a href="/listagem_produto" class="nav-link link-dark px-2">Produtos</a></li>
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
                 </ul>
                 <ul>
                     {% if log_in == True or log_in_admin == True %}
-                    <a class="nav-link link-dark px-0 py-2 btn_smalsize sub_titulo alignright">{{user}}
-                        <a class="nav-link" href="/user-login/carrinho"><img rel="icon lefters" type="image/png"
-                                src="/static/carrinho-de-compras.png" height="30" width="30">
-                        </a>
-                    </a>
-
-                    {%elif log_in == False and log_in_admin == False or log_in == null and log_in_admin == null%}
+                    <a class="nav-link link-dark px-10 py-2 btn_smalsize sub_titulo aligncenter">{{user}}</a>
+                    {% elif log_in == False and log_in_admin == False or log_in == null or log_in_admin == null%}
                     <form action="login" method="post">
                         <ul class="nav">
                             <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
@@ -54,10 +49,24 @@
                         </ul>
                     </form>
                     {% endif%}
-
                 </ul>
             </div>
         </nav>
+        <ul>
+            {% if log_in == True or log_in_admin == True %}
+            <div class="header col-2 offset-9 ">
+                <nav class="nav">
+                    <a class="nav-link py-1 px-0" href="/user-login/carrinho">
+                        <img action="submit" alt="centered image" href="/user-login/carrinho" rel="icon lefters"
+                            type="image/png" src="/static/carrinho-de-compras.png" height="55" width="55">
+                    </a>
+                    <a class="nav-link py-1 px-2 " href="/logout">
+                        <img action="submit" alt="centered image" src="/static/logout.png" height="55" width="55">
+                    </a>
+                </nav>
+            </div>
+            {% endif%}
+        </ul>
 
         <div class="navbar navbar-expand-lg navbar-light">
             <div class="container">
