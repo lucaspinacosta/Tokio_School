@@ -35,9 +35,11 @@
                     </li>
                 </ul>
                 <ul>
-                    {% if log_in == True or log_in_admin == True %}
-                    <a class="nav-link link-dark px-10 py-2 btn_smalsize sub_titulo aligncenter">{{user}}</a>
-                    {% elif log_in == False and log_in_admin == False or log_in == null or log_in_admin == null%}
+                    {% if session['log_in'] == True or session['log_in_admin'] == True %}
+                    <a
+                        class="nav-link link-dark px-10 py-2 btn_smalsize sub_titulo aligncenter">{{session['username']}}</a>
+                    {% elif session['log_in'] == False and session['log_in_admin'] == False or session['log_in'] == null
+                    or session['log_in_admin'] == null%}
                     <form action="login" method="post">
                         <ul class="nav">
                             <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
@@ -50,7 +52,7 @@
             </div>
         </nav>
         <ul>
-            {% if log_in == True or log_in_admin == True %}
+            {% if session['log_in'] == True or session['log_in_admin'] == True %}
             <div class="header col-2 offset-9 ">
                 <nav class="nav">
                     <a class="nav-link py-1 px-0" href="/user-login/carrinho">
@@ -96,10 +98,10 @@
                                                 <form
                                                     action="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x"
                                                     method="get">
-                                                    <button type="button"
+                                                    <button type="submit"
                                                         class="btn btn-sm btn-outline-secondary">Buy</button>
 
-                                                    {% if log_in_admin == True%}
+                                                    {% if session['log_in_admin'] == True%}
                                                     <button type="button"
                                                         class="btn btn-sm btn-outline-secondary">Edit</button>
                                                     {%endif%}
@@ -110,12 +112,24 @@
                                 </ul>
                             </div>{%endfor%}
                         </nav>
+                        <nav class="row container-fluid row-cols-1 col-auto">
+                            {%for fornecedor in lista_fornecedores%}
+                            <ul>
+                                <div class="card row-cols-auto">
+                                    <div class="aligncenter">
+                                        <dd>{{fornecedor[2]}}</dd>
+                                    </div>
+                                </div>
+                            </ul>
+                            {%endfor%}
+
+                        </nav>
                     </div>
                 </div>
             </nav>
         </div>
         <p></p>
-        {%if log_in_admin == True%}
+        {%if session['log_in_admin'] == True%}
         <div class="col-12 my-auto" style="margin-left: auto">
             <nav class="row col-sm-10 offset-1">
                 <div class="aligncenter">

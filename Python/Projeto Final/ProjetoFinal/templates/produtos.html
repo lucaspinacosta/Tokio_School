@@ -36,9 +36,9 @@
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
                 </ul>
                 <ul>
-                    {% if log_in == True or log_in_admin == True %}
-                    <a class="nav-link link-dark px-1 py-2 btn_smalsize sub_titulo">{{user}}</a>
-                    {% elif log_in == False and log_in_admin == False or log_in_admin == null and log_in == null %}
+                    {% if session['log_in'] == True or session['log_in_admin'] == True %}
+                    <a class="nav-link link-dark px-1 py-2 btn_smalsize sub_titulo">{{session['username']}}</a>
+                    {% elif session['log_in'] == False and session['log_in_admin'] == False or session['log_in'] == null or session['log_in_admin'] == null%}
                     <form action="login" method="post">
                         <ul class="nav">
                             <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
@@ -51,7 +51,7 @@
             </div>
         </nav>
         <ul>
-            {% if log_in == True or log_in_admin == True %}
+            {% if session['log_in'] == True or session['log_in_admin'] == True %}
             <div class="header col-2 offset-9 ">
                 <nav class="nav">
                     <a class="nav-link py-1 px-0" href="/user-login/carrinho">

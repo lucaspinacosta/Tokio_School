@@ -63,7 +63,7 @@
                                 <input type="text" name="email_login" placeholder="Email" class="form-control"
                                     autofocus>
                                 <input type="password" name="password_login" placeholder="Senha" class="form-control">
-                            <ul> {% if log_in_admin == False and log_in == False%}
+                            <ul> {% if session['log_in_admin'] == False and session['log_in'] == False%}
                                 <p><h6>Reveja as suas credencias</h6></p>
                                 {%endif%}
                             </ul>

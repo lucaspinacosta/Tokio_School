@@ -1,9 +1,7 @@
 # imports
 import sqlite3
-from colorama import Cursor
 from flask import Flask, redirect, render_template, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import null
 from sync_inventario_database import sheet_produtos
 
 root = Flask(__name__)
@@ -44,9 +42,10 @@ class Clientes(db.Model):
     db.create_all()
     db.session.commit()
 
+#Carrinho
+
+
 # DataBase Fornecedor
-
-
 class Fornecedor(db.Model):
     __tablename__ = 'Fornecedores'
     id_fornecedor = db.Column(db.Integer, primary_key=True)
@@ -130,7 +129,7 @@ def login():
         # Base de dados admin
         #dados_database_admin = "SELECT * FROM Admin"
         verificado_email_admin = db_verificar_email_admin()  # dados_database_admin
-
+        todos_os_produto = lista_produtos()
         # Verificar admin
 
         for user in verificado_email_admin:
@@ -140,6 +139,8 @@ def login():
                 session["user"] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
+                print(session['username'])
+                return redirect(url_for('criar_produtos',  log_in_admin=session['user'], user=session['username']))
 
         for user in verificado_email:
             if user_loggin == user[0] and user_pswd == user[3]:
@@ -148,6 +149,8 @@ def login():
                 session["user"] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
+                print(session['username'])
+            
 
             elif user_loggin == user[1] and user_pswd != user[3]:
                 print('Password errada')
@@ -164,16 +167,16 @@ def login():
                 print('loggin')
                 session["user"] = user_loggin
                 session["password"] = user_pswd
-                session['username'] = user[2]
                 return render_template("index.html", log_in=session['log_in'], user=session['username'], todos_os_produtos=todos_os_produto)
         # Iniciar como admin
-            elif session['log_in_admin'] == True and session['pass_word_admin'] == True:
+        except:    
+            if session['log_in_admin'] == True and session['pass_word_admin'] == True:
                 print('loggin admin')
                 session["user"] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
-                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produto, log_in_admin=session['log_in_admin'], user=session['username'])
-        except:
+                return redirect(url_for('criar_produtos', todos_os_produtos=todos_os_produto, log_in_admin=session['user'], user=session['username']))
+        else:
             return render_template('login.html')
 
     if request.method == 'GET':
@@ -182,13 +185,21 @@ def login():
 
 @root.route("/logout")
 def logout():
-    session.pop('log_in', None)
-    session.pop('log_in_admin', None)
-    session.pop('pass_word', None)
-    session.pop('pass_word_admin', None)
-    session.pop('user', None)
-    session.pop('usarname', None)
+    try:
+        if session['log_in'] == True:
+            session.pop('log_in')
+            session.pop('pass_word')
+            session.pop('user')
+            session.pop('username')
+            session.clear()
 
+    except:
+        if session['log_in_admin'] == True:
+            session.pop('log_in_admin')
+            session.pop('pass_word_admin')
+            session.pop('user')
+            session.pop('username')
+            session.clear()
     return redirect(url_for('login'))
 
 # Pagina do carrinho
@@ -197,16 +208,20 @@ def logout():
 @root.route('/user-login/carrinho')
 def carrinho():
     if request.method == 'GET':
-        carrinho_cliente =[]
-        todos_os_produtos = lista_produtos()
+        return redirect(url_for('/user-login/carrinho'))
+    if request.method == 'POST':
+        carrinho = [{'nome':[],'em_armazem':[],'quantidade':[],'total':[]}]
+        produto = request.form['produto']
+        for item in lista_produtos():
+            if item[0] == produto :
+                carrinho.append(item[1],int(item[2]),'quantidade','total')
+        try:
+            session['carrinho']=carrinho
+            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'],lista_de_compra=session['carrinho'])
+        except:
+            return render_template('carrinho.html',log_in = None,user=None)
         
 
-        try:
-            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'])
-        except:
-            return render_template('login.htm')
-    if request.method == 'POST':
-        return redirect(url_for('/user-login/carrinho'))
 
 
 # Pagina do carrinho
@@ -224,7 +239,7 @@ def gestao_admin():
 
         # Produtos em Stock
 
-
+#Lista Produtos
 def lista_produtos():
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
@@ -232,23 +247,32 @@ def lista_produtos():
     produtos = cursor.fetchall()
     return produtos
 
-# Listagem dos produtos
+
+# Listagem de fornecedores
+def lista_fornecedores():
+    con = sqlite3.connect('database/dados_informacoes2.db')
+    cursor = con.cursor()
+    cursor.execute("SELECT * FROM Fornecedores")
+    fornecedores = cursor.fetchall()
+    return fornecedores
+
 
 
 @root.route('/listagem_produto', methods=['GET', 'POST'])
 def criar_produtos():
     # informação apresentada ao cliente
     todos_os_produtos = lista_produtos()
+    fornecedores = lista_fornecedores()
     if request.method == 'GET':
         try:
             if session['log_in'] == True:
-                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in'], user=session['username'])
+                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in'], user=session['username'],lista_de_compra = session['carrinho'],lista_fornecedores = fornecedores)
             elif session['log_in_admin'] == True:
-                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=session['log_in_admin'], user=session['username'])
+                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=session['log_in_admin'], user=session['username'],lista_de_compra = session['carrinho'],lista_fornecedores = fornecedores)
         except:
-            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, user=null)
+            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, user=None, lista_de_compra=[])
         else:
-            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, user=null)
+            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, user=None, lista_de_compra=[])
     # Criação de produtos (Acessivel apenas pelo admin)
     if request.method == 'POST':
         return redirect(url_for('home'))
