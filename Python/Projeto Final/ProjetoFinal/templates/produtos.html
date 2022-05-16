@@ -108,14 +108,20 @@
                         <h4>{{preco_produto}}€</h4>
 
                         <div class="d-flex justify-content-between">
-                            <div class="btn-group">
-                                <form action="{{adc_carrinho}}" method="post">
-                                    <
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Add Card</button>
+                            <div class="btn-group">{% if session['log_in'] == True or session['log_in_admin'] == True %}
+                                <form action="/add" method="post">
+                                    
+                                    <input type="hidden" name="numero_serie" value="{{id_do_produto}}"/>
+                                    <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2"/>
+                                    <input type="submit" value="Add Cart" class="btnAddAction"/>
                                 </form>
+                                {%else:%}
+                                <form action="/user-login" method="get"><input type="submit" value="Login" class="btnAddAction"/></form>{%endif%}
+                                {% if session['log_in_admin']==True%}
                                 <form type="button" action="/admin" method="post">
                                     <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
                                 </form>
+                                {%endif%}
                             </div>
                         </div>
                     </div>

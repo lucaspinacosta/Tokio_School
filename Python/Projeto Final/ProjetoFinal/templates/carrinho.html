@@ -39,7 +39,8 @@
                 <ul>
                     {% if session['log_in'] == True or session['log_in_admin'] == True %}
                     <a class="nav-link link-dark px-1 py-2 btn_smalsize sub_titulo">{{session['username']}}</a>
-                    {% elif session['log_in'] == False and session['log_in_admin'] == False or session['log_in_admin'] == null and session['log_in'] == null %}
+                    {% elif session['log_in'] == False and session['log_in_admin'] == False or session['log_in_admin']
+                    == null and session['log_in'] == null %}
                     <form action="login" method="post">
                         <ul class="nav">
                             <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
@@ -67,14 +68,56 @@
             {% endif%}
         </ul>
 
-        <div class="col-10 my-auto" style="margin-left: 9%;" >
+        <div class="col-10 my-auto" style="margin-left: 9%;">
             <div class="card col-12">
                 <h1 class="sub_titulo aligncenter">Carrinho</h1>
+
+                <p></p>
+
+
+                {% if 'carrinho' in session%}
+                <a id="btnEmpty" href="{{url_for('.empty_cart')}}">Empty Cart</a>
+                <table class="tbl-cart " cellpadding="10" cellspacing="1">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">Name</th>
+                            <th style="text-align:center;">Code</th>
+                            <th style="text-align:right;" width="5%">Quantity</th>
+                            <th style="text-align:right;" width="10%">Unit Price</th>
+                            <th style="text-align:right;" width="10%">Price</th>
+                            <th style="text-align:center;" width="5%">Remove</th>
+                        </tr>
+                        {% for key in session['carrinho'] %}
+                            {% set quantidade = key['quantidade'] %}
+                            {% set price = key['preco'] %}
+                            {% set item_price = key['total'] %}
+                        <tr>
+                            <dt><h1>{{key['nome_produto']}}</h1></dt>
+                            <td>{{key['id']}}</td>
+                            <td style="text-align:right;">{{quantidade}}</td>
+                            <td style="text-align:right;">{{total_preco}}</td>
+                            <td style="text-align:right;">{{preco_produto}}</td>
+                            <td style="text-align:center;">
+                                <a href="{{ url_for('.delete_product', code=key['id']) }}" class="btnRemoveAction">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Remove Item</button>
+                                </a>
+                                
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="2" align="right">Total:</td>
+                            <td align="right">{{ session['all_total_quantidade'] }}</td>
+                            <td align="right" colspan="2"><strong>{{ session["all_total_preco"] }}</strong></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% else: %}
+                <div class="no-records">Carrinho Vazio</div>
+                {%endif%}
             </div>
-            <p></p>
-            {%for produto in lista_de_compra%}
-            <div class="card-item">{{nome_produto}}</div>
-        </div>{%endfor%}
+        </div>
 
     </main>
 </body>

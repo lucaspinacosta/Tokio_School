@@ -140,7 +140,7 @@ def login():
                 session["password"] = user_pswd
                 session['username'] = user[2]
                 print(session['username'])
-                return redirect(url_for('criar_produtos',  log_in_admin=session['user'], user=session['username']))
+                return redirect(url_for('todos_produtos',  log_in_admin=session['user'], user=session['username']))
 
         for user in verificado_email:
             if user_loggin == user[0] and user_pswd == user[3]:
@@ -162,12 +162,14 @@ def login():
         # Iniciar como Buyer
 
         try:
+            todos_os_fornecedores = lista_fornecedores()
             todos_os_produto = lista_produtos()
             if session['log_in'] == True and session['pass_word'] == True:
                 print('loggin')
                 session["user"] = user_loggin
                 session["password"] = user_pswd
-                return render_template("index.html", log_in=session['log_in'], user=session['username'], todos_os_produtos=todos_os_produto)
+                session['carrinho'] = []
+                return render_template("index.html", log_in=session['log_in'], user=session['username'], todos_os_produtos=todos_os_produto, lista_fornecedores=None)
         # Iniciar como admin
         except:    
             if session['log_in_admin'] == True and session['pass_word_admin'] == True:
@@ -175,9 +177,11 @@ def login():
                 session["user"] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
-                return redirect(url_for('criar_produtos', todos_os_produtos=todos_os_produto, log_in_admin=session['user'], user=session['username']))
-        else:
-            return render_template('login.html')
+                session['carrinho'] = []
+                return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_admin=session['log_in_admin'], user=session['username'],
+                lista_fornecedores=todos_os_fornecedores,))
+            else:
+                return render_template('login.html')
 
     if request.method == 'GET':
         return render_template('login.html')
@@ -200,41 +204,22 @@ def logout():
             session.pop('user')
             session.pop('username')
             session.clear()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
-# Pagina do carrinho
-def adc_carrinho():
-    ''
-    lista_carrinho = []
-    
-
-@root.route('/user-login/carrinho')
+#pagina carrinho
+@root.route('/user-login/carrinho',methods=['GET', 'POST'])
 def carrinho():
     if request.method == 'GET':
-        carrinho_sale = []
         return  render_template('carrinho.html')
 
 
     if request.method == 'POST':
-        produto = request.form['produto']
-        for item in lista_produtos():
-            if item[0] == produto[0] :
-                carrinho_sale.append({'nome': item[1], 'valor':item[5], 'quantidade' : request.form['quantidade'] })
         try:
-            session['carrinho']=carrinho
-            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'],lista_de_compra=session['carrinho'])
+            print(session['carrinho'])
+            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'],carrinho=session['carrinho'])
         except:
             return render_template('carrinho.html',log_in = None,user=None)
         
-
-# Pagina do carrinho
-@root.route('/admin')
-def gestao_admin():
-    if request.method == 'GET':
-        return render_template('lista_produtos.html', log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'], user=session['username'])
-
-    if request.method == 'POST':
-        return redirect(url_for('/admin'))
 
         ##
 ##Products Section ##
@@ -244,47 +229,157 @@ def gestao_admin():
 
 #Lista Produtos
 def lista_produtos():
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Produtos")
-    produtos = cursor.fetchall()
-    return produtos
+    try:
+        con = sqlite3.connect('database/dados_informacoes2.db')
+        cursor = con.cursor()
+        cursor.execute("SELECT * FROM Produtos")
+        produtos = cursor.fetchall()
+        return produtos
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        con.close()
 
 
 # Listagem de fornecedores
 def lista_fornecedores():
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Fornecedores")
-    fornecedores = cursor.fetchall()
-    return fornecedores
+    try:
+        con = sqlite3.connect('database/dados_informacoes2.db')
+        cursor = con.cursor()
+        cursor.execute("SELECT * FROM Fornecedores")
+        fornecedores = cursor.fetchall()
+        return fornecedores
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        con.close()
 
-
-
+#Lista de Produtos
 @root.route('/listagem_produto', methods=['GET', 'POST'])
-def criar_produtos():
+def todos_produtos():
     # informação apresentada ao cliente
     todos_os_produtos = lista_produtos()
     fornecedores = lista_fornecedores()
     if request.method == 'GET':
         try:
             if session['log_in'] == True:
-                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in'], user=session['username'],lista_de_compra = session['carrinho'],lista_fornecedores = fornecedores)
+                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in'], user=session['username'],lista_fornecedores = None)
             elif session['log_in_admin'] == True:
-                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=session['log_in_admin'], user=session['username'],lista_de_compra = session['carrinho'],lista_fornecedores = fornecedores)
+                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=session['log_in_admin'], user=session['username'],lista_fornecedores = fornecedores)
         except:
-            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, user=None, lista_de_compra=[])
-        else:
-            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, user=None, lista_de_compra=[])
-    # Criação de produtos (Acessivel apenas pelo admin)
-    if request.method == 'POST':
-        return redirect(url_for('home'))
+            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, user=None)
+        
+        
+    
+#Adicionar ao carrinho
+@root.route('/add', methods=['POST'])
+def add_product_to_cart():
+    todos_os_produtos=lista_produtos()
+    carrinho_compras = []
+    try:
+        _quantity = int(request.form['quantidade'])
+        _code = request.form['numero_serie']
+
+            #validar valores recebidos
+        if _quantity and _code and request.method == 'POST':
+            for produto in todos_os_produtos:
+                if _code == produto[0]:
+                    itemArray = {int(produto[0]) : {'name':produto[1], 'id':produto[0], 'quantidade': _quantity,
+            'preco':produto[5],'total':_quantity*produto[5]}}
+                    carrinho_compras.append(itemArray)
+            
+                    
+
+            all_total_preco = 0 
+            all_total_quantidade = 0
+
+            session.modified = True
+            if _code in carrinho_compras[:]:
+                print(carrinho_compras[:][0])
+                for key in carrinho_compras:
+                    if produto[0] == key['id']:
+                        old_quantity = key['total']
+                        total_quantidade = old_quantity + _quantity
+                        key['quantidade'] = total_quantidade
+                        key['total'] = total_quantidade * key['preco']
+            else:
+                
+                print(session['carrinho'])
+
+            for key in session['carrinho']:
+                quantidade_individual = int(key['quantidade'])
+                preco_individual = float(key['total_preco'])
+                all_total_quantidade = all_total_quantidade + quantidade_individual
+                all_total_preco = all_total_preco + preco_individual
+            else:
+                session['carrinho'] = carrinho_compras
+                all_total_quantidade = all_total_quantidade + _quantity
+                all_total_preco = all_total_preco + _quantity *  produto['valor_venda']
+
+            session['all_total_quantidade'] = all_total_quantidade
+            session['all_total_preco'] = all_total_preco
+            print(session['carrinho'])
+            return redirect(url_for('.carrinho'))       
+    except Exception as e:
+            print(e)
+    finally:
+        return redirect(url_for('.carrinho'))
+#Limpar Carrinho
+@root.route('/empty')        
+def empty_cart():
+    try:
+        carrinho_compras =[]
+        session['carrinho'] = carrinho_compras
+        
+        return redirect(url_for('.carrinho'))
+        
+    except Exception as e:
+        print(e)
+    finally:
+        return redirect(url_for('.carrinho'))
+
+#Remover item do carrinho
+@root.route('/delete/code')
+def delete_product(code):
+	try:
+		all_total_preco = 0
+		all_total_quantidade = 0
+		session.modified = True
+		
+		for item in session['carrinho']:
+			if item[0] == code:				
+				session['carrinho'].pop(item, None)
+				if 'carrinho' in session:
+					for key in session['carrinho']:
+						individual_quantidade = int(key['quantidade'])
+						individual_preco = float(key['total'])
+						all_total_quantidade = all_total_quantidade + individual_quantidade
+						all_total_preco = all_total_preco + individual_preco
+				break
+		
+		if all_total_quantidade == 0:
+			session['carrinho'].clear()
+		else:
+			session['all_total_quantidade'] = all_total_quantidade
+			session['all_total_preco'] = all_total_preco
+		
+		#return redirect('/')
+		return redirect(url_for('.carrinho'))
+	except Exception as e:
+		print(e)
 
 
-# Showcase Template
-@root.route('/listagem_produto/armazem', methods=['GET', 'POST'])
-def showProdutos():
-    return redirect(url_for('criar_produtos'), methods='post')
+def array_merge( first_array , second_array ):
+	if isinstance( first_array , list ) and isinstance( second_array , list ):
+		return first_array + second_array
+	elif isinstance( first_array , dict ) and isinstance( second_array , dict ):
+		return dict( list( first_array.items() ) + list( second_array.items() ) )
+	elif isinstance( first_array , set ) and isinstance( second_array , set ):
+		return first_array.union( second_array )
+	return False	
+
 
 
 # Pagina Exibicao do produto detalhado asus geforce 3080
@@ -292,6 +387,7 @@ def showProdutos():
 def asusgeforce_rtx3080():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 2:
+            numero_serie= int(produto_select[0].value)
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png'
@@ -313,29 +409,28 @@ def asusgeforce_rtx3080():
                               'interface': ['Interface', '3 x DisplayPort 1.4a', '2 x HDMI 2.1']}
     try:
         if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in=session['log_in'], pass_word=session['pass_word'],
                                    user=session['username'])
         elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
                                    user=session['username'])
     except:
-        return render_template('produtos.html', nome_produto=nome_produto,
+        return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                preco_produto=preco_produto, imagem_produto=imagem_produto,
                                descricao_prod=descricao_prod, especificacoes=especificacoes)
 
 # Pagina Exibicao do produto detalhado asus geforce 3070
-
-
 @root.route('/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6', methods=['GET'])
 def geforce_3070():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 3:
+            numero_serie= int(produto_select[0].value)
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6.png'
@@ -354,19 +449,19 @@ def geforce_3070():
                               'interface': ['Interface', '3 x DisplayPort 1.4a', '1 x HDMI 2.1', '1 x HDMI 2.0', 'Suporte HDCP 2.3']}
     try:
         if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in=session['log_in'], pass_word=session['pass_word'],
                                    user=session['username'])
         elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
                                    user=session['username'])
     except:
-        return render_template('produtos.html', nome_produto=nome_produto,
+        return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                preco_produto=preco_produto, imagem_produto=imagem_produto,
                                descricao_prod=descricao_prod, especificacoes=especificacoes)
 
@@ -377,6 +472,7 @@ def geforce_3070():
 def kingModDesktop():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 4:
+            numero_serie= int(produto_select[0].value)
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/Computador King Mod.png'
@@ -395,19 +491,19 @@ def kingModDesktop():
                               'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
     try:
         if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in=session['log_in'], pass_word=session['pass_word'],
                                    user=session['username'])
         elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
                                    user=session['username'])
     except:
-        return render_template('produtos.html', nome_produto=nome_produto,
+        return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                preco_produto=preco_produto, imagem_produto=imagem_produto,
                                descricao_prod=descricao_prod, especificacoes=especificacoes)
 
@@ -418,6 +514,7 @@ def kingModDesktop():
 def vivoBook_K513EP():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 5:
+            numero_serie= int(produto_select[0].value)
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/Asus VivoBook K513EP.png'
@@ -436,19 +533,19 @@ def vivoBook_K513EP():
                               'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
     try:
         if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in=session['log_in'], pass_word=session['pass_word'],
                                    user=session['username'])
         elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
                                    user=session['username'])
     except:
-        return render_template('produtos.html', nome_produto=nome_produto,
+        return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                preco_produto=preco_produto, imagem_produto=imagem_produto,
                                descricao_prod=descricao_prod, especificacoes=especificacoes)
 
@@ -459,6 +556,7 @@ def vivoBook_K513EP():
 def hp_pavillon_360():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 6:
+            numero_serie= int(produto_select[0].value)
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/HP Pavillon x360.png'
@@ -477,19 +575,19 @@ def hp_pavillon_360():
                               'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
     try:
         if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in=session['log_in'], pass_word=session['pass_word'],
                                    user=session['username'])
         elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
                                    user=session['username'])
     except:
-        return render_template('produtos.html', nome_produto=nome_produto,
+        return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                preco_produto=preco_produto, imagem_produto=imagem_produto,
                                descricao_prod=descricao_prod, especificacoes=especificacoes)
 
@@ -499,7 +597,8 @@ def hp_pavillon_360():
 @root.route('/listagem_produto/armazem/SSD-Kingston-NV1', methods=['GET'])
 def ssd_kingston_nv1():
     for produto_select in sheet_produtos.rows:
-        if produto_select[0].value == 6:
+        if produto_select[0].value == 7:
+            numero_serie= int(produto_select[0].value)
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/HP Pavillon x360.png'
@@ -519,19 +618,19 @@ def ssd_kingston_nv1():
 
     try:
         if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in=session['log_in'], pass_word=session['pass_word'],
                                    user=session['username'])
         elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
                                    user=session['username'])
     except:
-        return render_template('produtos.html', nome_produto=nome_produto,
+        return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                preco_produto=preco_produto, imagem_produto=imagem_produto,
                                descricao_prod=descricao_prod, especificacoes=especificacoes)
 
@@ -541,7 +640,8 @@ def ssd_kingston_nv1():
 @root.route('/listagem_produto/armazem/Monitor-Dell-27-S2721HGF-Curvo-FHD', methods=['GET'])
 def monitor_dell_s2721hgf():
     for produto_select in sheet_produtos.rows:
-        if produto_select[0].value == 6:
+        if produto_select[0].value == 8:
+            numero_serie= int(produto_select[0].value)
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/HP Pavillon x360.png'
@@ -560,19 +660,19 @@ def monitor_dell_s2721hgf():
                               'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
     try:
         if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in=session['log_in'], pass_word=session['pass_word'],
                                    user=session['username'])
         elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto,
+            return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto,
                                    descricao_prod=descricao_prod, especificacoes=especificacoes,
                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
                                    user=session['username'])
     except:
-        return render_template('produtos.html', nome_produto=nome_produto,
+        return render_template('produtos.html', nome_produto=nome_produto,id_do_produto=numero_serie,
                                preco_produto=preco_produto, imagem_produto=imagem_produto,
                                descricao_prod=descricao_prod, especificacoes=especificacoes)
 

@@ -112,18 +112,7 @@
                                 </ul>
                             </div>{%endfor%}
                         </nav>
-                        <nav class="row container-fluid row-cols-1 col-auto">
-                            {%for fornecedor in lista_fornecedores%}
-                            <ul>
-                                <div class="card row-cols-auto">
-                                    <div class="aligncenter">
-                                        <dd>{{fornecedor[2]}}</dd>
-                                    </div>
-                                </div>
-                            </ul>
-                            {%endfor%}
-
-                        </nav>
+                        
                     </div>
                 </div>
             </nav>
@@ -137,6 +126,18 @@
                         <h2 class="btn_links titulo"> Fornecedores </h2>
                     </div>
                 </div>
+            </nav>
+            <nav class="row container-fluid row-cols-1 col-auto">
+                {%for fornecedor in lista_fornecedores%}
+                <ul>
+                    <div class="aligncenter">
+                        <div class="card">
+                            <h2 class="btn_links titulo">{{fornecedor}}</h2>
+                        </div>
+                    </div>
+                </ul>
+                {%endfor%}
+
             </nav>
         </div>{%endif%}
 
