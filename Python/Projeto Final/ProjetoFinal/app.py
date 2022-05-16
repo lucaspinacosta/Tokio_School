@@ -203,26 +203,29 @@ def logout():
     return redirect(url_for('login'))
 
 # Pagina do carrinho
-
+def adc_carrinho():
+    ''
+    lista_carrinho = []
+    
 
 @root.route('/user-login/carrinho')
 def carrinho():
     if request.method == 'GET':
-        return redirect(url_for('/user-login/carrinho'))
+        carrinho_sale = []
+        return  render_template('carrinho.html')
+
+
     if request.method == 'POST':
-        carrinho = [{'nome':[],'em_armazem':[],'quantidade':[],'total':[]}]
         produto = request.form['produto']
         for item in lista_produtos():
-            if item[0] == produto :
-                carrinho.append(item[1],int(item[2]),'quantidade','total')
+            if item[0] == produto[0] :
+                carrinho_sale.append({'nome': item[1], 'valor':item[5], 'quantidade' : request.form['quantidade'] })
         try:
             session['carrinho']=carrinho
             return render_template('carrinho.html', log_in=session['log_in'], user=session['username'],lista_de_compra=session['carrinho'])
         except:
             return render_template('carrinho.html',log_in = None,user=None)
         
-
-
 
 # Pagina do carrinho
 @root.route('/admin')
