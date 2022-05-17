@@ -4,6 +4,7 @@ from flask import Flask, redirect, render_template, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from sync_inventario_database import sheet_produtos
 
+
 root = Flask(__name__)
 root.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/dados_informacoes2.db'
 root.secret_key = "aht278945ht2h49sdfgsdfg5t9h"
@@ -168,7 +169,7 @@ def login():
                 print('loggin')
                 session["user"] = user_loggin
                 session["password"] = user_pswd
-                session['carrinho'] = []
+                #session['carrinho']
                 return render_template("index.html", log_in=session['log_in'], user=session['username'], todos_os_produtos=todos_os_produto, lista_fornecedores=None)
         # Iniciar como admin
         except:    
@@ -177,7 +178,7 @@ def login():
                 session["user"] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
-                session['carrinho'] = []
+                #session['carrinho']
                 return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_admin=session['log_in_admin'], user=session['username'],
                 lista_fornecedores=todos_os_fornecedores,))
             else:
@@ -195,6 +196,7 @@ def logout():
             session.pop('pass_word')
             session.pop('user')
             session.pop('username')
+
             session.clear()
 
     except:
@@ -203,6 +205,7 @@ def logout():
             session.pop('pass_word_admin')
             session.pop('user')
             session.pop('username')
+
             session.clear()
     return redirect(url_for('home'))
 
@@ -272,114 +275,6 @@ def todos_produtos():
             return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, user=None)
         
         
-    
-#Adicionar ao carrinho
-@root.route('/add', methods=['POST'])
-def add_product_to_cart():
-    todos_os_produtos=lista_produtos()
-    carrinho_compras = []
-    try:
-        _quantity = int(request.form['quantidade'])
-        _code = request.form['numero_serie']
-
-            #validar valores recebidos
-        if _quantity and _code and request.method == 'POST':
-            for produto in todos_os_produtos:
-                if _code == produto[0]:
-                    itemArray = {int(produto[0]) : {'name':produto[1], 'id':produto[0], 'quantidade': _quantity,
-            'preco':produto[5],'total':_quantity*produto[5]}}
-                    carrinho_compras.append(itemArray)
-            
-                    
-
-            all_total_preco = 0 
-            all_total_quantidade = 0
-
-            session.modified = True
-            if _code in carrinho_compras[:]:
-                print(carrinho_compras[:][0])
-                for key in carrinho_compras:
-                    if produto[0] == key['id']:
-                        old_quantity = key['total']
-                        total_quantidade = old_quantity + _quantity
-                        key['quantidade'] = total_quantidade
-                        key['total'] = total_quantidade * key['preco']
-            else:
-                
-                print(session['carrinho'])
-
-            for key in session['carrinho']:
-                quantidade_individual = int(key['quantidade'])
-                preco_individual = float(key['total_preco'])
-                all_total_quantidade = all_total_quantidade + quantidade_individual
-                all_total_preco = all_total_preco + preco_individual
-            else:
-                session['carrinho'] = carrinho_compras
-                all_total_quantidade = all_total_quantidade + _quantity
-                all_total_preco = all_total_preco + _quantity *  produto['valor_venda']
-
-            session['all_total_quantidade'] = all_total_quantidade
-            session['all_total_preco'] = all_total_preco
-            print(session['carrinho'])
-            return redirect(url_for('.carrinho'))       
-    except Exception as e:
-            print(e)
-    finally:
-        return redirect(url_for('.carrinho'))
-#Limpar Carrinho
-@root.route('/empty')        
-def empty_cart():
-    try:
-        carrinho_compras =[]
-        session['carrinho'] = carrinho_compras
-        
-        return redirect(url_for('.carrinho'))
-        
-    except Exception as e:
-        print(e)
-    finally:
-        return redirect(url_for('.carrinho'))
-
-#Remover item do carrinho
-@root.route('/delete/code')
-def delete_product(code):
-	try:
-		all_total_preco = 0
-		all_total_quantidade = 0
-		session.modified = True
-		
-		for item in session['carrinho']:
-			if item[0] == code:				
-				session['carrinho'].pop(item, None)
-				if 'carrinho' in session:
-					for key in session['carrinho']:
-						individual_quantidade = int(key['quantidade'])
-						individual_preco = float(key['total'])
-						all_total_quantidade = all_total_quantidade + individual_quantidade
-						all_total_preco = all_total_preco + individual_preco
-				break
-		
-		if all_total_quantidade == 0:
-			session['carrinho'].clear()
-		else:
-			session['all_total_quantidade'] = all_total_quantidade
-			session['all_total_preco'] = all_total_preco
-		
-		#return redirect('/')
-		return redirect(url_for('.carrinho'))
-	except Exception as e:
-		print(e)
-
-
-def array_merge( first_array , second_array ):
-	if isinstance( first_array , list ) and isinstance( second_array , list ):
-		return first_array + second_array
-	elif isinstance( first_array , dict ) and isinstance( second_array , dict ):
-		return dict( list( first_array.items() ) + list( second_array.items() ) )
-	elif isinstance( first_array , set ) and isinstance( second_array , set ):
-		return first_array.union( second_array )
-	return False	
-
 
 
 # Pagina Exibicao do produto detalhado asus geforce 3080
@@ -430,7 +325,7 @@ def asusgeforce_rtx3080():
 def geforce_3070():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 3:
-            numero_serie= int(produto_select[0].value)
+            numero_serie= produto_select[0].value
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6.png'
@@ -472,7 +367,7 @@ def geforce_3070():
 def kingModDesktop():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 4:
-            numero_serie= int(produto_select[0].value)
+            numero_serie= produto_select[0].value
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/Computador King Mod.png'
@@ -514,7 +409,7 @@ def kingModDesktop():
 def vivoBook_K513EP():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 5:
-            numero_serie= int(produto_select[0].value)
+            numero_serie= produto_select[0].value
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/Asus VivoBook K513EP.png'
@@ -556,7 +451,7 @@ def vivoBook_K513EP():
 def hp_pavillon_360():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 6:
-            numero_serie= int(produto_select[0].value)
+            numero_serie= produto_select[0].value
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
             imagem_produto = '/static/produtos/HP Pavillon x360.png'
@@ -598,10 +493,10 @@ def hp_pavillon_360():
 def ssd_kingston_nv1():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 7:
-            numero_serie= int(produto_select[0].value)
+            numero_serie= produto_select[0].value
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/HP Pavillon x360.png'
+            imagem_produto = '/static/produtos/SSD Kingston NV1.png'
             descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
                               'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
                               'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
@@ -641,10 +536,10 @@ def ssd_kingston_nv1():
 def monitor_dell_s2721hgf():
     for produto_select in sheet_produtos.rows:
         if produto_select[0].value == 8:
-            numero_serie= int(produto_select[0].value)
+            numero_serie= produto_select[0].value
             nome_produto = produto_select[1].value
             preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/HP Pavillon x360.png'
+            imagem_produto = '/static/produtos/Monitor Dell 27 S2721HGF.png'
             descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
                               'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
                               'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
@@ -676,7 +571,109 @@ def monitor_dell_s2721hgf():
                                preco_produto=preco_produto, imagem_produto=imagem_produto,
                                descricao_prod=descricao_prod, especificacoes=especificacoes)
 
+    
+#Adicionar ao carrinho
+@root.route('/add', methods=['POST'])
+def add_product_to_cart():
+    
+        _quantity = int(request.form['quantidade'])
+        _code = request.form['code']
+        
+            #validar valores recebidos
+        if _quantity and _code and request.method == 'POST':
+            con = sqlite3.connect('database/dados_informacoes2.db')
+            cursor = con.cursor()
+            cursor.execute("SELECT * FROM Produtos WHERE numero_serie={}".format(_code))
+            row = cursor.fetchone()
+            itemArray ={'id':row[0], 'name':row[1],'preco':row[5], 
+            'quantidade': _quantity, 'total':_quantity*row[5]}
+            all_total_preco = 0 
+            all_total_quantidade = 0
+            session.modified = True
+            if'carrinho' in session:
+                for item in session['carrinho']:
+                    if itemArray['id'] == item['id']:
+                        print(itemArray,item['id'])
+                        old_quantity = item['quantidade']
+                        total_quantidade = old_quantity + itemArray['quantidade']
+                        item['quantidade'] = total_quantidade
+                        item['total'] = total_quantidade * item['preco']
+                        print('\n\n{}'.format(itemArray))
+                    else:
+                        try:    
+                            session['carrinho'].values = list(session['carrinho'])
+                            session['carrinho'].append(itemArray)
+                        except:
+                            session['carrinho'].append(itemArray)
+                
+                    quantidade_individual = int(item['quantidade'])
+                    preco_individual = float(item['total'])
+                    all_total_quantidade = all_total_quantidade + quantidade_individual
+                    all_total_preco = all_total_preco +preco_individual
+            else:
+                session['carrinho'] = [itemArray]
+                all_total_quantidade = all_total_quantidade + _quantity
+                all_total_preco =  itemArray['preco']*itemArray['quantidade']
+            session['all_total_quantidade'] = all_total_quantidade
+            session['all_total_preco'] = all_total_preco
+            print(session['carrinho'])
+            return redirect(url_for('.carrinho')) 
+        else:
+            return 'erro ao adicionar'      
+    
+#Limpar Carrinho
+@root.route('/empty')        
+def empty_cart():
+    try:
+        del(session['carrinho'])
+        del(session['all_total_preco'])
+        del(session['all_total_quantidade'])
+        print(session['carrinho'])
+        print(session)
+        return redirect(url_for('.carrinho'))
+      
+    except Exception as e:
+        print(e)
+    finally:
+        return redirect(url_for('.carrinho'))
+#Remover item do carrinho
+@root.route('/delete/code')
+def delete_product(code):
+	try:
+		all_total_preco = 0
+		all_total_quantidade = 0
+		session.modified = True		
+		for item in session['carrinho'].items():
+			if item[0] == code:				
+				session['carrinho'].pop(item[0], None)
+				if 'carrinho' in session:
+					for key in session['carrinho']:
+						individual_quantidade = int('qua')
+						individual_preco = float(key['total'])
+						all_total_quantidade = all_total_quantidade + individual_quantidade
+						all_total_preco = all_total_preco + individual_preco						
+		if all_total_quantidade == 0:
+			session['carrinho']= []
+		else:
+			session['all_total_quantidade'] = all_total_quantidade
+			session['all_total_preco'] = all_total_preco		
+		#return redirect('/')
+		return redirect(url_for('.carrinho'))
+	except Exception as e:
+		print(e)
+def array_merge( first_array , second_array ):
+	if isinstance( first_array , list ) and isinstance( second_array , list ):
+		return first_array + second_array
+	elif isinstance( first_array , dict ) and isinstance( second_array , dict ):
+		return dict( list( first_array.items() ) + list( second_array.items() ) )
+	elif isinstance( first_array , set ) and isinstance( second_array , set ):
+		return first_array.union( second_array )
+	return False	
 
-db.create_all()
-db.session.commit()
-root.run()
+
+if __name__ == "__main__":
+    root.run()
+    db.create_all()
+    db.session.commit()
+
+

@@ -76,7 +76,7 @@
 
 
                 {% if 'carrinho' in session%}
-                <a id="btnEmpty" href="{{url_for('.empty_cart')}}">Empty Cart</a>
+                <a id="btnEmpty" href="{{url_for('.empty_cart')}}" class="btn-outline-secondary">Empty Cart</a>
                 <table class="tbl-cart " cellpadding="10" cellspacing="1">
                     <tbody>
                         <tr>
@@ -88,18 +88,21 @@
                             <th style="text-align:center;" width="5%">Remove</th>
                         </tr>
                         {% for key in session['carrinho'] %}
+                            {% set id = key['id'] %}
                             {% set quantidade = key['quantidade'] %}
-                            {% set price = key['preco'] %}
-                            {% set item_price = key['total'] %}
+                            {% set item_price = key['preco'] %}
+                            {% set nome_produto = key['name'] %}
+                            {% set total_produtos = key['total'] %}
+
                         <tr>
-                            <dt><h1>{{key['nome_produto']}}</h1></dt>
-                            <td>{{key['id']}}</td>
-                            <td style="text-align:right;">{{quantidade}}</td>
-                            <td style="text-align:right;">{{total_preco}}</td>
-                            <td style="text-align:right;">{{preco_produto}}</td>
+                            <td style="text-align:center;"></tdstyle>{{nome_produto}}</td>
+                            <td style="text-align:right;"><h5>{{id}}</h5></td>
+                            <td style="text-align:right;"><h5>{{quantidade}}</h5></td>
+                            <td style="text-align:right;">{{item_price}}</td>
+                            <td style="text-align:right;">{{ total_produtos }}€</td>
                             <td style="text-align:center;">
-                                <a href="{{ url_for('.delete_product', code=key['id']) }}" class="btnRemoveAction">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Remove Item</button>
+                                <a href="{{ url_for('.delete_product', code=id) }}"class="btnRemoveAction">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Remover</button>
                                 </a>
                                 
                             </td>
@@ -108,7 +111,7 @@
                         <tr>
                             <td colspan="2" align="right">Total:</td>
                             <td align="right">{{ session['all_total_quantidade'] }}</td>
-                            <td align="right" colspan="2"><strong>{{ session["all_total_preco"] }}</strong></td>
+                            <td align="right" colspan="2"><strong>{{ session["all_total_preco"] }}€</strong></td>
                             <td></td>
                         </tr>
                     </tbody>
