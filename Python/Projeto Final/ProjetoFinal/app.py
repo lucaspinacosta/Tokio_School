@@ -1,4 +1,5 @@
 # imports
+from crypt import methods
 import sqlite3
 from flask import Flask, redirect, render_template, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
@@ -591,28 +592,39 @@ def add_product_to_cart():
             all_total_quantidade = 0
             session.modified = True
             if'carrinho' in session:
-                for item in session['carrinho']:
-                    if itemArray['id'] == item['id']:
-                        print(itemArray,item['id'])
-                        old_quantity = item['quantidade']
-                        total_quantidade = old_quantity + itemArray['quantidade']
-                        item['quantidade'] = total_quantidade
-                        item['total'] = total_quantidade * item['preco']
-                        print('\n\n{}'.format(itemArray))
+                try:
+                    for item in session['carrinho']:
+                        if itemArray['id'] == item['id']:
+                            print(itemArray,item['id'])
+                            old_quantity = item['quantidade']
+                            total_quantidade = old_quantity + itemArray['quantidade']
+                            item['quantidade'] = total_quantidade
+                            item['total'] = total_quantidade * item['preco']
+                            print('\n\n{}'.format(itemArray))
+                        elif itemArray['id'] != item['id']:
+                            print(session['carrinho'],'\n',(itemArray))
+
+                        else:
+                            print('Erro ao somar produto')
                     else:
                         try:    
-                            session['carrinho'].values = list(session['carrinho'])
-                            session['carrinho'].append(itemArray)
-                        except:
+                            session['carrinho'] = list(session['carrinho'])
+                        except Exception as e:
+                            print(e)
+                finally:
+                    for item in session['carrinho']:
+                        if item['id'] == itemArray['id']:
+                            pass
+                        else:
                             session['carrinho'].append(itemArray)
                 
-                    quantidade_individual = int(item['quantidade'])
-                    preco_individual = float(item['total'])
-                    all_total_quantidade = all_total_quantidade + quantidade_individual
-                    all_total_preco = all_total_preco +preco_individual
+                quantidade_individual = int(item['quantidade'])
+                preco_individual = float(item['total'])
+                all_total_quantidade = all_total_quantidade + quantidade_individual
+                all_total_preco = all_total_preco +preco_individual
             else:
                 session['carrinho'] = [itemArray]
-                all_total_quantidade = all_total_quantidade + _quantity
+                all_total_quantidade =  _quantity
                 all_total_preco =  itemArray['preco']*itemArray['quantidade']
             session['all_total_quantidade'] = all_total_quantidade
             session['all_total_preco'] = all_total_preco
@@ -637,30 +649,27 @@ def empty_cart():
     finally:
         return redirect(url_for('.carrinho'))
 #Remover item do carrinho
-@root.route('/delete/code')
+@root.route('/delete/<string:code>') 
 def delete_product(code):
-	try:
-		all_total_preco = 0
-		all_total_quantidade = 0
-		session.modified = True		
-		for item in session['carrinho'].items():
-			if item[0] == code:				
-				session['carrinho'].pop(item[0], None)
-				if 'carrinho' in session:
-					for key in session['carrinho']:
-						individual_quantidade = int('qua')
-						individual_preco = float(key['total'])
-						all_total_quantidade = all_total_quantidade + individual_quantidade
-						all_total_preco = all_total_preco + individual_preco						
-		if all_total_quantidade == 0:
-			session['carrinho']= []
-		else:
-			session['all_total_quantidade'] = all_total_quantidade
-			session['all_total_preco'] = all_total_preco		
-		#return redirect('/')
-		return redirect(url_for('.carrinho'))
-	except Exception as e:
-		print(e)
+	all_total_preco = 0
+	all_total_quantidade = 0
+	session.modified = True	
+	for item in session['carrinho']:
+		if item['id'] == code:				
+			session['carrinho'].pop(item, None)
+			if 'carrinho' in session:
+				for key in session['carrinho']:
+					individual_quantidade = int(key['quantidade'])
+					individual_preco = float(key['total'])
+					all_total_quantidade = all_total_quantidade - individual_quantidade
+					all_total_preco = all_total_preco - (individual_preco*individual_quantidade)						
+	if all_total_quantidade == 0:
+		session['carrinho']= []
+	else:
+		session['all_total_quantidade'] = all_total_quantidade
+		session['all_total_preco'] = all_total_preco		
+	#return redirect('/')
+	return redirect(url_for('.carrinho'))
 def array_merge( first_array , second_array ):
 	if isinstance( first_array , list ) and isinstance( second_array , list ):
 		return first_array + second_array
