@@ -26,6 +26,7 @@ class Produtos(db.Model):
     fornecedor = db.Column(db.Integer)
     url_prod = db.Column(db.String)
     img_dir = db.Column(db.String)
+    id_fornecedor = db.Column(db.Integer)
     db.create_all()
     db.session.commit()
 
@@ -699,6 +700,19 @@ def delete_product(code):
     # return redirect('/')
     return redirect(url_for('.carrinho'))
 
+#Finalizar Compras
+#@root.route('/Pagamento')
+#def finalizar_compra():
+#   carrinho = session['carrinho']
+#   con = sqlite3.connect('database/dados_informacoes2.db')
+#   cursor = con.cursor()
+#   cursor.execute(
+#           "SELECT * FROM Fornecedores WHERE id={}".format(carrinho['id_fornecedor']))
+#   row = cursor.fetchone() 
+#
+#
+#
+#
 
 if __name__ == "__main__":
     root.run()
