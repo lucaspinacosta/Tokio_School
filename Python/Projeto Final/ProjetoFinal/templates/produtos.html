@@ -38,7 +38,8 @@
                 <ul>
                     {% if session['log_in'] == True or session['log_in_admin'] == True %}
                     <a class="nav-link link-dark px-1 py-2 btn_smalsize sub_titulo">{{session['username']}}</a>
-                    {% elif session['log_in'] == False and session['log_in_admin'] == False or session['log_in'] == null or session['log_in_admin'] == null%}
+                    {% elif session['log_in'] == False and session['log_in_admin'] == False or session['log_in'] == null
+                    or session['log_in_admin'] == null%}
                     <form action="login" method="post">
                         <ul class="nav">
                             <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
@@ -85,120 +86,121 @@
             </div>
         </div>
         <p></p>
-            <div class="container">
-                <a href="/">
-                    <p class="aligncenter" width="300" height="300">
-                        <img alt="centered image" src="/static/LIC_Informatica.png" width="900" height="300">
-                    </p>
-                </a>
-            </div>
-            <div class="card col-sm-8 offset-2 my-auto">
-                <nav class="row container-fluid row-cols-2">
-                    <ul>
-                        <div class="card-body">
-                            <p class="aligncenter ">
-                                <img alt="centered" src="{{imagem_produto}}" height="300">
-                            </p>
-                        </div>
-                    </ul>
-                    <div class="aligncenter value_showstyle">
-                        <p></p>
-                        <h4>{{nome_produto}}</h4>
-                        <p></p>
-                        <h4>{{preco_produto}}€</h4>
-
-                        <div class="d-flex justify-content-between">
-                            <div class="btn-group">{% if session['log_in'] == True or session['log_in_admin'] == True %}
-                                <form action="/add" method="post">
-                                    
-                                    <input type="hidden" name="code" value="{{id_do_produto}}"/>
-                                    <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2"/>
-                                    <input type="submit" value="Add Cart" class="btnAddAction"/>
-                                </form>
-                                {%else:%}
-                                <form action="/user-login" method="get"><input type="submit" value="Login" class="btnAddAction"/></form>{%endif%}
-                                {% if session['log_in_admin']==True%}
-                                <form type="button" action="/admin" method="post">
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                </form>
-                                {%endif%}
-                            </div>
-                        </div>
+        <div class="container">
+            <a href="/">
+                <p class="aligncenter" width="300" height="300">
+                    <img alt="centered image" src="/static/LIC_Informatica.png" width="900" height="300">
+                </p>
+            </a>
+        </div>
+        <div class="card col-sm-8 offset-2 my-auto">
+            <nav class="row container-fluid row-cols-2">
+                <ul>
+                    <div class="card-body">
+                        <p class="aligncenter ">
+                            <img alt="centered" src="{{imagem_produto}}" height="300">
+                        </p>
                     </div>
-
+                </ul>
+                <div class="aligncenter value_showstyle">
                     <p></p>
-                    <div class="col-sm-12">
-                        <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>
-                        <ul>
-                            <h4 class="aligncenter">{{descricao_prod['arquitetura'][0]}}</h4>
-                            <p>{{descricao_prod['arquitetura'][1]}}
-                            <p></p>{{descricao_prod['arquitetura'][2]}}<p></p>{{descricao_prod['arquitetura'][3]}}</p>
-                            <p></p>
-                            <h4 class="aligncenter">{{descricao_prod['aceleracao'][0]}}</h4>
-                            <p>{{descricao_prod['aceleracao'][1]}}
-                            <p></p>{{descricao_prod['aceleracao'][2]}}<p></p>{{descricao_prod['aceleracao'][3]}}</p>
-                            <p></p>
-                        </ul>
-                        <button type="button" class="collapsible sub_titulo">Especificacoes</button>
-                        <ul>
-                            <dl class="row">
-                                <dt class="col-sm-3">
-                                    <p>{{especificacoes['sistema_operativo'][0]}}</p>
-                                </dt>
-                                <dd class="col-sm-9">
-                                    <p>{{especificacoes['sistema_operativo'][1]}}</p>
-                                </dd>
+                    <h4>{{nome_produto}}</h4>
+                    <p></p>
+                    <h4>{{ '%.2f' % preco_produto}}€</h4>
 
-                                <dt class="col-sm-3">{{especificacoes['Processador'][0]}}</dt>
-                                <dd class="col-sm-9">
-                                    <p>{{especificacoes['Processador'][1]}}</p>
-                                </dd>
-                                <dt class="col-sm-3">
-                                    <p>{{especificacoes['memoria_ram'][0]}}</p>
-                                </dt>
-                                <dd class="col-sm-9">{{especificacoes['memoria_ram'][1]}}
-                                </dd>
+                    <div class="d-flex justify-content-between">
+                        <div class="btn-group">{% if session['log_in'] == True or session['log_in_admin'] == True %}
+                            <form action="/add" method="post">
 
-                                <dt class="col-sm-3">{{especificacoes['armazenamento'][0]}}</dt>
-                                <dd class="col-sm-8">{{especificacoes['armazenamento'][1]}}
-                                    <p>{{especificacoes['armazenamento'][2]}}</p>
-                                </dd>
-
-
-                                <dt class="col-sm-3">
-                                    <p>{{especificacoes['audio'][0]}}</p>
-                                </dt>
-                                <dd class="col-sm-8">{{especificacoes['audio'][1]}}</dd>
-
-                                <dt class="col-sm-3">{{especificacoes['ecra'][0]}}</dt>
-                                <dd class="col-sm-8">{{especificacoes['ecra'][1]}}</dd>
-                                <p></p>
-                                <dt class="col-sm-3">{{especificacoes['grafica'][0]}}</dt>
-                                <dd class="col-sm-8">{{especificacoes['grafica'][1]}}</dd>
-                                <p></p>
-                                <dt class="col-sm-3">{{especificacoes['cor'][0]}}</dt>
-                                <dd class="col-sm-8">{{especificacoes['cor'][1]}}
-                                    <p>{{especificacoes['cor'][2]}}</p>
-                                </dd>
-                                <p></p>
-                                <dt class="col-sm-3">{{especificacoes['interface'][0]}}</dt>
-                                <dd class="col-sm-8">
-                                    <a>{{especificacoes['interface'][1]}}</a>
-                                    <P></P>
-                                    <a>{{especificacoes['interface'][2]}}</a>
-                                    <p></p>
-                                    <a>{{especificacoes['interface'][3]}}</a>
-                                    <p></p>
-                                    <a>{{especificacoes['interface'][4]}}</a>
-                                    <p></p>
-                                    <a>{{especificacoes['interface'][5]}}</a>
-                                    <p></p>
-                                </dd>
-                            </dl>
-                        </ul>
+                                <input type="hidden" name="code" value="{{id_do_produto}}" />
+                                <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2" />
+                                <input type="submit" value="Add Cart" class="btnAddAction" />
+                            </form>
+                            {%else:%}
+                            <form action="/user-login" method="get"><input type="submit" value="Login"
+                                    class="btnAddAction" /></form>{%endif%}
+                            {% if session['log_in_admin']==True%}
+                            <form type="button" action="/admin" method="post">
+                                <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </form>
+                            {%endif%}
+                        </div>
                     </div>
-                </nav>
-            </div>
+                </div>
+
+                <p></p>
+                <div class="col-sm-12">
+                    <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>
+                    <ul>
+                        <h4 class="aligncenter">{{descricao_prod['arquitetura'][0]}}</h4>
+                        <p>{{descricao_prod['arquitetura'][1]}}
+                        <p></p>{{descricao_prod['arquitetura'][2]}}<p></p>{{descricao_prod['arquitetura'][3]}}</p>
+                        <p></p>
+                        <h4 class="aligncenter">{{descricao_prod['aceleracao'][0]}}</h4>
+                        <p>{{descricao_prod['aceleracao'][1]}}
+                        <p></p>{{descricao_prod['aceleracao'][2]}}<p></p>{{descricao_prod['aceleracao'][3]}}</p>
+                        <p></p>
+                    </ul>
+                    <button type="button" class="collapsible sub_titulo">Especificacoes</button>
+                    <ul>
+                        <dl class="row">
+                            <dt class="col-sm-3">
+                                <p>{{especificacoes['sistema_operativo'][0]}}</p>
+                            </dt>
+                            <dd class="col-sm-9">
+                                <p>{{especificacoes['sistema_operativo'][1]}}</p>
+                            </dd>
+
+                            <dt class="col-sm-3">{{especificacoes['Processador'][0]}}</dt>
+                            <dd class="col-sm-9">
+                                <p>{{especificacoes['Processador'][1]}}</p>
+                            </dd>
+                            <dt class="col-sm-3">
+                                <p>{{especificacoes['memoria_ram'][0]}}</p>
+                            </dt>
+                            <dd class="col-sm-9">{{especificacoes['memoria_ram'][1]}}
+                            </dd>
+
+                            <dt class="col-sm-3">{{especificacoes['armazenamento'][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['armazenamento'][1]}}
+                                <p>{{especificacoes['armazenamento'][2]}}</p>
+                            </dd>
+
+
+                            <dt class="col-sm-3">
+                                <p>{{especificacoes['audio'][0]}}</p>
+                            </dt>
+                            <dd class="col-sm-8">{{especificacoes['audio'][1]}}</dd>
+
+                            <dt class="col-sm-3">{{especificacoes['ecra'][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['ecra'][1]}}</dd>
+                            <p></p>
+                            <dt class="col-sm-3">{{especificacoes['grafica'][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['grafica'][1]}}</dd>
+                            <p></p>
+                            <dt class="col-sm-3">{{especificacoes['cor'][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['cor'][1]}}
+                                <p>{{especificacoes['cor'][2]}}</p>
+                            </dd>
+                            <p></p>
+                            <dt class="col-sm-3">{{especificacoes['interface'][0]}}</dt>
+                            <dd class="col-sm-8">
+                                <a>{{especificacoes['interface'][1]}}</a>
+                                <P></P>
+                                <a>{{especificacoes['interface'][2]}}</a>
+                                <p></p>
+                                <a>{{especificacoes['interface'][3]}}</a>
+                                <p></p>
+                                <a>{{especificacoes['interface'][4]}}</a>
+                                <p></p>
+                                <a>{{especificacoes['interface'][5]}}</a>
+                                <p></p>
+                            </dd>
+                        </dl>
+                    </ul>
+                </div>
+            </nav>
+        </div>
     </main>
 </body>
 
