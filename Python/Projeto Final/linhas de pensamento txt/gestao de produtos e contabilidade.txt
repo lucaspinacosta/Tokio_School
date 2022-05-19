@@ -1,0 +1,3 @@
+ao finalizar compra(paramento), tirar quantidade de armazem e 
+somar a quantidade vendida  + o valor que custou ao fornecedor
+

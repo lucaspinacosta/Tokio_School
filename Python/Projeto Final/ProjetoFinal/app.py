@@ -55,6 +55,7 @@ class Fornecedor(db.Model):
     nome_forneceder = db.Column(db.String)
     desp_fornecedor = db.Column(db.Float)
     contacto_fornecedor = db.Column(db.Integer)
+    encomenda_for = db.Column(db.String)
     db.create_all()
     db.session.commit()
 

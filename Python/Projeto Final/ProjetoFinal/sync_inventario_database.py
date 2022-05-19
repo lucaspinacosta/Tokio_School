@@ -2,6 +2,8 @@
 
 from flask import request
 import openpyxl, sqlite3
+from app import Fornecedor,Clientes,Produtos
+
 
 #from app import Produtos
 
@@ -61,8 +63,26 @@ def despesas():
 
 
 def file_galery():
-    for produto_select in sheet_produtos.rows:
-            return produto_select[2].value
+    
+    cursor.execute("SELECT * FROM Fornecedores")
+    lista_de_fornecedores = cursor.fetchall()
+    
+    print(lista_de_fornecedores)
+
+    for fornecedor_select in lista_de_fornecedores:
+        fornecedor_dict = {'id_fornecedor': int(fornecedor_select[0]),'email_fornecedor': fornecedor_select[1] ,'fornecedor_name':str(fornecedor_select[2]),
+        'desp_fornecedor':fornecedor_select[3], 'contacto': int(fornecedor_select[4]), 'encomenda':[]}
+        if fornecedor_dict['id_fornecedor'] in lista_de_fornecedores[0]:
+            
+            pass
+        elif fornecedor_dict['id_fornecedor'] not in lista_de_fornecedores[0]:
+            fornecedor_adc = Fornecedor(email_fornecedor = fornecedor_dict['email_fornecedor'], nome_fornecedor = fornecedor_dict['fornecedor_name'],
+                                        desp_fornecedor = fornecedor_dict['desp_fornecedor'], contacto_fornecedor= fornecedor_dict['contacto']
+                                         )
+    
+    
+
+
 
 
 con.commit()
