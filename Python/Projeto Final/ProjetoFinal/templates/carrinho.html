@@ -103,7 +103,7 @@
                             <td style="text-align:right;">
                                 <h5>{{quantidade}}</h5>
                             </td>
-                            <td style="text-align:right;">{{item_price}}</td>
+                            <td style="text-align:right;">{{ '%.2f' % item_price}}€</td>
                             <td style="text-align:right;">{{ '%.2f' % total_produtos }}€</td>
                             <td style="text-align:center;">
                                 <a href="{{url_for('.delete_product',code=id) }}" class="btnRemoveAction">

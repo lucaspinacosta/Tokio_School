@@ -704,17 +704,51 @@ def delete_product(code):
 #Finalizar Compras
 @root.route('/pagamento')
 def finalizar_compra():
-   carrinho = session['carrinho']
-   con = sqlite3.connect('database/dados_informacoes2.db')
-   cursor = con.cursor()
-   for item in session['carrinho']:
-       print(item)
+    con = sqlite3.connect('database/dados_informacoes2.db')
+    cursor = con.cursor()
+    for item in session['carrinho']:
+       print(item['name'])
+       #seleciona o produto na base de dados, atravez do id do produto dentro de session['carrinho']
        cursor.execute("SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
        row = cursor.fetchone() 
-       print(row)
-
-
-
+       fornecedor_id = row[-1]
+       #seleciona o fornecedor na base de dados, atraves dos dados obtidos pelo produto
+       cursor.execute("SELECT * FROM Fornecedores WHERE id_fornecedor={}".format(fornecedor_id))
+       fornecedor_dados = cursor.fetchone()
+       des_fornecedores = float(fornecedor_dados[3]) + item['quantidade']*row[4]
+       #Atualiza as despesas de fornecedor ao somar, quantidade de produto vendido ao valor que cada um custou ao fornecedor
+       cursor.execute("UPDATE Fornecedores SET desp_fornecedor={:.2f} WHERE id_fornecedor={} ".format(des_fornecedores,fornecedor_id))
+       con.commit()
+       db.session.commit()
+    
+    for item in session['carrinho']:
+        print('item id:',item['id'])
+        cursor.execute("SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
+        row= cursor.fetchone()
+        produto_quantidade_vendida = row[3] + item['quantidade']
+        produto_quantidade_armazem = row[2] - item['quantidade']
+        cursor.execute("UPDATE Produtos SET em_armazem={}, vendidos={} WHERE numero_serie={}".format(produto_quantidade_armazem,produto_quantidade_vendida,item['id']))
+        con.commit()
+        db.session.commit()
+    empty_cart()
+    return redirect(url_for('.carrinho'))
+        
+#aviso de quantidade de produto em baixo
+#def notificacao_produtos_low():
+#   con = sqlite3.connect('database/dados_informacoes2.db')
+#   cursor = con.cursor()
+#   cursor.execute("SELECT * FROM Prosutos")
+#   lista_prods = cursor.fetchall()
+#   for produto in lista_prods:
+#       id_prod = produto[0]
+#       nome_prod = produto[1]
+#       quantidade_armazem = produto[2]
+#       quantidade_vendidos = produto[3]
+#           if quantidade_armazem <10:
+#               low_stock = True
+#               print("Baixa Quantidade de Produto")        
+#
+#
 
 
 if __name__ == "__main__":
