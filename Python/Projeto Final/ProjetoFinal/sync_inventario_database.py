@@ -1,9 +1,13 @@
 
-
-from flask import request
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask,request
 import openpyxl, sqlite3
-from app import Fornecedor,Clientes,Produtos
 
+
+root= Flask(__name__)
+root.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/dados_informacoes2.db'
+db = SQLAlchemy(root)
+root.config['DEBUG'] = True
 
 #from app import Produtos
 
@@ -67,19 +71,15 @@ def file_galery():
     cursor.execute("SELECT * FROM Fornecedores")
     lista_de_fornecedores = cursor.fetchall()
     
-    print(lista_de_fornecedores)
-
     for fornecedor_select in lista_de_fornecedores:
         fornecedor_dict = {'id_fornecedor': int(fornecedor_select[0]),'email_fornecedor': fornecedor_select[1] ,'fornecedor_name':str(fornecedor_select[2]),
         'desp_fornecedor':fornecedor_select[3], 'contacto': int(fornecedor_select[4]), 'encomenda':[]}
-        if fornecedor_dict['id_fornecedor'] in lista_de_fornecedores[0]:
-            
-            pass
-        elif fornecedor_dict['id_fornecedor'] not in lista_de_fornecedores[0]:
-            fornecedor_adc = Fornecedor(email_fornecedor = fornecedor_dict['email_fornecedor'], nome_fornecedor = fornecedor_dict['fornecedor_name'],
-                                        desp_fornecedor = fornecedor_dict['desp_fornecedor'], contacto_fornecedor= fornecedor_dict['contacto']
-                                         )
-    
+        print('Fornecedores: ',fornecedor_select)
+        print(fornecedor_dict,'\n\n')
+
+        
+        
+file_galery()
     
 
 

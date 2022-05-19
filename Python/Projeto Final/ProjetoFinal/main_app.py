@@ -593,7 +593,7 @@ def add_product_to_cart():
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie={}".format(_code))
         row = cursor.fetchone()
-        itemArray = {'id': row[0], 'name': row[1], 'preco': row[5],
+        itemArray = {'id': row[0], 'name': row[1], 'preco': row[5],  
                      'quantidade': _quantity, 'total': _quantity*row[5]}
         all_total_preco = 0
         all_total_quantidade = 0
@@ -685,7 +685,7 @@ def delete_product(code):
     session.modified = True
     for item in session['carrinho']:
         if item['id'] == code:
-            session['carrinho'].pop(item, None)
+            session['carrinho'].pop(item[0], None)
             if 'carrinho' in session:
                 for key in session['carrinho']:
                     individual_quantidade = int(key['quantidade'])
@@ -702,18 +702,20 @@ def delete_product(code):
     return redirect(url_for('.carrinho'))
 
 #Finalizar Compras
-#@root.route('/Pagamento')
-#def finalizar_compra():
-#   carrinho = session['carrinho']
-#   con = sqlite3.connect('database/dados_informacoes2.db')
-#   cursor = con.cursor()
-#   cursor.execute(
-#           "SELECT * FROM Fornecedores WHERE id={}".format(carrinho['id_fornecedor']))
-#   row = cursor.fetchone() 
-#
-#
-#
-#
+@root.route('/pagamento')
+def finalizar_compra():
+   carrinho = session['carrinho']
+   con = sqlite3.connect('database/dados_informacoes2.db')
+   cursor = con.cursor()
+   for item in session['carrinho']:
+       print(item)
+       cursor.execute("SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
+       row = cursor.fetchone() 
+       print(row)
+
+
+
+
 
 if __name__ == "__main__":
     root.run()
