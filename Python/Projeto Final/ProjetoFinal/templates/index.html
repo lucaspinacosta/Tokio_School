@@ -38,9 +38,12 @@
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
                 </ul>
                 <ul>
-                    {% if session['log_in'] == True or session['log_in_admin'] == True %}
-                    <a class="nav-link link-dark px-10 py-2 btn_smalsize sub_titulo aligncenter">{{session['username']}}</a>
-                    {% elif session['log_in'] == False and session['log_in_admin'] == False or session['log_in'] == null or session['log_in_admin'] == null%}
+                    {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor']
+                    == True%}
+                    <a
+                        class="nav-link link-dark px-10 py-2 btn_smalsize sub_titulo aligncenter">{{session['username']}}</a>
+                    {% elif session['log_in'] == False and session['log_in_admin'] == False or session['log_in'] == null
+                    or session['log_in_admin'] == null%}
                     <form action="login" method="post">
                         <ul class="nav">
                             <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
@@ -53,7 +56,8 @@
             </div>
         </nav>
         <ul>
-            {% if session['log_in'] == True or session['log_in_admin'] == True %}
+            {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor'] == True
+            %}
             <div class="header col-2 offset-9 ">
                 <nav class="nav">
                     <a class="nav-link py-1 px-0" href="/user-login/carrinho">
@@ -314,10 +318,8 @@
                                                         <dt>{{produtos[1]}}</dt>
                                                     </div>
                                                     <div class="aligncenter">
-                                                        <dt><a
-                                                                href="{{produtos[9]}}">
-                                                                <img class="fit-picture "
-                                                                    src="{{produtos[10]}}"
+                                                        <dt><a href="{{produtos[9]}}">
+                                                                <img class="fit-picture " src="{{produtos[10]}}"
                                                                     height="200"></a>
                                                         <dt>{{ '%.2f' % produtos[5]}} € </dt>
                                                         </dt>

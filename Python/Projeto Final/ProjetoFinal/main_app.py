@@ -70,6 +70,8 @@ def db_verificar_email_admin():
     return emails
 
 # Verificar Usuario
+
+
 def db_verificar_email():
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
@@ -78,7 +80,9 @@ def db_verificar_email():
     con.close()
     return emails
 
-#Verificar Fornecedor
+# Verificar Fornecedor
+
+
 def db_verificar_fornecedor():
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
@@ -88,6 +92,8 @@ def db_verificar_fornecedor():
     return emails
 
 # Home Page
+
+
 @root.route('/', methods=['GET', 'POST'])
 def home():
     todos_os_produtos = lista_produtos()
@@ -138,13 +144,13 @@ def login():
         #dados_database_admin = "SELECT * FROM Admin"
         verificado_email_admin = db_verificar_email_admin()  # dados_database_admin
 
-        #Base de dados fornecedor
+        # Base de dados fornecedor
         #dados_database_fornecedor = "SELECT * FROM Fornecedores"
-        verificar_email_fornecedore = db_verificar_fornecedor() #dados_database_fornecedor
+        verificar_email_fornecedor = db_verificar_fornecedor()  # dados_database_fornecedor
 
         todos_os_produto = lista_produtos()
 
-        #Verificar se user e admin
+        # Verificar se user e admin
         for user in verificado_email_admin:
             if user_loggin == user[1] and user_pswd == user[3]:
                 session['log_in_admin'] = True
@@ -153,19 +159,20 @@ def login():
                 session["password"] = user_pswd
                 session['username'] = user[2]
                 print(session['username'])
-                return redirect(url_for('todos_produtos',  log_in_admin=session['user'], user=session['username']))
-        
-        for user in verificar_email_fornecedore:
+                return redirect(url_for('todos_produtos',  log_in_admin=session['log_in_admin'], user=session['username']))
+
+        # Verificar fornecedor
+        for user in verificar_email_fornecedor:
             if user_loggin == user[1] and user_pswd == user[2]:
                 session['log_in_fornecedor'] = True
                 session['pass_word_fornecedor'] = True
                 session['user'] = user_loggin
                 session['password'] = user_pswd
                 session['username'] = user[2]
-                return redirect(url_for('todos_produtos',  log_in_forne=session['user'], user=session['username']))
+                session['id'] = user[0]
+                return redirect(url_for('todos_produtos',  log_in_fornecedor=session['log_in_fornecedor'], user=session['username']))
 
-
-        #Verificar se user e cliente
+        # Verificar se user e cliente
         for user in verificado_email:
             if user_loggin == user[0] and user_pswd == user[3]:
                 session['log_in'] = True
@@ -181,7 +188,6 @@ def login():
                 print('Email nao encontrado')
             else:
                 print('Faca o seu registo')
-
 
         # Iniciar como Buyer
         try:
@@ -200,21 +206,20 @@ def login():
                     print('loggin admin')
                     session["user"] = user_loggin
                     session["password"] = user_pswd
-                    session['username'] = user[2]
                 # session['carrinho']
                     return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_admin=session['log_in_admin'], user=session['username'],
                                             lista_fornecedores=todos_os_fornecedores,))
-            
+
             elif 'log_in_fornecedor' in session:
                 if session['log_in_fornecedor'] == True and session['pass_word_fornecedor'] == True:
                     print('loggin fornecedor')
                     session["user"] = user_loggin
                     session["password"] = user_pswd
-                    session['username'] = user[2]
+
                 # session['carrinho']
-                    return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_forne=session['log_in_fornecedor'], user=session['username'],
+                    return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_forneccedor=session['log_in_fornecedor'], user=session['username'],
                                             lista_fornecedores=todos_os_fornecedores))
-            
+
             else:
                 return redirect(url_for('login'))
 
@@ -224,31 +229,31 @@ def login():
 
 @root.route("/logout")
 def logout():
-    try:
+
+    if 'log_in' in session:
         if session['log_in'] == True:
             session.pop('log_in')
             session.pop('pass_word')
             session.pop('user')
             session.pop('username')
-
+            session.clear()
+            
+    if 'log_in_admin' in session:
+        if session['log_in_admin'] == True:
+            session.pop('log_in_admin')
+            session.pop('pass_word_admin')
+            session.pop('user')
+            session.pop('username')
             session.clear()
 
-    except:
-        if 'log_in_admin' in session:
-            if session['log_in_admin'] == True:
-                session.pop('log_in_admin')
-                session.pop('pass_word_admin')
-                session.pop('user')
-                session.pop('username')
-                session.clear()
-
-        elif 'log_in_fornecedor' in session:
-            if session['log_in_fornecedor'] == True:
-                session.pop('log_in_admin')
-                session.pop('pass_word_admin')
-                session.pop('user')
-                session.pop('username')
-                session.clear()
+    elif 'log_in_fornecedor' in session:
+        if session['log_in_fornecedor'] == True:
+            session.pop('log_in_fornecedor')
+            session.pop('pass_word_fornecedor')
+            session.pop('user')
+            session.pop('username')
+            session.pop('id')
+            session.clear()
 
     return redirect(url_for('home'))
 
@@ -317,15 +322,15 @@ def todos_produtos():
         if 'log_in' in session:
             if session['log_in'] == True:
                 return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
-        
+
         if 'log_in_admin' in session:
             if session['log_in_admin'] == True:
-                    return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=session['log_in_admin'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
+                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=session['log_in_admin'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
         if 'log_in_fornecedor' in session:
             return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_forn=session['log_in_fornecedor'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
 
         if session == session.close():
-                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False,log_in_fornecedor = False, user=None)
+            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, log_in_fornecedor=False, user=None)
 
 
 # Pagina Exibicao do produto detalhado asus geforce 3080
@@ -639,7 +644,7 @@ def add_product_to_cart():
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie={}".format(_code))
         row = cursor.fetchone()
-        itemArray = {'id': row[0], 'name': row[1], 'preco': row[5],  
+        itemArray = {'id': row[0], 'name': row[1], 'preco': row[5],
                      'quantidade': _quantity, 'total': _quantity*row[5]}
         all_total_preco = 0
         all_total_quantidade = 0
@@ -691,7 +696,7 @@ def add_product_to_cart():
             preco_total = item['total']
             all_total_quantidade += quantidade_individual
             all_total_preco += preco_total
-
+            
 
         session['all_total_quantidade'] = all_total_quantidade
         session['all_total_preco'] = all_total_preco
@@ -747,40 +752,48 @@ def delete_product(code):
     # return redirect('/')
     return redirect(url_for('.carrinho'))
 
-#Finalizar Compras
+# Finalizar Compras
+
+
 @root.route('/pagamento')
 def finalizar_compra():
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
     for item in session['carrinho']:
-       print(item['name'])
-       #seleciona o produto na base de dados, atravez do id do produto dentro de session['carrinho']
-       cursor.execute("SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
-       row = cursor.fetchone() 
-       fornecedor_id = row[-1]
-       #seleciona o fornecedor na base de dados, atraves dos dados obtidos pelo produto
-       cursor.execute("SELECT * FROM Fornecedores WHERE id_fornecedor={}".format(fornecedor_id))
-       fornecedor_dados = cursor.fetchone()
-       des_fornecedores = float(fornecedor_dados[3]) + item['quantidade']*row[4]
-       #Atualiza as despesas de fornecedor ao somar, quantidade de produto vendido ao valor que cada um custou ao fornecedor
-       cursor.execute("UPDATE Fornecedores SET desp_fornecedor={:.2f} WHERE id_fornecedor={} ".format(des_fornecedores,fornecedor_id))
-       con.commit()
-       db.session.commit()
-    
+        print(item['name'])
+        # seleciona o produto na base de dados, atravez do id do produto dentro de session['carrinho']
+        cursor.execute(
+            "SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
+        row = cursor.fetchone()
+        fornecedor_id = row[-1]
+        # seleciona o fornecedor na base de dados, atraves dos dados obtidos pelo produto
+        cursor.execute(
+            "SELECT * FROM Fornecedores WHERE id_fornecedor={}".format(fornecedor_id))
+        fornecedor_dados = cursor.fetchone()
+        des_fornecedores = float(
+            fornecedor_dados[3]) + item['quantidade']*row[4]
+        # Atualiza as despesas de fornecedor ao somar, quantidade de produto vendido ao valor que cada um custou ao fornecedor
+        cursor.execute("UPDATE Fornecedores SET desp_fornecedor={:.2f} WHERE id_fornecedor={} ".format(
+            des_fornecedores, fornecedor_id))
+        con.commit()
+        db.session.commit()
+
     for item in session['carrinho']:
-        print('item id:',item['id'])
-        cursor.execute("SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
-        row= cursor.fetchone()
+        print('item id:', item['id'])
+        cursor.execute(
+            "SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
+        row = cursor.fetchone()
         produto_quantidade_vendida = row[3] + item['quantidade']
         produto_quantidade_armazem = row[2] - item['quantidade']
-        cursor.execute("UPDATE Produtos SET em_armazem={}, vendidos={} WHERE numero_serie={}".format(produto_quantidade_armazem,produto_quantidade_vendida,item['id']))
+        cursor.execute("UPDATE Produtos SET em_armazem={}, vendidos={} WHERE numero_serie={}".format(
+            produto_quantidade_armazem, produto_quantidade_vendida, item['id']))
         con.commit()
         db.session.commit()
     empty_cart()
     return redirect(url_for('.carrinho'))
-        
-#aviso de quantidade de produto em baixo
-#def notificacao_produtos_low():
+
+# aviso de quantidade de produto em baixo
+# def notificacao_produtos_low():
 #   con = sqlite3.connect('database/dados_informacoes2.db')
 #   cursor = con.cursor()
 #   cursor.execute("SELECT * FROM Prosutos")
@@ -792,7 +805,7 @@ def finalizar_compra():
 #       quantidade_vendidos = produto[3]
 #           if quantidade_armazem <10:
 #               low_stock = True
-#               print("Baixa Quantidade de Produto")        
+#               print("Baixa Quantidade de Produto")
 #
 #
 

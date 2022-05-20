@@ -37,7 +37,8 @@
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
                 </ul>
                 <ul>
-                    {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor'] == True %}
+                    {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor']
+                    == True %}
                     <a class="nav-link link-dark px-1 py-2 btn_smalsize sub_titulo">{{session['username']}}</a>
                     {% else: %}
                     <form action="login" method="post">
@@ -52,7 +53,8 @@
             </div>
         </nav>
         <ul>
-            {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor'] == True %}
+            {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor'] == True
+            %}
             <div class="header col-2 offset-9 ">
                 <nav class="nav">
                     <a class="nav-link py-1 px-0" href="/user-login/carrinho">
