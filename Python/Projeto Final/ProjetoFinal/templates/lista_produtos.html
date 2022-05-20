@@ -35,7 +35,7 @@
                     </li>
                 </ul>
                 <ul>
-                    {% if session['log_in'] == True or session['log_in_admin'] == True %}
+                    {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor'] == True %}
                     <a
                         class="nav-link link-dark px-10 py-2 btn_smalsize sub_titulo aligncenter">{{session['username']}}</a>
                     {% elif session['log_in'] == False and session['log_in_admin'] == False or session['log_in'] == null
@@ -52,7 +52,7 @@
             </div>
         </nav>
         <ul>
-            {% if session['log_in'] == True or session['log_in_admin'] == True %}
+            {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor'] == True %}
             <div class="header col-2 offset-9 ">
                 <nav class="nav">
                     <a class="nav-link py-1 px-0" href="/user-login/carrinho">
@@ -160,14 +160,45 @@
                         </nav>
                     </div>
                 </div>
-            </nav>
+            </nav>{%endif%}
             <p></p>
             <div class="col-12 my-auto" style="margin-left: auto" methods="get">
                 <nav class="row col-sm-10 offset-1">
                     <div class="aligncenter">
                         <div class="card">
                             <h2 class="btn_links titulo"> Armazem </h2>
-
+                            {%if session['log_in_admin'] == True%}
+                            <nav class="row container-fluid row-cols-1 col-auto">
+                                <table class="tbl-cart " cellpadding="10" cellspacing="1">
+                                    <tbody>
+                                        <tr>
+                                            <th style="text-align:center;">Nome Produto</th>
+                                            <th style="text-align:center;">ID</th>
+                                            <th style="text-align:right;" width="5%">Stock</th>
+                                            <th style="text-align:right;" width="10%">Vendidos</th>
+                                            <th style="text-align:right;" width="10%">Fornecedor</th>
+                                            <th style="text-align:center;" width="5%">Encomendar</th>
+                                        </tr>
+                                        {%for produto in todos_os_produtos%}
+                                        
+                                        {% set id_produto = produto[0] %}
+                                        {% set nome_produto = produto[1] %}
+                                        {% set em_stock = produto[2] %}
+                                        {% set vendidos = produto[3] %}
+                                        {% set nome_fornecedor = produto[7] %}
+                                        {% set id_fornecedor = produto[-1]%}
+                                        <tr>
+                                            <td style="text-align:center;">{{nome_produto}}</td>
+                                            <td style="text-align:center;">{{ id_produto }}</td>
+                                            <td style="text-align:right;" width="5%">{{ em_stock }}</td>
+                                            <td style="text-align:right;" width="5%">{{ vendidos }}</td>
+                                            <td style="text-align:right;" width="10%">{{ nome_fornecedor }}</td>
+                                            <td style="text-align:center;"></td>
+                                        </tr>{%endfor%}<p></p>
+                                    </tbody>
+                                </table>
+                            </nav>
+                            {% elif session['log_in_fornecedor'] == True %}
                             <nav class="row container-fluid row-cols-1 col-auto">
                                 <table class="tbl-cart " cellpadding="10" cellspacing="1">
                                     <tbody>
@@ -202,7 +233,6 @@
                         
                     </div>
                 </nav>
-
             </div>
         </div>{%endif%}<p></p>
     </main>

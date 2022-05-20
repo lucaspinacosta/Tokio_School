@@ -23,8 +23,5 @@ sheet_produtos = inventario['Produtos']
 print(inventario.sheetnames)
 
 
-
-
-
 con.commit()
 con.close()

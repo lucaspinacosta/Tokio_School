@@ -60,7 +60,7 @@ class Fornecedor(db.Model):
     db.session.commit()
 
 
-# Verificar Usuario
+# Verificar Admin
 def db_verificar_email_admin():
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
@@ -69,9 +69,7 @@ def db_verificar_email_admin():
     con.close()
     return emails
 
-# Verificar Admin
-
-
+# Verificar Usuario
 def db_verificar_email():
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
@@ -80,9 +78,16 @@ def db_verificar_email():
     con.close()
     return emails
 
+#Verificar Fornecedor
+def db_verificar_fornecedor():
+    con = sqlite3.connect('database/dados_informacoes2.db')
+    cursor = con.cursor()
+    cursor.execute("SELECT * FROM Fornecedores")
+    emails = cursor.fetchall()
+    con.close()
+    return emails
+
 # Home Page
-
-
 @root.route('/', methods=['GET', 'POST'])
 def home():
     todos_os_produtos = lista_produtos()
@@ -132,9 +137,14 @@ def login():
         # Base de dados admin
         #dados_database_admin = "SELECT * FROM Admin"
         verificado_email_admin = db_verificar_email_admin()  # dados_database_admin
-        todos_os_produto = lista_produtos()
-        # Verificar admin
 
+        #Base de dados fornecedor
+        #dados_database_fornecedor = "SELECT * FROM Fornecedores"
+        verificar_email_fornecedore = db_verificar_fornecedor() #dados_database_fornecedor
+
+        todos_os_produto = lista_produtos()
+
+        #Verificar se user e admin
         for user in verificado_email_admin:
             if user_loggin == user[1] and user_pswd == user[3]:
                 session['log_in_admin'] = True
@@ -144,7 +154,18 @@ def login():
                 session['username'] = user[2]
                 print(session['username'])
                 return redirect(url_for('todos_produtos',  log_in_admin=session['user'], user=session['username']))
+        
+        for user in verificar_email_fornecedore:
+            if user_loggin == user[1] and user_pswd == user[2]:
+                session['log_in_fornecedor'] = True
+                session['pass_word_fornecedor'] = True
+                session['user'] = user_loggin
+                session['password'] = user_pswd
+                session['username'] = user[2]
+                return redirect(url_for('todos_produtos',  log_in_forne=session['user'], user=session['username']))
 
+
+        #Verificar se user e cliente
         for user in verificado_email:
             if user_loggin == user[0] and user_pswd == user[3]:
                 session['log_in'] = True
@@ -161,8 +182,8 @@ def login():
             else:
                 print('Faca o seu registo')
 
-        # Iniciar como Buyer
 
+        # Iniciar como Buyer
         try:
             todos_os_fornecedores = lista_fornecedores()
             todos_os_produto = lista_produtos()
@@ -174,16 +195,28 @@ def login():
                 return render_template("index.html", log_in=session['log_in'], user=session['username'], todos_os_produtos=todos_os_produto, lista_fornecedores=None)
         # Iniciar como admin
         except:
-            if session['log_in_admin'] == True and session['pass_word_admin'] == True:
-                print('loggin admin')
-                session["user"] = user_loggin
-                session["password"] = user_pswd
-                session['username'] = user[2]
+            if 'log_in_admin' in session:
+                if session['log_in_admin'] == True and session['pass_word_admin'] == True:
+                    print('loggin admin')
+                    session["user"] = user_loggin
+                    session["password"] = user_pswd
+                    session['username'] = user[2]
                 # session['carrinho']
-                return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_admin=session['log_in_admin'], user=session['username'],
-                                        lista_fornecedores=todos_os_fornecedores,))
+                    return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_admin=session['log_in_admin'], user=session['username'],
+                                            lista_fornecedores=todos_os_fornecedores,))
+            
+            elif 'log_in_fornecedor' in session:
+                if session['log_in_fornecedor'] == True and session['pass_word_fornecedor'] == True:
+                    print('loggin fornecedor')
+                    session["user"] = user_loggin
+                    session["password"] = user_pswd
+                    session['username'] = user[2]
+                # session['carrinho']
+                    return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_forne=session['log_in_fornecedor'], user=session['username'],
+                                            lista_fornecedores=todos_os_fornecedores))
+            
             else:
-                return render_template('login.html')
+                return redirect(url_for('login'))
 
     if request.method == 'GET':
         return render_template('login.html')
@@ -201,13 +234,22 @@ def logout():
             session.clear()
 
     except:
-        if session['log_in_admin'] == True:
-            session.pop('log_in_admin')
-            session.pop('pass_word_admin')
-            session.pop('user')
-            session.pop('username')
+        if 'log_in_admin' in session:
+            if session['log_in_admin'] == True:
+                session.pop('log_in_admin')
+                session.pop('pass_word_admin')
+                session.pop('user')
+                session.pop('username')
+                session.clear()
 
-            session.clear()
+        elif 'log_in_fornecedor' in session:
+            if session['log_in_fornecedor'] == True:
+                session.pop('log_in_admin')
+                session.pop('pass_word_admin')
+                session.pop('user')
+                session.pop('username')
+                session.clear()
+
     return redirect(url_for('home'))
 
 # pagina carrinho
@@ -272,14 +314,18 @@ def todos_produtos():
     print(lista_fornecedores())
     lista_de_fornecedores = lista_fornecedores()
     if request.method == 'GET':
-        try:
+        if 'log_in' in session:
             if session['log_in'] == True:
                 return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
-        except:
+        
+        if 'log_in_admin' in session:
             if session['log_in_admin'] == True:
-                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=session['log_in_admin'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
-        else:
-            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, user=None)
+                    return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=session['log_in_admin'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
+        if 'log_in_fornecedor' in session:
+            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_forn=session['log_in_fornecedor'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
+
+        if session == session.close():
+                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False,log_in_fornecedor = False, user=None)
 
 
 # Pagina Exibicao do produto detalhado asus geforce 3080
