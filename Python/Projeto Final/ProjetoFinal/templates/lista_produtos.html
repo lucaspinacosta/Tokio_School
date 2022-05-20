@@ -175,6 +175,7 @@
                                 <table class="tbl-cart " cellpadding="10" cellspacing="1">
                                     <tbody>
                                         <tr>
+                                            <th style="text-align:left;">Disponibilidade</th>
                                             <th style="text-align:center;">Nome Produto</th>
                                             <th style="text-align:center;">ID</th>
                                             <th style="text-align:right;" width="5%">Stock</th>
@@ -191,6 +192,11 @@
                                         {% set nome_fornecedor = produto[7] %}
                                         {% set id_fornecedor = produto[-1]%}
                                         <tr>
+                                            {%if em_stock > 10:%}
+                                            <td style="text-align:left;">Disponivel</td>
+                                            {%elif em_stock <= 10: %}
+                                            <td style="text-align: left;"> <button>Encomendar</button> </td>
+                                            {%endif%}
                                             <td style="text-align:center;">{{nome_produto}}</td>
                                             <td style="text-align:center;">{{ id_produto }}</td>
                                             <td style="text-align:right;" width="5%">{{ em_stock }}</td>
@@ -240,11 +246,15 @@
                                 </table>
                                 {%endif%}<p></p>
                             </nav>
+
                         </div>
                     </div>
                 </nav>
             </div>
+
+            <p></p>
+
+            
         </div>
-        <p></p>
     </main>
 </body>

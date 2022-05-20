@@ -237,7 +237,7 @@ def logout():
             session.pop('user')
             session.pop('username')
             session.clear()
-            
+
     if 'log_in_admin' in session:
         if session['log_in_admin'] == True:
             session.pop('log_in_admin')
@@ -665,16 +665,15 @@ def add_product_to_cart():
                         print('\n\n{}'.format(itemArray))
                         break
                     elif itemArray['id'] != item['id']:
-                        # adiciona produto que nao se encontra na lista
+                        # This is not a bug, its a feature
                         print('adiciona produto que nao se encontra na lista')
-                        print(session['carrinho'], '\n', (itemArray))
 
                     else:
                         print('Erro ao somar produto')
                 else:
                     try:
                         session['carrinho'].append(itemArray)
-                        print("Erro qualquer estupido")
+                        print("feature")
 
                     except Exception as e:
                         session['carrinho'] = list(session['carrinho'])
@@ -718,8 +717,6 @@ def empty_cart():
         del(session['carrinho'])
         del(session['all_total_preco'])
         del(session['all_total_quantidade'])
-        print(session['carrinho'])
-        print(session)
         return redirect(url_for('.carrinho'))
 
     except Exception as e:
@@ -731,24 +728,28 @@ def empty_cart():
 
 @root.route('/delete/<string:code>')
 def delete_product(code):
-    all_total_preco = 0
-    all_total_quantidade = 0
+    all_total_preco = session['all_total_preco']
+    all_total_quantidade = session['all_total_quantidade']
     session.modified = True
     for item in session['carrinho']:
-        if item['id'] == code:
-            session['carrinho'].pop(item[0], None)
-            if 'carrinho' in session:
-                for key in session['carrinho']:
-                    individual_quantidade = int(key['quantidade'])
-                    individual_preco = float(key['total'])
-                    all_total_quantidade = all_total_quantidade - individual_quantidade
-                    all_total_preco = all_total_preco - \
-                        (individual_preco*individual_quantidade)
+        print(item,'break\n')
+        print(code)
+        item_id = item['id']
+
+        if item_id == int(code):
+            print(item)
+            retirar_daconta = item['quantidade'] * item['preco']
+            session['all_total_preco'] = all_total_preco - retirar_daconta
+            session['all_total_quantidade'] =  all_total_quantidade - item['quantidade']
+            session['carrinho'].pop()
+            return redirect(url_for('.carrinho'))
+            
+
+        else:
+            print('carrinho:',session['carrinho'])
+            pass
     if all_total_quantidade == 0:
         session['carrinho'] = []
-    else:
-        session['all_total_quantidade'] = all_total_quantidade
-        session['all_total_preco'] = all_total_preco
     # return redirect('/')
     return redirect(url_for('.carrinho'))
 
@@ -793,21 +794,21 @@ def finalizar_compra():
     return redirect(url_for('.carrinho'))
 
 # aviso de quantidade de produto em baixo
-# def notificacao_produtos_low():
-#   con = sqlite3.connect('database/dados_informacoes2.db')
-#   cursor = con.cursor()
-#   cursor.execute("SELECT * FROM Prosutos")
-#   lista_prods = cursor.fetchall()
-#   for produto in lista_prods:
-#       id_prod = produto[0]
-#       nome_prod = produto[1]
-#       quantidade_armazem = produto[2]
-#       quantidade_vendidos = produto[3]
-#           if quantidade_armazem <10:
-#               low_stock = True
-#               print("Baixa Quantidade de Produto")
-#
-#
+def notificacao_produtos_low(produto_id):
+    con = sqlite3.connect('database/dados_informacoes2.db')
+    cursor = con.cursor()
+    cursor.execute("SELECT * FROM Prosutos WHERE produto_id={}",produto_id)
+    produto_em_falta = cursor.fetchone()
+    produto_detalhes = {'id':produto_em_falta[0]}
+
+    return produto_detalhes
+        #if quantidade_armazem <10:
+        #    low_stock = True
+        #    return "Baixa Quantidade de Produto"
+        #else:
+        #    return "Disponivel"
+
+
 
 
 if __name__ == "__main__":

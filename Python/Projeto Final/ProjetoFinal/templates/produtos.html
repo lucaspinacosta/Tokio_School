@@ -112,7 +112,7 @@
                     <h4>{{ '%.2f' % preco_produto}}€</h4>
 
                     <div class="d-flex justify-content-between">
-                        <div class="btn-group">{% if session['log_in'] == True or session['log_in_admin'] == True %}
+                        <div class="btn-group">{% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor'] == True %}
                             <form action="/add" method="post">
 
                                 <input type="hidden" name="code" value="{{id_do_produto}}" />
