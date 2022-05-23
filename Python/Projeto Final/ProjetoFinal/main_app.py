@@ -59,6 +59,15 @@ class Fornecedor(db.Model):
     db.create_all()
     db.session.commit()
 
+def fornecer_produto( id_encomenda):
+    _quantidade_encomenda = request.form['quantidade']
+    id_encomenda
+
+    produtos = lista_produtos()
+    for produto in produtos:
+        if produto['id'] == id_encomenda:
+            print(produto)
+
 
 # Verificar Admin
 def db_verificar_email_admin():
@@ -70,8 +79,6 @@ def db_verificar_email_admin():
     return emails
 
 # Verificar Usuario
-
-
 def db_verificar_email():
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
@@ -81,8 +88,6 @@ def db_verificar_email():
     return emails
 
 # Verificar Fornecedor
-
-
 def db_verificar_fornecedor():
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
@@ -92,8 +97,6 @@ def db_verificar_fornecedor():
     return emails
 
 # Home Page
-
-
 @root.route('/', methods=['GET', 'POST'])
 def home():
     todos_os_produtos = lista_produtos()
@@ -708,9 +711,8 @@ def add_product_to_cart():
     else:
         return 'erro ao adicionar'
 
+
 # Limpar Carrinho
-
-
 @root.route('/empty')
 def empty_cart():
     try:
@@ -723,9 +725,9 @@ def empty_cart():
         print(e)
     finally:
         return redirect(url_for('.carrinho'))
+
+
 # Remover item do carrinho
-
-
 @root.route('/delete/<string:code>')
 def delete_product(code):
     all_total_preco = session['all_total_preco']
