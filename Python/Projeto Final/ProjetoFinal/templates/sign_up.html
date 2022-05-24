@@ -33,9 +33,9 @@
                 <ul class="nav me-auto">
                     <li class="nav-item"><a href="/" class="nav-link link-dark px-2" aria-current="page">Home</a>
                     </li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Features</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Pricing</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
+                    {% if session['log_in_admin'] == True%}
+                    <li class="nav-item"><a href="/listagem_produto" class="nav-link link-dark px-2">Gestao</a></li>
+                    {% endif %}
                 </ul>
                 <ul class="nav">
                     <!--<li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a></li>
@@ -78,17 +78,17 @@
                                 <input type="String" name="cidade_usuario_signup" placeholder="Cidade"
                                     class="form-control">
                             </div>
+                            <p></p>
                             <button type="submit" class="btn btn_links btn-block">Confirm
                                 Registration
                             </button>
+                            <a type="submit" href="/user-login" formmethod="get"
+                                class="btn btn-default btn_smalsize btn-group bg-light">Login</a>
                         </form>
-                    </div>
 
+                        <p></p>
 
-                    <div class="form-group row-cols-5em text-center">
-                        <a type="submit"  href="/user-login" formmethod="get"
-                            class="btn btn-default btn_smalsize btn-group bg-light">Login</a>
-                        <a type="submit" href="#" class="btn btn_smalsize btn-default btn-group bg-light">Restore Password</a>
+                        
                     </div>
                 </div>
             </nav>

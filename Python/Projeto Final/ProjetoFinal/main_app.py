@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sync_inventario_database import sheet_produtos
 
 
+
 root = Flask(__name__)
 root.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/dados_informacoes2.db'
 root.secret_key = "aht278945ht2h49sdfgsdfg5t9h"
@@ -16,20 +17,20 @@ root.config['DEBUG'] = True
 class Produtos(db.Model):
     __tablename__ = "Produtos"
     numero_serie = db.Column(db.Integer, primary_key=True)
-    nome_de_produto = db.Column(db.String(100))
+    nome_produto = db.Column(db.String(100))
     em_armazem = db.Column(db.Integer)
     vendidos = db.Column(db.Integer)
     preco_fornecedor = db.Column(db.Float)
     valor_venda = db.Column(db.Float)
     prateleira = db.Column(db.String(3))
-    descricao = db.Column(db.String)
     fornecedor = db.Column(db.Integer)
+    descricao = db.Column(db.String)
     url_prod = db.Column(db.String)
-    img_dir = db.Column(db.String)
+    imf_dir = db.Column(db.String)
+    quantidade_encomenda = db.Column(db.Integer)
     id_fornecedor = db.Column(db.Integer)
     db.create_all()
     db.session.commit()
-
 
 # DataBase Clientes
 class Clientes(db.Model):
@@ -44,9 +45,6 @@ class Clientes(db.Model):
     db.create_all()
     db.session.commit()
 
-# Carrinho
-
-
 # DataBase Fornecedor
 class Fornecedor(db.Model):
     __tablename__ = 'Fornecedores'
@@ -55,18 +53,11 @@ class Fornecedor(db.Model):
     nome_forneceder = db.Column(db.String)
     desp_fornecedor = db.Column(db.Float)
     contacto_fornecedor = db.Column(db.Integer)
-    encomenda_for = db.Column(db.String)
+    numero_IF = db.Column(db.Integer)
+    imposto_IVA = db.Column(db.Integer)
+    desconto_fornecedor = db.Column(db.Integer)
     db.create_all()
     db.session.commit()
-
-def fornecer_produto( id_encomenda):
-    _quantidade_encomenda = request.form['quantidade']
-    id_encomenda
-
-    produtos = lista_produtos()
-    for produto in produtos:
-        if produto['id'] == id_encomenda:
-            print(produto)
 
 
 # Verificar Admin
@@ -78,6 +69,7 @@ def db_verificar_email_admin():
     con.close()
     return emails
 
+
 # Verificar Usuario
 def db_verificar_email():
     con = sqlite3.connect('database/dados_informacoes2.db')
@@ -87,6 +79,7 @@ def db_verificar_email():
     con.close()
     return emails
 
+
 # Verificar Fornecedor
 def db_verificar_fornecedor():
     con = sqlite3.connect('database/dados_informacoes2.db')
@@ -95,6 +88,57 @@ def db_verificar_fornecedor():
     emails = cursor.fetchall()
     con.close()
     return emails
+
+
+# Lista Produtos
+def lista_produtos():
+    try:
+        con = sqlite3.connect('database/dados_informacoes2.db')
+        cursor = con.cursor()
+        cursor.execute("SELECT * FROM Produtos")
+        produtos = cursor.fetchall()
+        return produtos
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        con.close()
+
+#criacao de Produto
+@root.route('/admin/criar-produto',methods=['GET','POST'])
+def criar_produto():
+    if session['log_in_admin'] == True and request.method == 'POST':
+        produto = Produtos(nome_produto = request.form['nome_produto'], em_armazem = 0,vendidos = 0,
+            preco_fornecedor = request.form['preco_fornecedor'], valor_venda = request.form['valor_venda'],
+            prateleira = request.form['Prateleira'], fornecedor = request.form['nome_fornecedor'],
+            descricao = request.form['descricao_prod'], url_prod = request.form['url_prod'],
+            imf_dir = request.form['imagem_prod'], quantidade_encomenda = 0, id_fornecedor = request.form['id_fornecedor'])
+        db.session.add(produto)
+        db.session.commit()
+        return redirect(url_for('.listagem_produto'))
+    
+    elif session['log_in_admin']==True and request.method == 'GET':
+        return render_template('criar_produtos.html')
+    else:
+        return redirect(url_for('.home'))
+
+# Listagem de fornecedores
+def lista_fornecedores():
+    try:
+        con = sqlite3.connect('database/dados_informacoes2.db')
+        cursor = con.cursor()
+        cursor.execute("SELECT * FROM Fornecedores")
+        fornecedores = cursor.fetchall()
+        return fornecedores
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        con.close()
+
+#Criacao de fornecedor
+def criar_fornecedor():
+    pass
 
 # Home Page
 @root.route('/', methods=['GET', 'POST'])
@@ -129,7 +173,7 @@ def sign_up():
         return redirect(url_for('login'))
 
 
-##Pagina de LOGIN##
+#Pagina de LOGIN
 @root.route('/user-login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -229,7 +273,7 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
 
-
+#Log Out
 @root.route("/logout")
 def logout():
 
@@ -260,9 +304,8 @@ def logout():
 
     return redirect(url_for('home'))
 
+
 # pagina carrinho
-
-
 @root.route('/user-login/carrinho', methods=['GET', 'POST'])
 def carrinho():
     if request.method == 'GET':
@@ -274,363 +317,6 @@ def carrinho():
             return render_template('carrinho.html', log_in=session['log_in'], user=session['username'], carrinho=session['carrinho'])
         except:
             return render_template('carrinho.html', log_in=None, user=None)
-
-        ##
-##Products Section ##
-        ##
-
-        # Produtos em Stock
-
-# Lista Produtos
-
-
-def lista_produtos():
-    try:
-        con = sqlite3.connect('database/dados_informacoes2.db')
-        cursor = con.cursor()
-        cursor.execute("SELECT * FROM Produtos")
-        produtos = cursor.fetchall()
-        return produtos
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close()
-        con.close()
-
-
-# Listagem de fornecedores
-def lista_fornecedores():
-    try:
-        con = sqlite3.connect('database/dados_informacoes2.db')
-        cursor = con.cursor()
-        cursor.execute("SELECT * FROM Fornecedores")
-        fornecedores = cursor.fetchall()
-        return fornecedores
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close()
-        con.close()
-
-# Lista de Produtos
-
-
-@root.route('/listagem_produto', methods=['GET', 'POST'])
-def todos_produtos():
-    # informação apresentada ao cliente
-    todos_os_produtos = lista_produtos()
-    print(lista_fornecedores())
-    lista_de_fornecedores = lista_fornecedores()
-    if request.method == 'GET':
-        if 'log_in' in session:
-            if session['log_in'] == True:
-                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
-
-        if 'log_in_admin' in session:
-            if session['log_in_admin'] == True:
-                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=session['log_in_admin'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
-        if 'log_in_fornecedor' in session:
-            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_forn=session['log_in_fornecedor'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
-
-        if session == session.close():
-            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, log_in_fornecedor=False, user=None)
-
-
-# Pagina Exibicao do produto detalhado asus geforce 3080
-@root.route('/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x', methods=['GET'])
-def asusgeforce_rtx3080():
-    for produto_select in sheet_produtos.rows:
-        if produto_select[0].value == 2:
-            numero_serie = int(produto_select[0].value)
-            nome_produto = produto_select[1].value
-            preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png'
-            descricao_prod = {'arquitetura': ["PREPARA-TE PARA VOAR", "De cima abaixo, a ROG Strix GeForce RTX™ 3080 foi radicalmente melhorada para acomodar os novos e impressionantes chips Ampere da NVIDIA e para fornecer a próxima onda de inovação de performance gaming ao mercado. Um novo design e mais metal envolvem um conjunto de ventoinhas Axial-tech.",
-                                              "A disposição uniforme das ventoinhas da última geração foi usurpada por um novo esquema de rotação e funções especializadas para as ventoinhas centrais e auxiliares. Por baixo das pás, um dissipador maior e mais impressionante está pronto para as cargas térmicas mais exigentes.", "A PCB tem alguns novos truques na manga, e até a placa traseira recebeu algumas alterações de para melhorarem a performance. Tens estado à espera das últimas e maiores novidades no design do GPU - e são estas!",
-                                              "A PCB tem alguns novos truques na manga, e até a placa traseira recebeu algumas alterações de para melhorarem a performance. Tens estado à espera das últimas e maiores novidades no design do GPU - e são estas!"],
-                              'aceleracao': ["MELHORAMENTOS AXIAL-TECH", "O nosso design de ventoinhas Axial-tech foi otimizado com um dissipador novo e maior, com mais aletas e área de superfície do que o da última geração. A contagem de pás foi aumentada nas três ventoinhas, com 13 na ventoinha central e 11 nas ventoinhas auxiliares.",
-                                             "O anel de barreira nas ventoinhas laterais foi encolhido para permitir uma maior entrada de ar lateral e para proporcionar um melhor fluxo de ar através do conjunto de arrefecimento. As pás adicionais da ventoinha central e o anel com altura total proporcionam uma pressão estática mais forte para disparar ar diretamente para o dissipador do GPU."],
-                              'extra': ["DESIGN DE 2.9 RANHURAS", " O dissipador de calor direciona o calor para os heatpipes que o transportam através de um conjunto de aletas que preenche a grande placa de 2.9 ranhuras. Aumentar o tamanho do dissipador comparativamente à última geração proporciona mais amplitude térmica para contabilizar o novo chipset de alta performance."],
-                              'extra2': ["MAXCONTACT", "O encaminhamento do calor para o dissipador, que permite beneficiar do novo design das ventoinhas requer uma atenção especial. Usamos um processo de fabrico que pole a superfície do dissipador de calor para melhorar a suavidade ao nível microscópico. Sendo extra plano permite um melhor contacto com o molde para uma melhor transferência térmica."]}
-
-            especificacoes = {'sistema_operativo': ['Processador Gráfico', 'GeForce RTX 3080'], 'Processador': ['BUS', "PCI Express 4.0 16x"],
-                              'memoria_ram': ['Memória de Vídeo', '12GB GDDR6X'],
-                              'armazenamento': ['Velocidade', 'OC mode: 1890 MHz (Boost Clock)', 'Gaming mode: 1860 MHz (Boost Clock)'],
-                              'audio': ['CUDA cores', '8960'],
-                              'ecra': ['Velocidade de Memória', '19 Gbps'],
-                              'grafica': ['Interface de Memória', '384-bit'],
-                              'cor': ['Suporte para multi-monitor', 'Até 4 monitores'],
-                              'interface': ['Interface', '3 x DisplayPort 1.4a', '2 x HDMI 2.1']}
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto,
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-# Pagina Exibicao do produto detalhado asus geforce 3070
-
-
-@root.route('/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6', methods=['GET'])
-def geforce_3070():
-    for produto_select in sheet_produtos.rows:
-        if produto_select[0].value == 3:
-            numero_serie = produto_select[0].value
-            nome_produto = produto_select[1].value
-            preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6.png'
-            descricao_prod = {'arquitetura': ["ARQUITETURA AMPERE DA NVIDIA", "MA nova arquitetura Ampere da NVIDIA proporciona a verdadeira jogabilidade, com avançados Ray Tracing Cores da 2.ª geração e Núcleos Tensor de 3.ª geração com maior rendimento."],
-                              'aceleracao': ["ACELERAÇÃO DE INTELIGÊNCIA ARTIFICIAL DLSS", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
-                              'extra': ["DIRECTX 12 ULTIMATE", "Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas."],
-                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
-
-            especificacoes = {'sistema_operativo': ['Processador Gráfico', 'NVIDIA® GeForce® RTX 3070'], 'Processador': ['BUS', "PCI Express 4.0 16x"],
-                              'memoria_ram': ['Memória de Vídeo', '8GB GDDR6'],
-                              'armazenamento': ['Velocidade', 'Base Clock: 1725 MHz', 'Boost Clock: 1845 MHz'],
-                              'audio': ['CUDA cores', '5888'],
-                              'ecra': ['Velocidade de Memória', '14 Gbps'],
-                              'grafica': ['Interface de Memória', '256 Bits'],
-                              'cor': ['Dimensões', '290 x 131 x 60 mm'],
-                              'interface': ['Interface', '3 x DisplayPort 1.4a', '1 x HDMI 2.1', '1 x HDMI 2.0', 'Suporte HDCP 2.3']}
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto,
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-# Pagina Exibicao do produto detalhado Computador King
-
-
-@root.route('/listagem_produto/armazem/Computador-King-Mod', methods=['GET'])
-def kingModDesktop():
-    for produto_select in sheet_produtos.rows:
-        if produto_select[0].value == 4:
-            numero_serie = produto_select[0].value
-            nome_produto = produto_select[1].value
-            preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/Computador King Mod.png'
-            descricao_prod = {'arquitetura': ["KING MOD GAMER MSI i5", "Intel Core i5 11400F | 16GB DDR4 | SSD 500GB | RTX 2060"],
-                              'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
-                              'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
-                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
-
-            especificacoes = {'sistema_operativo': ['Sistema Operativo', 'Nao incluido'], 'Processador': ['Processador', "Intel Core i5 11400F (2.6GHz-4.4GHz) 12MB Socket 1200"],
-                              'memoria_ram': ['Memoria Ram', 'Kit 16GB (2 x 8GB) DDR4 3200MHz'],
-                              'armazenamento': ['Armazenamento', 'Disco SSD 500GB M.2 NVMe'],
-                              'audio': ['Fonte de Alimentacao', 'Fonte 600W 80+ Gold'],
-                              'ecra': ['Motherboard', 'Motherboard MSI H510 PRO'],
-                              'grafica': ['Grafica', 'Placa Gráfica MSI GeForce® RTX 2060'],
-                              'cor': ['Cor', 'Caixa ATX, Preta, Vidro Temperado'],
-                              'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto,
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-# Pagina Exibicao do produto detalhado Asus VivoBook K513EP
-
-
-@root.route('/listagem_produto/armazem/Asus-VivoBook-K513EP', methods=['GET'])
-def vivoBook_K513EP():
-    for produto_select in sheet_produtos.rows:
-        if produto_select[0].value == 5:
-            numero_serie = produto_select[0].value
-            nome_produto = produto_select[1].value
-            preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/Asus VivoBook K513EP.png'
-            descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
-                              'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
-                              'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
-                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
-
-            especificacoes = {'sistema_operativo': ['Sistema Operativo', 'Windows 10 Home'], 'Processador': ['Processador', "Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
-                              'memoria_ram': ['Memoria Ram', ' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
-                              'armazenamento': ['Armazenamento', 'SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
-                              'audio': ['Audio', 'Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
-                              'ecra': ['Ecra', '15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
-                              'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
-                              'cor': ['Cor', 'Prateado'],
-                              'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto,
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-# Pagina Exibicao do produto detalhado Asus VivoBook K513EP
-
-
-@root.route('/listagem_produto/armazem/HP-Pavillon-x360', methods=['GET'])
-def hp_pavillon_360():
-    for produto_select in sheet_produtos.rows:
-        if produto_select[0].value == 6:
-            numero_serie = produto_select[0].value
-            nome_produto = produto_select[1].value
-            preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/HP Pavillon x360.png'
-            descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
-                              'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
-                              'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
-                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
-
-            especificacoes = {'sistema_operativo': ['Sistema Operativo', 'Windows 10 Home'], 'Processador': ['Processador', "Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
-                              'memoria_ram': ['Memoria Ram', ' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
-                              'armazenamento': ['Armazenamento', 'SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
-                              'audio': ['Audio', 'Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
-                              'ecra': ['Ecra', '15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
-                              'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
-                              'cor': ['Cor', 'Prateado'],
-                              'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto,
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-# Pagina Exibicao do produto detalhado SSD Kingston NV1
-
-
-@root.route('/listagem_produto/armazem/SSD-Kingston-NV1', methods=['GET'])
-def ssd_kingston_nv1():
-    for produto_select in sheet_produtos.rows:
-        if produto_select[0].value == 7:
-            numero_serie = produto_select[0].value
-            nome_produto = produto_select[1].value
-            preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/SSD Kingston NV1.png'
-            descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
-                              'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
-                              'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
-                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
-
-            especificacoes = {'sistema_operativo': ['Sistema Operativo', 'Windows 10 Home'], 'Processador': ['Processador', "Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
-                              'memoria_ram': ['Memoria Ram', ' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
-                              'armazenamento': ['Armazenamento', 'SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
-                              'audio': ['Audio', 'Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
-                              'ecra': ['Ecra', '15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
-                              'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
-                              'cor': ['Cor', 'Prateado'],
-                              'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
-
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto,
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-# Pagina Exibicao do produto detalhado Monitor Dell 27 S2721HGF Curvo FHD
-
-
-@root.route('/listagem_produto/armazem/Monitor-Dell-27-S2721HGF-Curvo-FHD', methods=['GET'])
-def monitor_dell_s2721hgf():
-    for produto_select in sheet_produtos.rows:
-        if produto_select[0].value == 8:
-            numero_serie = produto_select[0].value
-            nome_produto = produto_select[1].value
-            preco_produto = produto_select[5].value
-            imagem_produto = '/static/produtos/Monitor Dell 27 S2721HGF.png'
-            descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
-                              'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
-                              'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
-                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
-
-            especificacoes = {'sistema_operativo': ['Sistema Operativo', 'Windows 10 Home'], 'Processador': ['Processador', "Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
-                              'memoria_ram': ['Memoria Ram', ' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
-                              'armazenamento': ['Armazenamento', 'SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
-                              'audio': ['Audio', 'Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
-                              'ecra': ['Ecra', '15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
-                              'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
-                              'cor': ['Cor', 'Prateado'],
-                              'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto,
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
 
 
 # Adicionar ao carrinho
@@ -698,7 +384,6 @@ def add_product_to_cart():
             preco_total = item['total']
             all_total_quantidade += quantidade_individual
             all_total_preco += preco_total
-            
 
         session['all_total_quantidade'] = all_total_quantidade
         session['all_total_preco'] = all_total_preco
@@ -734,7 +419,7 @@ def delete_product(code):
     all_total_quantidade = session['all_total_quantidade']
     session.modified = True
     for item in session['carrinho']:
-        print(item,'break\n')
+        print(item, 'break\n')
         print(code)
         item_id = item['id']
 
@@ -742,22 +427,21 @@ def delete_product(code):
             print(item)
             retirar_daconta = item['quantidade'] * item['preco']
             session['all_total_preco'] = all_total_preco - retirar_daconta
-            session['all_total_quantidade'] =  all_total_quantidade - item['quantidade']
+            session['all_total_quantidade'] = all_total_quantidade - \
+                item['quantidade']
             session['carrinho'].pop()
             return redirect(url_for('.carrinho'))
-            
 
         else:
-            print('carrinho:',session['carrinho'])
+            print('carrinho:', session['carrinho'])
             pass
     if all_total_quantidade == 0:
         session['carrinho'] = []
     # return redirect('/')
     return redirect(url_for('.carrinho'))
 
+
 # Finalizar Compras
-
-
 @root.route('/pagamento')
 def finalizar_compra():
     con = sqlite3.connect('database/dados_informacoes2.db')
@@ -795,22 +479,389 @@ def finalizar_compra():
     empty_cart()
     return redirect(url_for('.carrinho'))
 
+
+# Lista de Produtos
+@root.route('/listagem_produto', methods=['GET', 'POST'])
+def todos_produtos():
+    # informação apresentada ao cliente
+    todos_os_produtos = lista_produtos()
+    lista_de_fornecedores = lista_fornecedores()
+    if request.method == 'GET':
+        if 'log_in' in session:
+            if session['log_in'] == True:
+                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in=session['log_in'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
+
+        if 'log_in_admin' in session:
+            if session['log_in_admin'] == True:
+                return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=session['log_in_admin'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
+        if 'log_in_fornecedor' in session:
+            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_forn=session['log_in_fornecedor'], user=session['username'], lista_de_fornecedores=lista_de_fornecedores)
+
+        if session == session.close():
+            return render_template('lista_produtos.html', todos_os_produtos=todos_os_produtos, log_in_admin=False, log_in=False, log_in_fornecedor=False, user=None)
+
+
+#Encomenda de produtos ao Fornecedor
+@root.route('/encomendas', methods = ['POST'])
+def fornecer_produto():
+    id_encomenda = request.form['id_produto']
+    _quantidade_encomenda = int(request.form['quantidade'])
+    if id_encomenda and _quantidade_encomenda and request.method == "POST":
+        try:
+            if 'log_in_admin' in session:
+                #Realiza a encomenda ao fornecedor 
+                con = sqlite3.connect('database/dados_informacoes2.db')
+                cursor = con.cursor()
+                cursor.execute("SELECT * FROM Produtos WHERE numero_serie=(?)",id_encomenda)
+                info_prod = cursor.fetchone()
+                old_encomendas = info_prod[11]
+                print(info_prod)
+                total = old_encomendas + _quantidade_encomenda
+
+                cursor.execute("UPDATE Produtos SET quantidade_encomenda={} WHERE numero_serie={} ".format(
+                    total, id_encomenda))
+                
+                con.commit()
+                cursor.close()
+                return redirect(url_for('.todos_produtos'))
+
+            if 'log_in_fornecedor' in session:
+                #Realiza a entrega das encomendas ao armazem da loja
+                con = sqlite3.connect('database/dados_informacoes2.db')
+                cursor = con.cursor()
+                cursor.execute("SELECT * FROM Produtos WHERE numero_serie=(?)",id_encomenda)
+                info_prod = cursor.fetchone()
+                old_stock = info_prod[2]
+
+                total = old_stock +_quantidade_encomenda
+                cursor.execute("UPDATE Produtos SET em_armazem={} WHERE numero_serie={} ".format(
+                    total, id_encomenda))
+
+                entrega = info_prod[11]
+                if entrega > 0:
+                    entrega = info_prod[11] - _quantidade_encomenda
+                    cursor.execute("UPDATE Produtos SET quantidade_encomenda={} WHERE numero_serie={} ".format(
+                        entrega, id_encomenda))
+                elif entrega < 0:
+                    pass
+                con.commit()
+                cursor.close()
+                return redirect(url_for('.todos_produtos'))
+        except Exception as e:
+            print(e)
+            return redirect(url_for('.todos_produtos'))
+    else:
+        try: 
+            print(id_encomenda,_quantidade_encomenda)
+        except Exception as e:
+            print (e)
+
+
+# Pagina Exibicao do produto detalhado asus geforce 3080
+@root.route('/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x', methods=['GET'])
+def asusgeforce_rtx3080():
+    for produto_select in sheet_produtos.rows:
+        if produto_select[0].value == 2:
+            numero_serie = int(produto_select[0].value)
+            nome_produto = produto_select[1].value
+            preco_produto = produto_select[5].value
+            imagem_produto = '/static/produtos/Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X.png'
+            descricao_prod = {'arquitetura': ["PREPARA-TE PARA VOAR", "De cima abaixo, a ROG Strix GeForce RTX™ 3080 foi radicalmente melhorada para acomodar os novos e impressionantes chips Ampere da NVIDIA e para fornecer a próxima onda de inovação de performance gaming ao mercado. Um novo design e mais metal envolvem um conjunto de ventoinhas Axial-tech.",
+                                              "A disposição uniforme das ventoinhas da última geração foi usurpada por um novo esquema de rotação e funções especializadas para as ventoinhas centrais e auxiliares. Por baixo das pás, um dissipador maior e mais impressionante está pronto para as cargas térmicas mais exigentes.", "A PCB tem alguns novos truques na manga, e até a placa traseira recebeu algumas alterações de para melhorarem a performance. Tens estado à espera das últimas e maiores novidades no design do GPU - e são estas!",
+                                              "A PCB tem alguns novos truques na manga, e até a placa traseira recebeu algumas alterações de para melhorarem a performance. Tens estado à espera das últimas e maiores novidades no design do GPU - e são estas!"],
+                              'aceleracao': ["MELHORAMENTOS AXIAL-TECH", "O nosso design de ventoinhas Axial-tech foi otimizado com um dissipador novo e maior, com mais aletas e área de superfície do que o da última geração. A contagem de pás foi aumentada nas três ventoinhas, com 13 na ventoinha central e 11 nas ventoinhas auxiliares.",
+                                             "O anel de barreira nas ventoinhas laterais foi encolhido para permitir uma maior entrada de ar lateral e para proporcionar um melhor fluxo de ar através do conjunto de arrefecimento. As pás adicionais da ventoinha central e o anel com altura total proporcionam uma pressão estática mais forte para disparar ar diretamente para o dissipador do GPU."],
+                              'extra': ["DESIGN DE 2.9 RANHURAS", " O dissipador de calor direciona o calor para os heatpipes que o transportam através de um conjunto de aletas que preenche a grande placa de 2.9 ranhuras. Aumentar o tamanho do dissipador comparativamente à última geração proporciona mais amplitude térmica para contabilizar o novo chipset de alta performance."],
+                              'extra2': ["MAXCONTACT", "O encaminhamento do calor para o dissipador, que permite beneficiar do novo design das ventoinhas requer uma atenção especial. Usamos um processo de fabrico que pole a superfície do dissipador de calor para melhorar a suavidade ao nível microscópico. Sendo extra plano permite um melhor contacto com o molde para uma melhor transferência térmica."]}
+
+            especificacoes = {'sistema_operativo': ['Processador Gráfico', 'GeForce RTX 3080'], 'Processador': ['BUS', "PCI Express 4.0 16x"],
+                              'memoria_ram': ['Memória de Vídeo', '12GB GDDR6X'],
+                              'armazenamento': ['Velocidade', 'OC mode: 1890 MHz (Boost Clock)', 'Gaming mode: 1860 MHz (Boost Clock)'],
+                              'audio': ['CUDA cores', '8960'],
+                              'ecra': ['Velocidade de Memória', '19 Gbps'],
+                              'grafica': ['Interface de Memória', '384-bit'],
+                              'cor': ['Suporte para multi-monitor', 'Até 4 monitores'],
+                              'interface': ['Interface', '3 x DisplayPort 1.4a', '2 x HDMI 2.1']}
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
+
+
+# Pagina Exibicao do produto detalhado asus geforce 3070
+@root.route('/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6', methods=['GET'])
+def geforce_3070():
+    for produto_select in sheet_produtos.rows:
+        if produto_select[0].value == 3:
+            numero_serie = produto_select[0].value
+            nome_produto = produto_select[1].value
+            preco_produto = produto_select[5].value
+            imagem_produto = '/static/produtos/Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6.png'
+            descricao_prod = {'arquitetura': ["ARQUITETURA AMPERE DA NVIDIA", "MA nova arquitetura Ampere da NVIDIA proporciona a verdadeira jogabilidade, com avançados Ray Tracing Cores da 2.ª geração e Núcleos Tensor de 3.ª geração com maior rendimento."],
+                              'aceleracao': ["ACELERAÇÃO DE INTELIGÊNCIA ARTIFICIAL DLSS", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
+                              'extra': ["DIRECTX 12 ULTIMATE", "Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas."],
+                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
+
+            especificacoes = {'sistema_operativo': ['Processador Gráfico', 'NVIDIA® GeForce® RTX 3070'], 'Processador': ['BUS', "PCI Express 4.0 16x"],
+                              'memoria_ram': ['Memória de Vídeo', '8GB GDDR6'],
+                              'armazenamento': ['Velocidade', 'Base Clock: 1725 MHz', 'Boost Clock: 1845 MHz'],
+                              'audio': ['CUDA cores', '5888'],
+                              'ecra': ['Velocidade de Memória', '14 Gbps'],
+                              'grafica': ['Interface de Memória', '256 Bits'],
+                              'cor': ['Dimensões', '290 x 131 x 60 mm'],
+                              'interface': ['Interface', '3 x DisplayPort 1.4a', '1 x HDMI 2.1', '1 x HDMI 2.0', 'Suporte HDCP 2.3']}
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
+
+
+# Pagina Exibicao do produto detalhado Computador King
+@root.route('/listagem_produto/armazem/Computador-King-Mod', methods=['GET'])
+def kingModDesktop():
+    for produto_select in sheet_produtos.rows:
+        if produto_select[0].value == 4:
+            numero_serie = produto_select[0].value
+            nome_produto = produto_select[1].value
+            preco_produto = produto_select[5].value
+            imagem_produto = '/static/produtos/Computador King Mod.png'
+            descricao_prod = {'arquitetura': ["KING MOD GAMER MSI i5", "Intel Core i5 11400F | 16GB DDR4 | SSD 500GB | RTX 2060"],
+                              'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
+                              'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
+                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
+
+            especificacoes = {'sistema_operativo': ['Sistema Operativo', 'Nao incluido'], 'Processador': ['Processador', "Intel Core i5 11400F (2.6GHz-4.4GHz) 12MB Socket 1200"],
+                              'memoria_ram': ['Memoria Ram', 'Kit 16GB (2 x 8GB) DDR4 3200MHz'],
+                              'armazenamento': ['Armazenamento', 'Disco SSD 500GB M.2 NVMe'],
+                              'audio': ['Fonte de Alimentacao', 'Fonte 600W 80+ Gold'],
+                              'ecra': ['Motherboard', 'Motherboard MSI H510 PRO'],
+                              'grafica': ['Grafica', 'Placa Gráfica MSI GeForce® RTX 2060'],
+                              'cor': ['Cor', 'Caixa ATX, Preta, Vidro Temperado'],
+                              'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
+
+
+# Pagina Exibicao do produto detalhado Asus VivoBook K513EP
+@root.route('/listagem_produto/armazem/Asus-VivoBook-K513EP', methods=['GET'])
+def vivoBook_K513EP():
+    for produto_select in sheet_produtos.rows:
+        if produto_select[0].value == 5:
+            numero_serie = produto_select[0].value
+            nome_produto = produto_select[1].value
+            preco_produto = produto_select[5].value
+            imagem_produto = '/static/produtos/Asus VivoBook K513EP.png'
+            descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
+                              'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
+                              'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
+                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
+
+            especificacoes = {'sistema_operativo': ['Sistema Operativo', 'Windows 10 Home'], 'Processador': ['Processador', "Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
+                              'memoria_ram': ['Memoria Ram', ' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
+                              'armazenamento': ['Armazenamento', 'SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
+                              'audio': ['Audio', 'Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
+                              'ecra': ['Ecra', '15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
+                              'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
+                              'cor': ['Cor', 'Prateado'],
+                              'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
+
+
+# Pagina Exibicao do produto detalhado Asus VivoBook K513EP
+@root.route('/listagem_produto/armazem/HP-Pavillon-x360', methods=['GET'])
+def hp_pavillon_360():
+    for produto_select in sheet_produtos.rows:
+        if produto_select[0].value == 6:
+            numero_serie = produto_select[0].value
+            nome_produto = produto_select[1].value
+            preco_produto = produto_select[5].value
+            imagem_produto = '/static/produtos/HP Pavillon x360.png'
+            descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
+                              'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
+                              'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
+                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
+
+            especificacoes = {'sistema_operativo': ['Sistema Operativo', 'Windows 10 Home'], 'Processador': ['Processador', "Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
+                              'memoria_ram': ['Memoria Ram', ' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
+                              'armazenamento': ['Armazenamento', 'SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
+                              'audio': ['Audio', 'Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
+                              'ecra': ['Ecra', '15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
+                              'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
+                              'cor': ['Cor', 'Prateado'],
+                              'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
+
+
+# Pagina Exibicao do produto detalhado SSD Kingston NV1
+@root.route('/listagem_produto/armazem/SSD-Kingston-NV1', methods=['GET'])
+def ssd_kingston_nv1():
+    for produto_select in sheet_produtos.rows:
+        if produto_select[0].value == 7:
+            numero_serie = produto_select[0].value
+            nome_produto = produto_select[1].value
+            preco_produto = produto_select[5].value
+            imagem_produto = '/static/produtos/SSD Kingston NV1.png'
+            descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
+                              'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
+                              'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
+                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
+
+            especificacoes = {'sistema_operativo': ['Sistema Operativo', 'Windows 10 Home'], 'Processador': ['Processador', "Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
+                              'memoria_ram': ['Memoria Ram', ' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
+                              'armazenamento': ['Armazenamento', 'SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
+                              'audio': ['Audio', 'Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
+                              'ecra': ['Ecra', '15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
+                              'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
+                              'cor': ['Cor', 'Prateado'],
+                              'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
+
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
+
+
+# Pagina Exibicao do produto detalhado Monitor Dell 27 S2721HGF Curvo FHD
+@root.route('/listagem_produto/armazem/Monitor-Dell-27-S2721HGF-Curvo-FHD', methods=['GET'])
+def monitor_dell_s2721hgf():
+    for produto_select in sheet_produtos.rows:
+        if produto_select[0].value == 8:
+            numero_serie = produto_select[0].value
+            nome_produto = produto_select[1].value
+            preco_produto = produto_select[5].value
+            imagem_produto = '/static/produtos/Monitor Dell 27 S2721HGF.png'
+            descricao_prod = {'arquitetura': ["ALIMENTE A SUA PRODUTIVIDADE", "Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
+                              'aceleracao': ["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!", "Utilizando os Núcleos Tensor de processamento de Inteligência Artificial dedicados da GeForce RTX, NVIDIA DLSS é uma tecnologia inovadora em termos de renderização de Inteligência artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necessária para poder aumentar as definições e resoluções de modo a obteres uma experiência visual incrível. A revolução da Inteligência Artificial chegou ao gaming."],
+                              'extra': ["DIRECTX 12 ULTIMATE", " Os programadores podem agora acrescentar ainda mais efeitos gráficos espetaculares aos jogos para PC executáveis no Microsoft Windows. As placas gráficas GeForce RTX oferecem funcionalidades DX12 avançadas, como o ray tracing e o sombreamento de frequência variável, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais rápidas. "],
+                              'extra2': ["RGB FUSION 2.0", "Com 16,7M opções de cor personalizáveis e numerosos efeitos de iluminação, pode escolher efeitos de iluminação ou sincronizar com outros dispositivos AORUS."]}
+
+            especificacoes = {'sistema_operativo': ['Sistema Operativo', 'Windows 10 Home'], 'Processador': ['Processador', "Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
+                              'memoria_ram': ['Memoria Ram', ' 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)'],
+                              'armazenamento': ['Armazenamento', 'SSD de 512GB M.2 NVMe™ PCIe® 3.0'],
+                              'audio': ['Audio', 'Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)'],
+                              'ecra': ['Ecra', '15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut'],
+                              'grafica': ['Grafica', 'Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5'],
+                              'cor': ['Cor', 'Prateado'],
+                              'interface': ['Interface', '1 x USB 3.2 Gen 1 Type-A', '1 x USB 3.2 Gen 1 Type-C', '2 x USB 2.0 Tipo A', '1 x HDMI 1.4', '1 x Leitor de auscultadores//micro SD card']}
+    try:
+        if session['log_in'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   user=session['username'])
+        elif session['log_in_admin'] == True:
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto,
+                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   user=session['username'])
+    except:
+        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+                               preco_produto=preco_produto, imagem_produto=imagem_produto,
+                               descricao_prod=descricao_prod, especificacoes=especificacoes)
+
+
 # aviso de quantidade de produto em baixo
 def notificacao_produtos_low(produto_id):
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
-    cursor.execute("SELECT * FROM Prosutos WHERE produto_id={}",produto_id)
+    cursor.execute("SELECT * FROM Prosutos WHERE produto_id={}", produto_id)
     produto_em_falta = cursor.fetchone()
-    produto_detalhes = {'id':produto_em_falta[0]}
+    produto_detalhes = {'id': produto_em_falta[0]}
 
-    return produto_detalhes
-        #if quantidade_armazem <10:
-        #    low_stock = True
-        #    return "Baixa Quantidade de Produto"
-        #else:
-        #    return "Disponivel"
-
-
+    return produto_detalhes['id']
+    # if quantidade_armazem <10:
+    #    low_stock = True
+    #    return "Baixa Quantidade de Produto"
+    # else:
+    #    return "Disponivel"
 
 
 if __name__ == "__main__":

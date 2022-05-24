@@ -32,10 +32,9 @@
                 <img alt="lefters" src="static/LIC_Informatica3.png" width="80" height="50">
                 <ul class="nav me-auto">
                     <li class="nav-item"><a href="/" class="nav-link link-dark px-2" aria-current="page">Home</a>
-                    </li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Features</a></li>
-                    <li class="nav-item"><a href="/listagem_produto" class="nav-link link-dark px-2">Produtos</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
+                    </li>{% if session['log_in_admin'] == True or session['log_in_fornecedor']==True%}
+                    <li class="nav-item"><a href="/listagem_produto" class="nav-link link-dark px-2">Gestao</a></li>
+                    {% endif %}
                 </ul>
                 <ul>
                     {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor']
@@ -158,7 +157,7 @@
                                                             class="btn  btn-sm btn-outline-secondary">Buy</button>
                                                     </form>
                                                     {% if session['log_in_admin'] == True%}
-                                                    <button type="button"
+                                                    <button type="submit"
                                                         class="btn btn-sm btn-outline-secondary">Edit</button>
                                                     {%endif%}
 

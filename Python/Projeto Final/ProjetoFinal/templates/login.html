@@ -33,11 +33,11 @@
                 <ul class="nav me-auto">
                     <li class="nav-item"><a href="/" class="nav-link link-dark px-2" aria-current="page">Home</a>
                     </li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Features</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Pricing</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>
+                    {% if session['log_in_admin'] == True%}
+                    <li class="nav-item"><a href="/listagem_produto" class="nav-link link-dark px-2">Gestao</a></li>
+                    {% endif %}
                 </ul>
-                
+
             </div>
         </nav>
 
@@ -63,18 +63,20 @@
                                 <input type="text" name="email_login" placeholder="Email" class="form-control"
                                     autofocus>
                                 <input type="password" name="password_login" placeholder="Senha" class="form-control">
-                            <ul> {% if session['log_in_admin'] == False and session['log_in'] == False and session['log_in_fornecedor']==False%}
-                                <p><h6>Reveja as suas credencias</h6></p>
-                                {%endif%}
-                            </ul>
-                            <p></p><button type="submit" class="btn btn-primary btn-block">Login</button></div>
-                        </form>
-                        <div>
-                            <a type="submit" href="/sign-up"method="get" class="btn btn_smalsize btn-default btn-group bg-light">Sign
+                                <ul> {% if session['log_in_admin'] == False and session['log_in'] == False and
+                                    session['log_in_fornecedor']==False%}
+                                    <p>
+                                    <h6>Reveja as suas credencias</h6>
+                                    </p>
+                                    {%endif%}
+                                </ul>
+                                <p></p><button type="submit" class="btn btn-primary btn-block">Login</button>
+                            </div>
+                            <a type="submit" href="/sign-up" method="get"
+                                class="btn btn_smalsize btn-default btn-group bg-light">Sign
                                 up</a>
+                        </form>
 
-                            <a type="submit" href="#" class="btn btn_smalsize btn-default bg-light">Restore Password</a>
-                        </div>
                     </div>
                 </div>
             </nav>
