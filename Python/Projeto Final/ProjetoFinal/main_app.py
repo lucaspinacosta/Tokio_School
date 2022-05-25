@@ -29,6 +29,7 @@ class Produtos(db.Model):
     imf_dir = db.Column(db.String)
     quantidade_encomenda = db.Column(db.Integer)
     id_fornecedor = db.Column(db.Integer)
+    especificacoes = db.Column(db.String)
     db.create_all()
     db.session.commit()
 
@@ -111,8 +112,24 @@ def criar_produto():
         produto = Produtos(nome_produto = request.form['nome_produto'], em_armazem = 0,vendidos = 0,
             preco_fornecedor = request.form['preco_fornecedor'], valor_venda = request.form['valor_venda'],
             prateleira = request.form['Prateleira'], fornecedor = request.form['nome_fornecedor'],
-            descricao = request.form['descricao_prod'], url_prod = request.form['url_prod'],
+            descricao = descricoes_prod, url_prod = request.form['url_prod'],
             imf_dir = request.form['imagem_prod'], quantidade_encomenda = 0, id_fornecedor = request.form['id_fornecedor'])
+        #É preciso separar as descriçoes do request e depois aplicar a database \\reminder\\
+
+        descricoes_prod = {'arquitetura':[request.form['arquitetura_titulo'],request.form['arquitetura_descricao']],
+                            'aceleracao':[request.form['aceleracao_titulo'],request.form['aceleracao_descricao']],
+                            'extra':[request.form['extra_titulo'],request.form['extra_descricao']],
+                            'extra2':[request.form['extra2_titulo'],request.form['extra2_descricao']]}
+
+        especificacoes = {'sistema_operativo':[request.form['sistema_titulo'],request.form['sistema_informacao']],
+                            'memoria_ram':[request.form['titulo_ram'],request.form['informacao_ram']],
+                            'armazenamento':[request.form['titulo_armazenamento'],request.form['informacao_armazenamento']],
+                            'audio':[request.form['titulo_audio'],request.form['informacao_audio']],
+                            'ecra':[request.form['titulo_ecra'],request.form['informacao_ecra']],
+                            'grafica':[request.form['titulo_grafica'],request.form['informacao_grafica']],
+                            'cor':[request.form['titulo_cor'],request.form['informacao_cor']],
+                            'interface':[request.form['titulo_interface'],request.form['informacao_interface']]}
+                            
         db.session.add(produto)
         db.session.commit()
         return redirect(url_for('.listagem_produto'))
