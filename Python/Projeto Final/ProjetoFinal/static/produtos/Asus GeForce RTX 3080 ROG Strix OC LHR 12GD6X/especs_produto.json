@@ -1,0 +1,18 @@
+{"especificacoes" : {"sistema_operativo": ["Processador Grafico", "GeForce RTX 3080"], "Processador": ["BUS", "PCI Express 4.0 16x"],
+    "memoria_ram": ["Memoria de Video", "12GB GDDR6X"],
+    "armazenamento": ["Velocidade", "OC mode: 1890 MHz (Boost Clock)", "Gaming mode: 1860 MHz (Boost Clock)"],
+    "audio": ["CUDA cores", "8960"],
+    "ecra": ["Velocidade de Memoria", "19 Gbps"],
+    "grafica": ["Interface de Memoria", "384-bit"],
+    "cor": ["Suporte para multi-monitor", "Ate 4 monitores"],
+    "interface": ["Interface", "3 x DisplayPort 1.4a", "2 x HDMI 2.1"]}
+, 
+"descricaoes": {"descricao_1":[],
+    "descricao_2":[],
+    "descricao_3":[],
+    "descricao_4":[],
+    "descricao_5":[],
+    "descricao_6":[]},
+"img_path": "",
+"url_path": ""
+}

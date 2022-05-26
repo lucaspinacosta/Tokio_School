@@ -112,92 +112,120 @@
                     <p></p>
                     <h4>{{ '%.2f' % preco_produto}}€</h4>
 
-                    <div class="d-flex justify-content-between">
-                        <div class="btn-group">{% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor'] == True %}
-                            <form action="/add" method="post">
 
+                    {% if session['log_in'] == True %}
+                        <div class="btn-group">
+                            <form action="/add" method="post">
+                                {%if quanti_armazem >=1 %}
                                 <input type="hidden" name="code" value="{{id_do_produto}}" />
                                 <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2" />
                                 <input type="submit" value="Add Cart" class="btnAddAction" />
+                                {%elif quanti_armazem <=0%}<p>
+                                </p>
+                                <p> Sem Stock <img src="static/alert.png" class="img justify-content-between"
+                                        height="30px"></p>
+                                {%endif%}
                             </form>
-                            {%else:%}
-                            <form action="/user-login" method="get"><input type="submit" value="Login"
-                                    class="btnAddAction" /></form>{%endif%}
-                            {% if session['log_in_admin']==True%}
-                            <form type="button" action="/admin" method="post">
-                                <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </form>
-                            {%endif%}
                         </div>
+                    
+
+
+                    {%elif session['log_in_admin'] == True or session['log_in_fornecedor'] == True %}
+                    <div class="btn-group">
+                        <form action="/add" method="post">
+                            {%if quanti_armazem >10 %}
+                            <input type="hidden" name="code" value="{{id_do_produto}}" />
+                            <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2" />
+                            <input type="submit" value="Add Cart" class="btnAddAction" />
+                            {%elif quanti_armazem > 0 and quanti_armazem
+                            < 11 %} <input type="hidden" name="code" value="{{id_do_produto}}" />
+                            <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2" />
+                            <input type="submit" value="Add Cart" class="btnAddAction" />
+                            <p></p>
+                            <p>Baixo Stock
+                                <img src="static/out-of-stock.png" class="img justify-content-between" height="40px">
+                            </p>
+                            {%elif quanti_armazem <=0%}<p>
+                                </p>
+                                <p> Sem Stock <img src="static/alert.png" class="img justify-content-between"
+                                        height="30px"></p>
+                                {%endif%}
+                        </form>
                     </div>
+
+                    {%if session['log_in']==False%}
+                    <form action="/user-login" method="get"><input type="submit" value="Login" class="btnAddAction" />
+                    </form>{%endif%}
+                    {% if session['log_in_admin']==True%}
+                    <form type="button" action="/admin" method="post">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </form>{%endif%}
+                    {%endif%}
+
                 </div>
 
                 <p></p>
                 <div class="col-sm-12">
                     <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>
                     <ul>
-                        <h4 class="aligncenter">{{descricao_prod['arquitetura'][0]}}</h4>
-                        <p>{{descricao_prod['arquitetura'][1]}}</p>
-                        <p></p>{{descricao_prod['arquitetura'][2]}}<p></p>{{descricao_prod['arquitetura'][3]}}</p>
-                        <p></p>
-                        <h4 class="aligncenter">{{descricao_prod['aceleracao'][0]}}</h4>
-                        <p>{{descricao_prod['aceleracao'][1]}}
-                        <p></p>{{descricao_prod['aceleracao'][2]}}<p></p>{{descricao_prod['aceleracao'][3]}}</p>
-                        <p></p>
+                        <h4 class="aligncenter">{{nome_produto}}</h4>
+                        <p>{{descricao_prod}}</p>
+
                     </ul>
                     <button type="button" class="collapsible sub_titulo">Especificacoes</button>
                     <ul>
                         <dl class="row">
                             <dt class="col-sm-3">
-                                <p>{{especificacoes['sistema_operativo'][0]}}</p>
+                                <p>{{especificacoes['especificacoes']['sistema_operativo'][0]}}</p>
                             </dt>
                             <dd class="col-sm-9">
-                                <p>{{especificacoes['sistema_operativo'][1]}}</p>
+                                <p>{{especificacoes['especificacoes']['sistema_operativo'][1]}}</p>
                             </dd>
 
-                            <dt class="col-sm-3">{{especificacoes['Processador'][0]}}</dt>
+                            <dt class="col-sm-3">{{especificacoes['especificacoes']['Processador'][0]}}</dt>
                             <dd class="col-sm-9">
-                                <p>{{especificacoes['Processador'][1]}}</p>
+                                <p>{{especificacoes['especificacoes']['Processador'][1]}}</p>
                             </dd>
                             <dt class="col-sm-3">
-                                <p>{{especificacoes['memoria_ram'][0]}}</p>
+                                <p>{{especificacoes['especificacoes']["memoria_ram"][0]}}</p>
                             </dt>
-                            <dd class="col-sm-9">{{especificacoes['memoria_ram'][1]}}
+                            <dd class="col-sm-9">{{especificacoes['especificacoes']["memoria_ram"][1]}}
                             </dd>
 
-                            <dt class="col-sm-3">{{especificacoes['armazenamento'][0]}}</dt>
-                            <dd class="col-sm-8">{{especificacoes['armazenamento'][1]}}
-                                <p>{{especificacoes['armazenamento'][2]}}</p>
+                            <dt class="col-sm-3">{{especificacoes['especificacoes']["armazenamento"][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['especificacoes']["armazenamento"][1]}}
+                                <p>{{especificacoes['especificacoes']["armazenamento"][2]}}</p>
+                                <p>{{especificacoes['especificacoes']["armazenamento"][3]}}</p>
                             </dd>
 
 
                             <dt class="col-sm-3">
-                                <p>{{especificacoes['audio'][0]}}</p>
+                                <p>{{especificacoes['especificacoes']["audio"][0]}}</p>
                             </dt>
-                            <dd class="col-sm-8">{{especificacoes['audio'][1]}}</dd>
+                            <dd class="col-sm-8">{{especificacoes['especificacoes']["audio"][1]}}</dd>
 
-                            <dt class="col-sm-3">{{especificacoes['ecra'][0]}}</dt>
-                            <dd class="col-sm-8">{{especificacoes['ecra'][1]}}</dd>
+                            <dt class="col-sm-3">{{especificacoes['especificacoes']["ecra"][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['especificacoes']["ecra"][1]}}</dd>
                             <p></p>
-                            <dt class="col-sm-3">{{especificacoes['grafica'][0]}}</dt>
-                            <dd class="col-sm-8">{{especificacoes['grafica'][1]}}</dd>
+                            <dt class="col-sm-3">{{especificacoes['especificacoes']["grafica"][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['especificacoes']["grafica"][1]}}</dd>
                             <p></p>
-                            <dt class="col-sm-3">{{especificacoes['cor'][0]}}</dt>
-                            <dd class="col-sm-8">{{especificacoes['cor'][1]}}
-                                <p>{{especificacoes['cor'][2]}}</p>
+                            <dt class="col-sm-3">{{especificacoes['especificacoes']["cor"][0]}}</dt>
+                            <dd class="col-sm-8">{{especificacoes['especificacoes']["cor"][1]}}
+                                <p>{{especificacoes['especificacoes']['cor'][2]}}</p>
                             </dd>
                             <p></p>
-                            <dt class="col-sm-3">{{especificacoes['interface'][0]}}</dt>
+                            <dt class="col-sm-3">{{especificacoes['especificacoes']["interface"][0]}}</dt>
                             <dd class="col-sm-8">
-                                <a>{{especificacoes['interface'][1]}}</a>
+                                <a>{{especificacoes['especificacoes']["interface"][1]}}</a>
                                 <P></P>
-                                <a>{{especificacoes['interface'][2]}}</a>
+                                <a>{{especificacoes['especificacoes']["interface"][2]}}</a>
                                 <p></p>
-                                <a>{{especificacoes['interface'][3]}}</a>
+                                <a>{{especificacoes['especificacoes']["interface"][3]}}</a>
                                 <p></p>
-                                <a>{{especificacoes['interface'][4]}}</a>
+                                <a>{{especificacoes['especificacoes']["interface"][4]}}</a>
                                 <p></p>
-                                <a>{{especificacoes['interface'][5]}}</a>
+                                <a>{{especificacoes['especificacoes']["interface"][5]}}</a>
                                 <p></p>
                             </dd>
                         </dl>

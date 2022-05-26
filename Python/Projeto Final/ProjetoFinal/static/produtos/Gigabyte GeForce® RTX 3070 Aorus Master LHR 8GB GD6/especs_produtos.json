@@ -1,0 +1,18 @@
+{"especificacoes":{"sistema_operativo": ["Processador Gráfico", "NVIDIA® GeForce® RTX 3070"], "Processador": ["BUS", "PCI Express 4.0 16x"],
+    "memoria_ram": ["Memória de Vídeo", "8GB GDDR6"],
+    "armazenamento": ["Velocidade", "Base Clock: 1725 MHz", "Boost Clock: 1845 MHz"],
+    "audio": ["CUDA cores", "5888"],
+    "ecra": ["Velocidade de Memória", "14 Gbps"],
+    "grafica": ["Interface de Memória", "256 Bits"],
+    "cor": ["Dimensões", "290 x 131 x 60 mm"],
+    "interface": ["Interface", "3 x DisplayPort 1.4a", "1 x HDMI 2.1", "1 x HDMI 2.0", "Suporte HDCP 2.3"]
+},
+"descricaoes": {"descricao_1":[],
+    "descricao_2":[],
+    "descricao_3":[],
+    "descricao_4":[],
+    "descricao_5":[],
+    "descricao_6":[]},
+"img_path": "",
+"url_path": ""
+}

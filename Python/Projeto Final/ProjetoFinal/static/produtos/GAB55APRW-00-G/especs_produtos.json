@@ -1,0 +1,59 @@
+{
+    "especificacoes": {
+        "sistema_operativo": [
+            "Modelo",
+            "Gigabyte B550 Aorus Pro AC"
+        ],
+        "Processador": [
+            "CPU Suportado",
+            "AMD B550"
+        ],
+        "memoria_ram": [
+            "Memoria",
+            "4 x sockets DDR4 DIMM que suportam até 128 GB (32 GB de capacidade DIMM única) de memória do sistema 3ª Geração AMD Ryzen™ Processadores: Suporte para DDR4 5200(O.C.) / 5000(O.C.) / 4866(O.C.) / 4600(O.C.) / 4400(O.C.) / 4000(O.C.) / 3600(O.C.) / 3333(O.C.) /3200/2933/2667/2400/2133 MHz módulos de memória Nova Geração AMD Ryzen™ com Radeon™ Processadores gráficos: Suporte para DDR4 5400(O.C.) / 5200(O.C.) / 5000(O.C.) / 4866(O.C.) / 4600(O.C.) / 4400(O.C.) / 4000(O.C.) / 3600(O.C.) / 3333(O.C.) /3200/2933/2667/2400/2133 MHz"
+        ],
+        "armazenamento": [
+            "Armazenamento",
+            "Nova Geração AMD Ryzen™ com Radeon™ Os processadores gráficos suportam SATA e PCIe 3.0 x4/x2 SSDs1 x conector M.2 (M2B_SB), integrado no Chipset, suportando Socket 3, M key, tipo 2242/2260/2280/22110 SSDs:Suporta PCIe 3.0 x4/x2 SSDs6 x conectores SATA 6Gb/s, integrados no Chipset:Suporte para RAID 0, RAID 1, e RAID "
+        ],
+        "audio": [
+            "LAN",
+            "Realtek® 2.5GbE LAN chip (2.5 Gbit/1 Gbit/100 Mbit)"
+        ],
+        "ecra": [
+            "Rede de dados Wireless",
+            "Intel® Wi-Fi 3168 WIFI 802.11a/b/g/n/ac, supporting 2.4/5 GHz Dual-Band"
+        ],
+        "grafica": [
+            "Bluetooth",
+            "Bluetooth 4.2"
+        ],
+        "cor": [
+            "Cor",
+            "Preto/Laranja"
+        ],
+        "interface": [
+            "Portas USB",
+            "1 x porta USB Type-C™ no painel traseiro, com suporte de USB 3.2 Gen 2",
+            "1 x porta USB 3.2 Gen 2 Tipo A (vermelho) no painel traseiro",
+            "2 x portas USB 3.2 Gen 1 disponíveis através do header USB interno",
+            "2 x portas USB 2.0/1.1 no painel traseiro"
+        ]
+    },
+    "descricoes": {
+        "descricao_1": [
+            "Para apoiar totalmente os últimos processadores AMD Ryzen™ da 3ª geração, as motherboards B550 AORUS estão equipadas com a melhor opção em termos de potência, que é verdadeiramente directa, digital e de múltiplas fases. Após inúmeras experiências e testes, a GIGABYTE apresenta as imbatíveis motherboards B550 AORUS para os seus clientes."
+        ],
+        "descricao_2": [
+              
+        ],
+        "descricao_3": [
+              
+        ],
+        "descricao_4": [
+              
+        ]
+  },
+    "img_path": "GAB55APRW-00-G",
+    "url_path":"/static/produtos/GAB55APRW-00-G/GAB55APRW-00-G.jpg"
+}

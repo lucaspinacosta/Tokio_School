@@ -1,0 +1,52 @@
+{
+    "especificacoes": {
+        "sistema_operativo": [
+            "Sistema Operativo",
+            "Nao incluido"
+        ],
+        "Processador": [
+            "Processador",
+            "Intel Core i5 11400F (2.6GHz-4.4GHz) 12MB Socket 1200"
+        ],
+        "memoria_ram": [
+            "Memoria Ram",
+            "Kit 16GB (2 x 8GB) DDR4 3200MHz"
+        ],
+        "armazenamento": [
+            "Armazenamento",
+            "Disco SSD 500GB M.2 NVMe"
+        ],
+        "audio": [
+            "Fonte de Alimentacao",
+            "Fonte 600W 80+ Gold"
+        ],
+        "ecra": [
+            "Motherboard",
+            "Motherboard MSI H510 PRO"
+        ],
+        "grafica": [
+            "Grafica",
+            "Placa Gráfica MSI GeForce® RTX 2060"
+        ],
+        "cor": [
+            "Cor",
+            "Caixa ATX, Preta, Vidro Temperado"
+        ],
+        "interface": [
+            "Interface",
+            "1 x USB 3.2 Gen 1 Type-A",
+            "1 x USB 3.2 Gen 1 Type-C",
+            "2 x USB 2.0 Tipo A",
+            "1 x HDMI 1.4",
+            "1 x Leitor de auscultadores/micro SD card"
+        ]
+    },
+    "descricaoes": {"descricao_1":[],
+        "descricao_2":[],
+        "descricao_3":[],
+        "descricao_4":[],
+        "descricao_5":[],
+        "descricao_6":[]},
+    "img_path": "",
+    "url_path": ""
+}

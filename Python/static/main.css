@@ -1,0 +1,84 @@
+
+#titulo{
+    text-align:center;
+}
+body{
+    background: rgb(33,147,176);
+    background: linear-gradient(90deg, #000000 , #0082c8 ,#0082c8,#000000);
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+    text-align: var(--bs-body-text-align);
+}
+
+img{
+    max-width: 90%;
+    max-height: 50%;
+    object-fit: scale-down;
+}
+
+.aligncenter{
+    text-align:center;
+}
+
+.alignright{
+    text-align:right;
+}
+
+.alignleft{
+    text-align:left;
+}
+
+.title{
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Roboto Slab', serif;
+}
+
+.sub_titulo{
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Roboto Slab', serif;
+    font-size:large;
+}
+
+.btn_links{
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Roboto Slab', serif;
+    background-color:rgb(33, 147, 176);
+    color:rgb(255, 255, 255);
+}
+
+.btn_smalsize{
+    font-size: smaller;
+}
+.collapsible {
+    background-color: rgba(238, 238, 238, 0);
+    color: rgb(33, 147, 176);
+    cursor: pointer;
+    padding: 20px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 19px;
+  }
+
+  .active, .collapsible:hover {
+    background-color: rgb(236, 232, 232);
+  }
+  
+  .content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+  }
+
+.value_showstyle{
+    font-size:large;
+    color: rgb(33,147,176);
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Roboto Slab', bold;
+}
+
+
