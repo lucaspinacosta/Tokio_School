@@ -153,7 +153,7 @@
                         </form>
                     </div>
 
-                    {%if session['log_in']==False%}
+                    {%if session['log_in']==null or session['log_in_admin'] == null or sesssion['log_in_fornecedor']==null%}
                     <form action="/user-login" method="get"><input type="submit" value="Login" class="btnAddAction" />
                     </form>{%endif%}
                     {% if session['log_in_admin']==True%}
@@ -168,8 +168,19 @@
                 <div class="col-sm-12">
                     <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>
                     <ul>
-                        <h4 class="aligncenter">{{nome_produto}}</h4>
-                        <p>{{descricao_prod}}</p>
+                        <p><h5 class="aligncenter">{{especificacoes['descricoes']['descricao_1'][0]}}</p></h5>
+                        <p>{{especificacoes['descricoes']['descricao_1'][1]}}</p>
+                        <p></p>
+                        <p><h5 class="aligncenter">{{especificacoes['descricoes']['descricao_2'][0]}}</h5></p>
+                        <p>{{especificacoes['descricoes']['descricao_2'][1]}}</p>
+                        <p></p>
+                        <p><h5 class="aligncenter">{{especificacoes['descricoes']['descricao_3'][0]}}</p></h5>
+                        <p>{{especificacoes['descricoes']['descricao_3'][1]}}</p>
+                        <p></p>
+                        <p><h5 class="aligncenter">{{especificacoes['descricoes']['descricao_4'][0]}}</p></h5>
+                        <p>{{especificacoes['descricoes']['descricao_4'][1]}}</p>
+                        <p></p>
+                        
 
                     </ul>
                     <button type="button" class="collapsible sub_titulo">Especificacoes</button>
