@@ -41,12 +41,31 @@
             "1 x Leitor de auscultadores/micro SD card"
         ]
     },
-    "descricaoes": {"descricao_1":[],
-        "descricao_2":[],
-        "descricao_3":[],
-        "descricao_4":[],
-        "descricao_5":[],
-        "descricao_6":[]},
-    "img_path": "",
+    "descricoes": {
+        "descricao_1": [
+            "COMPONENTES"
+        ],
+        "descricao_2": [
+            "CAIXA",
+            "Caixa ATX com o painel lateral em vidro temperado com capacidade para placas gráficas até 395 mm de comprimento."
+        ],
+        "descricao_3": [
+            "PROCESSADOR",
+            "Socket 1200 \n Processador Intel Core de 6 núcleos, com velocidade de 2.6GHz até 4.4GHz, socket 1200."
+        ],
+        "descricao_4": [
+            "MOTHERBOARD",
+            "Motherboard com suporte para processadores Intel 11ª e 10ª geração para Socket 1200, suporta a arquitetura Dual Channel."
+        ],
+        "descricao_5": [
+            "MEMORIAS",
+            "Kit de Memórias com velocidade de 3200MHz. Compatível com a tecnologia Intel XMP 2.0"
+        ],
+        "descricao_6": [
+            " PLACA GRÁFICA",
+            "Placa gráfica de alta performance com 6GB de memória VRAM GDDR6, suporta até 4 monitores. Velocidade de Memória de 14Gbps."
+        ]
+    },
+    "img_path": "/static/produtos/Computador King Mod/Computador King Mod.png",
     "url_path": ""
 }

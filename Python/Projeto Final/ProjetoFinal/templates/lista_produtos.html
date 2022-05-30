@@ -76,65 +76,7 @@
             </a>
         </div>
 
-        <div class="col-12 my-auto" style="margin-left: auto">
-            <nav class="row col-sm-10 offset-1">
-                <div class="aligncenter">
-                    <div class="card">
-                        <h2 class="btn_links titulo"> Produtos </h2>
-                        <nav class="row container-fluid row-cols-5 col-auto">
-                            {%for produtos in todos_os_produtos%}
-                            <div class="card  row-cols-auto">
-                                <ul>
-                                    <div class="aligncenter col-row-2">
-                                        <dt>{{produtos[1]}}</dt>
-                                    </div>
-                                    <div class="aligncenter">
-                                        <dt><a href="{{url_for('.show_room',code_prod=produtos[0]) }}">
-                                                <img class="fit-picture " src="{{produtos[10]}}" height="200"></a>
-                                        <dt>{{ '%.2f' % produtos[5] }} € </dt>
-                                        </dt>
-                                    </div>
-                                    
-                                        <div class="btn-group">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <form action="{{url_for('.show_room',code_prod=produtos[0]) }}"
-                                                    method="get">
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
-
-                                                    {% if session['log_in_admin'] == True%}
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                    {%endif%}
-                                                </form>
-                                            </div>
-                                        </div>
-                                    
-                                </ul>
-                            </div>{%endfor%}
-
-                            <div>
-                                <ul>
-                                    {% if session['log_in_admin'] == True%}
-                                    <div class="card  row-cols-auto">
-                                        <div class="aligncenter col-row-2 justify-content-between d-flex">
-                                            <dt>Criar Novo produto</dt>
-                                        </div>
-                                        <div class="aligncenter card-body">
-                                            <dt><a href="{{url_for('.criar_produto')}}">
-                                                    <img class="fit-picture" src="static/add_prod.png" height="200">
-                                                </a></dt>
-                                        </div>
-                                        <p></p>
-                                    </div>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </nav>
-        </div>
+        
         <p></p>
         {%if session['log_in_admin'] == True%}
         <div class="col-12 my-auto" style="margin-left: auto" methods="get">
@@ -187,10 +129,10 @@
             <p></p>
             <div class="col-12 my-auto" style="margin-left: auto" methods="get">
                 <nav class="row col-sm-10 offset-1">
-                    <div class="aligncenter">
-                        <div class="card">{%if session['log_in_admin'] == True%}
+                    <div class="aligncenter">{%if session['log_in_admin'] == True%}
+                        <div class="card">
                             <h2 class="btn_links titulo"> Armazem </h2>
-                            
+
                             <nav class="row container-fluid row-cols-1 col-auto">
                                 <table class="tbl-cart " cellpadding="10" cellspacing="1">
                                     <tbody>
@@ -210,8 +152,8 @@
                                         {% set em_stock = produto[2] %}
                                         {% set vendidos = produto[3] %}
                                         {% set nome_fornecedor = produto[7] %}
-                                        {% set id_fornecedor = produto[-1]%}
-                                        {% set encomenda = produto[11]%}
+                                        {% set id_fornecedor = produto[9]%}
+                                        {% set encomenda = produto[8]%}
                                         {% set lucro = produto[3]*(produto[5]-produto[4]) %}
                                         <tr>
                                             {%if em_stock > 10:%}
@@ -238,64 +180,127 @@
                                 </table>
                             </nav>
                             {% elif session['log_in_fornecedor'] == True %}
-                            <nav class="row container-fluid row-cols-1 col-auto">
-                                <table class="tbl-cart " cellpadding="10" cellspacing="1">
-                                    <tbody>
-                                        <tr>
-                                            <th style="text-align:center;">Nome Produto</th>
-                                            <th style="text-align:center;">ID</th>
-                                            <th style="text-align:right;" width="5%">Stock</th>
-                                            <th style="text-align:right;" width="10%">Vendidos</th>
-                                            <th style="text-align:right;" width="10%">Fornecedor</th>
-                                            <th style="text-align:center;" width="5%"> Encomendas </th>
-                                            <th style="text-align:center;" width="5%">Fornecer</th>
-                                        </tr>
-                                        {%for produto in todos_os_produtos%}
-                                        {% if produto[12] == session['id'] %}
+                            <div class="card">
+                                <h2 class="btn_links titulo"> Encomendas </h2>
+                                <nav class="row container-fluid row-cols-1 col-auto">
+                                    <table class="tbl-cart " cellpadding="10" cellspacing="1">
+                                        <tbody>
+                                            <tr>
+                                                <th style="text-align:center;">Nome Produto</th>
+                                                <th style="text-align:center;">ID</th>
+                                                <th style="text-align:right;" width="5%">Stock</th>
+                                                <th style="text-align:right;" width="10%">Vendidos</th>
+                                                <th style="text-align:right;" width="10%">Fornecedor</th>
+                                                <th style="text-align:center;" width="5%"> Encomendas </th>
+                                                <th style="text-align:center;" width="5%">Fornecer</th>
+                                            </tr>
+                                            {%for produto in todos_os_produtos%}
+                                            {% if produto[9] == session['id'] %}
+                                            {% set detalhes_prod = produto[10]%}
+                                            {% set id_produto = produto[0] %}
+                                            {% set nome_produto = produto[1] %}
+                                            {% set em_stock = produto[2] %}
+                                            {% set vendidos = produto[3] %}
+                                            {% set nome_fornecedor = produto[7] %}
+                                            {% set id_fornecedor = produto[9]%}
+                                            {% set encomenda = produto[8]%}
+                                            <tr>
+                                                <td style="text-align:center;">{{nome_produto}}</td>
+                                                <td style="text-align:center;">{{ id_produto }}</td>
+                                                <td style="text-align:right;" width="5%">{{ em_stock }}</td>
+                                                <td style="text-align:right;" width="5%">{{ vendidos }}</td>
+                                                <td style="text-align:right;" width="10%">{{ nome_fornecedor }}</td>
+                                                <td style="text-align:center;">{{ encomenda }}</td>
+                                                {%if encomenda > 0 : %}
+                                                <td style="text-align:center;">
+                                                    <form action="/encomendas" method="post">
+                                                        <input type="hidden" name="id_produto" value="{{id_produto}}" />
+                                                        <input type="text" class="quantidade-produto" name="quantidade"
+                                                            value="{{encomenda}}" size="2" />
+                                                        <input type="submit" class="btnAddAction" value="Enviar" />
+                                                    </form>
+                                                </td>
+                                                {% else: %}
+                                                <td style="text-align:center;">Sem Encomendas</td>
+                                                {% endif %}
 
-                                        {% set id_produto = produto[0] %}
-                                        {% set nome_produto = produto[1] %}
-                                        {% set em_stock = produto[2] %}
-                                        {% set vendidos = produto[3] %}
-                                        {% set nome_fornecedor = produto[7] %}
-                                        {% set id_fornecedor = produto[12]%}
-                                        {% set encomenda = produto[11]%}
-                                        <tr>
-                                            <td style="text-align:center;">{{nome_produto}}</td>
-                                            <td style="text-align:center;">{{ id_produto }}</td>
-                                            <td style="text-align:right;" width="5%">{{ em_stock }}</td>
-                                            <td style="text-align:right;" width="5%">{{ vendidos }}</td>
-                                            <td style="text-align:right;" width="10%">{{ nome_fornecedor }}</td>
-                                            <td style="text-align:center;">{{ encomenda }}</td>
-                                            {%if encomenda > 0 : %}
-                                            <td style="text-align:center;">
-                                                <form action="/encomendas" method="post">
-                                                    <input type="hidden" name="id_produto" value="{{id_produto}}" />
-                                                    <input type="text" class="quantidade-produto" name="quantidade"
-                                                        value="{{encomenda}}" size="2" />
-                                                    <input type="submit" class="btnAddAction" value="Enviar" />
+
+                                            </tr>
+                                            {%else:%}{{pass}}
+
+                                            {%endif%}
+                                        </tbody>
+                                        {%endfor%}
+                                    </table>
+                                    {%endif%}<p></p>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div><p></p>
+            <div class="col-12 my-auto" style="margin-left: auto">
+                <nav class="row col-sm-10 offset-1">
+                    <div class="aligncenter">
+                        <div class="card">
+                            <h2 class="btn_links titulo"> Produtos </h2>
+                            <nav class="row container-fluid row-cols-5 col-auto">
+                                {% if session['log_in_admin'] == True%}
+                                <div class="card  row-cols-auto">
+                                    
+                                    <ul>
+                                        <div >
+                                            <div class="aligncenter col-row-2 ">
+                                                <dt>Criar Novo produto</dt>
+                                            </div><p></p>
+                                            <div class="aligncenter">
+                                                <dt><a href="{{url_for('.criar_produto')}}">
+                                                    <p></p>
+                                                        <img class="fit-picture" src="static/add_prod.png" height="150">
+                                                    </a></dt>
+                                            </div>
+                                            <p></p>
+                                        </div>
+                                        
+                                    </ul>
+                                </div>{% endif %}
+                                {%for produtos in todos_os_produtos%}
+                                <div class="card  row-cols-auto">
+                                    <ul>
+                                        <div class="aligncenter col-row-2">
+                                            <dt>{{produtos[1]}}</dt>
+                                        </div>
+                                        <div class="aligncenter">
+                                            <dt><a href="{{url_for('.show_room',code_prod=produtos[0]) }}">
+                                                    <img class="fit-picture " src="{{produtos[11]}}" height="200"></a>
+                                            <dt>{{ '%.2f' % produtos[5] }} € </dt>
+                                            </dt>
+                                        </div>
+    
+                                        <div class="btn-group">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <form action="{{url_for('.show_room',code_prod=produtos[0]) }}"
+                                                    method="get">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
+    
+                                                    {% if session['log_in_admin'] == True%}
+                                                    <form type="button" action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="post">
+                                                        <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                    </form>
+                                                    {%endif%}
                                                 </form>
-                                            </td>
-                                            {% else: %}
-                                            <td style="text-align:center;">Sem Encomendas</td>
-                                            {% endif %}
-
-
-                                        </tr>
-                                        {%else:%}{{pass}}
-
-                                        {%endif%}
-                                    </tbody>
-                                    {%endfor%}
-                                </table>
-                                {%endif%}<p></p>
+                                            </div>
+                                        </div>
+    
+                                    </ul>
+                                </div>{%endfor%}
+                                
                             </nav>
-
                         </div>
                     </div>
                 </nav>
             </div>
-
             <p></p>
         </div>
     </main>

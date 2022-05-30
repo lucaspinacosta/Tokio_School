@@ -41,14 +41,14 @@
             "1 x Leitor de auscultadores/micro SD card"
         ]
     },
-    "descricaoes": {
-        "descricao_1": [],
+    "descricoes": {
+        "descricao_1": ["Kingston NV1","O SSD NV1 NVMe™ PCIe da Kingston é uma solução de armazenamento substancial, que oferece velocidades de leitura/escrita elevadas, que são 3 a 4 vezes mais rápidas que um SSD de base SATA e 35 vezes mais rápidas que um disco rígido tradicional. O NV1 funciona com uma potência mais baixa, menos calor e tempos de carregamento mais rápidos. O desempenho eficiente e o design de M.2 2280 (22x80 mm) de um único lado fazem com que o NV1 seja ideal para portáteis e sistemas finos com espaço limitado."],
         "descricao_2": [],
         "descricao_3": [],
         "descricao_4": [],
         "descricao_5": [],
         "descricao_6": []
     },
-    "img_path": "",
+    "img_path": "static/produtos/SSD Kingston NV1/SSD Kingston NV1.png",
     "url_path": ""
 }

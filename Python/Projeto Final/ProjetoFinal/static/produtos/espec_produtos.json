@@ -1,0 +1,39 @@
+{
+    "especificacoes": {
+        "sistema_operativo": [
+            "",
+            ""
+        ],
+        "memoria_ram": [
+            "",
+            ""
+        ],
+        "armazenamento": [
+            "",
+            ""
+        ],
+        "audio": [
+            "",
+            ""
+        ],
+        "ecra": [
+            "",
+            ""
+        ],
+        "grafica": [
+            "",
+            ""
+        ],
+        "cor": [
+            "",
+            ""
+        ],
+        "interface": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    }
+}

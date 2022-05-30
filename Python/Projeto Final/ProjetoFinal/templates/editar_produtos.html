@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Site-tab definitions -->
+    <meta name="title" content="LIC - Loja de Informatica | LIC">
+    <meta name="description" content="Loja expecializada em produtos de informatica">
+    <meta property="og:title" content="LIC - Loja de Informatica | LIC">
+    <meta property="og:description" content="Loja expecializada em produtos de informatica">
+    <meta name="theme-color" content="#2c3e50">
+    <!-- Bootsrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Fonte do site-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto+Slab:wght@100;200;500&display=swap"
+        rel="stylesheet">
+    <!-- Tab-Icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/LIC_Informatica3.png">
+    <!-- Background color-->
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+    <main>
+        <!--Header layout-->
+        <nav class="py-2 bg-light border-bottom">
+            <div class="container d-flex flex-wrap">
+                <img alt="lefters" src="/static/LIC_Informatica3.png" width="80" height="50">
+                <ul class="nav me-auto">
+                    <li class="nav-item"><a href="/" class="nav-link link-dark px-2 " aria-current="page">Home</a></li>
+                    {% if session['log_in_admin'] == True or session['log_in_fornecedor'] == True%}
+                    <li class="nav-item"><a href="/listagem_produto" class="nav-link link-dark px-2">Gestao</a></li>
+                    {% endif %}
+                </ul>
+                <ul>
+                    {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor']
+                    == True%}
+                    <a class="nav-link link-dark px-1 py-2 btn_smalsize sub_titulo">{{session['username']}}</a>
+                    {% elif session['log_in'] == False and session['log_in_admin'] == False or session['log_in'] == null
+                    or session['log_in_admin'] == null or session['log_in_fornecedor'] == False or
+                    session['log_in_fornecedor'] == Null%}
+                    <form action="login" method="post">
+                        <ul class="nav">
+                            <li class="nav-item"><a href="/user-login" class="nav-link link-dark px-2">Login</a>
+                            </li>
+                            <li class="nav-item"><a href="/sign-up" class="nav-link link-dark px-2">Sign up</a></li>
+                        </ul>
+                    </form>
+                    {% endif%}
+                </ul>
+            </div>
+        </nav>
+        <ul>
+            {% if session['log_in'] == True or session['log_in_admin'] == True or session['log_in_fornecedor'] == True
+            %}
+            <div class="header col-2 offset-9 ">
+                <nav class="nav">
+                    <a class="nav-link py-1 px-0" href="/user-login/carrinho">
+                        <img action="submit" alt="centered image" href="/user-login/carrinho" rel="icon lefters"
+                            type="image/png" src="/static/carrinho-de-compras.png" height="55" width="55">
+                    </a>
+                    <a class="nav-link py-1 px-2 " href="/logout">
+                        <img action="submit" alt="centered image" src="/static/logout.png" height="55" width="55">
+                    </a>
+                </nav>
+            </div>
+            {% endif%}
+        </ul>
+        {%if session['log_in_admin']==True%}
+        <div class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+
+                <!-- Search-->
+                <div class="input-group d-none d-lg-flex flex-nowrap mx-4"><i
+                        class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                    <input class="form-control rounded-start w-100" type="text" placeholder="Search for products">
+                    <select class="form-select flex-shrink-0" style="width: 10.5rem;">
+                        <option>All categories</option>
+                        <option>Computers</option>
+                        <option>Componentes</option>
+                        <option>TV, Video, Audio</option>
+                        <option>Video Games</option>
+                        <option>Data Storage</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="container">
+            <a href="/">
+                <p class="aligncenter" width="300" height="300">
+                    <img alt="centered image" src="/static/LIC_Informatica.png" width="900" height="300">
+                </p>
+            </a>
+        </div>
+        <div class="card col-sm-8 offset-2 my-auto">
+            <form action="/admin/criar-produto" method="post">
+                <nav class="row container-fluid row-cols-2">
+                    <ul>
+                        <div class="card-body">
+                            <div class="aligncenter ">
+                                <img alt="centered" src="{{old_img_path}}" height="300">
+                                <ul>
+                                    <label for="myfile">Selecionar imagem:</label>
+                                    <p></p>
+                                    <input type="file" id="myfile" name="myfile" />
+                                </ul>
+                            </div>
+                        </div>
+                    </ul>
+                    <div class="aligncenter value_showstyle">
+                        <p></p>
+                        <h4>{{old_nome}}</h4>
+                        <input type="text" name="novo_nome" placeholder="Editar Nome" size="25">
+                        <p></p>
+                        <h4>{{ '%.2f' % old_preco}}€</h4>
+                        <input type="number" name="novo_preco" step="0.01" placeholder="Preco" size="8">
+                        <p></p>
+                        <form type="button" action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="post">
+                            <button type="submit"
+                                class="btn btn-sm btn-outline-secondary sub_titulo ">Confirmar</button>
+                        </form>
+                    </div>
+
+                    <p></p>
+                    <div class="col-sm-12">
+                        <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>
+                        <ul>
+                            <p>
+                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_1'][0]}}<p></p>
+                            <input type="text" name="editar_tit_descr_1" placeholder="Editar Titulo da Descricao"></p></h5>
+                            <p>{{especificacoes['descricoes']['descricao_1'][1]}}</p>
+                            <p><input type="text" name="editar_descr_1" placeholder="Editar Descricao" style="height:120px; width:600px; "></p>
+                            <p></p>
+                            <p>
+                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_2'][0]}}</h5>
+                            </p>
+                            <p>{{especificacoes['descricoes']['descricao_2'][1]}}</p>
+                            <p></p>
+                            <p>
+                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_3'][0]}}</h5>
+                            </p>
+                            <p>{{especificacoes['descricoes']['descricao_3'][1]}}</p>
+                            <p></p>
+                            <p>
+                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_4'][0]}}</h5>
+                            </p>
+                            <p>{{especificacoes['descricoes']['descricao_4'][1]}}</p>
+                            <p></p>
+                        </ul>
+                        <button type="button" class="collapsible sub_titulo">Especificacoes</button>
+                        <ul>
+                            <dl class="row">
+                                <dt class="col-sm-3">
+                                    <p>{{especificacoes['especificacoes']['sistema_operativo'][0]}}</p>
+                                </dt>
+                                <dd class="col-sm-9">
+                                    <p>{{especificacoes['especificacoes']['sistema_operativo'][1]}}</p>
+                                </dd>
+
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']['Processador'][0]}}</dt>
+                                <dd class="col-sm-9">
+                                    <p>{{especificacoes['especificacoes']['Processador'][1]}}</p>
+                                </dd>
+                                <dt class="col-sm-3">
+                                    <p>{{especificacoes['especificacoes']["memoria_ram"][0]}}</p>
+                                </dt>
+                                <dd class="col-sm-9">{{especificacoes['especificacoes']["memoria_ram"][1]}}
+                                </dd>
+
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["armazenamento"][0]}}</dt>
+                                <dd class="col-sm-8">{{especificacoes['especificacoes']["armazenamento"][1]}}
+                                    <p>{{especificacoes['especificacoes']["armazenamento"][2]}}</p>
+                                    <p>{{especificacoes['especificacoes']["armazenamento"][3]}}</p>
+                                </dd>
+
+
+                                <dt class="col-sm-3">
+                                    <p>{{especificacoes['especificacoes']["audio"][0]}}</p>
+                                </dt>
+                                <dd class="col-sm-8">{{especificacoes['especificacoes']["audio"][1]}}</dd>
+
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["ecra"][0]}}</dt>
+                                <dd class="col-sm-8">{{especificacoes['especificacoes']["ecra"][1]}}</dd>
+                                <p></p>
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["grafica"][0]}}</dt>
+                                <dd class="col-sm-8">{{especificacoes['especificacoes']["grafica"][1]}}</dd>
+                                <p></p>
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["cor"][0]}}</dt>
+                                <dd class="col-sm-8">{{especificacoes['especificacoes']["cor"][1]}}
+                                    <p>{{especificacoes['especificacoes']['cor'][2]}}</p>
+                                </dd>
+                                <p></p>
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["interface"][0]}}</dt>
+                                <dd class="col-sm-8">
+                                    <a>{{especificacoes['especificacoes']["interface"][1]}}</a>
+                                    <P></P>
+                                    <a>{{especificacoes['especificacoes']["interface"][2]}}</a>
+                                    <p></p>
+                                    <a>{{especificacoes['especificacoes']["interface"][3]}}</a>
+                                    <p></p>
+                                    <a>{{especificacoes['especificacoes']["interface"][4]}}</a>
+                                    <p></p>
+                                    <a>{{especificacoes['especificacoes']["interface"][5]}}</a>
+                                    <p></p>
+                                    {%endif%}
+                                </dd>
+                            </dl>
+                        </ul>
+                    </div>
+                </nav>
+            </form>
+        </div>
+
+    </main>
+</body>
+
+</html>

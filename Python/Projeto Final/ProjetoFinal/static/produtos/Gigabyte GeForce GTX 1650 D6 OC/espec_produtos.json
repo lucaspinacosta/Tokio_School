@@ -1,0 +1,59 @@
+{
+      "especificacoes": {
+            "sistema_operativo": [
+                  "Processador Grafico",
+                  "NVIDIA GeForce GTX 1650"
+            ],
+            "memoria_ram": [
+                  "BUS",
+                  "PCI-E 3.0 x 16"
+            ],
+            "Processador":[""],
+            "armazenamento": [
+                  "Memoria de Video",
+                  "4GB GDDR6"
+            ],
+            "audio": [
+                  "Velocidade",
+                  "1635 MHz (Reference Card: 1590 MHz)"
+            ],
+            "ecra": [
+                  "Velocidade de Memoria",
+                  "12000 MHz"
+            ],
+            "grafica": [
+                  "Interface de Memoria",
+                  "128 bit"
+            ],
+            "cor": [
+                  "Suporte para multi-monitor",
+                  "Ate 3 monitores"
+            ],
+            "interface": [
+                  "Interface",
+                  "1 x DisplayPort 1.4",
+                  "1 x HDMI 2.0b",
+                  "1 x DVI-D",
+                  ""
+            ]
+      },
+      "descricoes": {
+            "descricao_1": [
+                  "",
+                  ""
+            ],
+            "descricao_2": [
+                  "",
+                  ""
+            ],
+            "descricao_3": [
+                  "",
+                  ""
+            ],
+            "descricao_4": [
+                  "",
+                  ""
+            ]
+      },
+      "img_path": "static/produtos/Gigabyte GeForce GTX 1650 D6 OC/Gigabyte GeForce-GTX 1650 D6 OC.jpg"
+}

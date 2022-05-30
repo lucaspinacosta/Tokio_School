@@ -4,7 +4,7 @@
                   "Tamanho do ecr\u00e3",
                   "34'"
             ],
-            "Processador":[],
+            "Processador":["  "],
             "memoria_ram": [
                   "Resolu\u00e7\u00e3o",
                   "UW-FHD (2560x1080)"
@@ -55,6 +55,6 @@
                   "Absorva as imagens deslumbrantes sem se distrair com as bordas desagrad\u00e1veis com uma moldura ultra fina que une a forma e a fun\u00e7\u00e3o."
             ]
       },
-      "img_path": "Monitor-LG-34-34WL500-B",
-      "url_path": "static\\produtos\\Monitor LG 34 34WL500-B\\Monitor LG 34 34WL500-B.png"
+      "img_path": "static/produtos/Monitor LG 34 34WL500-B/Monitor LG 34 34WL500-B.png",
+      "url_path": "Monitor-LG-34-34WL500-B"
 }

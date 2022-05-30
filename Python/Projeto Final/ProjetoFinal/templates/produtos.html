@@ -111,23 +111,26 @@
                     <h4>{{nome_produto}}</h4>
                     <p></p>
                     <h4>{{ '%.2f' % preco_produto}}€</h4>
-
+                    {%if session['log_in']==null and session['log_in_admin'] == null and
+                    session['log_in_fornecedor']==null %}
+                    <form action="/user-login" method="get"><input type="submit" value="Login" class="btnAddAction" />
+                    </form>{%endif%}
 
                     {% if session['log_in'] == True %}
-                        <div class="btn-group">
-                            <form action="/add" method="post">
-                                {%if quanti_armazem >=1 %}
-                                <input type="hidden" name="code" value="{{id_do_produto}}" />
-                                <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2" />
-                                <input type="submit" value="Add Cart" class="btnAddAction" />
-                                {%elif quanti_armazem <=0%}<p>
+                    <div class="btn-group">
+                        <form action="/add" method="post">
+                            {%if quanti_armazem >=1 %}
+                            <input type="hidden" name="code" value="{{id_do_produto}}" />
+                            <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2" />
+                            <input type="submit" value="Add Cart" class="btnAddAction" />
+                            {%elif quanti_armazem <=0%}<p>
                                 </p>
                                 <p> Sem Stock <img src="static/alert.png" class="img justify-content-between"
                                         height="30px"></p>
                                 {%endif%}
-                            </form>
-                        </div>
-                    
+                        </form>
+                    </div>
+
 
 
                     {%elif session['log_in_admin'] == True or session['log_in_fornecedor'] == True %}
@@ -152,15 +155,13 @@
                                 {%endif%}
                         </form>
                     </div>
+                    {%endif%}
 
-                    {%if session['log_in']==null or session['log_in_admin'] == null or sesssion['log_in_fornecedor']==null%}
-                    <form action="/user-login" method="get"><input type="submit" value="Login" class="btnAddAction" />
-                    </form>{%endif%}
                     {% if session['log_in_admin']==True%}
-                    <form type="button" action="/admin" method="post">
+                    <form type="button" action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="get">
                         <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </form>{%endif%}
-                    {%endif%}
+
 
                 </div>
 
@@ -168,19 +169,27 @@
                 <div class="col-sm-12">
                     <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>
                     <ul>
-                        <p><h5 class="aligncenter">{{especificacoes['descricoes']['descricao_1'][0]}}</p></h5>
+                        <p>
+                        <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_1'][0]}}</p>
+                        </h5>
                         <p>{{especificacoes['descricoes']['descricao_1'][1]}}</p>
                         <p></p>
-                        <p><h5 class="aligncenter">{{especificacoes['descricoes']['descricao_2'][0]}}</h5></p>
+                        <p>
+                        <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_2'][0]}}</h5>
+                        </p>
                         <p>{{especificacoes['descricoes']['descricao_2'][1]}}</p>
                         <p></p>
-                        <p><h5 class="aligncenter">{{especificacoes['descricoes']['descricao_3'][0]}}</p></h5>
+                        <p>
+                        <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_3'][0]}}</p>
+                        </h5>
                         <p>{{especificacoes['descricoes']['descricao_3'][1]}}</p>
                         <p></p>
-                        <p><h5 class="aligncenter">{{especificacoes['descricoes']['descricao_4'][0]}}</p></h5>
+                        <p>
+                        <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_4'][0]}}</p>
+                        </h5>
                         <p>{{especificacoes['descricoes']['descricao_4'][1]}}</p>
                         <p></p>
-                        
+
 
                     </ul>
                     <button type="button" class="collapsible sub_titulo">Especificacoes</button>

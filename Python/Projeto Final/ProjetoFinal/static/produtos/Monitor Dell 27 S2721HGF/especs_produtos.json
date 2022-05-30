@@ -6,12 +6,12 @@
     "grafica": ["Grafica", "Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5"],
     "cor": ["Cor", "Prateado"],
     "interface": ["Interface", "1 x USB 3.2 Gen 1 Type-A", "1 x USB 3.2 Gen 1 Type-C", "2 x USB 2.0 Tipo A", "1 x HDMI 1.4", "1 x Leitor de auscultadores//micro SD card"]},
-    "descricaoes": {"descricao_1":[],
-        "descricao_2":[],
-        "descricao_3":[],
-        "descricao_4":[],
+    "descricoes": {"descricao_1":["AÇÃO IMEDIATA","Explore novos mundos num ecrã expansivo de 27' Full-HD com imagens extraordinariamente nítidas que o atraem mais profundamente para o jogo. O ecrã curvo de 1500R cria um campo de visão mais realista para uma experiência visual incrivelmente envolvente."],
+        "descricao_2":["RÁPIDA CAPACIDADE DE RESPOSTA","Uma velocidade impressionante de 144Hz permite ver imagens rápidas com uma clareza incrível para que se possa reagir com maior rapidez."],
+        "descricao_3":["VELOCIDADE CONTÍNUA","Desfrute de um desempenho suave durante a ação em alta velocidade graças a um Tempo de Resposta de Imagem em Movimento (MPRT) incrivelmente rápido de 1ms, que elimina o motion blur."],
+        "descricao_4":["MINIMIZA TEARING E STUTTERING","Compatível com a Certificação NVIDIA G-SYNC e Tecnologia AMD FreeSync™ Premium, minimiza distorções gráficas como o tearing e stuttering do ecrã para uma jogabilidade mais suave e fluida e uma qualidade de imagem extraordinária."],
         "descricao_5":[],
         "descricao_6":[]},
-    "img_path": "",
+    "img_path": "/static/produtos/Monitor Dell 27 S2721HGF/Monitor Dell 27 S2721HGF.png",
     "url_path": ""
 }
