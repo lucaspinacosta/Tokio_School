@@ -98,16 +98,17 @@
             </a>
         </div>
         <div class="card col-sm-8 offset-2 my-auto">
-            <form action="/admin/criar-produto" method="post">
+            <form type="button" action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="post">
                 <nav class="row container-fluid row-cols-2">
+
                     <ul>
                         <div class="card-body">
                             <div class="aligncenter ">
                                 <img alt="centered" src="{{old_img_path}}" height="300">
                                 <ul>
-                                    <label for="myfile">Selecionar imagem:</label>
+                                    <label >Selecionar imagem:</label>
                                     <p></p>
-                                    <input type="file" id="myfile" name="myfile" />
+                                    <input type="file" id="nova_img_path" name="nova_img_path" />
                                 </ul>
                             </div>
                         </div>
@@ -120,10 +121,11 @@
                         <h4>{{ '%.2f' % old_preco}}€</h4>
                         <input type="number" name="novo_preco" step="0.01" placeholder="Preco" size="8">
                         <p></p>
-                        <form type="button" action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="post">
-                            <button type="submit"
-                                class="btn btn-sm btn-outline-secondary sub_titulo ">Confirmar</button>
-                        </form>
+                        <h6>{{'%.2f' % old_preco_fornecedor }}€</h6>
+                        <input type="number" name="novo_preco_fornecedor" placeholder="Preço do fornecedor" size="8">
+                        <p></p>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary sub_titulo ">Confirmar</button>
+
                     </div>
 
                     <p></p>
@@ -132,9 +134,12 @@
                         <ul>
                             <p>
                             <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_1'][0]}}<p></p>
-                            <input type="text" name="editar_tit_descr_1" placeholder="Editar Titulo da Descricao"></p></h5>
+                                <input type="text" name="editar_tit_descr_1" placeholder="Editar Titulo da Descricao">
+                                </p>
+                            </h5>
                             <p>{{especificacoes['descricoes']['descricao_1'][1]}}</p>
-                            <p><input type="text" name="editar_descr_1" placeholder="Editar Descricao" style="height:120px; width:600px; "></p>
+                            <p><input type="text" name="editar_descr_1" placeholder="Editar Descricao"
+                                    style="height:120px; width:600px; "></p>
                             <p></p>
                             <p>
                             <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_2'][0]}}</h5>

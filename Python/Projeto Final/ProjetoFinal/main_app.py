@@ -143,7 +143,7 @@ def criar_produto():
                            "descricao_2": [request.form['aceleracao_titulo'], request.form['aceleracao_descricao']],
                            "descricao_3": [request.form['extra_titulo'], request.form['extra_descricao']],
                            "descricao_4": [request.form['extra2_titulo'], request.form['extra2_descricao']]}
-        # guardar em json (incompleto)
+        
 
         def write_json(new_descricao, new_img_path, filename="static/produtos/"+request.form['nome_produto']+"/espec_produtos.json"):
             with open(filename, 'r+') as file:
@@ -177,37 +177,77 @@ def criar_produto():
 def editar_prod(code_edit):
 
         if session['log_in_admin'] == True and request.method == 'POST':
+            modificar_produro= False
+            query= "UPDATE Produtos SET nome_produto =?, preco=?,preco_fornecedor=? WHERE numero_serie =?"
             con = sqlite3.connect('database/dados_informacoes2.db')
             cursor = con.cursor()
             cursor.execute("SELECT * FROM Produtos WHERE numero_serie=?", (code_edit,))
             produto_em_edicao = cursor.fetchone()
-            get_especificacoes = open(produto_em_edicao[-1])
+            get_especificacoes = open(produto_em_edicao[-1], encoding="utf8")
             especificacoes = json.load(get_especificacoes)
 
             old_nome = produto_em_edicao[1]
             old_preco = produto_em_edicao[5]
             old_preco_fornecedor = produto_em_edicao[4]
             old_img_path = especificacoes['img_path']
+            old_especificacoes = especificacoes['especificacoes']
+            old_descricao = especificacoes['descricoes']
 
             novo_nome = request.form['novo_nome']
             novo_preco = request.form['novo_preco']
             novo_preco_fornecedor = request.form['novo_preco_fornecedor']
             nova_img_path = request.form['nova_img_path']
-            return redirect(url_for('.editar_prod',(code_edit,)))
+            
+
+            if novo_nome != '' and novo_preco != '' and novo_preco_fornecedor != '':
+                parametros = (novo_nome,novo_preco,novo_preco_fornecedor,code_edit)
+                modificar_produro = True
+            elif novo_nome != '' and novo_preco != '' and novo_preco_fornecedor =='':
+                parametros = (novo_nome,novo_preco,old_preco_fornecedor,code_edit)
+                modificar_produro=True
+            elif novo_nome != '' and novo_preco == '' and  novo_preco_fornecedor !='':
+                parametros =(novo_nome,old_preco,novo_preco_fornecedor,code_edit)
+                modificar_produro=True
+            elif novo_nome =='' and novo_preco != '' and old_preco_fornecedor !='':
+                parametros=(old_nome,novo_preco,novo_preco_fornecedor,code_edit)
+                modificar_produro=True
+            else:
+                modificar_produro = False
+
+            if nova_img_path != '':
+                get_especificacoes = open(produto_em_edicao[-1], encoding="utf8")
+                especificacoes = json.load(get_especificacoes)
+                def write_json( new_img_path, filename="static/produtos/"+old_nome+"/espec_produtos.json"):
+                    with open(filename, 'r+') as file:
+                        file_data = json.load(file)
+                        file_data['img_path'] = "static/produtos/"+ old_nome + '/' + new_img_path
+                        file.seek(0)
+                        json.dump(file_data, file, indent=6)
+                write_json(nova_img_path)
+            else:pass
+                
+
+            
+            if (modificar_produro):
+                cursor.execute(query,parametros)
+                db.session.commit()
+            else:pass
+
+            return redirect(url_for('.show_room', code_prod=code_edit))
 
         elif session['log_in_admin'] == True and request.method == 'GET':
             con = sqlite3.connect('database/dados_informacoes2.db')
             cursor = con.cursor()
             cursor.execute("SELECT * FROM Produtos WHERE numero_serie=?", (code_edit,))
             produto_em_edicao = cursor.fetchone()
-            get_especificacoes = open(produto_em_edicao[-1])
+            get_especificacoes = open(produto_em_edicao[-1], encoding="utf8")
             especificacoes = json.load(get_especificacoes)
             old_nome = produto_em_edicao[1]
             old_preco = produto_em_edicao[5]
             old_preco_fornecedor = produto_em_edicao[4]
             old_img_path = especificacoes['img_path']
             return render_template('editar_produtos.html',especificacoes=especificacoes,old_nome=old_nome,old_preco=old_preco,
-            old_img_path=old_img_path,old_preco_fornecedor=old_preco_fornecedor)
+            old_img_path=old_img_path,old_preco_fornecedor=old_preco_fornecedor,id_do_produto=produto_em_edicao[0])
         
 
 # Listagem de fornecedores
@@ -685,6 +725,8 @@ def fornecer_produto():
         except Exception as e:
             print(e)
 
+
+#Produtos disponiveis para destaque
 # Pagina Exibicao do produto detalhado asus geforce 3080
 
 
@@ -694,7 +736,7 @@ def asusgeforce_rtx3080():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=2")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1])
+    get_especificacoes = open(produto_select[-1], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -731,7 +773,7 @@ def geforce_3070():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=3")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1])
+    get_especificacoes = open(produto_select[-1], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -773,7 +815,7 @@ def kingModDesktop():
     preco_produto = produto_select[5]
     imagem_produto = produto_select[10]
     descricao_prod = produto_select[8]
-    get_especificacoes = open(produto_select[-1])
+    get_especificacoes = open(produto_select[-1], encoding="utf8")
 
     especificacoes = json.load(get_especificacoes)
     try:
@@ -805,7 +847,7 @@ def vivoBook_K513EP():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=5")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1])
+    get_especificacoes = open(produto_select[-1], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -842,7 +884,7 @@ def hp_pavillon_360():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=6")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1])
+    get_especificacoes = open(produto_select[-1], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -880,7 +922,7 @@ def ssd_kingston_nv1():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=7")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1])
+    get_especificacoes = open(produto_select[-1], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -918,7 +960,7 @@ def monitor_dell_s2721hgf():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=8")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1])
+    get_especificacoes = open(produto_select[-1], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]

@@ -152,14 +152,17 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <ul>
                                                 <div class="btn-group">
-                                                    <form action="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x" method="get">
+                                                    <form
+                                                        action="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x"
+                                                        method="get">
                                                         <button type="submit"
                                                             class="btn  btn-sm btn-outline-secondary">Buy</button>
                                                     </form>
                                                     {% if session['log_in_admin'] == True%}
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                    {%endif%}
+                                                    <form type="button" action="{{url_for('.editar_prod',code_edit=2)}}" method="GET">
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                    </form>{%endif%}
 
                                                 </div>
                                             </ul>
@@ -213,13 +216,17 @@
                                         </dl>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <ul>
-                                                <form action="/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6" method="get">
+                                                <form
+                                                    action="/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6"
+                                                    method="get">
                                                     <button type="submit"
                                                         class="btn btn-sm btn-outline-secondary">Buy</button>
                                                 </form>
-                                                {% if log_in_admin == True%}
-                                                <button type="button"
-                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                {% if session['log_in_admin'] == True%}
+                                                <form type="button" action="{{url_for('.editar_prod',code_edit=3)}}" method="GET">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </form>
                                                 {%endif%}
                                             </ul>
                                         </div>
@@ -231,7 +238,8 @@
                                     <dt>Asus VivoBook K513EP</dt>
                                     <a href="/listagem_produto/armazem/Asus-VivoBook-K513EP" class="nav-link">
                                         <p class="aligncenter">
-                                            <img alt="centered" src="static/produtos/Asus VivoBook K513EP/Asus VivoBook K513EP.png">
+                                            <img alt="centered"
+                                                src="static/produtos/Asus VivoBook K513EP/Asus VivoBook K513EP.png">
                                         </p>
                                     </a>
                                     <div class="card-body alignleft" style="font-size: smaller;">
@@ -278,14 +286,16 @@
                                         </dl>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <ul>
-                                                <form action="/listagem_produto/armazem/Asus-VivoBook-K513EP" method="get">
+                                                <form action="/listagem_produto/armazem/Asus-VivoBook-K513EP"
+                                                    method="get">
                                                     <button type="submit"
                                                         class="btn btn-sm btn-outline-secondary">Buy</button>
                                                 </form>
                                                 {% if session['log_in_admin'] == True%}
-                                                <button type="button"
-                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                {%endif%}
+                                                <form type="button" action="{{url_for('.editar_prod',code_edit=4)}}" method="GET">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </form>{%endif%}
                                             </ul>
                                         </div>
                                     </div>
@@ -315,7 +325,7 @@
                                                 <ul>
                                                     <div class="aligncenter col-row-2">
                                                         <dt>{{produtos[1]}}</dt>
-                                                        
+
                                                     </div>
                                                     <div class="aligncenter">
                                                         <dt><a href="{{url_for('.show_room',code_prod=produtos[0]) }}">
