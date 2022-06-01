@@ -2,6 +2,7 @@
 import sqlite3
 import json
 import os
+from openpyxl import Workbook
 from flask import Flask, redirect, render_template, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 
@@ -106,6 +107,19 @@ def lista_produtos():
         cursor.close()
         con.close()
 
+def fatura(lista_compras):
+#futuramente adicionar forma de adicionar cada nova fatura ao prorio excel do usuario
+    wb = Workbook()
+    wb['Sheet'].title = 'Fatura'
+    print(wb.sheetnames)
+    id_fatura = 0
+    id_fatura += 1
+    for item in lista_compras:
+        print(item['name'])
+    save_name = str(id_fatura)
+    #adicionar email do cliente onde diz save_name
+    wb.save('database/faturas_clientes/'+save_name+'.xlsx')
+    pass
 # criacao de Produto
 
 
@@ -178,7 +192,7 @@ def editar_prod(code_edit):
 
         if session['log_in_admin'] == True and request.method == 'POST':
             modificar_produro= False
-            query= "UPDATE Produtos SET nome_produto =?, preco=?,preco_fornecedor=? WHERE numero_serie =?"
+            query= "UPDATE Produtos SET nome_produto =?, valor_venda=?,preco_fornecedor=? WHERE numero_serie =?"
             con = sqlite3.connect('database/dados_informacoes2.db')
             cursor = con.cursor()
             cursor.execute("SELECT * FROM Produtos WHERE numero_serie=?", (code_edit,))
@@ -202,16 +216,33 @@ def editar_prod(code_edit):
             if novo_nome != '' and novo_preco != '' and novo_preco_fornecedor != '':
                 parametros = (novo_nome,novo_preco,novo_preco_fornecedor,code_edit)
                 modificar_produro = True
+                print('novo nome, preco e preco do fornecedor')
             elif novo_nome != '' and novo_preco != '' and novo_preco_fornecedor =='':
                 parametros = (novo_nome,novo_preco,old_preco_fornecedor,code_edit)
                 modificar_produro=True
+                print('novo nome e preco')
             elif novo_nome != '' and novo_preco == '' and  novo_preco_fornecedor !='':
                 parametros =(novo_nome,old_preco,novo_preco_fornecedor,code_edit)
                 modificar_produro=True
+                print('novo nome e preco fornecedor')
             elif novo_nome =='' and novo_preco != '' and old_preco_fornecedor !='':
                 parametros=(old_nome,novo_preco,novo_preco_fornecedor,code_edit)
                 modificar_produro=True
+                print('Novo preco e preco fornecedor')
+            elif novo_nome !='' and novo_preco == '' and old_preco_fornecedor =='':
+                parametros=(novo_nome,old_preco,old_preco_fornecedor,code_edit)
+                modificar_produro=True
+                print('Novo nome')
+            elif novo_nome =='' and novo_preco == '' and old_preco_fornecedor !='':
+                parametros=(old_nome,old_preco,novo_preco_fornecedor,code_edit)
+                modificar_produro=True
+                print('Novo preco fornecedor')
+            elif novo_nome =='' and novo_preco != '' and old_preco_fornecedor =='':
+                parametros=(old_nome,novo_preco,old_preco_fornecedor,code_edit)
+                modificar_produro=True
+                print('Novo preco')
             else:
+                print('Nenhuma alteracao')
                 modificar_produro = False
 
             if nova_img_path != '':
@@ -228,9 +259,11 @@ def editar_prod(code_edit):
                 
 
             
-            if (modificar_produro):
+            if modificar_produro == True:
+                print('alterado')
                 cursor.execute(query,parametros)
                 db.session.commit()
+                db.session.close()
             else:pass
 
             return redirect(url_for('.show_room', code_prod=code_edit))
@@ -482,66 +515,71 @@ def add_product_to_cart():
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie={}".format(_code))
         row = cursor.fetchone()
-        itemArray = {'id': row[0], 'name': row[1], 'preco': row[5],
-                     'quantidade': _quantity, 'total': _quantity*row[5]}
-        all_total_preco = 0
-        all_total_quantidade = 0
-        session.modified = True
-        if'carrinho' in session:
-            try:
-                for item in session['carrinho']:
-                    if itemArray['id'] == item['id']:
-                        # soma produto que ja se encontra na lista
-                        print('soma produto que ja se encontra na lista')
-                        print(itemArray, item['id'])
-                        old_quantity = item['quantidade']
-                        total_quantidade = old_quantity + \
-                            itemArray['quantidade']
-                        item['quantidade'] = total_quantidade
-                        item['total'] = total_quantidade * item['preco']
 
-                        print('\n\n{}'.format(itemArray))
-                        break
-                    elif itemArray['id'] != item['id']:
-                        # This is not a bug, its a feature
-                        print('adiciona produto que nao se encontra na lista')
-
-                    else:
-                        print('Erro ao somar produto')
-                else:
-                    try:
-                        session['carrinho'].append(itemArray)
-                        print("feature")
-
-                    except Exception as e:
-                        session['carrinho'] = list(session['carrinho'])
-                        print(e)
-            finally:
+        if _quantity <= row[2]:
+            itemArray = {'id': row[0], 'name': row[1], 'preco': row[5],
+                        'quantidade': _quantity, 'total': _quantity*row[5]}
+            all_total_preco = 0
+            all_total_quantidade = 0
+            session.modified = True
+            if'carrinho' in session:
                 try:
-                    if itemArray in session['carrinho']:
-                        print("ja em lista")
-                except Exception as e:
-                    print(e)
-                    session['carrinho'].append(itemArray)
+                    for item in session['carrinho']:
+                        if itemArray['id'] == item['id']:
+                            # soma produto que ja se encontra na lista
+                            print('soma produto que ja se encontra na lista')
+                            print(itemArray, item['id'])
+                            old_quantity = item['quantidade']
+                            total_quantidade = old_quantity + \
+                                itemArray['quantidade']
+                            item['quantidade'] = total_quantidade
+                            item['total'] = total_quantidade * item['preco']
 
+                            print('\n\n{}'.format(itemArray))
+                            break
+                        elif itemArray['id'] != item['id']:
+                            # This is not a bug, its a feature
+                            print('adiciona produto que nao se encontra na lista')
+
+                        else:
+                            print('Erro ao somar produto')
+                    else:
+                        try:
+                            session['carrinho'].append(itemArray)
+                            print("feature")
+
+                        except Exception as e:
+                            session['carrinho'] = list(session['carrinho'])
+                            print(e)
+                finally:
+                    try:
+                        if itemArray in session['carrinho']:
+                            print("ja em lista")
+                    except Exception as e:
+                        print(e)
+                        session['carrinho'].append(itemArray)
+
+            else:
+                session['carrinho'] = []
+                session['carrinho'].append(itemArray)
+
+            for item in session['carrinho']:
+                quantidade_individual = item['quantidade']
+                preco_total = item['total']
+                all_total_quantidade += quantidade_individual
+                all_total_preco += preco_total
+
+            session['all_total_quantidade'] = all_total_quantidade
+            session['all_total_preco'] = all_total_preco
+            print(session['carrinho'])
+
+            cursor.close()
+            con.close()
+
+            return redirect(url_for('.carrinho'))
         else:
-            session['carrinho'] = []
-            session['carrinho'].append(itemArray)
-
-        for item in session['carrinho']:
-            quantidade_individual = item['quantidade']
-            preco_total = item['total']
-            all_total_quantidade += quantidade_individual
-            all_total_preco += preco_total
-
-        session['all_total_quantidade'] = all_total_quantidade
-        session['all_total_preco'] = all_total_preco
-        print(session['carrinho'])
-
-        cursor.close()
-        con.close()
-
-        return redirect(url_for('.carrinho'))
+           print('Quantidade de produto nao disponivel')
+           return redirect(url_for('.carrinho'))
     else:
         return 'erro ao adicionar'
 
@@ -625,6 +663,7 @@ def finalizar_compra():
             produto_quantidade_armazem, produto_quantidade_vendida, item['id']))
         con.commit()
         db.session.commit()
+    fatura(session['carrinho'])
     empty_cart()
     return redirect(url_for('.carrinho'))
 
@@ -682,7 +721,7 @@ def fornecer_produto():
                 cursor.execute(
                     "SELECT * FROM Produtos WHERE numero_serie=?", (id_encomenda,))
                 info_prod = cursor.fetchone()
-                old_encomendas = info_prod[11]
+                old_encomendas = info_prod[8]
                 print(info_prod)
                 total = old_encomendas + _quantidade_encomenda
 
@@ -706,9 +745,9 @@ def fornecer_produto():
                 cursor.execute("UPDATE Produtos SET em_armazem={} WHERE numero_serie={} ".format(
                     total, id_encomenda))
 
-                entrega = info_prod[11]
+                entrega = info_prod[8]
                 if entrega > 0:
-                    entrega = info_prod[11] - _quantidade_encomenda
+                    entrega = info_prod[8] - _quantidade_encomenda
                     cursor.execute("UPDATE Produtos SET quantidade_encomenda={} WHERE numero_serie={} ".format(
                         entrega, id_encomenda))
                 elif entrega < 0:
@@ -1043,11 +1082,6 @@ def notificacao_produtos_low(produto_id):
     produto_detalhes = {'id': produto_em_falta[0]}
 
     return produto_detalhes['id']
-    # if quantidade_armazem <10:
-    #    low_stock = True
-    #    return "Baixa Quantidade de Produto"
-    # else:
-    #    return "Disponivel"
 
 
 if __name__ == "__main__":
