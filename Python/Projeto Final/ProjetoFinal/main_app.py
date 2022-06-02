@@ -1,8 +1,12 @@
 # imports
 import sqlite3
 import json
-import os
+import os,random
+import pathlib
+import win32com.client, pythoncom
 from openpyxl import Workbook
+from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
+from openpyxl.utils import get_column_letter
 from flask import Flask, redirect, render_template, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 
@@ -99,7 +103,7 @@ def lista_produtos():
         con = sqlite3.connect('database/dados_informacoes2.db')
         cursor = con.cursor()
         cursor.execute("SELECT * FROM Produtos")
-        produtos = cursor.fetchall()
+        produtos = cursor.fetchall() 
         return produtos
     except Exception as e:
         print(e)
@@ -109,17 +113,73 @@ def lista_produtos():
 
 def fatura(lista_compras):
 #futuramente adicionar forma de adicionar cada nova fatura ao prorio excel do usuario
+    diretorio = "database/faturas_clientes/"+session['user']+"/"
+    path = os.path.join(diretorio)
+    try:
+            os.mkdir(path)
+    except Exception as e :
+            print(e)
     wb = Workbook()
     wb['Sheet'].title = 'Fatura'
     print(wb.sheetnames)
-    id_fatura = 0
-    id_fatura += 1
+    ws = wb.active
+    remetente_fatura = session['username']+'_'+str(random.randint(0,999999999))
+    ws['A1'] = 'Numero da Fatura'
+    ws['A2'] = remetente_fatura
+    ws['B7'] = 'ID'
+    ws['C7'] = 'Nome Produto'
+    ws['D7'] = 'Quantidade'
+    ws['E7'] = 'Valor do Produto'
+    ws['F7'] = 'Valor Total €'
+    ws['G7'] = 'IVA%'
+    
     for item in lista_compras:
-        print(item['name'])
-    save_name = str(id_fatura)
-    #adicionar email do cliente onde diz save_name
-    wb.save('database/faturas_clientes/'+save_name+'.xlsx')
+        print(item)
+        ws.append(['',item['id'],item['name'],item['quantidade'],str(item['preco'])+' €',str(item['total'])+' €'])
+    ws.append(["","","","","",""])
+    ws.append(['','Total','',session['all_total_quantidade'],'',session['all_total_preco'],'€'])
+    #incluir datetime ha fatura!!
+    
+    dim_holder = DimensionHolder(worksheet=ws)
+
+    for col in range(ws.min_column, ws.max_column ):
+        dim_holder[get_column_letter(col)] = ColumnDimension(ws, min=col, max=col+10)
+    for row in range(ws.min_row,ws.max_row):
+        dim_holder[get_column_letter(row)] = ColumnDimension(ws,min=row,max=row)
+
+    ws.column_dimensions = dim_holder
+    wb.save(diretorio+remetente_fatura+'.xlsx')
+    wb.close()
+    
+
+    excel_file = diretorio+remetente_fatura+".xlsx"
+    pdf_file = diretorio+remetente_fatura+".pdf"
+
+    excel_path = str(pathlib.Path.cwd() / excel_file)
+    pdf_path = str(pathlib.Path.cwd() / pdf_file)
+    excel = win32com.client.Dispatch("Excel.Application",pythoncom.CoInitialize())
+    excel.Visible = False
+    try:
+        wb = excel.Workbooks.Open(excel_path)
+        ws = wb.Worksheets[0]
+        wb.SaveAs(pdf_path, FileFormat=57)
+        wb.SaveAs()
+    except Exception as e :
+        print('Fail')
+        print (e)
+    else:
+        print('Sucess')
+    finally:
+        excel.Quit()
+
     pass
+
+#Apresentacao das faturas 
+def show_faturas():
+
+    pass
+
+
 # criacao de Produto
 
 
@@ -491,7 +551,9 @@ def logout():
 @root.route('/user-login/carrinho', methods=['GET', 'POST'])
 def carrinho():
     if request.method == 'GET':
-        return render_template('carrinho.html')
+        faturas = show_faturas()
+
+        return render_template('carrinho.html',faturas=faturas)
 
     if request.method == 'POST':
         try:
@@ -627,6 +689,8 @@ def delete_product(code):
     # return redirect('/')
     return redirect(url_for('.carrinho'))
 
+
+    
 
 # Finalizar Compras
 @root.route('/pagamento')
@@ -1070,18 +1134,6 @@ def show_room(code_prod):
         return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
                                preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,
                                descricao_prod=descricao_prod, especificacoes=detalhes)
-
-# aviso de quantidade de produto em baixo
-
-
-def notificacao_produtos_low(produto_id):
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Prosutos WHERE produto_id={}", produto_id)
-    produto_em_falta = cursor.fetchone()
-    produto_detalhes = {'id': produto_em_falta[0]}
-
-    return produto_detalhes['id']
 
 
 if __name__ == "__main__":
