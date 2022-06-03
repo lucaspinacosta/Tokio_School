@@ -446,7 +446,7 @@ def login():
                 session["password"] = user_pswd
                 session['username'] = user[2]
                 print(session['username'])
-                return redirect(url_for('todos_produtos',  log_in_admin=session['log_in_admin'], user=session['username']))
+                return redirect(url_for('.todos_produtos',  log_in_admin=session['log_in_admin'], user=session['username']))
 
         # Verificar fornecedor
         for user in verificar_email_fornecedor:
@@ -457,7 +457,7 @@ def login():
                 session['password'] = user_pswd
                 session['username'] = user[2]
                 session['id'] = user[0]
-                return redirect(url_for('todos_produtos',  log_in_fornecedor=session['log_in_fornecedor'], user=session['username']))
+                return redirect(url_for('.todos_produtos',  log_in_fornecedor=session['log_in_fornecedor'], user=session['username']))
 
         # Verificar se user e cliente
         for user in verificado_email:
@@ -485,7 +485,7 @@ def login():
                 session["user"] = user_loggin
                 session["password"] = user_pswd
                 # session['carrinho']
-                return render_template("index.html", log_in=session['log_in'], user=session['username'], todos_os_produtos=todos_os_produto, lista_fornecedores=None)
+                return redirect(url_for(".home", log_in=session['log_in'], user=session['username'], todos_os_produtos=todos_os_produto, lista_fornecedores=None))
         # Iniciar como admin
         except:
             if 'log_in_admin' in session:
