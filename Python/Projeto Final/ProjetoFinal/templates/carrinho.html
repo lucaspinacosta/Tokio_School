@@ -78,7 +78,9 @@
 
 
                 {% if 'carrinho' in session%}
-                <a id="btnEmpty" href="{{url_for('.empty_cart')}}" class="btn-outline-secondary">Empty Cart</a>
+                <div >
+                <a id="btnEmpty" href="{{url_for('.empty_cart')}}" class="btn-outline-secondary">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" style="background-color:rgba(161, 6, 6, 0.85);color: aliceblue;">Empty Cart</button></a></div>
                 <table class="tbl-cart " cellpadding="10" cellspacing="1">
                     <tbody>
                         <tr>
@@ -109,7 +111,7 @@
                             <td style="text-align:right;">{{ '%.2f' % total_produtos }}€</td>
                             <td style="text-align:center;">
                                 <a href="{{url_for('.delete_product',code=id) }}" class="btnRemoveAction">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Remover</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" style="color:black;">Remover</button>
                                 </a>
 
                             </td>
@@ -122,7 +124,7 @@
                             </td>
                             <td style="text-align:center;">
                                 <a href="{{url_for('.finalizar_compra') }}" class="btnRemoveAction">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Finalizar</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" style="background-color:blue;color: white;">Finalizar</button>
                                 </a>
                             </td>
                         </tr>
@@ -138,15 +140,25 @@
             <div class="card col-12">
                 <h1 class="sub_titulo aligncenter"> Faturas </h1>
                 <p></p>
-            </div>
-            <div class="card col-12">
-                <ul>
-                    <li>
-                        <p class="link-dark" href="{{}}"></p>
-                    </li>
-                </ul>
-            </div>
 
+                <div class="card col-12 col-row-4">
+                    <ul>
+                        <li>
+                            <a class="link-dark" href="#">Numero fatura</a>
+                            <a>    </a>
+                            <a> email_cliente</a>
+                            <a>    </a>
+                            <a> data da compra</a>
+                            <a>    </a>
+                            <a> valor da fatura</a>
+                            <p>
+                                <a>numero_fatura</a>
+                                <a> email_cliente</a>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
 

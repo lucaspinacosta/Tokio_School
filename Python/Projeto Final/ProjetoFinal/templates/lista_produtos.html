@@ -91,10 +91,10 @@
                                         <th style="text-align:center;">Nome Fornecedor</th>
                                         <th style="text-align:center;">ID</th>
                                         <!--<th style="text-align:center;">Lucro</th>-->
-                                        <th style="text-align:right;" width="5%">Despesas</th>
+                                        <th style="text-align:right;" width="5%">Despesa</th>
+                                        <th style="text-align: center;" width="5%">Lucro</th>
                                         <th style="text-align:right;" width="10%">Contacto</th>
                                         <th style="text-align:right;" width="10%">Email</th>
-                                        <th style="text-align: center;" width="5%">Lucro</th>
                                         <th style="text-align:left;" width="10%">NIF</th>
                                     </tr>
 
@@ -103,9 +103,9 @@
                                     {% set email_fornecedor = fornecedor[1] %}
                                     {% set fornecedor_name = fornecedor[2] %}
                                     {% set desp_fornecedor = fornecedor[3] %}
-                                    {% set contacto = fornecedor[4] %}
-                                    {% set numero_IF = fornecedor[5] %}
-                                    {% set lucro_fornecedor = fornecedor[]%}
+                                    {% set contacto = fornecedor[5] %}
+                                    {% set numero_IF = fornecedor[6] %}
+                                    {% set lucro_fornecedor = fornecedor[4]%}
 
 
 
@@ -114,10 +114,11 @@
                                         <td style="text-align:center;">{{ id_fornecedor }}</td>
                                         <!--<td style="text-align:right;" width="5%"></td>-->
                                         <td style="text-align:right;" width="5%">{{'%.2f' % desp_fornecedor }}€</td>
+                                        <td style="text-align:right;" width="5%">{{'%.2f' % lucro_fornecedor }}€</td>
                                         <td style="text-align:right;" width="10%">{{ contacto }}</td>
                                         <td style="text-align:right;" width="10%">{{ email_fornecedor }}</td>
-                                        <td style="text-align:right;" width="5%">{{ lucro_fornecedor }}</td>
                                         <td style="text-align:center;" width="5%">{{ numero_IF }}</td>
+                                        
                                     </tr>
                                 </tbody>{%endfor%}
                             </table>
@@ -143,7 +144,9 @@
                                             <th style="text-align:right;" width="5%">Stock</th>
                                             <th style="text-align:right;" width="10%">Vendidos</th>
                                             <th style="text-align:right;" width="10%">Fornecedor</th>
+                                            <th style="text-align:right;" width="5%">IVA</th>
                                             <th style="text-align:center;" width="5%">Lucro</th>
+
                                         </tr>
                                         {%for produto in todos_os_produtos%}
 
@@ -155,6 +158,7 @@
                                         {% set id_fornecedor = produto[9]%}
                                         {% set encomenda = produto[8]%}
                                         {% set lucro = produto[3]*(produto[5]-produto[4]) %}
+                                        {% set iva = produto[11] %}
                                         <tr>
                                             {%if em_stock > 10:%}
                                             <td style="text-align:center;">Disponivel</td>
@@ -172,6 +176,7 @@
                                                 <td style="text-align:right;" width="5%">{{ em_stock }}</td>
                                                 <td style="text-align:right;" width="5%">{{ vendidos }}</td>
                                                 <td style="text-align:right;" width="10%">{{ nome_fornecedor }}</td>
+                                                <td style="text-align:right;" width="5%">{{ iva }}% </td>
                                                 <td style="text-align:center;">{{'%.2f' % lucro }}€</td>
 
                                         </tr>{%endfor%}<p></p>
@@ -272,7 +277,7 @@
                                         </div>
                                         <div class="aligncenter">
                                             <dt><a href="{{url_for('.show_room',code_prod=produtos[0]) }}">
-                                                    <img class="fit-picture " src="{{produtos[11]}}" height="200"></a>
+                                                    <img class="fit-picture " src="{{produtos[12]}}" height="200"></a>
                                             <dt>{{ '%.2f' % produtos[5] }} € </dt>
                                             </dt>
                                         </div>

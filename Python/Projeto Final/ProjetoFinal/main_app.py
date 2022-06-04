@@ -5,7 +5,7 @@ import os,random
 import pathlib
 import win32com.client, pythoncom
 from openpyxl import Workbook
-from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
+from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 from flask import Flask, redirect, render_template, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
@@ -59,9 +59,9 @@ class Fornecedor(db.Model):
     email_fornecedor = db.Column(db.String(100))
     nome_forneceder = db.Column(db.String)
     desp_fornecedor = db.Column(db.Float)
+    lucro_fornecedor = db.Column(db.Float)
     contacto_fornecedor = db.Column(db.Integer)
     numero_IF = db.Column(db.Integer)
-    imposto_IVA = db.Column(db.Integer)
     desconto_fornecedor = db.Column(db.Integer)
     db.create_all()
     db.session.commit()
@@ -115,6 +115,7 @@ def fatura(lista_compras):
 #futuramente adicionar forma de adicionar cada nova fatura ao prorio excel do usuario
     diretorio = "database/faturas_clientes/"+session['user']+"/"
     path = os.path.join(diretorio)
+
     try:
             os.mkdir(path)
     except Exception as e :
@@ -123,31 +124,36 @@ def fatura(lista_compras):
     wb['Sheet'].title = 'Fatura'
     print(wb.sheetnames)
     ws = wb.active
+    fontStyle = Font(size="9")
     remetente_fatura = session['username']+'_'+str(random.randint(0,999999999))
     ws['A1'] = 'Numero da Fatura'
     ws['A2'] = remetente_fatura
-    ws['B7'] = 'ID'
-    ws['C7'] = 'Nome Produto'
-    ws['D7'] = 'Quantidade'
-    ws['E7'] = 'Valor do Produto'
-    ws['F7'] = 'Valor Total €'
-    ws['G7'] = 'IVA%'
-    
+    ws['B7'] = 'Nome Produto'
+    ws['C7'] = 'Quantidade'
+    ws['D7'] = 'Valor Unidade'
+    ws['E7'] = 'Valor Total'
+    ws['F7'] = 'IVA'
+    ws.append(["","","","","",""])
     for item in lista_compras:
         print(item)
-        ws.append(['',item['id'],item['name'],item['quantidade'],str(item['preco'])+' €',str(item['total'])+' €'])
-    ws.append(["","","","","",""])
-    ws.append(['','Total','',session['all_total_quantidade'],'',session['all_total_preco'],'€'])
+        ws.append(['',item['name'],item['quantidade'],"{:.2f}€".format(item['preco']),"{:.2f}€".format(item['total']),str(item['iva'])+'%'])
+    ws.append(["","","","",""])
+    ws.append(['','Total',session['all_total_quantidade'],'',"{:.2f}€".format(session['all_total_preco']),str(item['iva'])+'%'])
     #incluir datetime ha fatura!!
+    for col in ws.columns:
+        max_length = 0
+        column = col[0].column_letter # Get the column name
+        for cell in col:
+            cell.font = fontStyle
+            try: # Necessary to avoid error on empty cells
+                if len(str(cell.value)) > max_length:
+                    max_length = len(str(cell.value))
+            except:
+                pass
+        adjusted_width = (max_length)*0.80
+        ws.column_dimensions[column].width = adjusted_width
     
-    dim_holder = DimensionHolder(worksheet=ws)
-
-    for col in range(ws.min_column, ws.max_column ):
-        dim_holder[get_column_letter(col)] = ColumnDimension(ws, min=col, max=col+10)
-    for row in range(ws.min_row,ws.max_row):
-        dim_holder[get_column_letter(row)] = ColumnDimension(ws,min=row,max=row)
-
-    ws.column_dimensions = dim_holder
+    
     wb.save(diretorio+remetente_fatura+'.xlsx')
     wb.close()
     
@@ -175,7 +181,13 @@ def fatura(lista_compras):
     pass
 
 #Apresentacao das faturas 
-def show_faturas():
+def show_faturas(user_email):
+    #arranjar forma de ler os ficheiros dentro do diretorio
+    #experimentar usar o pathlib ou os
+    path_faturas = "database/faturas_clientes/" + user_email+"/"
+    for files in path_faturas:
+        print(files)
+        pass
 
     pass
 
@@ -257,7 +269,7 @@ def editar_prod(code_edit):
             cursor = con.cursor()
             cursor.execute("SELECT * FROM Produtos WHERE numero_serie=?", (code_edit,))
             produto_em_edicao = cursor.fetchone()
-            get_especificacoes = open(produto_em_edicao[-1], encoding="utf8")
+            get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
             especificacoes = json.load(get_especificacoes)
 
             old_nome = produto_em_edicao[1]
@@ -266,7 +278,7 @@ def editar_prod(code_edit):
             old_img_path = especificacoes['img_path']
             old_especificacoes = especificacoes['especificacoes']
             old_descricao = especificacoes['descricoes']
-
+            #Terminar a edicao dos produtos
             novo_nome = request.form['novo_nome']
             novo_preco = request.form['novo_preco']
             novo_preco_fornecedor = request.form['novo_preco_fornecedor']
@@ -306,7 +318,7 @@ def editar_prod(code_edit):
                 modificar_produro = False
 
             if nova_img_path != '':
-                get_especificacoes = open(produto_em_edicao[-1], encoding="utf8")
+                get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
                 especificacoes = json.load(get_especificacoes)
                 def write_json( new_img_path, filename="static/produtos/"+old_nome+"/espec_produtos.json"):
                     with open(filename, 'r+') as file:
@@ -317,8 +329,6 @@ def editar_prod(code_edit):
                 write_json(nova_img_path)
             else:pass
                 
-
-            
             if modificar_produro == True:
                 print('alterado')
                 cursor.execute(query,parametros)
@@ -333,7 +343,7 @@ def editar_prod(code_edit):
             cursor = con.cursor()
             cursor.execute("SELECT * FROM Produtos WHERE numero_serie=?", (code_edit,))
             produto_em_edicao = cursor.fetchone()
-            get_especificacoes = open(produto_em_edicao[-1], encoding="utf8")
+            get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
             especificacoes = json.load(get_especificacoes)
             old_nome = produto_em_edicao[1]
             old_preco = produto_em_edicao[5]
@@ -363,6 +373,9 @@ def lista_fornecedores():
 
 
 def criar_fornecedor():
+    #adicionar forncedor 
+    #experimentar aplicar na pagina de criacao de produto e criar uma propria pagina
+    # so para adicionar um fonecedor
     pass
 
 # Home Page
@@ -379,7 +392,7 @@ def home():
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie = ? ", (prod_img_desj,))
         produto_select = cursor.fetchone()
-        get_especificacoes = open(produto_select[-1], encoding="utf8")
+        get_especificacoes = open(produto_select[10], encoding="utf8")
         detalhes = json.load(get_especificacoes)
         novos_detalhes = produto+(detalhes['img_path'],)
         apresentacao.append(novos_detalhes)
@@ -551,7 +564,8 @@ def logout():
 @root.route('/user-login/carrinho', methods=['GET', 'POST'])
 def carrinho():
     if request.method == 'GET':
-        faturas = show_faturas()
+        faturas = show_faturas(session['user'])
+        print(faturas)
 
         return render_template('carrinho.html',faturas=faturas)
 
@@ -579,7 +593,7 @@ def add_product_to_cart():
         row = cursor.fetchone()
 
         if _quantity <= row[2]:
-            itemArray = {'id': row[0], 'name': row[1], 'preco': row[5],
+            itemArray = {'id': row[0], 'name': row[1], 'preco': row[5],'iva':row[11],
                         'quantidade': _quantity, 'total': _quantity*row[5]}
             all_total_preco = 0
             all_total_quantidade = 0
@@ -669,16 +683,15 @@ def delete_product(code):
     session.modified = True
     for item in session['carrinho']:
         print(item, 'break\n')
-        print(code)
+        print(type(code))
         item_id = item['id']
 
-        if item_id == int(code):
+        if int(item_id) == int(code):
             print(item)
             retirar_daconta = item['quantidade'] * item['preco']
             session['all_total_preco'] = all_total_preco - retirar_daconta
-            session['all_total_quantidade'] = all_total_quantidade - \
-                item['quantidade']
-            session['carrinho'].pop()
+            session['all_total_quantidade'] = all_total_quantidade - item['quantidade']
+            session['carrinho'].remove(item)
             return redirect(url_for('.carrinho'))
 
         else:
@@ -686,6 +699,8 @@ def delete_product(code):
             pass
     if all_total_quantidade == 0:
         session['carrinho'] = []
+        all_total_preco = 0
+        session['all_total_preco'] = 0
     # return redirect('/')
     return redirect(url_for('.carrinho'))
 
@@ -703,16 +718,20 @@ def finalizar_compra():
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
         row = cursor.fetchone()
-        fornecedor_id = row[-2]
+        fornecedor_id = row[9]
         # seleciona o fornecedor na base de dados, atraves dos dados obtidos pelo produto
         cursor.execute(
             "SELECT * FROM Fornecedores WHERE id_fornecedor={}".format(fornecedor_id))
         fornecedor_dados = cursor.fetchone()
+        #despesa obtida pelo admin com a venda de produtos do fornecedor 'X'
         des_fornecedores = float(
             fornecedor_dados[3]) + item['quantidade']*row[4]
+        #lucro obtido pelo admin com vendas de produtos do fornecedor 'X'
+        lucro_fornecedor = float(fornecedor_dados[4])+(item['quantidade']*row[5]) - (item['quantidade']*row[4])
+
         # Atualiza as despesas de fornecedor ao somar, quantidade de produto vendido ao valor que cada um custou ao fornecedor
-        cursor.execute("UPDATE Fornecedores SET desp_fornecedor={:.2f} WHERE id_fornecedor={} ".format(
-            des_fornecedores, fornecedor_id))
+        cursor.execute("UPDATE Fornecedores SET desp_fornecedor={:.2f}, lucro_fornecedor={:.2f} WHERE id_fornecedor={} ".format(
+            des_fornecedores,lucro_fornecedor, fornecedor_id))
         con.commit()
         db.session.commit()
 
@@ -746,7 +765,7 @@ def todos_produtos():
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie = ? ", (prod_img_desj,))
         produto_select = cursor.fetchone()
-        get_especificacoes = open(produto_select[-1], encoding="utf8")
+        get_especificacoes = open(produto_select[10], encoding="utf8")
         detalhes = json.load(get_especificacoes)
         novos_detalhes = produto+(detalhes['img_path'],)
         apresentacao.append(novos_detalhes)
@@ -839,7 +858,7 @@ def asusgeforce_rtx3080():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=2")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1], encoding="utf8")
+    get_especificacoes = open(produto_select[10], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -876,7 +895,7 @@ def geforce_3070():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=3")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1], encoding="utf8")
+    get_especificacoes = open(produto_select[10], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -918,7 +937,7 @@ def kingModDesktop():
     preco_produto = produto_select[5]
     imagem_produto = produto_select[10]
     descricao_prod = produto_select[8]
-    get_especificacoes = open(produto_select[-1], encoding="utf8")
+    get_especificacoes = open(produto_select[10], encoding="utf8")
 
     especificacoes = json.load(get_especificacoes)
     try:
@@ -950,7 +969,7 @@ def vivoBook_K513EP():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=5")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1], encoding="utf8")
+    get_especificacoes = open(produto_select[10], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -987,7 +1006,7 @@ def hp_pavillon_360():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=6")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1], encoding="utf8")
+    get_especificacoes = open(produto_select[10], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -1025,7 +1044,7 @@ def ssd_kingston_nv1():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=7")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1], encoding="utf8")
+    get_especificacoes = open(produto_select[10], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -1063,7 +1082,7 @@ def monitor_dell_s2721hgf():
     cursor = con.cursor()
     cursor.execute("SELECT * FROM Produtos WHERE numero_serie=8")
     produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[-1], encoding="utf8")
+    get_especificacoes = open(produto_select[10], encoding="utf8")
     especificacoes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
@@ -1101,7 +1120,7 @@ def show_room(code_prod):
         "SELECT * FROM Produtos WHERE numero_serie = ?", (code_prod,))
     produto_select = cursor.fetchone()
     print(produto_select)
-    get_especificacoes = open(produto_select[-1], encoding="utf8")
+    get_especificacoes = open(produto_select[10], encoding="utf8")
     detalhes = json.load(get_especificacoes)
 
     numero_serie = produto_select[0]
