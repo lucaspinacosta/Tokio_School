@@ -1,4 +1,5 @@
 # imports
+from glob import glob
 import sqlite3
 import json
 import os,random
@@ -184,12 +185,16 @@ def fatura(lista_compras):
 def show_faturas(user_email):
     #arranjar forma de ler os ficheiros dentro do diretorio
     #experimentar usar o pathlib ou os
-    path_faturas = "database/faturas_clientes/" + user_email+"/"
-    for files in path_faturas:
-        print(files)
-        pass
 
-    pass
+    source_faturas = "database\\faturas_clientes\\" + user_email+"\\"
+    faturas = []
+
+    for file in glob(source_faturas + '*'+'.pdf'):
+        print(file)
+        faturas.append(file)
+    print(faturas)
+
+    return faturas
 
 
 # criacao de Produto
@@ -565,7 +570,6 @@ def logout():
 def carrinho():
     if request.method == 'GET':
         faturas = show_faturas(session['user'])
-        print(faturas)
 
         return render_template('carrinho.html',faturas=faturas)
 
@@ -603,15 +607,19 @@ def add_product_to_cart():
                     for item in session['carrinho']:
                         if itemArray['id'] == item['id']:
                             # soma produto que ja se encontra na lista
-                            print('soma produto que ja se encontra na lista')
+                            
                             print(itemArray, item['id'])
                             old_quantity = item['quantidade']
                             total_quantidade = old_quantity + \
                                 itemArray['quantidade']
                             item['quantidade'] = total_quantidade
-                            item['total'] = total_quantidade * item['preco']
+                            iva = item['iva'] / 100
+                            preco_com_iva = item['preco'] * iva
+                            preco_total =  (preco_com_iva + item['preco']) * quantidade_individual
+                            item['total'] = preco_total
 
-                            print('\n\n{}'.format(itemArray))
+                            print('\n{}\n'.format(itemArray))
+                            print('soma produto que ja se encontra na lista')
                             break
                         elif itemArray['id'] != item['id']:
                             # This is not a bug, its a feature
@@ -641,7 +649,9 @@ def add_product_to_cart():
 
             for item in session['carrinho']:
                 quantidade_individual = item['quantidade']
-                preco_total = item['total']
+                iva = item['iva'] / 100
+                preco_com_iva = item['preco'] * iva
+                preco_total =  (preco_com_iva + item['preco']) * quantidade_individual
                 all_total_quantidade += quantidade_individual
                 all_total_preco += preco_total
 
@@ -681,13 +691,12 @@ def delete_product(code):
     all_total_preco = session['all_total_preco']
     all_total_quantidade = session['all_total_quantidade']
     session.modified = True
+    print(session['carrinho'])
     for item in session['carrinho']:
-        print(item, 'break\n')
         print(type(code))
         item_id = item['id']
 
         if int(item_id) == int(code):
-            print(item)
             retirar_daconta = item['quantidade'] * item['preco']
             session['all_total_preco'] = all_total_preco - retirar_daconta
             session['all_total_quantidade'] = all_total_quantidade - item['quantidade']

@@ -78,9 +78,11 @@
 
 
                 {% if 'carrinho' in session%}
-                <div >
-                <a id="btnEmpty" href="{{url_for('.empty_cart')}}" class="btn-outline-secondary">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" style="background-color:rgba(161, 6, 6, 0.85);color: aliceblue;">Empty Cart</button></a></div>
+                <div>
+                    <a id="btnEmpty" href="{{url_for('.empty_cart')}}" class="btn-outline-secondary">
+                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                            style="background-color:rgba(161, 6, 6, 0.85);color: aliceblue;">Empty Cart</button></a>
+                </div>
                 <table class="tbl-cart " cellpadding="10" cellspacing="1">
                     <tbody>
                         <tr>
@@ -89,6 +91,7 @@
                             <th style="text-align:right;" width="5%">Quantity</th>
                             <th style="text-align:right;" width="10%">Unit Price</th>
                             <th style="text-align:right;" width="10%">Price</th>
+                            <th style="text-align:right;" width="5%">Iva</th>
                             <th style="text-align:center;" width="5%">Remove</th>
                         </tr>
                         {% for key in session['carrinho'] %}
@@ -109,9 +112,11 @@
                             </td>
                             <td style="text-align:right;">{{ '%.2f' % item_price}}€</td>
                             <td style="text-align:right;">{{ '%.2f' % total_produtos }}€</td>
+                            <td style="text-align:right;">{{key['iva']}}%</td>
                             <td style="text-align:center;">
                                 <a href="{{url_for('.delete_product',code=id) }}" class="btnRemoveAction">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" style="color:black;">Remover</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        style="color:black;">Remover</button>
                                 </a>
 
                             </td>
@@ -122,9 +127,11 @@
                             <td align="right">{{ session['all_total_quantidade'] }}</td>
                             <td align="right" colspan="2"><strong>{{ '%.2f' % session["all_total_preco"] }}€</strong>
                             </td>
+                            <td></td>
                             <td style="text-align:center;">
                                 <a href="{{url_for('.finalizar_compra') }}" class="btnRemoveAction">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" style="background-color:blue;color: white;">Finalizar</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        style="background-color:blue;color: white;">Finalizar</button>
                                 </a>
                             </td>
                         </tr>
@@ -140,24 +147,35 @@
             <div class="card col-12">
                 <h1 class="sub_titulo aligncenter"> Faturas </h1>
                 <p></p>
-
-                <div class="card col-12 col-row-4">
+                {%for fatura in faturas%}
+                <div class="card col-12 col-row-1">
                     <ul>
-                        <li>
-                            <a class="link-dark" href="#">Numero fatura</a>
-                            <a>    </a>
-                            <a> email_cliente</a>
-                            <a>    </a>
-                            <a> data da compra</a>
-                            <a>    </a>
-                            <a> valor da fatura</a>
-                            <p>
-                                <a>numero_fatura</a>
-                                <a> email_cliente</a>
-                            </p>
-                        </li>
+                        <table class="tbl-cart " cellpadding="10" cellspacing="1">
+                            <tbody>
+                                <tr>
+                                    <th><a>Nome</th>
+                                    <th><a style="text-align:right;" width="5%">Email</a></th>
+                                    <th><a style="text-align:center;" width="5%">N Fatura</a></th>
+                                    <th> Data</th>
+                                    <th> Valor da fatura</th>
+                                </tr>
+                                <tr>
+                                    <td href="{{user_email}}">{{session['username']}}</td>
+                                    <td><a style="text-align:right;" width="5%">{{session['user']}}</a></td>
+                                    <td><a style="text-align:center;" width="5%"> {{fatura[26:-5]}}</a></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                     </ul>
+                    
+                      
+                      
+                    
                 </div>
+                {%endfor%}
             </div>
         </div>
 
