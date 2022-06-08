@@ -1,4 +1,5 @@
 # imports
+from datetime import date, datetime
 from glob import glob
 import sqlite3
 import json
@@ -131,20 +132,19 @@ def fatura(lista_compras):
     fontStyle = Font(size="9")
     remetente_fatura = session['username'] + \
         '_'+str(random.randint(0, 999999999))
-    ws['A1'] = 'Numero da Fatura'
-    ws['A2'] = remetente_fatura
-    ws['B7'] = 'Nome Produto'
-    ws['C7'] = 'Quantidade'
-    ws['D7'] = 'Valor Unidade'
-    ws['E7'] = 'Valor Total'
-    ws['F7'] = 'IVA'
+    
+    ws['C7'] = 'Nome Produto'
+    ws['D7'] = 'Quantidade'
+    ws['E7'] = 'Valor Unidade'
+    ws['F7'] = 'Valor Total'
+    ws['G7'] = 'IVA'
     ws.append(["", "", "", "", "", ""])
     for item in lista_compras:
         print(item)
-        ws.append(['', item['name'], item['quantidade'], "{:.2f}€".format(
+        ws.append(['','', item['name'], item['quantidade'], "{:.2f}€".format(
             item['preco']), "{:.2f}€".format(item['total']), str(item['iva'])+'%'])
-    ws.append(["", "", "", "", ""])
-    ws.append(['', 'Total', session['all_total_quantidade'], '', "{:.2f}€".format(
+    ws.append(['',"", "", "", "", ""])
+    ws.append(['','', 'Total', session['all_total_quantidade'], '', "{:.2f}€".format(
         session['all_total_preco']), ""])
     # incluir datetime na fatura!!
     for col in ws.columns:
@@ -159,6 +159,12 @@ def fatura(lista_compras):
                 pass
         adjusted_width = (max_length)*0.80
         ws.column_dimensions[column].width = adjusted_width
+    
+    ws['A1'] = 'Numero da Fatura'
+    ws['A2'] = remetente_fatura
+    ws['H1'] = time.strftime('%X')
+    date.today()
+    ws['H2'] = time.strftime('%x')
 
     wb.save(diretorio+remetente_fatura+'.xlsx')
     wb.close()
@@ -185,7 +191,7 @@ def fatura(lista_compras):
     finally:
         excel.Quit()
 
-    pass
+    
 
 # Apresentacao das faturas
 
@@ -635,9 +641,8 @@ def add_product_to_cart():
                                 itemArray['quantidade']
                             item['quantidade'] = total_quantidade
                             iva = item['iva'] / 100
-                            preco_com_iva = item['preco'] * iva
-                            preco_total = (
-                                preco_com_iva + item['preco']) * quantidade_individual
+                            preco_com_iva = itemArray['preco'] * iva
+                            preco_total = (itemArray['preco'] * itemArray['quantidade']) + item['preco']
                             item['total'] = preco_total
 
                             print('\n{}\n'.format(itemArray))
