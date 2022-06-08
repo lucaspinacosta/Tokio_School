@@ -2,12 +2,14 @@
 from glob import glob
 import sqlite3
 import json
-import os,random
+import os
+import random
 import pathlib
-import win32com.client, pythoncom
+import time
+import win32com.client
+import pythoncom
 from openpyxl import Workbook
 from openpyxl.styles import Font
-from openpyxl.utils import get_column_letter
 from flask import Flask, redirect, render_template, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 
@@ -104,7 +106,7 @@ def lista_produtos():
         con = sqlite3.connect('database/dados_informacoes2.db')
         cursor = con.cursor()
         cursor.execute("SELECT * FROM Produtos")
-        produtos = cursor.fetchall() 
+        produtos = cursor.fetchall()
         return produtos
     except Exception as e:
         print(e)
@@ -112,21 +114,23 @@ def lista_produtos():
         cursor.close()
         con.close()
 
+
 def fatura(lista_compras):
-#futuramente adicionar forma de adicionar cada nova fatura ao prorio excel do usuario
+    # futuramente adicionar forma de adicionar cada nova fatura ao prorio excel do usuario
     diretorio = "database/faturas_clientes/"+session['user']+"/"
     path = os.path.join(diretorio)
 
     try:
-            os.mkdir(path)
-    except Exception as e :
-            print(e)
+        os.mkdir(path)
+    except Exception as e:
+        print(e)
     wb = Workbook()
     wb['Sheet'].title = 'Fatura'
     print(wb.sheetnames)
     ws = wb.active
     fontStyle = Font(size="9")
-    remetente_fatura = session['username']+'_'+str(random.randint(0,999999999))
+    remetente_fatura = session['username'] + \
+        '_'+str(random.randint(0, 999999999))
     ws['A1'] = 'Numero da Fatura'
     ws['A2'] = remetente_fatura
     ws['B7'] = 'Nome Produto'
@@ -134,46 +138,48 @@ def fatura(lista_compras):
     ws['D7'] = 'Valor Unidade'
     ws['E7'] = 'Valor Total'
     ws['F7'] = 'IVA'
-    ws.append(["","","","","",""])
+    ws.append(["", "", "", "", "", ""])
     for item in lista_compras:
         print(item)
-        ws.append(['',item['name'],item['quantidade'],"{:.2f}€".format(item['preco']),"{:.2f}€".format(item['total']),str(item['iva'])+'%'])
-    ws.append(["","","","",""])
-    ws.append(['','Total',session['all_total_quantidade'],'',"{:.2f}€".format(session['all_total_preco']),str(item['iva'])+'%'])
-    #incluir datetime ha fatura!!
+        ws.append(['', item['name'], item['quantidade'], "{:.2f}€".format(
+            item['preco']), "{:.2f}€".format(item['total']), str(item['iva'])+'%'])
+    ws.append(["", "", "", "", ""])
+    ws.append(['', 'Total', session['all_total_quantidade'], '', "{:.2f}€".format(
+        session['all_total_preco']), ""])
+    # incluir datetime na fatura!!
     for col in ws.columns:
         max_length = 0
-        column = col[0].column_letter # Get the column name
+        column = col[0].column_letter  # Get the column name
         for cell in col:
             cell.font = fontStyle
-            try: # Necessary to avoid error on empty cells
+            try:  # Necessary to avoid error on empty cells
                 if len(str(cell.value)) > max_length:
                     max_length = len(str(cell.value))
             except:
                 pass
         adjusted_width = (max_length)*0.80
         ws.column_dimensions[column].width = adjusted_width
-    
-    
+
     wb.save(diretorio+remetente_fatura+'.xlsx')
     wb.close()
-    
 
     excel_file = diretorio+remetente_fatura+".xlsx"
     pdf_file = diretorio+remetente_fatura+".pdf"
 
     excel_path = str(pathlib.Path.cwd() / excel_file)
     pdf_path = str(pathlib.Path.cwd() / pdf_file)
-    excel = win32com.client.Dispatch("Excel.Application",pythoncom.CoInitialize())
+    excel = win32com.client.Dispatch(
+        "Excel.Application", pythoncom.CoInitialize())
     excel.Visible = False
     try:
         wb = excel.Workbooks.Open(excel_path)
         ws = wb.Worksheets[0]
         wb.SaveAs(pdf_path, FileFormat=57)
         wb.SaveAs()
-    except Exception as e :
+        
+    except Exception as e:
         print('Fail')
-        print (e)
+        print(e)
     else:
         print('Sucess')
     finally:
@@ -181,18 +187,18 @@ def fatura(lista_compras):
 
     pass
 
-#Apresentacao das faturas 
+# Apresentacao das faturas
+
+
 def show_faturas(user_email):
-    #arranjar forma de ler os ficheiros dentro do diretorio
-    #experimentar usar o pathlib ou os
-
-    source_faturas = "database\\faturas_clientes\\" + user_email+"\\"
+    #Cria uma lista com os paths das faturas do cliente X 
+    source_faturas = "database/faturas_clientes/"+session['user']+"/"
     faturas = []
-
-    for file in glob(source_faturas + '*'+'.pdf'):
-        print(file)
-        faturas.append(file)
-    print(faturas)
+    for file in glob(source_faturas+"*"+".pdf"):
+        #faturas.append(file)
+        tic_c = os.path.getctime(file)
+        time_c = time.ctime(tic_c)
+        faturas.append({"path":file,"data_c":time_c})
 
     return faturas
 
@@ -218,12 +224,11 @@ def criar_produto():
                                                            request.form['informacao_interface2'], request.form['informacao_interface3'],
                                                            request.form['informacao_interface4']]}}
         diretorio = "static/produtos/"+request.form['nome_produto']
-        
 
         path = os.path.join(diretorio)
         try:
             os.mkdir(path)
-        except Exception as e :
+        except Exception as e:
             print(e)
 
         # Adicionar forma de criar pasta caso ainda nao exista
@@ -234,13 +239,12 @@ def criar_produto():
                            "descricao_2": [request.form['aceleracao_titulo'], request.form['aceleracao_descricao']],
                            "descricao_3": [request.form['extra_titulo'], request.form['extra_descricao']],
                            "descricao_4": [request.form['extra2_titulo'], request.form['extra2_descricao']]}
-        
 
         def write_json(new_descricao, new_img_path, filename="static/produtos/"+request.form['nome_produto']+"/espec_produtos.json"):
             with open(filename, 'r+') as file:
                 file_data = json.load(file)
                 file_data['descricoes'] = new_descricao
-                file_data['img_path'] = diretorio +"/"+ new_img_path
+                file_data['img_path'] = diretorio + "/" + new_img_path
                 file.seek(0)
                 json.dump(file_data, file, indent=6)
         write_json(descricoes_prod, request.form['myfile'])
@@ -264,99 +268,111 @@ def criar_produto():
 # Editar produtos
 
 
-@root.route('/admin/editar/<code_edit>',methods=['GET', 'POST'])
+@root.route('/admin/editar/<code_edit>', methods=['GET', 'POST'])
 def editar_prod(code_edit):
 
-        if session['log_in_admin'] == True and request.method == 'POST':
-            modificar_produro= False
-            query= "UPDATE Produtos SET nome_produto =?, valor_venda=?,preco_fornecedor=? WHERE numero_serie =?"
-            con = sqlite3.connect('database/dados_informacoes2.db')
-            cursor = con.cursor()
-            cursor.execute("SELECT * FROM Produtos WHERE numero_serie=?", (code_edit,))
-            produto_em_edicao = cursor.fetchone()
+    if session['log_in_admin'] == True and request.method == 'POST':
+        modificar_produro = False
+        query = "UPDATE Produtos SET nome_produto =?, valor_venda=?,preco_fornecedor=? WHERE numero_serie =?"
+        con = sqlite3.connect('database/dados_informacoes2.db')
+        cursor = con.cursor()
+        cursor.execute(
+            "SELECT * FROM Produtos WHERE numero_serie=?", (code_edit,))
+        produto_em_edicao = cursor.fetchone()
+        get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
+        especificacoes = json.load(get_especificacoes)
+
+        old_nome = produto_em_edicao[1]
+        old_preco = produto_em_edicao[5]
+        old_preco_fornecedor = produto_em_edicao[4]
+        old_img_path = especificacoes['img_path']
+        old_especificacoes = especificacoes['especificacoes']
+        old_descricao = especificacoes['descricoes']
+        # Terminar a edicao dos produtos
+        novo_nome = request.form['novo_nome']
+        novo_preco = request.form['novo_preco']
+        novo_preco_fornecedor = request.form['novo_preco_fornecedor']
+        nova_img_path = request.form['nova_img_path']
+
+        if novo_nome != '' and novo_preco != '' and novo_preco_fornecedor != '':
+            parametros = (novo_nome, novo_preco,
+                          novo_preco_fornecedor, code_edit)
+            modificar_produro = True
+            print('novo nome, preco e preco do fornecedor')
+        elif novo_nome != '' and novo_preco != '' and novo_preco_fornecedor == '':
+            parametros = (novo_nome, novo_preco,
+                          old_preco_fornecedor, code_edit)
+            modificar_produro = True
+            print('novo nome e preco')
+        elif novo_nome != '' and novo_preco == '' and novo_preco_fornecedor != '':
+            parametros = (novo_nome, old_preco,
+                          novo_preco_fornecedor, code_edit)
+            modificar_produro = True
+            print('novo nome e preco fornecedor')
+        elif novo_nome == '' and novo_preco != '' and old_preco_fornecedor != '':
+            parametros = (old_nome, novo_preco,
+                          novo_preco_fornecedor, code_edit)
+            modificar_produro = True
+            print('Novo preco e preco fornecedor')
+        elif novo_nome != '' and novo_preco == '' and old_preco_fornecedor == '':
+            parametros = (novo_nome, old_preco,
+                          old_preco_fornecedor, code_edit)
+            modificar_produro = True
+            print('Novo nome')
+        elif novo_nome == '' and novo_preco == '' and old_preco_fornecedor != '':
+            parametros = (old_nome, old_preco,
+                          novo_preco_fornecedor, code_edit)
+            modificar_produro = True
+            print('Novo preco fornecedor')
+        elif novo_nome == '' and novo_preco != '' and old_preco_fornecedor == '':
+            parametros = (old_nome, novo_preco,
+                          old_preco_fornecedor, code_edit)
+            modificar_produro = True
+            print('Novo preco')
+        else:
+            print('Nenhuma alteracao')
+            modificar_produro = False
+
+        if nova_img_path != '':
             get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
             especificacoes = json.load(get_especificacoes)
 
-            old_nome = produto_em_edicao[1]
-            old_preco = produto_em_edicao[5]
-            old_preco_fornecedor = produto_em_edicao[4]
-            old_img_path = especificacoes['img_path']
-            old_especificacoes = especificacoes['especificacoes']
-            old_descricao = especificacoes['descricoes']
-            #Terminar a edicao dos produtos
-            novo_nome = request.form['novo_nome']
-            novo_preco = request.form['novo_preco']
-            novo_preco_fornecedor = request.form['novo_preco_fornecedor']
-            nova_img_path = request.form['nova_img_path']
-            
+            def write_json(new_img_path, filename="static/produtos/"+old_nome+"/espec_produtos.json"):
+                with open(filename, 'r+') as file:
+                    file_data = json.load(file)
+                    file_data['img_path'] = "static/produtos/" + \
+                        old_nome + '/' + new_img_path
+                    file.seek(0)
+                    json.dump(file_data, file, indent=6)
+            write_json(nova_img_path)
+        else:
+            pass
 
-            if novo_nome != '' and novo_preco != '' and novo_preco_fornecedor != '':
-                parametros = (novo_nome,novo_preco,novo_preco_fornecedor,code_edit)
-                modificar_produro = True
-                print('novo nome, preco e preco do fornecedor')
-            elif novo_nome != '' and novo_preco != '' and novo_preco_fornecedor =='':
-                parametros = (novo_nome,novo_preco,old_preco_fornecedor,code_edit)
-                modificar_produro=True
-                print('novo nome e preco')
-            elif novo_nome != '' and novo_preco == '' and  novo_preco_fornecedor !='':
-                parametros =(novo_nome,old_preco,novo_preco_fornecedor,code_edit)
-                modificar_produro=True
-                print('novo nome e preco fornecedor')
-            elif novo_nome =='' and novo_preco != '' and old_preco_fornecedor !='':
-                parametros=(old_nome,novo_preco,novo_preco_fornecedor,code_edit)
-                modificar_produro=True
-                print('Novo preco e preco fornecedor')
-            elif novo_nome !='' and novo_preco == '' and old_preco_fornecedor =='':
-                parametros=(novo_nome,old_preco,old_preco_fornecedor,code_edit)
-                modificar_produro=True
-                print('Novo nome')
-            elif novo_nome =='' and novo_preco == '' and old_preco_fornecedor !='':
-                parametros=(old_nome,old_preco,novo_preco_fornecedor,code_edit)
-                modificar_produro=True
-                print('Novo preco fornecedor')
-            elif novo_nome =='' and novo_preco != '' and old_preco_fornecedor =='':
-                parametros=(old_nome,novo_preco,old_preco_fornecedor,code_edit)
-                modificar_produro=True
-                print('Novo preco')
-            else:
-                print('Nenhuma alteracao')
-                modificar_produro = False
+        if modificar_produro == True:
+            print('alterado')
+            cursor.execute(query, parametros)
+            db.session.commit()
+            db.session.close()
+        else:
+            pass
 
-            if nova_img_path != '':
-                get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
-                especificacoes = json.load(get_especificacoes)
-                def write_json( new_img_path, filename="static/produtos/"+old_nome+"/espec_produtos.json"):
-                    with open(filename, 'r+') as file:
-                        file_data = json.load(file)
-                        file_data['img_path'] = "static/produtos/"+ old_nome + '/' + new_img_path
-                        file.seek(0)
-                        json.dump(file_data, file, indent=6)
-                write_json(nova_img_path)
-            else:pass
-                
-            if modificar_produro == True:
-                print('alterado')
-                cursor.execute(query,parametros)
-                db.session.commit()
-                db.session.close()
-            else:pass
+        return redirect(url_for('.show_room', code_prod=code_edit))
 
-            return redirect(url_for('.show_room', code_prod=code_edit))
+    elif session['log_in_admin'] == True and request.method == 'GET':
+        con = sqlite3.connect('database/dados_informacoes2.db')
+        cursor = con.cursor()
+        cursor.execute(
+            "SELECT * FROM Produtos WHERE numero_serie=?", (code_edit,))
+        produto_em_edicao = cursor.fetchone()
+        get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
+        especificacoes = json.load(get_especificacoes)
+        old_nome = produto_em_edicao[1]
+        old_preco = produto_em_edicao[5]
+        old_preco_fornecedor = produto_em_edicao[4]
+        old_img_path = especificacoes['img_path']
+        return render_template('editar_produtos.html', especificacoes=especificacoes, old_nome=old_nome, old_preco=old_preco,
+                               old_img_path=old_img_path, old_preco_fornecedor=old_preco_fornecedor, id_do_produto=produto_em_edicao[0])
 
-        elif session['log_in_admin'] == True and request.method == 'GET':
-            con = sqlite3.connect('database/dados_informacoes2.db')
-            cursor = con.cursor()
-            cursor.execute("SELECT * FROM Produtos WHERE numero_serie=?", (code_edit,))
-            produto_em_edicao = cursor.fetchone()
-            get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
-            especificacoes = json.load(get_especificacoes)
-            old_nome = produto_em_edicao[1]
-            old_preco = produto_em_edicao[5]
-            old_preco_fornecedor = produto_em_edicao[4]
-            old_img_path = especificacoes['img_path']
-            return render_template('editar_produtos.html',especificacoes=especificacoes,old_nome=old_nome,old_preco=old_preco,
-            old_img_path=old_img_path,old_preco_fornecedor=old_preco_fornecedor,id_do_produto=produto_em_edicao[0])
-        
 
 # Listagem de fornecedores
 
@@ -378,8 +394,8 @@ def lista_fornecedores():
 
 
 def criar_fornecedor():
-    #adicionar forncedor 
-    #experimentar aplicar na pagina de criacao de produto e criar uma propria pagina
+    # adicionar forncedor
+    # experimentar aplicar na pagina de criacao de produto e criar uma propria pagina
     # so para adicionar um fonecedor
     pass
 
@@ -460,7 +476,7 @@ def login():
             if user_loggin == user[1] and user_pswd == user[3]:
                 session['log_in_admin'] = True
                 session['pass_word_admin'] = True
-                session["user"] = user_loggin
+                session['user'] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
                 print(session['username'])
@@ -482,7 +498,7 @@ def login():
             if user_loggin == user[0] and user_pswd == user[3]:
                 session['log_in'] = True
                 session['pass_word'] = True
-                session["user"] = user_loggin
+                session['user'] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
                 print(session['username'])
@@ -570,15 +586,20 @@ def logout():
 def carrinho():
     if request.method == 'GET':
         faturas = show_faturas(session['user'])
+        print(faturas)
 
-        return render_template('carrinho.html',faturas=faturas)
+        return render_template('carrinho.html', faturas=faturas)
 
     if request.method == 'POST':
+        faturas = show_faturas(session['user'])
+        path = request.form['path']
+        print(path)
+        os.startfile(path)
         try:
             print(session['carrinho'])
-            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'], carrinho=session['carrinho'])
+            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'], carrinho=session['carrinho'], faturas=faturas)
         except:
-            return render_template('carrinho.html', log_in=None, user=None)
+            return render_template('carrinho.html', log_in=None, user=None, faturas=faturas)
 
 
 # Adicionar ao carrinho
@@ -597,8 +618,8 @@ def add_product_to_cart():
         row = cursor.fetchone()
 
         if _quantity <= row[2]:
-            itemArray = {'id': row[0], 'name': row[1], 'preco': row[5],'iva':row[11],
-                        'quantidade': _quantity, 'total': _quantity*row[5]}
+            itemArray = {'id': row[0], 'name': row[1], 'preco': row[5], 'iva': row[11],
+                         'quantidade': _quantity, 'total': _quantity*row[5]}
             all_total_preco = 0
             all_total_quantidade = 0
             session.modified = True
@@ -607,7 +628,7 @@ def add_product_to_cart():
                     for item in session['carrinho']:
                         if itemArray['id'] == item['id']:
                             # soma produto que ja se encontra na lista
-                            
+
                             print(itemArray, item['id'])
                             old_quantity = item['quantidade']
                             total_quantidade = old_quantity + \
@@ -615,7 +636,8 @@ def add_product_to_cart():
                             item['quantidade'] = total_quantidade
                             iva = item['iva'] / 100
                             preco_com_iva = item['preco'] * iva
-                            preco_total =  (preco_com_iva + item['preco']) * quantidade_individual
+                            preco_total = (
+                                preco_com_iva + item['preco']) * quantidade_individual
                             item['total'] = preco_total
 
                             print('\n{}\n'.format(itemArray))
@@ -651,7 +673,8 @@ def add_product_to_cart():
                 quantidade_individual = item['quantidade']
                 iva = item['iva'] / 100
                 preco_com_iva = item['preco'] * iva
-                preco_total =  (preco_com_iva + item['preco']) * quantidade_individual
+                preco_total = (preco_com_iva +
+                               item['preco']) * quantidade_individual
                 all_total_quantidade += quantidade_individual
                 all_total_preco += preco_total
 
@@ -664,8 +687,8 @@ def add_product_to_cart():
 
             return redirect(url_for('.carrinho'))
         else:
-           print('Quantidade de produto nao disponivel')
-           return redirect(url_for('.carrinho'))
+            print('Quantidade de produto nao disponivel')
+            return redirect(url_for('.carrinho'))
     else:
         return 'erro ao adicionar'
 
@@ -699,7 +722,8 @@ def delete_product(code):
         if int(item_id) == int(code):
             retirar_daconta = item['quantidade'] * item['preco']
             session['all_total_preco'] = all_total_preco - retirar_daconta
-            session['all_total_quantidade'] = all_total_quantidade - item['quantidade']
+            session['all_total_quantidade'] = all_total_quantidade - \
+                item['quantidade']
             session['carrinho'].remove(item)
             return redirect(url_for('.carrinho'))
 
@@ -713,8 +737,6 @@ def delete_product(code):
     # return redirect('/')
     return redirect(url_for('.carrinho'))
 
-
-    
 
 # Finalizar Compras
 @root.route('/pagamento')
@@ -732,15 +754,16 @@ def finalizar_compra():
         cursor.execute(
             "SELECT * FROM Fornecedores WHERE id_fornecedor={}".format(fornecedor_id))
         fornecedor_dados = cursor.fetchone()
-        #despesa obtida pelo admin com a venda de produtos do fornecedor 'X'
+        # despesa obtida pelo admin com a venda de produtos do fornecedor 'X'
         des_fornecedores = float(
             fornecedor_dados[3]) + item['quantidade']*row[4]
-        #lucro obtido pelo admin com vendas de produtos do fornecedor 'X'
-        lucro_fornecedor = float(fornecedor_dados[4])+(item['quantidade']*row[5]) - (item['quantidade']*row[4])
+        # lucro obtido pelo admin com vendas de produtos do fornecedor 'X'
+        lucro_fornecedor = float(
+            fornecedor_dados[4])+(item['quantidade']*row[5]) - (item['quantidade']*row[4])
 
         # Atualiza as despesas de fornecedor ao somar, quantidade de produto vendido ao valor que cada um custou ao fornecedor
         cursor.execute("UPDATE Fornecedores SET desp_fornecedor={:.2f}, lucro_fornecedor={:.2f} WHERE id_fornecedor={} ".format(
-            des_fornecedores,lucro_fornecedor, fornecedor_id))
+            des_fornecedores, lucro_fornecedor, fornecedor_id))
         con.commit()
         db.session.commit()
 
@@ -857,7 +880,7 @@ def fornecer_produto():
             print(e)
 
 
-#Produtos disponiveis para destaque
+# Produtos disponiveis para destaque
 # Pagina Exibicao do produto detalhado asus geforce 3080
 
 

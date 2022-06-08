@@ -144,35 +144,31 @@
         </div>
         <p></p>
         <div class="col-10 my-auto" style="margin-left: 9%;">
-            <div class="card col-12">
-                <h1 class="sub_titulo aligncenter"> Faturas </h1>
+            <div class="card col-12 .container">
+                <h1 class="sub_titulo aligncenter" > Faturas </h1>
                 <p></p>
                 {%for fatura in faturas%}
-                <div class="card col-12 col-row-1">
-                    <ul>
-                        <table class="tbl-cart " cellpadding="10" cellspacing="1">
+                <div class="card col-row-1">
+                    <nav class="row container-fluid row-cols-1 col-auto">
+                        <table class="tbl-cart " cellpadding="10" cellspacing="1" width = "500px">
                             <tbody>
                                 <tr>
                                     <th><a>Nome</th>
                                     <th><a style="text-align:right;" width="5%">Email</a></th>
-                                    <th><a style="text-align:center;" width="5%">N Fatura</a></th>
-                                    <th> Data</th>
-                                    <th> Valor da fatura</th>
+                                    <th><a  style="text-align:right;" width="5%">Data</a></th>
+                                    <th> PDF</th>
                                 </tr>
                                 <tr>
                                     <td href="{{user_email}}">{{session['username']}}</td>
                                     <td><a style="text-align:right;" width="5%">{{session['user']}}</a></td>
-                                    <td><a style="text-align:center;" width="5%"> {{fatura[26:-5]}}</a></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                    <td><a  style="text-align:left;" width="5%">{{fatura['data_c']}}</a></td>
+                                    <td>
+                                        <form action="/user-login/carrinho" method="post"><button type="submit" value="{{fatura['path']}}" name="path" style="background-color: #0082c8; color:white;">Open Fatura </button></form></td>
+                                    </tr>
                             </tbody>
                         </table>
-
-                    </ul>
-                    
-                      
-                      
+                        
+                    </nav>
                     
                 </div>
                 {%endfor%}
