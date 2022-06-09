@@ -1,12 +1,14 @@
 # imports
 from datetime import date, datetime
 from glob import glob
+import re
 import sqlite3
 import json
 import os
 import random
 import pathlib
 import time
+from pandas import describe_option
 import win32com.client
 import pythoncom
 from openpyxl import Workbook
@@ -288,31 +290,47 @@ def editar_prod(code_edit):
         get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
         especificacoes = json.load(get_especificacoes)
 
+        #Guardamos as informacoes antigas caso nao sejam alteradas poderemos reutiliza-las
         old_nome = produto_em_edicao[1]
         old_preco = produto_em_edicao[5]
         old_preco_fornecedor = produto_em_edicao[4]
         old_img_path = especificacoes['img_path']
-        old_especificacoes = especificacoes['especificacoes']
-        old_descricao = especificacoes['descricoes']
         # Terminar a edicao dos produtos
         novo_nome = request.form['novo_nome']
         novo_preco = request.form['novo_preco']
         novo_preco_fornecedor = request.form['novo_preco_fornecedor']
         nova_img_path = request.form['nova_img_path']
-
+        
+        #Verifica se cada parametro foi alterado e guarda as novas alteracoes
         if novo_nome != '' and novo_preco != '' and novo_preco_fornecedor != '':
             parametros = (novo_nome, novo_preco,
                           novo_preco_fornecedor, code_edit)
+            os.rename(os.path.join("static/produtos/",old_nome),
+                      os.path.join("static/produtos/",novo_nome))
+            update_path = "UPDATE Produtos SET especificacoes=? where numero_serie=?"
+            cursor.execute(update_path,(code_edit,))
+            db.session.commit()
+               
             modificar_produro = True
             print('novo nome, preco e preco do fornecedor')
         elif novo_nome != '' and novo_preco != '' and novo_preco_fornecedor == '':
             parametros = (novo_nome, novo_preco,
                           old_preco_fornecedor, code_edit)
+            os.rename(os.path.join("static/produtos/",old_nome),
+                      os.path.join("static/produtos/",novo_nome))
+            update_path = "UPDATE Produtos SET especificacoes=? where numero_serie=?"
+            cursor.execute(update_path,(code_edit,))
+            db.session.commit()
             modificar_produro = True
             print('novo nome e preco')
         elif novo_nome != '' and novo_preco == '' and novo_preco_fornecedor != '':
             parametros = (novo_nome, old_preco,
                           novo_preco_fornecedor, code_edit)
+            os.rename(os.path.join("static/produtos/",old_nome),
+                      os.path.join("static/produtos/",novo_nome))
+            update_path = "UPDATE Produtos SET especificacoes=? where numero_serie=?"
+            cursor.execute(update_path,(code_edit,))
+            db.session.commit()
             modificar_produro = True
             print('novo nome e preco fornecedor')
         elif novo_nome == '' and novo_preco != '' and old_preco_fornecedor != '':
@@ -323,6 +341,11 @@ def editar_prod(code_edit):
         elif novo_nome != '' and novo_preco == '' and old_preco_fornecedor == '':
             parametros = (novo_nome, old_preco,
                           old_preco_fornecedor, code_edit)
+            os.rename(os.path.join("static/produtos/",old_nome),
+                      os.path.join("static/produtos/",novo_nome))
+            update_path = "UPDATE Produtos SET especificacoes=? where numero_serie=?"
+            cursor.execute(update_path,(code_edit,))
+            db.session.commit()
             modificar_produro = True
             print('Novo nome')
         elif novo_nome == '' and novo_preco == '' and old_preco_fornecedor != '':
@@ -338,7 +361,103 @@ def editar_prod(code_edit):
         else:
             print('Nenhuma alteracao')
             modificar_produro = False
+        
+        #Armazenamos as especificacoes atuais
+        old_descr_1 = especificacoes['descricoes']['descricao_1']
+        old_descr_2 = especificacoes['descricoes']['descricao_2']
+        old_descr_3 = especificacoes['descricoes']['descricao_3']
+        old_descr_4 = especificacoes['descricoes']['descricao_4']
+        old_descr_5 = especificacoes['descricoes']['descricao_5']
+        old_descr_6 = especificacoes['descricoes']['descricao_6']
+        #Armazenamos as novas especificacoes
+        descricao_1 = [request.form['editar_tit_descr_1'],request.form['editar_descr_1']]
+        descricao_2 = [request.form['editar_tit_descr_2'],request.form['editar_descr_2']]
+        descricao_3 = [request.form['editar_tit_descr_3'],request.form['editar_descr_3']]
+        descricao_4 = [request.form['editar_tit_descr_4'],request.form['editar_descr_4']]
+        descricao_5 = [request.form['editar_tit_descr_5'],request.form['editar_descr_5']]
+        descricao_6 = [request.form['editar_tit_descr_6'],request.form['editar_descr_6']]
 
+        #Atualiza as Especificacoes do Produto
+        def write_espec_json(new_descricao_1,new_descricao_2,new_descricao_3,new_descricao_4,new_descricao_5,new_descricao_6, filename=produto_em_edicao[10]):
+            print(produto_em_edicao[10])
+            with open(filename,'r+',encoding='utf8') as file:
+                file_data = json.load(file)
+                if new_descricao_1[0] != "" and new_descricao_1[1] !="":        #Atualiza a seccao 1 das especificacoes
+                    file_data['descricoes']['descricao_1'] = new_descricao_1
+                    file.seek(0)
+                elif new_descricao_1[0] == "" and new_descricao_1[1] != "":     #Atualiza apenas o texto da especificacao 1
+                    file_data['descricoes']['descricao_1'] = [old_descr_1[0],new_descricao_1[1]]
+                    file.seek(0)
+                elif new_descricao_1[0] != "" and new_descricao_1[1] == "":     #Atualiza apenas o titulo da Especificacao 1
+                    file_data['descricoes']['descricao_1'] = [new_descricao_1[0],old_descr_1[1]]
+                    file.seek(0)
+                elif new_descricao_1[0] == "" and new_descricao_1[1] == "":     #Mantem os dados antigos da Especificacao 1
+                    file_data['descricoes']['descricao_1'] = old_descr_1
+                    file.seek(0)
+                if new_descricao_2[0] != "" and new_descricao_2[1] !="":        #Atualiza a seccao 2 das especificacoes
+                    file_data['descricoes']['descricao_2'] = new_descricao_2
+                    file.seek(0)
+                elif new_descricao_2[0] == "" and new_descricao_2[1] != "":     #Atualiza apenas o texto da especificacao 2
+                    file_data['descricoes']['descricao_2'] = [old_descr_2[0],new_descricao_2[1]]
+                    file.seek(0)
+                elif new_descricao_2[0] != "" and new_descricao_2[1] == "":     #Atualiza apenas o titulo da Especificacao 2
+                    file_data['descricoes']['descricao_2'] = [new_descricao_2[0],old_descr_2[1]]
+                    file.seek(0)
+                elif new_descricao_2[0] == "" and new_descricao_2[1] == "":     #Mantem os dados antigos da Especificacao 2
+                    file_data['descricoes']['descricao_2'] = old_descr_2
+                    file.seek(0)
+                if new_descricao_3[0] != "" and new_descricao_3[1] !="":            #ETC...
+                    file_data['descricoes']['descricao_3'] = new_descricao_3                    
+                    file.seek(0)
+                elif new_descricao_3[0] == "" and new_descricao_3[1] != "":
+                    file_data['descricoes']['descricao_3'] = [old_descr_3[0],new_descricao_3[1]]
+                    file.seek(0)
+                elif new_descricao_3[0] != "" and new_descricao_3[1] == "":
+                    file_data['descricoes']['descricao_3'] = [new_descricao_3[0],old_descr_3[1]]
+                    file.seek(0)
+                elif new_descricao_3[0] == "" and new_descricao_3[1] == "":
+                    file_data['descricoes']['descricao_3'] = old_descr_3
+                    file.seek(0)
+                if new_descricao_4[0] != ""and new_descricao_4[1] !="":
+                    file_data['descricoes']['descricao_4'] = new_descricao_4
+                    file.seek(0)
+                elif new_descricao_4[0] == "" and new_descricao_4[1] != "":
+                    file_data['descricoes']['descricao_4'] = [old_descr_4[0],new_descricao_4[1]]
+                    file.seek(0)
+                elif new_descricao_4[0] != "" and new_descricao_4[1] == "":
+                    file_data['descricoes']['descricao_4'] = [new_descricao_4[1],old_descr_4[0]]
+                    file.seek(0)
+                elif new_descricao_4[0] == "" and new_descricao_4[1] == "":
+                    file_data['descricoes']['descricao_4'] = old_descr_4
+                    file.seek(0)
+                if new_descricao_5[0] != "" and new_descricao_5[1] !="":
+                    file_data['descricoes']['descricao_5'] = new_descricao_5
+                    file.seek(0)
+                elif new_descricao_5[0] == "" and new_descricao_5[1] != "":
+                    file_data['descricoes']['descricao_5'] = [old_descr_5[0],new_descricao_5[1]]
+                    file.seek(0)
+                elif new_descricao_5[0] != "" and new_descricao_5[1] == "":
+                    file_data['descricoes']['descricao_5'] = [new_descricao_5[1],old_descr_5[0]]
+                    file.seek(0)
+                elif new_descricao_5[0] == "" and new_descricao_5[1] == "":
+                    file_data['descricoes']['descricao_5'] = old_descr_5
+                    file.seek(0)
+                if new_descricao_6[0] != "" and new_descricao_6[1] != "":
+                    file_data['descricoes']['descricao_6'] = new_descricao_6
+                    file.seek(0)
+                elif new_descricao_6[0] == "" and new_descricao_6[1] != "":
+                    file_data['descricoes']['descricao_6'] = [old_descr_6[0],new_descricao_6[1]]
+                    file.seek(0)
+                elif new_descricao_6[0] != "" and new_descricao_6[1] == "":
+                    file_data['descricoes']['descricao_6'] = [new_descricao_6[0],old_descr_6[1]]
+                    file.seek(0)
+                elif new_descricao_6[0] == "" and new_descricao_6[1] == "":
+                    file_data['descricoes']['descricao_6'] = old_descr_6
+                    file.seek(0)
+                json.dump(file_data,file,indent=6)                          #Fim das atualizacoes das especificacoes
+        write_espec_json(descricao_1,descricao_2,descricao_3,descricao_4,descricao_5,descricao_6)
+
+        #Atualiza a Imagem do produto
         if nova_img_path != '':
             get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
             especificacoes = json.load(get_especificacoes)
@@ -353,7 +472,8 @@ def editar_prod(code_edit):
             write_json(nova_img_path)
         else:
             pass
-
+        
+        #Guarda Alteracoes
         if modificar_produro == True:
             print('alterado')
             cursor.execute(query, parametros)
