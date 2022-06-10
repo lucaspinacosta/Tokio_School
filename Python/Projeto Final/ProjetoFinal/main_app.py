@@ -714,7 +714,7 @@ def carrinho():
         faturas = show_faturas(session['user'])
         print(faturas)
 
-        return render_template('carrinho.html', faturas=faturas)
+        return render_template('carrinho.html', faturas=faturas, faturas_len = len(faturas))
 
     if request.method == 'POST':
         faturas = show_faturas(session['user'])
@@ -723,9 +723,9 @@ def carrinho():
         os.startfile(path)
         try:
             print(session['carrinho'])
-            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'], carrinho=session['carrinho'], faturas=faturas)
+            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'], carrinho=session['carrinho'], faturas=faturas, faturas_len = len(faturas))
         except:
-            return render_template('carrinho.html', log_in=None, user=None, faturas=faturas)
+            return render_template('carrinho.html', log_in=None, user=None, faturas=faturas, faturas_len = len(faturas))
 
 
 # Adicionar ao carrinho
@@ -843,9 +843,11 @@ def delete_product(code):
     for item in session['carrinho']:
         print(type(code))
         item_id = item['id']
+        iva = item['iva'] / 100
+        preco_iva = item['preco'] * iva
 
         if int(item_id) == int(code):
-            retirar_daconta = item['quantidade'] * item['preco']
+            retirar_daconta = item['quantidade'] * (item['preco'] + preco_iva)
             session['all_total_preco'] = all_total_preco - retirar_daconta
             session['all_total_quantidade'] = all_total_quantidade - \
                 item['quantidade']
@@ -855,7 +857,7 @@ def delete_product(code):
         else:
             print('carrinho:', session['carrinho'])
             pass
-    if all_total_quantidade == 0:
+    if session['all_total_quantidade'] <= 0:
         session['carrinho'] = []
         all_total_preco = 0
         session['all_total_preco'] = 0

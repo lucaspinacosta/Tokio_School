@@ -128,12 +128,14 @@
                             <td align="right" colspan="2"><strong>{{ '%.2f' % session["all_total_preco"] }}€</strong>
                             </td>
                             <td></td>
+                            {% if session['all_total_quantidade'] > 0%} 
                             <td style="text-align:center;">
                                 <a href="{{url_for('.finalizar_compra') }}" class="btnRemoveAction">
                                     <button type="button" class="btn btn-sm btn-outline-secondary"
                                         style="background-color:blue;color: white;">Finalizar</button>
                                 </a>
                             </td>
+                            {%endif%}
                         </tr>
                     </tbody>
                 </table>
@@ -142,7 +144,7 @@
                 {%endif%}
             </div>
         </div>
-        <p></p>
+        <p></p>{%if faturas_len > 0 %}
         <div class="col-10 my-auto" style="margin-left: 9%;">
             <div class="card col-12 .container">
                 <h1 class="sub_titulo aligncenter" > Faturas </h1>
@@ -173,7 +175,7 @@
                 </div>
                 {%endfor%}
             </div>
-        </div>
+        </div>{%endif%}
 
 
     </main>
