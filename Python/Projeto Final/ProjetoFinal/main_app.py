@@ -66,11 +66,12 @@ class Fornecedor(db.Model):
     nome_forneceder = db.Column(db.String)
     desp_fornecedor = db.Column(db.Float)
     lucro_fornecedor = db.Column(db.Float)
-    contacto_fornecedor = db.Column(db.Integer)
+    contacto = db.Column(db.Integer)
     numero_IF = db.Column(db.Integer)
     desconto_fornecedor = db.Column(db.Integer)
     db.create_all()
     db.session.commit()
+
 
 
 # Verificar Admin
@@ -518,11 +519,14 @@ def lista_fornecedores():
 
 # Criacao de fornecedor
 
-
 def criar_fornecedor():
     # adicionar forncedor
     # experimentar aplicar na pagina de criacao de produto e criar uma propria pagina
     # so para adicionar um fonecedor
+    fornecedor = Fornecedor(email_fornecedor = request.form['email_fornecedor'],nome_fornecedor = request.form['nome_fornecedor'],
+                contacto=request.form['contacto_fornecedor'], numero_IF = request.form['numero_If'])
+    db.session.add(fornecedor)
+    db.session.commit()
     pass
 
 # Home Page
