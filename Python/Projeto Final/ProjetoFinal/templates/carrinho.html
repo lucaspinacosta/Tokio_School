@@ -20,7 +20,7 @@
             href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto+Slab:wght@100;200;500&display=swap"
             rel="stylesheet">
         <!-- Tab-Icon -->
-        <link rel="icon" type="image/png" sizes="16x16" href="/static/LIC_Informatica3.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/img/LIC_Informatica3.png">
         <!-- Background color-->
         <link rel="stylesheet" href="/static/main.css">
     </head>
@@ -30,7 +30,7 @@
         <!--Header layout-->
         <nav class="py-2 bg-light border-bottom">
             <div class="container d-flex flex-wrap">
-                <img alt="lefters" src="/static/LIC_Informatica3.png" width="80" height="50">
+                <img alt="lefters" src="/static/img/LIC_Informatica3.png" width="80" height="50">
                 <ul class="nav me-auto">
                     <li class="nav-item"><a href="/" class="nav-link link-dark px-2 " aria-current="page">Home</a></li>
                     {% if session['log_in_admin'] == True%}
@@ -60,10 +60,10 @@
                 <nav class="nav">
                     <a class="nav-link py-1 px-0" href="/user-login/carrinho">
                         <img action="submit" alt="centered image" href="/user-login/carrinho" rel="icon lefters"
-                            type="image/png" src="/static/carrinho-de-compras.png" height="55" width="55">
+                            type="image/png" src="/static/img/carrinho-de-compras.png" height="55" width="55">
                     </a>
                     <a class="nav-link py-1 px-2 " href="/logout">
-                        <img action="submit" alt="centered image" src="/static/logout.png" height="55" width="55">
+                        <img action="submit" alt="centered image" src="/static/img/logout.png" height="55" width="55">
                     </a>
                 </nav>
             </div>
@@ -116,7 +116,7 @@
                             <td style="text-align:center;">
                                 <a href="{{url_for('.delete_product',code=id) }}" class="btnRemoveAction">
                                     <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        style="color:black;">Remover</button>
+                                        style="color:black;" onClick="alert('Produto Removido')">Remover</button>
                                 </a>
 
                             </td>
@@ -132,7 +132,7 @@
                             <td style="text-align:center;">
                                 <a href="{{url_for('.finalizar_compra') }}" class="btnRemoveAction">
                                     <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        style="background-color:blue;color: white;">Finalizar</button>
+                                        style="background-color:blue;color: white;" onclick="alert('Obigado pela sua preferencia')">Finalizar</button>
                                 </a>
                             </td>
                             {%endif%}

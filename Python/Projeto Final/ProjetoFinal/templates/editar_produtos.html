@@ -19,7 +19,7 @@
         href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto+Slab:wght@100;200;500&display=swap"
         rel="stylesheet">
     <!-- Tab-Icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/LIC_Informatica3.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/LIC_Informatica3.png">
     <!-- Background color-->
     <link rel="stylesheet" href="/static/main.css">
 </head>
@@ -29,7 +29,7 @@
         <!--Header layout-->
         <nav class="py-2 bg-light border-bottom">
             <div class="container d-flex flex-wrap">
-                <img alt="lefters" src="/static/LIC_Informatica3.png" width="80" height="50">
+                <img alt="lefters" src="/static/img/LIC_Informatica3.png" width="80" height="50">
                 <ul class="nav me-auto">
                     <li class="nav-item"><a href="/" class="nav-link link-dark px-2 " aria-current="page">Home</a></li>
                     {% if session['log_in_admin'] == True or session['log_in_fornecedor'] == True%}
@@ -61,10 +61,10 @@
                 <nav class="nav">
                     <a class="nav-link py-1 px-0" href="/user-login/carrinho">
                         <img action="submit" alt="centered image" href="/user-login/carrinho" rel="icon lefters"
-                            type="image/png" src="/static/carrinho-de-compras.png" height="55" width="55">
+                            type="image/png" src="/static/img/carrinho-de-compras.png" height="55" width="55">
                     </a>
                     <a class="nav-link py-1 px-2 " href="/logout">
-                        <img action="submit" alt="centered image" src="/static/logout.png" height="55" width="55">
+                        <img action="submit" alt="centered image" src="/static/img/logout.png" height="55" width="55">
                     </a>
                 </nav>
             </div>
@@ -93,10 +93,11 @@
         <div class="container">
             <a href="/">
                 <p class="aligncenter" width="300" height="300">
-                    <img alt="centered image" src="/static/LIC_Informatica.png" width="900" height="300">
+                    <img alt="centered image" src="/static/img/LIC_Informatica.png" width="900" height="300">
                 </p>
             </a>
         </div>
+        
         <div class="card col-sm-8 offset-2 my-auto">
             <form type="button" action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="post">
                 <nav class="row container-fluid row-cols-2">
@@ -126,96 +127,95 @@
                         <h6>{{'%.2f' % old_preco_fornecedor }}€</h6>
                         <input type="number" name="novo_preco_fornecedor" placeholder="Preço do fornecedor" size="8">
                         <p></p>
-                        <button type="submit" class="btn btn-sm btn-outline-secondary sub_titulo ">Confirmar</button>
-
+                        
                     </div>
-
+                    
                     <p></p>
                     <div class="col-sm-12">
                         <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>
                         <ul>
                             <p>
-                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_1'][0]}}<p></p>
-                                <input type="text" name="editar_tit_descr_1" placeholder="Editar Titulo da Descricao">
+                                <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_1'][0]}}<p></p>
+                                    <input type="text" name="editar_tit_descr_1" placeholder="Editar Titulo da Descricao">
                                 </p>
                             </h5>
                             <p>{{especificacoes['descricoes']['descricao_1'][1]}}</p>
                             <p><input type="text" name="editar_descr_1" placeholder="Editar Descricao"
-                                    style="height:120px; width:600px; "></p>
-                            <p></p>
-                            <p>
-                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_2'][0]}}<p></p>
-                                <input type="text" name="editar_tit_descr_2" placeholder="Editar Titulo Descricao 2">
-                            </p></h5>
-                            <p>{{especificacoes['descricoes']['descricao_2'][1]}}</p>
-                            <p><input type="text" name="editar_descr_2" placeholder="Editar Descricao"
-                                style="height:120px; width:600px; "></p></p>
-                            <p>
-                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_3'][0]}}<p></p>
-                                <input type="text" name="editar_tit_descr_3" placeholder="Editar Titulo Descricao 2">
-                            </p></h5>
-                            <p>{{especificacoes['descricoes']['descricao_3'][1]}}</p>
-                            <input type="text" name="editar_descr_3" placeholder="Editar Descricao"
-                                style="height:120px; width:600px; ">
-                            <p></p>
-                            <p>
+                                style="height:120px; width:600px; "></p>
+                                <p></p>
+                                <p>
+                                    <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_2'][0]}}<p></p>
+                                        <input type="text" name="editar_tit_descr_2" placeholder="Editar Titulo Descricao 2">
+                                    </p></h5>
+                                    <p>{{especificacoes['descricoes']['descricao_2'][1]}}</p>
+                                    <p><input type="text" name="editar_descr_2" placeholder="Editar Descricao"
+                                        style="height:120px; width:600px; "></p></p>
+                                        <p>
+                                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_3'][0]}}<p></p>
+                                                <input type="text" name="editar_tit_descr_3" placeholder="Editar Titulo Descricao 2">
+                                            </p></h5>
+                                            <p>{{especificacoes['descricoes']['descricao_3'][1]}}</p>
+                                            <input type="text" name="editar_descr_3" placeholder="Editar Descricao"
+                                            style="height:120px; width:600px; ">
+                                            <p></p>
+                                            <p>
                             <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_4'][0]}}<p></p>
                                 <input type="text" name="editar_tit_descr_4" placeholder="Editar Titulo Descricao 2">
                             </p></h5>
                             <p>{{especificacoes['descricoes']['descricao_4'][1]}}</p>
                             <input type="text" name="editar_descr_4" placeholder="Editar Descricao"
-                                style="height:120px; width:600px; ">
+                            style="height:120px; width:600px; ">
                             <p></p>
                             <p>
-                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_5'][0]}}<p></p>
-                                <input type="text" name="editar_tit_descr_5" placeholder="Editar Titulo Descricao 2">
-                            </p></h5>
-                            <p>{{especificacoes['descricoes']['descricao_5'][1]}}</p>
-                            <input type="text" name="editar_descr_5" placeholder="Editar Descricao"
+                                <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_5'][0]}}<p></p>
+                                    <input type="text" name="editar_tit_descr_5" placeholder="Editar Titulo Descricao 2">
+                                </p></h5>
+                                <p>{{especificacoes['descricoes']['descricao_5'][1]}}</p>
+                                <input type="text" name="editar_descr_5" placeholder="Editar Descricao"
                                 style="height:120px; width:600px; ">
-                            <p></p>
-                            <p>
-                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_6'][0]}}<p></p>
-                                <input type="text" name="editar_tit_descr_6" placeholder="Editar Titulo Descricao 2">
-                            </p></h5>
-                            <p>{{especificacoes['descricoes']['descricao_6'][1]}}</p>
-                            <input type="text" name="editar_descr_6" placeholder="Editar Descricao"
-                                style="height:120px; width:600px; ">
-                            <p></p>
-                        </ul>
-                        <button type="button" class="collapsible sub_titulo">Especificacoes</button>
-                        <ul>
-                            <dl class="row">
-                                <dt class="col-sm-3">
-                                    <p>{{especificacoes['especificacoes']['sistema_operativo'][0]}}</p>
-                                </dt>
-                                <dd class="col-sm-9">
-                                    <p>{{especificacoes['especificacoes']['sistema_operativo'][1]}}</p>
-                                </dd>
-
-                                <dt class="col-sm-3">{{especificacoes['especificacoes']['Processador'][0]}}</dt>
-                                <dd class="col-sm-9">
-                                    <p>{{especificacoes['especificacoes']['Processador'][1]}}</p>
-                                </dd>
-                                <dt class="col-sm-3">
-                                    <p>{{especificacoes['especificacoes']["memoria_ram"][0]}}</p>
-                                </dt>
-                                <dd class="col-sm-9">{{especificacoes['especificacoes']["memoria_ram"][1]}}
-                                </dd>
-
-                                <dt class="col-sm-3">{{especificacoes['especificacoes']["armazenamento"][0]}}</dt>
-                                <dd class="col-sm-8">{{especificacoes['especificacoes']["armazenamento"][1]}}
-                                    <p>{{especificacoes['especificacoes']["armazenamento"][2]}}</p>
-                                    <p>{{especificacoes['especificacoes']["armazenamento"][3]}}</p>
-                                </dd>
-
-
-                                <dt class="col-sm-3">
-                                    <p>{{especificacoes['especificacoes']["audio"][0]}}</p>
-                                </dt>
-                                <dd class="col-sm-8">{{especificacoes['especificacoes']["audio"][1]}}</dd>
-
-                                <dt class="col-sm-3">{{especificacoes['especificacoes']["ecra"][0]}}</dt>
+                                <p></p>
+                                <p>
+                                    <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_6'][0]}}<p></p>
+                                        <input type="text" name="editar_tit_descr_6" placeholder="Editar Titulo Descricao 2">
+                                    </p></h5>
+                                    <p>{{especificacoes['descricoes']['descricao_6'][1]}}</p>
+                                    <input type="text" name="editar_descr_6" placeholder="Editar Descricao"
+                                    style="height:120px; width:600px; ">
+                                    <p></p>
+                                </ul>
+                                <button type="button" class="collapsible sub_titulo">Especificacoes</button>
+                                <ul>
+                                    <dl class="row">
+                                        <dt class="col-sm-3">
+                                            <p>{{especificacoes['especificacoes']['sistema_operativo'][0]}}</p>
+                                        </dt>
+                                        <dd class="col-sm-9">
+                                            <p>{{especificacoes['especificacoes']['sistema_operativo'][1]}}</p>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-3">{{especificacoes['especificacoes']['Processador'][0]}}</dt>
+                                        <dd class="col-sm-9">
+                                            <p>{{especificacoes['especificacoes']['Processador'][1]}}</p>
+                                        </dd>
+                                        <dt class="col-sm-3">
+                                            <p>{{especificacoes['especificacoes']["memoria_ram"][0]}}</p>
+                                        </dt>
+                                        <dd class="col-sm-9">{{especificacoes['especificacoes']["memoria_ram"][1]}}
+                                        </dd>
+                                        
+                                        <dt class="col-sm-3">{{especificacoes['especificacoes']["armazenamento"][0]}}</dt>
+                                        <dd class="col-sm-8">{{especificacoes['especificacoes']["armazenamento"][1]}}
+                                            <p>{{especificacoes['especificacoes']["armazenamento"][2]}}</p>
+                                            <p>{{especificacoes['especificacoes']["armazenamento"][3]}}</p>
+                                        </dd>
+                                        
+                                        
+                                        <dt class="col-sm-3">
+                                            <p>{{especificacoes['especificacoes']["audio"][0]}}</p>
+                                        </dt>
+                                        <dd class="col-sm-8">{{especificacoes['especificacoes']["audio"][1]}}</dd>
+                                        
+                                        <dt class="col-sm-3">{{especificacoes['especificacoes']["ecra"][0]}}</dt>
                                 <dd class="col-sm-8">{{especificacoes['especificacoes']["ecra"][1]}}</dd>
                                 <p></p>
                                 <dt class="col-sm-3">{{especificacoes['especificacoes']["grafica"][0]}}</dt>
@@ -229,24 +229,25 @@
                                 <dt class="col-sm-3">{{especificacoes['especificacoes']["interface"][0]}}</dt>
                                 <dd class="col-sm-8">
                                     <a>{{especificacoes['especificacoes']["interface"][1]}}</a>
-                                    <P></P>
+                                    <br></br>
                                     <a>{{especificacoes['especificacoes']["interface"][2]}}</a>
-                                    <p></p>
+                                    <br></br>
                                     <a>{{especificacoes['especificacoes']["interface"][3]}}</a>
-                                    <p></p>
+                                    <br></br>
                                     <a>{{especificacoes['especificacoes']["interface"][4]}}</a>
-                                    <p></p>
+                                    <br></br>
                                     <a>{{especificacoes['especificacoes']["interface"][5]}}</a>
-                                    <p></p>
+                                    <br></br>
                                     {%endif%}
                                 </dd>
+                                <button type="submit" class="btn btn-sm btn-outline-secondary titulo" onclick="alert('Produto editado com sucesso')" style="background-color:rgb(33, 147, 176) ;">Confirmar</button>
                             </dl>
                         </ul>
                     </div>
                 </nav>
             </form>
         </div>
-
+        
     </main>
 </body>
 

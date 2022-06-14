@@ -1,14 +1,12 @@
 # imports
-from datetime import date, datetime
+from datetime import date
 from glob import glob
-import re
 import sqlite3
 import json
 import os
 import random
 import pathlib
 import time
-from pandas import describe_option
 import win32com.client
 import pythoncom
 from openpyxl import Workbook
@@ -38,6 +36,7 @@ class Produtos(db.Model):
     quantidade_encomenda = db.Column(db.Integer)
     id_fornecedor = db.Column(db.Integer)
     especificacoes = db.Column(db.String)
+    iva = db.Column(db.Integer)
     db.create_all()
     db.session.commit()
 
@@ -63,12 +62,14 @@ class Fornecedor(db.Model):
     __tablename__ = 'Fornecedores'
     id_fornecedor = db.Column(db.Integer, primary_key=True)
     email_fornecedor = db.Column(db.String(100))
-    nome_forneceder = db.Column(db.String)
+    nome_fornecedor = db.Column(db.String(60))
     desp_fornecedor = db.Column(db.Float)
     lucro_fornecedor = db.Column(db.Float)
     contacto = db.Column(db.Integer)
     numero_IF = db.Column(db.Integer)
+    senha_login = db.Column(db.String)
     desconto_fornecedor = db.Column(db.Integer)
+
     db.create_all()
     db.session.commit()
 
@@ -198,7 +199,6 @@ def fatura(lista_compras):
 
 # Apresentacao das faturas
 
-
 def show_faturas(user_email):
     #Cria uma lista com os paths das faturas do cliente X 
     source_faturas = "database/faturas_clientes/"+session['user']+"/"
@@ -247,7 +247,9 @@ def criar_produto():
         descricoes_prod = {"descricao_1": [request.form['arquitetura_titulo'], request.form['arquitetura_descricao']],
                            "descricao_2": [request.form['aceleracao_titulo'], request.form['aceleracao_descricao']],
                            "descricao_3": [request.form['extra_titulo'], request.form['extra_descricao']],
-                           "descricao_4": [request.form['extra2_titulo'], request.form['extra2_descricao']]}
+                           "descricao_4": [request.form['extra2_titulo'], request.form['extra2_descricao']],
+                           "descricao_5": [request.form['extra3_titulo'], request.form['extra3_descricao']],
+                           "descricao_6": [request.form['extra4_titulo'], request.form['extra4_descricao']]}
 
         def write_json(new_descricao, new_img_path, filename="static/produtos/"+request.form['nome_produto']+"/espec_produtos.json"):
             with open(filename, 'r+') as file:
@@ -258,19 +260,27 @@ def criar_produto():
                 json.dump(file_data, file, indent=6)
         write_json(descricoes_prod, request.form['myfile'])
 
+        con = sqlite3.connect('database/dados_informacoes2.db')
+        cursor = con.cursor()
+        cursor.execute("SELECT id_fornecedor FROM Fornecedores WHERE nome_fornecedor = ?", (request.form['nome_fornecedor'],))
+        id_fornecedor = cursor.fetchone()
+        con.close()
+
+
         # apagar  as colunas descricoes, url request e img request da database
         produto = Produtos(nome_produto=request.form['nome_produto'], em_armazem=0, vendidos=0,
                            preco_fornecedor=request.form['preco_fornecedor'], valor_venda=request.form['valor_venda'],
                            prateleira=request.form['Prateleira'], fornecedor=request.form['nome_fornecedor'],
                            especificacoes="static/produtos/" +
                            request.form['nome_produto']+"/espec_produtos.json",
-                           quantidade_encomenda=0, id_fornecedor=request.form['id_fornecedor'])
+                           quantidade_encomenda=0, id_fornecedor=id_fornecedor[0], iva = request.form['iva'])
         db.session.add(produto)
         db.session.commit()
         return redirect(url_for('.criar_produto'))
 
     elif session['log_in_admin'] == True and request.method == 'GET':
-        return render_template('criar_produtos.html')
+        fornecedor = lista_fornecedores()
+        return render_template('criar_produtos.html',fornecedores = fornecedor)
     else:
         return redirect(url_for('.home'))
 
@@ -503,7 +513,6 @@ def editar_prod(code_edit):
 
 # Listagem de fornecedores
 
-
 def lista_fornecedores():
     try:
         con = sqlite3.connect('database/dados_informacoes2.db')
@@ -518,16 +527,21 @@ def lista_fornecedores():
         con.close()
 
 # Criacao de fornecedor
-
+@root.route('/admin/criar-fornecedor', methods=['GET', 'POST'])
 def criar_fornecedor():
+    fornecedor = lista_fornecedores()
+    if request.method == 'GET':
+        return render_template('criar_fornecedor.html',fornecedores = fornecedor)
     # adicionar forncedor
     # experimentar aplicar na pagina de criacao de produto e criar uma propria pagina
     # so para adicionar um fonecedor
-    fornecedor = Fornecedor(email_fornecedor = request.form['email_fornecedor'],nome_fornecedor = request.form['nome_fornecedor'],
-                contacto=request.form['contacto_fornecedor'], numero_IF = request.form['numero_If'])
-    db.session.add(fornecedor)
-    db.session.commit()
-    pass
+    if request.method =='POST':
+        fornecedor = Fornecedor(email_fornecedor = request.form['email_fornecedor'],nome_fornecedor = request.form['nome_fornecedor_reg'],
+                    contacto=request.form['contacto_fornecedor'], numero_IF = request.form['numero_If'], senha_login = request.form['password_fornecedor'],desp_fornecedor = 0,
+                    lucro_fornecedor = 0, desconto_fornecedor = 0)
+        db.session.add(fornecedor)
+        db.session.commit()
+        return redirect(url_for('.todos_produtos'))
 
 # Home Page
 
@@ -614,7 +628,7 @@ def login():
 
         # Verificar fornecedor
         for user in verificar_email_fornecedor:
-            if user_loggin == user[1] and user_pswd == user[2]:
+            if user_loggin == user[1] and user_pswd == user[7]:
                 session['log_in_fornecedor'] = True
                 session['pass_word_fornecedor'] = True
                 session['user'] = user_loggin

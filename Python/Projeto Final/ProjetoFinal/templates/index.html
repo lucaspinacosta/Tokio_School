@@ -19,7 +19,7 @@
         href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto+Slab:wght@100;200;500&display=swap"
         rel="stylesheet">
     <!-- Tab-Icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="static/LIC_Informatica3.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/img/LIC_Informatica3.png">
     <!-- Background color-->
     <link rel="stylesheet" href="static/main.css">
 </head>
@@ -29,7 +29,7 @@
         <!--Header layout-->
         <nav class="py-2 bg-light border-bottom my-auto">
             <div class="container d-flex flex-wrap my-auto">
-                <img alt="lefters" src="static/LIC_Informatica3.png" width="80" height="50">
+                <img alt="lefters" src="static/img/LIC_Informatica3.png" width="80" height="50">
                 <ul class="nav me-auto">
                     <li class="nav-item"><a href="/" class="nav-link link-dark px-2" aria-current="page">Home</a>
                     </li>{% if session['log_in_admin'] == True or session['log_in_fornecedor']==True%}
@@ -61,10 +61,10 @@
                 <nav class="nav">
                     <a class="nav-link py-1 px-0" href="/user-login/carrinho">
                         <img action="submit" alt="centered image" href="/user-login/carrinho" rel="icon lefters"
-                            type="image/png" src="/static/carrinho-de-compras.png" height="55" width="55">
+                            type="image/png" src="/static/img/carrinho-de-compras.png" height="55" width="55">
                     </a>
                     <a class="nav-link py-1 px-2 " href="/logout">
-                        <img action="submit" alt="centered image" src="/static/logout.png" height="55" width="55">
+                        <img action="submit" alt="centered image" src="/static/img/logout.png" height="55" width="55">
                     </a>
                 </nav>
             </div>
@@ -93,7 +93,7 @@
         <div class="container">
             <a href="/">
                 <p class="aligncenter" width="300" height="300">
-                    <img alt="centered image" src="static/LIC_Informatica.png" width="900" height="300">
+                    <img alt="centered image" src="static/img/LIC_Informatica.png" width="900" height="300">
                 </p>
             </a>
         </div>
@@ -318,18 +318,18 @@
                         </li>
                         <div class="col-12 my-auto" style="margin-left: auto">
                             <div class="col-12">
-                                <nav class="row col-sm-12">
+                                
                                     <div class="aligncenter">
                                         <p></p>
 
                                         <nav class="row container-fluid row-cols-5 col-auto">
                                             {%for produtos in todos_os_produtos%}
                                             <div class="card  row-cols-auto">
-                                                <ul>
-                                                    <div class="aligncenter col-row-2">
-                                                        <dt>{{produtos[1]}}</dt>
 
-                                                    </div>
+                                                <div class="aligncenter col-row-2">
+                                                    <dt>{{produtos[1]}}</dt>
+
+
                                                     <div class="aligncenter">
                                                         <dt><a href="{{url_for('.show_room',code_prod=produtos[0]) }}">
                                                                 <img class="fit-picture " src="{{produtos[12]}}"
@@ -337,35 +337,36 @@
                                                         <dt>{{ '%.2f' % produtos[5]}} € </dt>
                                                         </dt>
                                                     </div>
-                                                    <dt>
-                                                        <div class="btn-group">
-                                                            <div
-                                                                class="d-flex justify-content-between align-items-center">
-                                                                <form action="/add" method="post">
-                                                                    <input type="hidden" name="code"
-                                                                        value="{{produtos[0]}}" />
-                                                                    <input type="text" class="quantidade-produto"
-                                                                        name="quantidade" value="1" size="2" />
-                                                                    
-                                                                    <button type="submit"
-                                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
-                                                                </form>
-                                                                {% if session['log_in_admin']==True%}
-                                                                <form type="button"
-                                                                    action="{{url_for('.editar_prod',code_edit=produtos[0])}}"
-                                                                    method="get">
-                                                                    <button type="submit"
-                                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                                </form>{%endif%}
 
-                                                            </div>
+                                                    <div class="btn-group">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <form action="/add" method="post">
+                                                                <input type="hidden" name="code"
+                                                                    value="{{produtos[0]}}" />
+                                                                <input type="text" class="quantidade-produto"
+                                                                    name="quantidade" value="1" size="2" />
+
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
+                                                            </form>
                                                         </div>
-                                                    </dt>
-                                                </ul>
+                                                    </div>
+                                                </div>
+                                                <br>
+
+
+
+                                                {% if session['log_in_admin']==True%}
+                                                <form type="button"
+                                                    action="{{url_for('.editar_prod',code_edit=produtos[0])}}"
+                                                    method="get">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </form>{%endif%}
                                             </div>{%endfor%}
                                         </nav>
                                     </div>
-                                </nav>
+                                
                             </div>
                         </div>
                     </div>
