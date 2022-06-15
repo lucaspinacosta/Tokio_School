@@ -1,71 +1,72 @@
 {
-      "especificacoes": {
-            "sistema_operativo": [
-                  "Processador Gr\u00e1fico",
-                  "NVIDIA\u00ae GeForce\u00ae RTX 3070"
-            ],
-            "Processador": [
-                  "BUS",
-                  "PCI Express 4.0 16x"
-            ],
-            "memoria_ram": [
-                  "Mem\u00f3ria de V\u00eddeo",
-                  "8GB GDDR6"
-            ],
-            "armazenamento": [
-                  "Velocidade",
-                  "Base Clock: 1725 MHz",
-                  "Boost Clock: 1845 MHz"
-            ],
-            "audio": [
-                  "CUDA cores",
-                  "5888"
-            ],
-            "ecra": [
-                  "Velocidade de Mem\u00f3ria",
-                  "14 Gbps"
-            ],
-            "grafica": [
-                  "Interface de Mem\u00f3ria",
-                  "256 Bits"
-            ],
-            "cor": [
-                  "Dimens\u00f5es",
-                  "290 x 131 x 60 mm"
-            ],
-            "interface": [
-                  "Interface",
-                  "3 x DisplayPort 1.4a",
-                  "1 x HDMI 2.1",
-                  "1 x HDMI 2.0",
-                  "Suporte HDCP 2.3"
-            ]
-      },
-      "descricoes": {
-            "descricao_1": [
-                  "ARQUITETURA AMPERE DA NVIDIA",
-                  "A nova arquitetura Ampere da NVIDIA proporciona a verdadeira jogabilidade, com avan\u00e7ados Ray Tracing Cores da 2.\u00aa gera\u00e7\u00e3o e N\u00facleos Tensor de 3.\u00aa gera\u00e7\u00e3o com maior rendimento."
-            ],
-            "descricao_2": [
-                  "ACELERA\u00c7\u00c3O DE INTELIG\u00caNCIA ARTIFICIAL DLSS",
-                  "Utilizando os N\u00facleos Tensor de processamento de Intelig\u00eancia Artificial dedicados da GeForce RTX, NVIDIA DLSS \u00e9 uma tecnologia inovadora em termos de renderiza\u00e7\u00e3o de Intelig\u00eancia artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necess\u00e1ria para poder aumentar as defini\u00e7\u00f5es e resolu\u00e7\u00f5es de modo a obteres uma experi\u00eancia visual incr\u00edvel. A revolu\u00e7\u00e3o da Intelig\u00eancia Artificial chegou ao gaming."
-            ],
-            "descricao_3": [
-                  "DIRECTX 12 ULTIMATE",
-                  "Os programadores podem agora acrescentar ainda mais efeitos gr\u00e1ficos espetaculares aos jogos para PC execut\u00e1veis no Microsoft Windows. As placas gr\u00e1ficas GeForce RTX oferecem funcionalidades DX12 avan\u00e7adas, como o ray tracing e o sombreamento de frequ\u00eancia vari\u00e1vel, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais r\u00e1pidas."
-            ],
-            "descricao_4": [
-                  "RGB FUSION 2.0",
-                  "Com 16,7M op\u00e7\u00f5es de cor personaliz\u00e1veis e numerosos efeitos de ilumina\u00e7\u00e3o, pode escolher efeitos de ilumina\u00e7\u00e3o ou sincronizar com outros dispositivos AORUS."
-            ],
-            "descricao_5": [
-                  "",
-                  ""
-            ],
-            "descricao_6": [
-                  "",
-                  ""
-            ]
-      },
-      "img_path": "/static/produtos/Gigabyte GeForce RTX 3070 Aorus Master LHR 8GB GD6/Gigabyte GeForce RTX 3070 Aorus Master LHR 8GB GD6.png"
+   "especificacoes": {
+      "sistema_operativo": [
+         "Processador Gr\u00e1fico",
+         "NVIDIA\u00ae GeForce\u00ae RTX 3070"
+      ],
+      "Processador": [
+         "BUS",
+         "PCI Express 4.0 16x"
+      ],
+      "memoria_ram": [
+         "Mem\u00f3ria de V\u00eddeo",
+         "8GB GDDR6"
+      ],
+      "armazenamento": [
+         "Velocidade",
+         "Base Clock: 1725 MHz",
+         "Boost Clock: 1845 MHz"
+      ],
+      "audio": [
+         "CUDA cores",
+         "5888"
+      ],
+      "ecra": [
+         "Velocidade de Mem\u00f3ria",
+         "14 Gbps"
+      ],
+      "grafica": [
+         "Interface de Mem\u00f3ria",
+         "256 Bits"
+      ],
+      "cor": [
+         "Dimens\u00f5es",
+         "290 x 131 x 60 mm"
+      ],
+      "interface": [
+         "Interface",
+         "3 x DisplayPort 1.4a",
+         "1 x HDMI 2.1",
+         "1 x HDMI 2.0",
+         "Suporte HDCP 2.3"
+      ]
+   },
+   "descricoes": {
+      "descricao_1": [
+         "ARQUITETURA AMPERE DA NVIDIA",
+         "A nova arquitetura Ampere da NVIDIA proporciona a verdadeira jogabilidade, com avan\u00e7ados Ray Tracing Cores da 2.\u00aa gera\u00e7\u00e3o e N\u00facleos Tensor de 3.\u00aa gera\u00e7\u00e3o com maior rendimento."
+      ],
+      "descricao_2": [
+         "ACELERA\u00c7\u00c3O DE INTELIG\u00caNCIA ARTIFICIAL DLSS",
+         "Utilizando os N\u00facleos Tensor de processamento de Intelig\u00eancia Artificial dedicados da GeForce RTX, NVIDIA DLSS \u00e9 uma tecnologia inovadora em termos de renderiza\u00e7\u00e3o de Intelig\u00eancia artificial que aumenta a velocidade de fotogramas com uma qualidade de imagem rigorosa. Isto oferece-lhe a capacidade de desempenho necess\u00e1ria para poder aumentar as defini\u00e7\u00f5es e resolu\u00e7\u00f5es de modo a obteres uma experi\u00eancia visual incr\u00edvel. A revolu\u00e7\u00e3o da Intelig\u00eancia Artificial chegou ao gaming."
+      ],
+      "descricao_3": [
+         "DIRECTX 12 ULTIMATE",
+         "Os programadores podem agora acrescentar ainda mais efeitos gr\u00e1ficos espetaculares aos jogos para PC execut\u00e1veis no Microsoft Windows. As placas gr\u00e1ficas GeForce RTX oferecem funcionalidades DX12 avan\u00e7adas, como o ray tracing e o sombreamento de frequ\u00eancia vari\u00e1vel, criando jogos dotados de efeitos visuais ultrarrealistas e velocidades de fotogramas ainda mais r\u00e1pidas."
+      ],
+      "descricao_4": [
+         "RGB FUSION 2.0",
+         "Com 16,7M op\u00e7\u00f5es de cor personaliz\u00e1veis e numerosos efeitos de ilumina\u00e7\u00e3o, pode escolher efeitos de ilumina\u00e7\u00e3o ou sincronizar com outros dispositivos AORUS."
+      ],
+      "descricao_5": [
+         "",
+         ""
+      ],
+      "descricao_6": [
+         "",
+         ""
+      ]
+   },
+   "img_path": "/static/produtos/Gigabyte GeForce RTX 3070 Aorus Master LHR 8GB GD6/Gigabyte GeForce RTX 3070 Aorus Master LHR 8GB GD6.png",
+   "desconto": "0.00"
 }

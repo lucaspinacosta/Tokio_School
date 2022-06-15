@@ -1,17 +1,66 @@
-{"especificacoes":{"sistema_operativo": ["Sistema Operativo", "Windows 10 Home"], "Processador": ["Processador", "Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"],
-    "memoria_ram": ["Memoria Ram", " 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)"],
-    "armazenamento": ["Armazenamento", "SSD de 512GB M.2 NVMe™ PCIe® 3.0"],
-    "audio": ["Audio", "Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)"],
-    "ecra": ["Ecra", "15.6' FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut"],
-    "grafica": ["Grafica", "Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5"],
-    "cor": ["Cor", "Prateado"],
-    "interface": ["Interface", "1 x USB 3.2 Gen 1 Type-A", "1 x USB 3.2 Gen 1 Type-C", "2 x USB 2.0 Tipo A", "1 x HDMI 1.4", "1 x Leitor de auscultadores/micro SD card"]
-},
-"descricoes": {"descricao_1":["ALIMENTE A SUA PRODUTIVIDADE","Movido pela mais recente geração de processadores Intel® Core™ com memória DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."],
-    "descricao_2":["O MELHOR AUMENTO DE PERFORMANCE - ATÉ 40%!","A Tecnologia ASUS Intelligent Performance (AIPT) é uma combinação de design térmico ultra-eficiente com uma solução de poupança de energia. Utiliza algoritmos exclusivos da ASUS combinados com cinco a nove sensores inteligentes, um design aerodinâmico de ventoinhas IceBlades e uma fonte de alimentação de 65 watts para aumentar inteligentemente o desempenho do CPU com uma estabilidade melhorada, ao mesmo tempo que permite uma autonomia de bateria para todo o dia e um portátil mais silencioso e fresco. Com a tecnologia ASUS Intelligent Performance, o seu computador portátil pode funcionar em alta performance durante o tempo que precisar."],
-    "descricao_3":["LIBERTE AS POSSIBILIDADES","Usando a tecnologia ASUS Intelligent Performance no modo Performance, um portátil ASUS com um processador Intel® da 11ª geração pode desfrutar de um aumento de performance de até 40% comparativamente a uma performance normal. Mesmo no modo Equilibrado padrão, o desempenho pode ser até 30% superior!"],
-    "descricao_4":["UMA EXIBIÇÃO MELHORADA COM NANOEDGE","O ecrã NanoEdge com moldura fina fornece uma experiência de visualização envolvente, permitindo um ecrã mais amplo numa moldura mais pequena. O ecrã Full HD disponibiliza ângulos de visualização amplos e reprodução de cores excecional para imagens verdadeiramente vivas."],
-    "descricao_5":[],
-    "descricao_6":[]},
-"img_path": "/static/produtos/Asus VivoBook K513EP/Asus VivoBook K513EP.png"
+{
+   "especificacoes": {
+      "sistema_operativo": [
+         "Sistema Operativo",
+         "Windows 10 Home"
+      ],
+      "Processador": [
+         "Processador",
+         "Intel\u00ae Core\u2122 i5-1135G7, 2.4 GHz (8M Cache, at\u00e9 4.2 GHz, 4 cores)"
+      ],
+      "memoria_ram": [
+         "Memoria Ram",
+         " 8GB de mem\u00f3ria RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)"
+      ],
+      "armazenamento": [
+         "Armazenamento",
+         "SSD de 512GB M.2 NVMe\u2122 PCIe\u00ae 3.0"
+      ],
+      "audio": [
+         "Audio",
+         "Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)"
+      ],
+      "ecra": [
+         "Ecra",
+         "15.6' FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut"
+      ],
+      "grafica": [
+         "Grafica",
+         "Placa Gr\u00e1fica NVIDIA\u00ae GeForce\u00ae MX330, com 2GB de mem\u00f3ria VRAM GDDR5"
+      ],
+      "cor": [
+         "Cor",
+         "Prateado"
+      ],
+      "interface": [
+         "Interface",
+         "1 x USB 3.2 Gen 1 Type-A",
+         "1 x USB 3.2 Gen 1 Type-C",
+         "2 x USB 2.0 Tipo A",
+         "1 x HDMI 1.4",
+         "1 x Leitor de auscultadores/micro SD card"
+      ]
+   },
+   "descricoes": {
+      "descricao_1": [
+         "ALIMENTE A SUA PRODUTIVIDADE",
+         "Movido pela mais recente gera\u00e7\u00e3o de processadores Intel\u00ae Core\u2122 com mem\u00f3ria DDR4 e GPU NVIDIA GeForce, o VivoBook 15 oferece a performance que precisa para lidar com qualquer tarefa."
+      ],
+      "descricao_2": [
+         "O MELHOR AUMENTO DE PERFORMANCE - AT\u00c9 40%!",
+         "A Tecnologia ASUS Intelligent Performance (AIPT) \u00e9 uma combina\u00e7\u00e3o de design t\u00e9rmico ultra-eficiente com uma solu\u00e7\u00e3o de poupan\u00e7a de energia. Utiliza algoritmos exclusivos da ASUS combinados com cinco a nove sensores inteligentes, um design aerodin\u00e2mico de ventoinhas IceBlades e uma fonte de alimenta\u00e7\u00e3o de 65 watts para aumentar inteligentemente o desempenho do CPU com uma estabilidade melhorada, ao mesmo tempo que permite uma autonomia de bateria para todo o dia e um port\u00e1til mais silencioso e fresco. Com a tecnologia ASUS Intelligent Performance, o seu computador port\u00e1til pode funcionar em alta performance durante o tempo que precisar."
+      ],
+      "descricao_3": [
+         "LIBERTE AS POSSIBILIDADES",
+         "Usando a tecnologia ASUS Intelligent Performance no modo Performance, um port\u00e1til ASUS com um processador Intel\u00ae da 11\u00aa gera\u00e7\u00e3o pode desfrutar de um aumento de performance de at\u00e9 40% comparativamente a uma performance normal. Mesmo no modo Equilibrado padr\u00e3o, o desempenho pode ser at\u00e9 30% superior!"
+      ],
+      "descricao_4": [
+         "UMA EXIBI\u00c7\u00c3O MELHORADA COM NANOEDGE",
+         "O ecr\u00e3 NanoEdge com moldura fina fornece uma experi\u00eancia de visualiza\u00e7\u00e3o envolvente, permitindo um ecr\u00e3 mais amplo numa moldura mais pequena. O ecr\u00e3 Full HD disponibiliza \u00e2ngulos de visualiza\u00e7\u00e3o amplos e reprodu\u00e7\u00e3o de cores excecional para imagens verdadeiramente vivas."
+      ],
+      "descricao_5": [],
+      "descricao_6": []
+   },
+   "img_path": "/static/produtos/Asus VivoBook K513EP/Asus VivoBook K513EP.png",
+   "desconto": "7.98"
 }

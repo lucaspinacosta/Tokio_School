@@ -1,54 +1,66 @@
 {
-    "especificacoes": {
-        "sistema_operativo": [
-            "Sistema Operativo",
-            "Windows 10 Home"
-        ],
-        "Processador": [
-            "Processador",
-            "Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz, 4 cores)"
-        ],
-        "memoria_ram": [
-            "Memoria Ram",
-            " 8GB de memória RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)"
-        ],
-        "armazenamento": [
-            "Armazenamento",
-            "SSD de 512GB M.2 NVMe™ PCIe® 3.0"
-        ],
-        "audio": [
-            "Audio",
-            "Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)"
-        ],
-        "ecra": [
-            "Ecra",
-            "15.6' FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut"
-        ],
-        "grafica": [
-            "Grafica",
-            "Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de memória VRAM GDDR5"
-        ],
-        "cor": [
-            "Cor",
-            "Prateado"
-        ],
-        "interface": [
-            "Interface",
-            "1 x USB 3.2 Gen 1 Type-A",
-            "1 x USB 3.2 Gen 1 Type-C",
-            "2 x USB 2.0 Tipo A",
-            "1 x HDMI 1.4",
-            "1 x Leitor de auscultadores/micro SD card"
-        ]
-    },
-    "descricoes": {
-        "descricao_1": ["PREPARA-TE PARA VOAR",
-            "De cima abaixo, a ROG Strix GeForce RTX™ 3080 foi radicalmente melhorada para acomodar os novos e impressionantes chips Ampere da NVIDIA e para fornecer a próxima onda de inovação de performance gaming ao mercado.\n Um novo design e mais metal envolvem um conjunto de ventoinhas Axial-tech. A disposição uniforme das ventoinhas da última geração foi usurpada por um novo esquema de rotação e funções especializadas para as ventoinhas centrais e auxiliares. Por baixo das pás, um dissipador maior e mais impressionante está pronto para as cargas térmicas mais exigentes.\n A PCB tem alguns novos truques na manga, e até a placa traseira recebeu algumas alterações de para melhorarem a performance. Tens estado à espera das últimas e maiores novidades no design do GPU - e são estas!"],
-        "descricao_2": ["MELHORAMENTOS AXIAL-TECH","O nosso design de ventoinhas Axial-tech foi otimizado com um dissipador novo e maior, com mais aletas e área de superfície do que o da última geração. A contagem de pás foi aumentada nas três ventoinhas, com 13 na ventoinha central e 11 nas ventoinhas auxiliares.\nO anel de barreira nas ventoinhas laterais foi encolhido para permitir uma maior entrada de ar lateral e para proporcionar um melhor fluxo de ar através do conjunto de arrefecimento. As pás adicionais da ventoinha central e o anel com altura total proporcionam uma pressão estática mais forte para disparar ar diretamente para o dissipador do GPU."],
-        "descricao_3": ["MAXCONTACT", "O encaminhamento do calor para o dissipador, que permite beneficiar do novo design das ventoinhas requer uma atenção especial. Usamos um processo de fabrico que pole a superfície do dissipador de calor para melhorar a suavidade ao nível microscópico. Sendo extra plano permite um melhor contacto com o molde para uma melhor transferência térmica."],
-        "descricao_4": ["DESIGN DE 2.9 RANHURAS","O dissipador de calor direciona o calor para os heatpipes que o transportam através de um conjunto de aletas que preenche a grande placa de 2.9 ranhuras. Aumentar o tamanho do dissipador comparativamente à última geração proporciona mais amplitude térmica para contabilizar o novo chipset de alta performance."],
-        "descricao_5": [],
-        "descricao_6": []
-    },
-    "img_path": "/static/produtos/HP Pavillon x360/HP Pavillon x360.png"
+   "especificacoes": {
+      "sistema_operativo": [
+         "Sistema Operativo",
+         "Windows 10 Home"
+      ],
+      "Processador": [
+         "Processador",
+         "Intel\u00c2\u00ae Core\u00e2\u201e\u00a2 i5-1135G7, 2.4 GHz (8M Cache, at\u00c3\u00a9 4.2 GHz, 4 cores)"
+      ],
+      "memoria_ram": [
+         "Memoria Ram",
+         " 8GB de mem\u00c3\u00b3ria RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)"
+      ],
+      "armazenamento": [
+         "Armazenamento",
+         "SSD de 512GB M.2 NVMe\u00e2\u201e\u00a2 PCIe\u00c2\u00ae 3.0"
+      ],
+      "audio": [
+         "Audio",
+         "Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)"
+      ],
+      "ecra": [
+         "Ecra",
+         "15.6' FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut"
+      ],
+      "grafica": [
+         "Grafica",
+         "Placa Gr\u00c3\u00a1fica NVIDIA\u00c2\u00ae GeForce\u00c2\u00ae MX330, com 2GB de mem\u00c3\u00b3ria VRAM GDDR5"
+      ],
+      "cor": [
+         "Cor",
+         "Prateado"
+      ],
+      "interface": [
+         "Interface",
+         "1 x USB 3.2 Gen 1 Type-A",
+         "1 x USB 3.2 Gen 1 Type-C",
+         "2 x USB 2.0 Tipo A",
+         "1 x HDMI 1.4",
+         "1 x Leitor de auscultadores/micro SD card"
+      ]
+   },
+   "descricoes": {
+      "descricao_1": [
+         "PREPARA-TE PARA VOAR",
+         "De cima abaixo, a ROG Strix GeForce RTX\u00e2\u201e\u00a2 3080 foi radicalmente melhorada para acomodar os novos e impressionantes chips Ampere da NVIDIA e para fornecer a pr\u00c3\u00b3xima onda de inova\u00c3\u00a7\u00c3\u00a3o de performance gaming ao mercado.\n Um novo design e mais metal envolvem um conjunto de ventoinhas Axial-tech. A disposi\u00c3\u00a7\u00c3\u00a3o uniforme das ventoinhas da \u00c3\u00baltima gera\u00c3\u00a7\u00c3\u00a3o foi usurpada por um novo esquema de rota\u00c3\u00a7\u00c3\u00a3o e fun\u00c3\u00a7\u00c3\u00b5es especializadas para as ventoinhas centrais e auxiliares. Por baixo das p\u00c3\u00a1s, um dissipador maior e mais impressionante est\u00c3\u00a1 pronto para as cargas t\u00c3\u00a9rmicas mais exigentes.\n A PCB tem alguns novos truques na manga, e at\u00c3\u00a9 a placa traseira recebeu algumas altera\u00c3\u00a7\u00c3\u00b5es de para melhorarem a performance. Tens estado \u00c3\u00a0 espera das \u00c3\u00baltimas e maiores novidades no design do GPU - e s\u00c3\u00a3o estas!"
+      ],
+      "descricao_2": [
+         "MELHORAMENTOS AXIAL-TECH",
+         "O nosso design de ventoinhas Axial-tech foi otimizado com um dissipador novo e maior, com mais aletas e \u00c3\u00a1rea de superf\u00c3\u00adcie do que o da \u00c3\u00baltima gera\u00c3\u00a7\u00c3\u00a3o. A contagem de p\u00c3\u00a1s foi aumentada nas tr\u00c3\u00aas ventoinhas, com 13 na ventoinha central e 11 nas ventoinhas auxiliares.\nO anel de barreira nas ventoinhas laterais foi encolhido para permitir uma maior entrada de ar lateral e para proporcionar um melhor fluxo de ar atrav\u00c3\u00a9s do conjunto de arrefecimento. As p\u00c3\u00a1s adicionais da ventoinha central e o anel com altura total proporcionam uma press\u00c3\u00a3o est\u00c3\u00a1tica mais forte para disparar ar diretamente para o dissipador do GPU."
+      ],
+      "descricao_3": [
+         "MAXCONTACT",
+         "O encaminhamento do calor para o dissipador, que permite beneficiar do novo design das ventoinhas requer uma aten\u00c3\u00a7\u00c3\u00a3o especial. Usamos um processo de fabrico que pole a superf\u00c3\u00adcie do dissipador de calor para melhorar a suavidade ao n\u00c3\u00advel microsc\u00c3\u00b3pico. Sendo extra plano permite um melhor contacto com o molde para uma melhor transfer\u00c3\u00aancia t\u00c3\u00a9rmica."
+      ],
+      "descricao_4": [
+         "DESIGN DE 2.9 RANHURAS",
+         "O dissipador de calor direciona o calor para os heatpipes que o transportam atrav\u00c3\u00a9s de um conjunto de aletas que preenche a grande placa de 2.9 ranhuras. Aumentar o tamanho do dissipador comparativamente \u00c3\u00a0 \u00c3\u00baltima gera\u00c3\u00a7\u00c3\u00a3o proporciona mais amplitude t\u00c3\u00a9rmica para contabilizar o novo chipset de alta performance."
+      ],
+      "descricao_5": [],
+      "descricao_6": []
+   },
+   "img_path": "/static/produtos/HP Pavillon x360/HP Pavillon x360.png",
+   "desconto": "7.80"
 }

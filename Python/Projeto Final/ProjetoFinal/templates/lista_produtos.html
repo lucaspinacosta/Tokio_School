@@ -37,7 +37,8 @@
 
                     {% if session['log_in_admin'] %}
 
-                    <li class="nav-item"><a href="/admin/criar-fornecedor" class="nav-link link-dark px-2" aria-current="page">Criar
+                    <li class="nav-item"><a href="/admin/criar-fornecedor" class="nav-link link-dark px-2"
+                            aria-current="page">Criar
                             Fornecedor</a></li>
                     {%endif%}
                 </ul>
@@ -113,6 +114,7 @@
                                     {% set contacto = fornecedor[5] %}
                                     {% set numero_IF = fornecedor[6] %}
                                     {% set lucro_fornecedor = fornecedor[4]%}
+                                    {% set descont_perct = fornecedor[8] %}
 
 
 
@@ -151,6 +153,7 @@
                                             <th style="text-align:right;" width="10%">Vendidos</th>
                                             <th style="text-align:right;" width="10%">Fornecedor</th>
                                             <th style="text-align:right;" width="5%">IVA</th>
+                                            <th style="text-align:center;" width="5%">Desconto</th>
                                             <th style="text-align:center;" width="5%">Lucro</th>
 
                                         </tr>
@@ -163,8 +166,9 @@
                                         {% set nome_fornecedor = produto[7] %}
                                         {% set id_fornecedor = produto[9]%}
                                         {% set encomenda = produto[8]%}
-                                        {% set lucro = produto[3]*(produto[5]-produto[4]) %}
+                                        {% set lucro = (produto[5]-(produto[4]-produto[13]))*produto[3] %}
                                         {% set iva = produto[11] %}
+                                        {% set desconto = (produto[13]*100) / produto[4] %}
                                         <tr>
                                             {%if em_stock > 10:%}
                                             <td style="text-align:center;">Disponivel</td>
@@ -183,6 +187,7 @@
                                                 <td style="text-align:right;" width="5%">{{ vendidos }}</td>
                                                 <td style="text-align:right;" width="10%">{{ nome_fornecedor }}</td>
                                                 <td style="text-align:right;" width="5%">{{ iva }}% </td>
+                                                <td style="text-align:center;" width="5%">{{'%.0f' % desconto}}%</td>
                                                 <td style="text-align:center;">{{'%.2f' % lucro }}€</td>
 
                                         </tr>{%endfor%}<p></p>
@@ -191,6 +196,34 @@
                                 </table>
                             </nav>
                             {% elif session['log_in_fornecedor'] == True %}
+
+                            <form action="/listagem_produto" method="post">
+                                <div class="card" style="margin-left:auto;" method="get">
+                                    <div class="aligncenter">
+
+                                        <h2 class="btn_links titulo img"> Descontos </h2>
+                                        <nav class="row container-fluid row-cols-5 col-auto">
+                                            <label class="alingcenter"> % Desconto : </label>
+                                            <input type="number" name ="submit_descontos" width="10px" height="5px">
+                                            <label class="alingcenter"> Selecionar Produto: </label>
+                                            <select name="desconto_produto">
+                                                {% for produto in todos_os_produtos%}
+                                                {% if produto[9] == session['user_id']%}
+                                                {% set produto_nome = produto[1] %}
+                                                {% set produto_id = produto[0]%}
+                                                <option value="{{produto_id}}">{{produto_nome}}</option>
+                                                {%endif%}
+                                                {%endfor%}
+                                            </select>
+                                            <input type="submit">
+                                        </nav>
+
+                                    </div>
+                                </div>
+                            </form>
+
+                            <br>
+
                             <div class="card">
                                 <h2 class="btn_links titulo"> Encomendas </h2>
                                 <nav class="row container-fluid row-cols-1 col-auto">
@@ -201,7 +234,8 @@
                                                 <th style="text-align:center;">ID</th>
                                                 <th style="text-align:right;" width="5%">Stock</th>
                                                 <th style="text-align:right;" width="10%">Vendidos</th>
-                                                <th style="text-align:right;" width="10%">Fornecedor</th>
+                                                <th style="text-align:center;" width="5%">Preco para Revendedor</th>
+                                                <th style="text-align:right;" width="10%">Desconto</th>
                                                 <th style="text-align:center;" width="5%"> Encomendas </th>
                                                 <th style="text-align:center;" width="5%">Fornecer</th>
                                             </tr>
@@ -212,15 +246,18 @@
                                             {% set nome_produto = produto[1] %}
                                             {% set em_stock = produto[2] %}
                                             {% set vendidos = produto[3] %}
+                                            {% set preco_fornecedor = produto[4]-produto[13] %}
                                             {% set nome_fornecedor = produto[7] %}
                                             {% set id_fornecedor = produto[9]%}
                                             {% set encomenda = produto[8]%}
+                                            {% set desconto = (produto[13]*100) / produto[4] %}
                                             <tr>
                                                 <td style="text-align:center;">{{nome_produto}}</td>
                                                 <td style="text-align:center;">{{ id_produto }}</td>
                                                 <td style="text-align:right;" width="5%">{{ em_stock }}</td>
                                                 <td style="text-align:right;" width="5%">{{ vendidos }}</td>
-                                                <td style="text-align:right;" width="10%">{{ nome_fornecedor }}</td>
+                                                <td style="text-align:center;" width="5%">{{ '%.2f' % preco_fornecedor }}€</td>
+                                                <td style="text-align:right;" width="10%">{{ '%.0f' % desconto }}%</td>
                                                 <td style="text-align:center;">{{ encomenda }}</td>
                                                 {%if encomenda > 0 : %}
                                                 <td style="text-align:center;">
@@ -269,7 +306,8 @@
                                             <div class="aligncenter">
                                                 <dt><a href="{{url_for('.criar_produto')}}">
                                                         <p></p>
-                                                        <img class="fit-picture" src="static/img/add_prod.png" height="150">
+                                                        <img class="fit-picture" src="static/img/add_prod.png"
+                                                            height="150">
                                                     </a></dt>
                                             </div>
                                             <p></p>
@@ -307,17 +345,18 @@
                                                     {%endif%}
                                                 </form>
                                             </div>
-                                        </div>
+                                        </div><br><br>
 
                                     </ul>
                                 </div>{%endfor%}
-
+                                <br>
                             </nav>
                         </div>
                     </div>
                 </nav>
+
             </div>
-            <p></p>
+            <br><br>
         </div>
     </main>
 </body>

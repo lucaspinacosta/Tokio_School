@@ -1,64 +1,65 @@
 {
-      "especificacoes": {
-            "sistema_operativo": [
-                  "Processador",
-                  "AMD Ryzen\u2122 9 5900HX (at\u00e9 4,6 GHz, 16 MB de cache L3, 8 cores, 16 threads)"
-            ],
-            "memoria_ram": [
-                  "Sistema Operativo",
-                  "Sem Sistema Operativo"
-            ],
-            "Processador": [
-                  "",
-                  ""
-            ],
-            "armazenamento": [
-                  "Chipset",
-                  "SoC integrado AMD"
-            ],
-            "audio": [
-                  "Mem\u00f3ria",
-                  "RAM DDR4 (3200 MHz) de 32 GB (2 x 16 GB)"
-            ],
-            "ecra": [
-                  "Armazenamento",
-                  "SSD M.2 PCIe\u00ae NVMe\u2122 TLC de 1TB"
-            ],
-            "grafica": [
-                  "Gr\u00e1fica",
-                  "Placa gr\u00e1fica NVIDIA\u00ae GeForce RTX\u2122 3070 com design Laptop GPU (8 GB de mem\u00f3ria GDDR6 dedicada)"
-            ],
-            "cor": [
-                  "Ecr\u00e3",
-                  "Ecr\u00e3 FHD (1920 x 1080) de 40,9 cm (16,1') na diagonal, 144 Hz, 7 ms de tempo de resposta, IPS, moldura fina, antirreflexo, Low Blue Light, 300 nits, sRGB a 100%"
-            ],
-            "interface": [
-                  "Interface",
-                  "1 x Porta SuperSpeed USB Type-C (d\u00e9bito bin\u00e1rio de 10 Gbps) (DisplayPort\u2122 1.4, Tecnologia HP Sleep and Charge)",
-                  " 1 x Porta SuperSpeed USB Type-A (d\u00e9bito bin\u00e1rio de 5 Gbps) (Tecnologia HP Sleep and Charge)",
-                  " 2 x Portas SuperSpeed USB Type-A (d\u00e9bito bin\u00e1rio de 5 Gbps)",
-                  "Teclado de tamanho integral, 4 zonas com retroilumina\u00e7\u00e3o RGB, e tecnologias anti-ghosting e rollover de 26 teclas; Suporte de touchpad de precis\u00e3o"
-            ]
-      },
-      "descricoes": {
-            "descricao_1": [
-                  "ELEVE A SUA FORMA DE JOGAR",
-                  "Torne-se impar\u00e1vel com o Port\u00e1til de Gaming OMEN by HP de 16,1 polegadas. Equipado com um processador AMD e uma potente placa gr\u00e1fica, pode jogar no seu melhor em qualquer lugar. Eleve a sua experi\u00eancia de gaming com gr\u00e1ficos realistas e com um ecr\u00e3 de alta resolu\u00e7\u00e3o e com taxa de atualiza\u00e7\u00e3o r\u00e1pida. Com a Tecnologia de arrefecimento OMEN Tempest, pode jogar sem se preocupar com o sobreaquecimento, mesmo quando a intensidade aumenta."
-            ],
-            "descricao_2": [
-                  "MANTENHA-SE REFRIGERADO MESMO SOB PRESS\u00c3O",
-                  "Com ventila\u00e7\u00e3o em 3 lados e fluxo de ar de 5 vias, a Tecnologia de arrefecimento OMEN Tempest impede o sobreaquecimento, mesmo quando a intensidade aumenta."
-            ],
-            "descricao_3": [
-                  "TAXA DE ATUALIZA\u00c7\u00c3O R\u00c1PIDA DURANTE O JOGO",
-                  "Jogue no seu melhor e sem cortes na imagem, com uma taxa de atualiza\u00e7\u00e3o r\u00e1pida, e elimine a cintila\u00e7\u00e3o no ecr\u00e3 com a Tecnologia HP Flicker Free."
-            ],
-            "descricao_4": [
-                  "",
-                  ""
-            ],
-            "descricao_5":[],
-            "descricao_6" :[]
-      },
-      "img_path": "static/produtos/Portatil HP OMEN 16-c0008np/Portatil HP OMEN 16-c0008np.jpg"
+   "especificacoes": {
+      "sistema_operativo": [
+         "Processador",
+         "AMD Ryzen\u2122 9 5900HX (at\u00e9 4,6 GHz, 16 MB de cache L3, 8 cores, 16 threads)"
+      ],
+      "memoria_ram": [
+         "Sistema Operativo",
+         "Sem Sistema Operativo"
+      ],
+      "Processador": [
+         "",
+         ""
+      ],
+      "armazenamento": [
+         "Chipset",
+         "SoC integrado AMD"
+      ],
+      "audio": [
+         "Mem\u00f3ria",
+         "RAM DDR4 (3200 MHz) de 32 GB (2 x 16 GB)"
+      ],
+      "ecra": [
+         "Armazenamento",
+         "SSD M.2 PCIe\u00ae NVMe\u2122 TLC de 1TB"
+      ],
+      "grafica": [
+         "Gr\u00e1fica",
+         "Placa gr\u00e1fica NVIDIA\u00ae GeForce RTX\u2122 3070 com design Laptop GPU (8 GB de mem\u00f3ria GDDR6 dedicada)"
+      ],
+      "cor": [
+         "Ecr\u00e3",
+         "Ecr\u00e3 FHD (1920 x 1080) de 40,9 cm (16,1') na diagonal, 144 Hz, 7 ms de tempo de resposta, IPS, moldura fina, antirreflexo, Low Blue Light, 300 nits, sRGB a 100%"
+      ],
+      "interface": [
+         "Interface",
+         "1 x Porta SuperSpeed USB Type-C (d\u00e9bito bin\u00e1rio de 10 Gbps) (DisplayPort\u2122 1.4, Tecnologia HP Sleep and Charge)",
+         " 1 x Porta SuperSpeed USB Type-A (d\u00e9bito bin\u00e1rio de 5 Gbps) (Tecnologia HP Sleep and Charge)",
+         " 2 x Portas SuperSpeed USB Type-A (d\u00e9bito bin\u00e1rio de 5 Gbps)",
+         "Teclado de tamanho integral, 4 zonas com retroilumina\u00e7\u00e3o RGB, e tecnologias anti-ghosting e rollover de 26 teclas; Suporte de touchpad de precis\u00e3o"
+      ]
+   },
+   "descricoes": {
+      "descricao_1": [
+         "ELEVE A SUA FORMA DE JOGAR",
+         "Torne-se impar\u00e1vel com o Port\u00e1til de Gaming OMEN by HP de 16,1 polegadas. Equipado com um processador AMD e uma potente placa gr\u00e1fica, pode jogar no seu melhor em qualquer lugar. Eleve a sua experi\u00eancia de gaming com gr\u00e1ficos realistas e com um ecr\u00e3 de alta resolu\u00e7\u00e3o e com taxa de atualiza\u00e7\u00e3o r\u00e1pida. Com a Tecnologia de arrefecimento OMEN Tempest, pode jogar sem se preocupar com o sobreaquecimento, mesmo quando a intensidade aumenta."
+      ],
+      "descricao_2": [
+         "MANTENHA-SE REFRIGERADO MESMO SOB PRESS\u00c3O",
+         "Com ventila\u00e7\u00e3o em 3 lados e fluxo de ar de 5 vias, a Tecnologia de arrefecimento OMEN Tempest impede o sobreaquecimento, mesmo quando a intensidade aumenta."
+      ],
+      "descricao_3": [
+         "TAXA DE ATUALIZA\u00c7\u00c3O R\u00c1PIDA DURANTE O JOGO",
+         "Jogue no seu melhor e sem cortes na imagem, com uma taxa de atualiza\u00e7\u00e3o r\u00e1pida, e elimine a cintila\u00e7\u00e3o no ecr\u00e3 com a Tecnologia HP Flicker Free."
+      ],
+      "descricao_4": [
+         "",
+         ""
+      ],
+      "descricao_5": [],
+      "descricao_6": []
+   },
+   "img_path": "static/produtos/Portatil HP OMEN 16-c0008np/Portatil HP OMEN 16-c0008np.jpg",
+   "desconto": "0"
 }

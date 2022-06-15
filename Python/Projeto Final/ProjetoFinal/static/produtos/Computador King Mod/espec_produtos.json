@@ -66,5 +66,6 @@
             "Placa gráfica de alta performance com 6GB de memória VRAM GDDR6, suporta até 4 monitores. Velocidade de Memória de 14Gbps."
         ]
     },
-    "img_path": "/static/produtos/Computador King Mod/Computador King Mod.png"
+    "img_path": "/static/produtos/Computador King Mod/Computador King Mod.png",
+    "desconto": "0.00"
 }

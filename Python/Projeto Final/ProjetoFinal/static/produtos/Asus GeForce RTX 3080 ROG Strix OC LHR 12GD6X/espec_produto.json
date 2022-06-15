@@ -1,20 +1,64 @@
-{"especificacoes" : {"sistema_operativo": ["Processador Grafico", "GeForce RTX 3080"], "Processador": ["BUS", "PCI Express 4.0 16x"],
-    "memoria_ram": ["Memoria de Video", "12GB GDDR6X"],
-    "armazenamento": ["Velocidade", "OC mode: 1890 MHz (Boost Clock)", "Gaming mode: 1860 MHz (Boost Clock)"],
-    "audio": ["CUDA cores", "8960"],
-    "ecra": ["Velocidade de Memoria", "19 Gbps"],
-    "grafica": ["Interface de Memoria", "384-bit"],
-    "cor": ["Suporte para multi-monitor", "Ate 4 monitores"],
-    "interface": ["Interface", "3 x DisplayPort 1.4a", "2 x HDMI 2.1"]}
-, 
-"descricoes": {
-    "descricao_1": ["PREPARA-TE PARA VOAR",
-        "De cima abaixo, a ROG Strix GeForce RTX™ 3080 foi radicalmente melhorada para acomodar os novos e impressionantes chips Ampere da NVIDIA e para fornecer a próxima onda de inovação de performance gaming ao mercado.\n Um novo design e mais metal envolvem um conjunto de ventoinhas Axial-tech. A disposição uniforme das ventoinhas da última geração foi usurpada por um novo esquema de rotação e funções especializadas para as ventoinhas centrais e auxiliares. Por baixo das pás, um dissipador maior e mais impressionante está pronto para as cargas térmicas mais exigentes.\n A PCB tem alguns novos truques na manga, e até a placa traseira recebeu algumas alterações de para melhorarem a performance. Tens estado à espera das últimas e maiores novidades no design do GPU - e são estas!"],
-    "descricao_2": ["MELHORAMENTOS AXIAL-TECH","O nosso design de ventoinhas Axial-tech foi otimizado com um dissipador novo e maior, com mais aletas e área de superfície do que o da última geração. A contagem de pás foi aumentada nas três ventoinhas, com 13 na ventoinha central e 11 nas ventoinhas auxiliares.\nO anel de barreira nas ventoinhas laterais foi encolhido para permitir uma maior entrada de ar lateral e para proporcionar um melhor fluxo de ar através do conjunto de arrefecimento. As pás adicionais da ventoinha central e o anel com altura total proporcionam uma pressão estática mais forte para disparar ar diretamente para o dissipador do GPU."],
-    "descricao_3": ["MAXCONTACT", "O encaminhamento do calor para o dissipador, que permite beneficiar do novo design das ventoinhas requer uma atenção especial. Usamos um processo de fabrico que pole a superfície do dissipador de calor para melhorar a suavidade ao nível microscópico. Sendo extra plano permite um melhor contacto com o molde para uma melhor transferência térmica."],
-    "descricao_4": ["DESIGN DE 2.9 RANHURAS","O dissipador de calor direciona o calor para os heatpipes que o transportam através de um conjunto de aletas que preenche a grande placa de 2.9 ranhuras. Aumentar o tamanho do dissipador comparativamente à última geração proporciona mais amplitude térmica para contabilizar o novo chipset de alta performance."],
-    "descricao_5": [],
-    "descricao_6": []
-},
-"img_path":"/static/produtos/Asus GeForce RTX 3080 ROG Strix OC LHR 12GD6X/Asus GeForce RTX 3080 ROG Strix OC LHR 12GD6X.png"
+{
+   "especificacoes": {
+      "sistema_operativo": [
+         "Processador Grafico",
+         "GeForce RTX 3080"
+      ],
+      "Processador": [
+         "BUS",
+         "PCI Express 4.0 16x"
+      ],
+      "memoria_ram": [
+         "Memoria de Video",
+         "12GB GDDR6X"
+      ],
+      "armazenamento": [
+         "Velocidade",
+         "OC mode: 1890 MHz (Boost Clock)",
+         "Gaming mode: 1860 MHz (Boost Clock)"
+      ],
+      "audio": [
+         "CUDA cores",
+         "8960"
+      ],
+      "ecra": [
+         "Velocidade de Memoria",
+         "19 Gbps"
+      ],
+      "grafica": [
+         "Interface de Memoria",
+         "384-bit"
+      ],
+      "cor": [
+         "Suporte para multi-monitor",
+         "Ate 4 monitores"
+      ],
+      "interface": [
+         "Interface",
+         "3 x DisplayPort 1.4a",
+         "2 x HDMI 2.1"
+      ]
+   },
+   "descricoes": {
+      "descricao_1": [
+         "PREPARA-TE PARA VOAR",
+         "De cima abaixo, a ROG Strix GeForce RTX\u2122 3080 foi radicalmente melhorada para acomodar os novos e impressionantes chips Ampere da NVIDIA e para fornecer a pr\u00f3xima onda de inova\u00e7\u00e3o de performance gaming ao mercado.\n Um novo design e mais metal envolvem um conjunto de ventoinhas Axial-tech. A disposi\u00e7\u00e3o uniforme das ventoinhas da \u00faltima gera\u00e7\u00e3o foi usurpada por um novo esquema de rota\u00e7\u00e3o e fun\u00e7\u00f5es especializadas para as ventoinhas centrais e auxiliares. Por baixo das p\u00e1s, um dissipador maior e mais impressionante est\u00e1 pronto para as cargas t\u00e9rmicas mais exigentes.\n A PCB tem alguns novos truques na manga, e at\u00e9 a placa traseira recebeu algumas altera\u00e7\u00f5es de para melhorarem a performance. Tens estado \u00e0 espera das \u00faltimas e maiores novidades no design do GPU - e s\u00e3o estas!"
+      ],
+      "descricao_2": [
+         "MELHORAMENTOS AXIAL-TECH",
+         "O nosso design de ventoinhas Axial-tech foi otimizado com um dissipador novo e maior, com mais aletas e \u00e1rea de superf\u00edcie do que o da \u00faltima gera\u00e7\u00e3o. A contagem de p\u00e1s foi aumentada nas tr\u00eas ventoinhas, com 13 na ventoinha central e 11 nas ventoinhas auxiliares.\nO anel de barreira nas ventoinhas laterais foi encolhido para permitir uma maior entrada de ar lateral e para proporcionar um melhor fluxo de ar atrav\u00e9s do conjunto de arrefecimento. As p\u00e1s adicionais da ventoinha central e o anel com altura total proporcionam uma press\u00e3o est\u00e1tica mais forte para disparar ar diretamente para o dissipador do GPU."
+      ],
+      "descricao_3": [
+         "MAXCONTACT",
+         "O encaminhamento do calor para o dissipador, que permite beneficiar do novo design das ventoinhas requer uma aten\u00e7\u00e3o especial. Usamos um processo de fabrico que pole a superf\u00edcie do dissipador de calor para melhorar a suavidade ao n\u00edvel microsc\u00f3pico. Sendo extra plano permite um melhor contacto com o molde para uma melhor transfer\u00eancia t\u00e9rmica."
+      ],
+      "descricao_4": [
+         "DESIGN DE 2.9 RANHURAS",
+         "O dissipador de calor direciona o calor para os heatpipes que o transportam atrav\u00e9s de um conjunto de aletas que preenche a grande placa de 2.9 ranhuras. Aumentar o tamanho do dissipador comparativamente \u00e0 \u00faltima gera\u00e7\u00e3o proporciona mais amplitude t\u00e9rmica para contabilizar o novo chipset de alta performance."
+      ],
+      "descricao_5": [],
+      "descricao_6": []
+   },
+   "img_path": "/static/produtos/Asus GeForce RTX 3080 ROG Strix OC LHR 12GD6X/Asus GeForce RTX 3080 ROG Strix OC LHR 12GD6X.png",
+   "desconto": "141.84"
 }

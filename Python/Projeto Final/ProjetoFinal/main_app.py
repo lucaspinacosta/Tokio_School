@@ -131,7 +131,6 @@ def fatura(lista_compras):
         print(e)
     wb = Workbook()
     wb['Sheet'].title = 'Fatura'
-    print(wb.sheetnames)
     ws = wb.active
     fontStyle = Font(size="9")
     remetente_fatura = session['username'] + \
@@ -144,7 +143,6 @@ def fatura(lista_compras):
     ws['G7'] = 'IVA'
     ws.append(["", "", "", "", "", ""])
     for item in lista_compras:
-        print(item)
         ws.append(['','', item['name'], item['quantidade'], "{:.2f}€".format(
             item['preco']), "{:.2f}€".format(item['total']), str(item['iva'])+'%'])
     ws.append(['',"", "", "", "", ""])
@@ -323,7 +321,6 @@ def editar_prod(code_edit):
             db.session.commit()
                
             modificar_produro = True
-            print('novo nome, preco e preco do fornecedor')
         elif novo_nome != '' and novo_preco != '' and novo_preco_fornecedor == '':
             parametros = (novo_nome, novo_preco,
                           old_preco_fornecedor, code_edit)
@@ -333,7 +330,6 @@ def editar_prod(code_edit):
             cursor.execute(update_path,(code_edit,))
             db.session.commit()
             modificar_produro = True
-            print('novo nome e preco')
         elif novo_nome != '' and novo_preco == '' and novo_preco_fornecedor != '':
             parametros = (novo_nome, old_preco,
                           novo_preco_fornecedor, code_edit)
@@ -343,12 +339,10 @@ def editar_prod(code_edit):
             cursor.execute(update_path,(code_edit,))
             db.session.commit()
             modificar_produro = True
-            print('novo nome e preco fornecedor')
         elif novo_nome == '' and novo_preco != '' and old_preco_fornecedor != '':
             parametros = (old_nome, novo_preco,
                           novo_preco_fornecedor, code_edit)
             modificar_produro = True
-            print('Novo preco e preco fornecedor')
         elif novo_nome != '' and novo_preco == '' and old_preco_fornecedor == '':
             parametros = (novo_nome, old_preco,
                           old_preco_fornecedor, code_edit)
@@ -358,17 +352,14 @@ def editar_prod(code_edit):
             cursor.execute(update_path,(code_edit,))
             db.session.commit()
             modificar_produro = True
-            print('Novo nome')
         elif novo_nome == '' and novo_preco == '' and old_preco_fornecedor != '':
             parametros = (old_nome, old_preco,
                           novo_preco_fornecedor, code_edit)
             modificar_produro = True
-            print('Novo preco fornecedor')
         elif novo_nome == '' and novo_preco != '' and old_preco_fornecedor == '':
             parametros = (old_nome, novo_preco,
                           old_preco_fornecedor, code_edit)
             modificar_produro = True
-            print('Novo preco')
         else:
             print('Nenhuma alteracao')
             modificar_produro = False
@@ -390,7 +381,7 @@ def editar_prod(code_edit):
 
         #Atualiza as Especificacoes do Produto
         def write_espec_json(new_descricao_1,new_descricao_2,new_descricao_3,new_descricao_4,new_descricao_5,new_descricao_6, filename=produto_em_edicao[10]):
-            print(produto_em_edicao[10])
+            
             with open(filename,'r+',encoding='utf8') as file:
                 file_data = json.load(file)
                 if new_descricao_1[0] != "" and new_descricao_1[1] !="":        #Atualiza a seccao 1 das especificacoes
@@ -486,7 +477,6 @@ def editar_prod(code_edit):
         
         #Guarda Alteracoes
         if modificar_produro == True:
-            print('alterado')
             cursor.execute(query, parametros)
             db.session.commit()
             db.session.close()
@@ -561,7 +551,6 @@ def home():
         detalhes = json.load(get_especificacoes)
         novos_detalhes = produto+(detalhes['img_path'],)
         apresentacao.append(novos_detalhes)
-        print(novos_detalhes)
     if request.method == 'GET':
         try:
             if session['log_in'] == True:
@@ -620,10 +609,10 @@ def login():
             if user_loggin == user[1] and user_pswd == user[3]:
                 session['log_in_admin'] = True
                 session['pass_word_admin'] = True
+                session['user_id'] = user[0]
                 session['user'] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
-                print(session['username'])
                 return redirect(url_for('.todos_produtos',  log_in_admin=session['log_in_admin'], user=session['username']))
 
         # Verificar fornecedor
@@ -631,6 +620,7 @@ def login():
             if user_loggin == user[1] and user_pswd == user[7]:
                 session['log_in_fornecedor'] = True
                 session['pass_word_fornecedor'] = True
+                session['user_id'] = user[0]
                 session['user'] = user_loggin
                 session['password'] = user_pswd
                 session['username'] = user[2]
@@ -642,6 +632,7 @@ def login():
             if user_loggin == user[0] and user_pswd == user[3]:
                 session['log_in'] = True
                 session['pass_word'] = True
+                session['user_id'] = user[0]
                 session['user'] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
@@ -659,7 +650,6 @@ def login():
             todos_os_fornecedores = lista_fornecedores()
             todos_os_produto = lista_produtos()
             if session['log_in'] == True and session['pass_word'] == True:
-                print('loggin')
                 session["user"] = user_loggin
                 session["password"] = user_pswd
                 # session['carrinho']
@@ -668,7 +658,6 @@ def login():
         except:
             if 'log_in_admin' in session:
                 if session['log_in_admin'] == True and session['pass_word_admin'] == True:
-                    print('loggin admin')
                     session["user"] = user_loggin
                     session["password"] = user_pswd
                 # session['carrinho']
@@ -677,7 +666,6 @@ def login():
 
             elif 'log_in_fornecedor' in session:
                 if session['log_in_fornecedor'] == True and session['pass_word_fornecedor'] == True:
-                    print('loggin fornecedor')
                     session["user"] = user_loggin
                     session["password"] = user_pswd
 
@@ -730,17 +718,14 @@ def logout():
 def carrinho():
     if request.method == 'GET':
         faturas = show_faturas(session['user'])
-        print(faturas)
 
         return render_template('carrinho.html', faturas=faturas, faturas_len = len(faturas))
 
     if request.method == 'POST':
         faturas = show_faturas(session['user'])
         path = request.form['path']
-        print(path)
         os.startfile(path)
         try:
-            print(session['carrinho'])
             return render_template('carrinho.html', log_in=session['log_in'], user=session['username'], carrinho=session['carrinho'], faturas=faturas, faturas_len = len(faturas))
         except:
             return render_template('carrinho.html', log_in=None, user=None, faturas=faturas, faturas_len = len(faturas))
@@ -773,7 +758,6 @@ def add_product_to_cart():
                         if itemArray['id'] == item['id']:
                             # soma produto que ja se encontra na lista
 
-                            print(itemArray, item['id'])
                             old_quantity = item['quantidade']
                             total_quantidade = old_quantity + \
                                 itemArray['quantidade']
@@ -783,8 +767,6 @@ def add_product_to_cart():
                             preco_total = (itemArray['preco'] * itemArray['quantidade']) + item['preco']
                             item['total'] = preco_total
 
-                            print('\n{}\n'.format(itemArray))
-                            print('soma produto que ja se encontra na lista')
                             break
                         elif itemArray['id'] != item['id']:
                             # This is not a bug, its a feature
@@ -857,7 +839,6 @@ def delete_product(code):
     all_total_preco = session['all_total_preco']
     all_total_quantidade = session['all_total_quantidade']
     session.modified = True
-    print(session['carrinho'])
     for item in session['carrinho']:
         print(type(code))
         item_id = item['id']
@@ -889,22 +870,24 @@ def finalizar_compra():
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
     for item in session['carrinho']:
-        print(item['name'])
         # seleciona o produto na base de dados, atravez do id do produto dentro de session['carrinho']
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
         row = cursor.fetchone()
         fornecedor_id = row[9]
+        get_desconto = open(row[10], encoding="utf8")
+        desconto = json.load(get_desconto)
+        
         # seleciona o fornecedor na base de dados, atraves dos dados obtidos pelo produto
         cursor.execute(
             "SELECT * FROM Fornecedores WHERE id_fornecedor={}".format(fornecedor_id))
         fornecedor_dados = cursor.fetchone()
         # despesa obtida pelo admin com a venda de produtos do fornecedor 'X'
         des_fornecedores = float(
-            fornecedor_dados[3]) + item['quantidade']*row[4]
+            fornecedor_dados[3]) + item['quantidade']*(row[4]-float(desconto['desconto']))
         # lucro obtido pelo admin com vendas de produtos do fornecedor 'X'
         lucro_fornecedor = float(
-            fornecedor_dados[4])+(item['quantidade']*row[5]) - (item['quantidade']*row[4])
+            fornecedor_dados[4])+item['quantidade']*row[5] - (item['quantidade']*(row[4]-float(desconto['desconto'])))
 
         # Atualiza as despesas de fornecedor ao somar, quantidade de produto vendido ao valor que cada um custou ao fornecedor
         cursor.execute("UPDATE Fornecedores SET desp_fornecedor={:.2f}, lucro_fornecedor={:.2f} WHERE id_fornecedor={} ".format(
@@ -913,7 +896,6 @@ def finalizar_compra():
         db.session.commit()
 
     for item in session['carrinho']:
-        print('item id:', item['id'])
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
         row = cursor.fetchone()
@@ -944,11 +926,11 @@ def todos_produtos():
         produto_select = cursor.fetchone()
         get_especificacoes = open(produto_select[10], encoding="utf8")
         detalhes = json.load(get_especificacoes)
-        novos_detalhes = produto+(detalhes['img_path'],)
-        apresentacao.append(novos_detalhes)
-        print(novos_detalhes)
+        descontos_ls= produto+(detalhes['img_path'],)+(float(detalhes['desconto']),)
+        apresentacao.append(descontos_ls)
 
     if request.method == 'GET':
+        
         if 'log_in' in session:
             if session['log_in'] == True:
                 return render_template('lista_produtos.html', todos_os_produtos=apresentacao, img_prod=detalhes['img_path'], log_in=session['log_in'],
@@ -966,6 +948,40 @@ def todos_produtos():
             return render_template('lista_produtos.html', todos_os_produtos=apresentacao, img_prod=detalhes['img_path'], log_in_admin=False, log_in=False,
                                    log_in_fornecedor=False, user=None)
 
+
+
+    if session['log_in_fornecedor']== True and request.method=="POST":
+        con = sqlite3.connect('database/dados_informacoes2.db')
+        cursor = con.cursor()
+        id_fornecedor = int(session['user_id'])
+        submit_descontos = request.form['submit_descontos']
+        id_produto =request.form['desconto_produto']
+
+        cursor.execute("UPDATE Fornecedores SET desconto_fornecedor={} WHERE id_fornecedor={}".format(submit_descontos, id_fornecedor))
+        con.commit()
+        
+        cursor.execute("SELECT preco_fornecedor, nome_produto, especificacoes FROM Produtos WHERE numero_serie = {}".format(id_produto))
+        lista_produtos_money = cursor.fetchone()
+        print(lista_produtos_money)
+        json_dirt = lista_produtos_money[2]
+        
+        produto_com_desconto = "{:.2f}".format(lista_produtos_money[0]* int(submit_descontos) /100)
+        print(produto_com_desconto)
+
+        with open(json_dirt, "r+",encoding='utf8') as file:
+            filedata = json.load(file)
+            filedata['desconto'] = produto_com_desconto
+            file.seek(0)
+            json.dump(filedata, file,indent=3)
+        cursor.close()
+        return redirect(url_for('.todos_produtos'))
+    
+    elif session['log_in'] ==True and request.method=="POST":
+        return redirect(url_for('.todos_produtos'))
+    
+    elif session['log_in_admin'] ==True and request.method=="POST":
+        return redirect(url_for('.todos_produtos'))
+    
 
 # Encomenda de produtos ao Fornecedor
 @root.route('/encomendas', methods=['POST'])

@@ -71,24 +71,7 @@
             {% endif%}
         </ul>
         {%if session['log_in_admin']==True%}
-        <div class="navbar navbar-expand-lg navbar-light">
-            <div class="container">
-
-                <!-- Search-->
-                <div class="input-group d-none d-lg-flex flex-nowrap mx-4"><i
-                        class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                    <input class="form-control rounded-start w-100" type="text" placeholder="Search for products">
-                    <select class="form-select flex-shrink-0" style="width: 10.5rem;">
-                        <option>All categories</option>
-                        <option>Computers</option>
-                        <option>Componentes</option>
-                        <option>TV, Video, Audio</option>
-                        <option>Video Games</option>
-                        <option>Data Storage</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+        
         <p></p>
         <div class="container">
             <a href="/">
@@ -97,7 +80,7 @@
                 </p>
             </a>
         </div>
-        
+
         <div class="card col-sm-8 offset-2 my-auto">
             <form type="button" action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="post">
                 <nav class="row container-fluid row-cols-2">
@@ -127,95 +110,101 @@
                         <h6>{{'%.2f' % old_preco_fornecedor }}€</h6>
                         <input type="number" name="novo_preco_fornecedor" placeholder="Preço do fornecedor" size="8">
                         <p></p>
-                        
+
                     </div>
-                    
+
                     <p></p>
                     <div class="col-sm-12">
-                        <button type="button" class="collapsible sub_titulo ">Caracteristicas</button>
+                        <h2 class="btn_links titulo"> Caracteristicas </h2>
                         <ul>
                             <p>
-                                <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_1'][0]}}<p></p>
-                                    <input type="text" name="editar_tit_descr_1" placeholder="Editar Titulo da Descricao">
+                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_1'][0]}}<p></p>
+                                <input type="text" name="editar_tit_descr_1" placeholder="Editar Titulo da Descricao">
                                 </p>
                             </h5>
                             <p>{{especificacoes['descricoes']['descricao_1'][1]}}</p>
-                            <p><input type="text" name="editar_descr_1" placeholder="Editar Descricao"
-                                style="height:120px; width:600px; "></p>
-                                <p></p>
-                                <p>
-                                    <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_2'][0]}}<p></p>
-                                        <input type="text" name="editar_tit_descr_2" placeholder="Editar Titulo Descricao 2">
-                                    </p></h5>
-                                    <p>{{especificacoes['descricoes']['descricao_2'][1]}}</p>
-                                    <p><input type="text" name="editar_descr_2" placeholder="Editar Descricao"
-                                        style="height:120px; width:600px; "></p></p>
-                                        <p>
-                                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_3'][0]}}<p></p>
-                                                <input type="text" name="editar_tit_descr_3" placeholder="Editar Titulo Descricao 2">
-                                            </p></h5>
-                                            <p>{{especificacoes['descricoes']['descricao_3'][1]}}</p>
-                                            <input type="text" name="editar_descr_3" placeholder="Editar Descricao"
-                                            style="height:120px; width:600px; ">
-                                            <p></p>
-                                            <p>
-                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_4'][0]}}<p></p>
-                                <input type="text" name="editar_tit_descr_4" placeholder="Editar Titulo Descricao 2">
-                            </p></h5>
-                            <p>{{especificacoes['descricoes']['descricao_4'][1]}}</p>
-                            <input type="text" name="editar_descr_4" placeholder="Editar Descricao"
-                            style="height:120px; width:600px; ">
+                            <p><textarea name="editar_descr_1" placeholder="Editar Descricao"
+                                    style="height:120px; width:600px; "></textarea></p>
                             <p></p>
                             <p>
-                                <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_5'][0]}}<p></p>
-                                    <input type="text" name="editar_tit_descr_5" placeholder="Editar Titulo Descricao 2">
-                                </p></h5>
-                                <p>{{especificacoes['descricoes']['descricao_5'][1]}}</p>
-                                <input type="text" name="editar_descr_5" placeholder="Editar Descricao"
-                                style="height:120px; width:600px; ">
-                                <p></p>
-                                <p>
-                                    <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_6'][0]}}<p></p>
-                                        <input type="text" name="editar_tit_descr_6" placeholder="Editar Titulo Descricao 2">
-                                    </p></h5>
-                                    <p>{{especificacoes['descricoes']['descricao_6'][1]}}</p>
-                                    <input type="text" name="editar_descr_6" placeholder="Editar Descricao"
-                                    style="height:120px; width:600px; ">
-                                    <p></p>
-                                </ul>
-                                <button type="button" class="collapsible sub_titulo">Especificacoes</button>
-                                <ul>
-                                    <dl class="row">
-                                        <dt class="col-sm-3">
-                                            <p>{{especificacoes['especificacoes']['sistema_operativo'][0]}}</p>
-                                        </dt>
-                                        <dd class="col-sm-9">
-                                            <p>{{especificacoes['especificacoes']['sistema_operativo'][1]}}</p>
-                                        </dd>
-                                        
-                                        <dt class="col-sm-3">{{especificacoes['especificacoes']['Processador'][0]}}</dt>
-                                        <dd class="col-sm-9">
-                                            <p>{{especificacoes['especificacoes']['Processador'][1]}}</p>
-                                        </dd>
-                                        <dt class="col-sm-3">
-                                            <p>{{especificacoes['especificacoes']["memoria_ram"][0]}}</p>
-                                        </dt>
-                                        <dd class="col-sm-9">{{especificacoes['especificacoes']["memoria_ram"][1]}}
-                                        </dd>
-                                        
-                                        <dt class="col-sm-3">{{especificacoes['especificacoes']["armazenamento"][0]}}</dt>
-                                        <dd class="col-sm-8">{{especificacoes['especificacoes']["armazenamento"][1]}}
-                                            <p>{{especificacoes['especificacoes']["armazenamento"][2]}}</p>
-                                            <p>{{especificacoes['especificacoes']["armazenamento"][3]}}</p>
-                                        </dd>
-                                        
-                                        
-                                        <dt class="col-sm-3">
-                                            <p>{{especificacoes['especificacoes']["audio"][0]}}</p>
-                                        </dt>
-                                        <dd class="col-sm-8">{{especificacoes['especificacoes']["audio"][1]}}</dd>
-                                        
-                                        <dt class="col-sm-3">{{especificacoes['especificacoes']["ecra"][0]}}</dt>
+                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_2'][0]}}<p></p>
+                                <input type="text" name="editar_tit_descr_2" placeholder="Editar Titulo Descricao 2">
+                                </p>
+                            </h5>
+                            <p>{{especificacoes['descricoes']['descricao_2'][1]}}</p>
+                            <p><textarea name="editar_descr_2" placeholder="Editar Descricao"
+                                    style="height:120px; width:600px; "></textarea></p>
+                            </p>
+                            <p>
+                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_3'][0]}}<p></p>
+                                <input type="text" name="editar_tit_descr_3" placeholder="Editar Titulo Descricao 2">
+                                </p>
+                            </h5>
+                            <p>{{especificacoes['descricoes']['descricao_3'][1]}}</p>
+                            <textarea type="text" name="editar_descr_3" placeholder="Editar Descricao"
+                                style="height:120px; width:600px; "></textarea>
+                            <p></p>
+                            <p>
+                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_4'][0]}}<p></p>
+                                <input type="text" name="editar_tit_descr_4" placeholder="Editar Titulo Descricao 2">
+                                </p>
+                            </h5>
+                            <p>{{especificacoes['descricoes']['descricao_4'][1]}}</p>
+                            <textarea name="editar_descr_4" placeholder="Editar Descricao"
+                                style="height:120px; width:600px; "></textarea>
+                            <p></p>
+                            <p>
+                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_5'][0]}}<p></p>
+                                <input type="text" name="editar_tit_descr_5" placeholder="Editar Titulo Descricao 2">
+                                </p>
+                            </h5>
+                            <p>{{especificacoes['descricoes']['descricao_5'][1]}}</p>
+                            <textarea type="text" name="editar_descr_5" placeholder="Editar Descricao"
+                                style="height:120px; width:600px; "></textarea>
+                            <p></p>
+                            <p>
+                            <h5 class="aligncenter">{{especificacoes['descricoes']['descricao_6'][0]}}<p></p>
+                                <input type="text" name="editar_tit_descr_6" placeholder="Editar Titulo Descricao 2">
+                                </p>
+                            </h5>
+                            <p>{{especificacoes['descricoes']['descricao_6'][1]}}</p>
+                            <textarea type="text" name="editar_descr_6" placeholder="Editar Descricao"
+                                style="height:120px; width:600px; "></textarea>
+                            <p></p>
+                        </ul>
+                        <h2 class="btn_links titulo"> Especificacoes </h2>
+                        <ul>
+                            <dl class="row">
+                                <dt class="col-sm-3">
+                                    <p>{{especificacoes['especificacoes']['sistema_operativo'][0]}}</p>
+                                </dt>
+                                <dd class="col-sm-9">
+                                    <p>{{especificacoes['especificacoes']['sistema_operativo'][1]}}</p>
+                                </dd>
+
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']['Processador'][0]}}</dt>
+                                <dd class="col-sm-9">
+                                    <p>{{especificacoes['especificacoes']['Processador'][1]}}</p>
+                                </dd>
+                                <dt class="col-sm-3">
+                                    <p>{{especificacoes['especificacoes']["memoria_ram"][0]}}</p>
+                                </dt>
+                                <dd class="col-sm-9">{{especificacoes['especificacoes']["memoria_ram"][1]}}
+                                </dd>
+
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["armazenamento"][0]}}</dt>
+                                <dd class="col-sm-8">{{especificacoes['especificacoes']["armazenamento"][1]}}
+                                    <p>{{especificacoes['especificacoes']["armazenamento"][2]}}</p>
+                                    <p>{{especificacoes['especificacoes']["armazenamento"][3]}}</p>
+                                </dd>
+
+
+                                <dt class="col-sm-3">
+                                    <p>{{especificacoes['especificacoes']["audio"][0]}}</p>
+                                </dt>
+                                <dd class="col-sm-8">{{especificacoes['especificacoes']["audio"][1]}}</dd>
+
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["ecra"][0]}}</dt>
                                 <dd class="col-sm-8">{{especificacoes['especificacoes']["ecra"][1]}}</dd>
                                 <p></p>
                                 <dt class="col-sm-3">{{especificacoes['especificacoes']["grafica"][0]}}</dt>
@@ -240,14 +229,16 @@
                                     <br></br>
                                     {%endif%}
                                 </dd>
-                                <button type="submit" class="btn btn-sm btn-outline-secondary titulo" onclick="alert('Produto editado com sucesso')" style="background-color:rgb(33, 147, 176) ;">Confirmar</button>
+                                <button type="submit" class="btn btn-sm btn-outline-secondary titulo"
+                                    onclick="alert('Produto editado com sucesso')"
+                                    style="background-color:rgb(33, 147, 176) ;">Confirmar</button>
                             </dl>
                         </ul>
                     </div>
                 </nav>
             </form>
         </div>
-        
+
     </main>
 </body>
 

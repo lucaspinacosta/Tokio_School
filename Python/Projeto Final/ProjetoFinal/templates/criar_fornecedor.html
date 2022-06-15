@@ -96,11 +96,12 @@
                             <input type="String" name="nome_fornecedor_reg" placeholder="Nome Fornecedor"
                                 class="form-control">
                             <input type="Integer" name="numero_If" placeholder="NIF do Fornecedor" class="form-control">
-                            <input type="tel" name="contacto_fornecedor" pattern="[0-9]{9}" placeholder="Contacto Telefonico"
-                                class="form-control">
+                            <input type="tel" name="contacto_fornecedor" pattern="[0-9]{9}"
+                                placeholder="Contacto Telefonico" class="form-control">
                         </div>
                         <p></p>
-                        <button type="submit" class="btn btn_links btn-block" onclick="alert('Fornecedor criado com sucesso')">Confirmar
+                        <button type="submit" class="btn btn_links btn-block"
+                            onclick="alert('Fornecedor criado com sucesso')">Confirmar
                             Registo
                         </button>
                     </form>
@@ -111,6 +112,8 @@
         </nav>
         <p></p>
         {%if session['log_in_admin'] == True%}
+
+        <br><br>
         <div class="col-12 my-auto container" style="margin-left: auto" methods="get">
             <nav class="row col-sm-10 offset-1">
                 <div class="aligncenter">
@@ -139,7 +142,7 @@
                                     {% set contacto = fornecedor[5] %}
                                     {% set numero_IF = fornecedor[6] %}
                                     {% set lucro_fornecedor = fornecedor[4]%}
-                                    {% set desconto = fornecedor[-1]%}
+                                    {% set desconto = fornecedor[9]%}
 
 
 
@@ -164,6 +167,7 @@
             </nav>
         </div>
         {%endif%}
+        <br><br><br>
 
     </main>
 </body>
