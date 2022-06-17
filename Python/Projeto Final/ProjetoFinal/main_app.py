@@ -176,16 +176,17 @@ def fatura(lista_compras):
     excel_file = diretorio+remetente_fatura+".xlsx" #nome ficheiro excel
     pdf_file = diretorio+remetente_fatura+".pdf"    #nome ficheiro pdf
 
-    excel_path = str(pathlib.Path.cwd() / excel_file) #path desejado para excel
+    excel_path = pathlib.Path.cwd() / excel_file #path desejado para excel
     pdf_path = str(pathlib.Path.cwd() / pdf_file)     #path desejado para psd
     excel = win32com.client.Dispatch(
         "Excel.Application", pythoncom.CoInitialize())
     excel.Visible = False
     try:
-        wb = excel.Workbooks.Open(excel_path)
+        wb = excel.Workbooks.Open(str(excel_path))
         ws = wb.Worksheets[0]
         wb.SaveAs(pdf_path, FileFormat=57)
-        wb.SaveAs()
+        wb.close()
+        excel_path.unlink()
         
     except Exception as e:
         print('Fail')
@@ -194,7 +195,7 @@ def fatura(lista_compras):
         print('Sucess')
     finally:
         excel.Quit()
-
+    
     
 
 # Apresentacao das faturas
@@ -955,20 +956,22 @@ def todos_produtos():
         con = sqlite3.connect('database/dados_informacoes2.db')
         cursor = con.cursor()
         id_fornecedor = int(session['user_id'])
-        submit_descontos = request.form['submit_descontos']
-        id_produto =request.form['desconto_produto']
-
+        submit_descontos = request.form['submit_descontos'] #request da percentagem de desconto
+        id_produto =request.form['desconto_produto'] #hidden request para pesquisar produto na database
+        #atualiza o preco a qual o administrador ira pagar ao fornecedor
         cursor.execute("UPDATE Fornecedores SET desconto_fornecedor={} WHERE id_fornecedor={}".format(submit_descontos, id_fornecedor))
         con.commit()
         
         cursor.execute("SELECT preco_fornecedor, nome_produto, especificacoes FROM Produtos WHERE numero_serie = {}".format(id_produto))
         lista_produtos_money = cursor.fetchone()
-        print(lista_produtos_money)
         json_dirt = lista_produtos_money[2]
         
+        #calcula a percentagem de desconto
         produto_com_desconto = "{:.2f}".format(lista_produtos_money[0]* int(submit_descontos) /100)
         print(produto_com_desconto)
 
+        # guarda a percentagem do desconto no ficheiro json do produto
+        # mantendo assim o valor inicial inalteravel e disponivel para futuros descontos
         with open(json_dirt, "r+",encoding='utf8') as file:
             filedata = json.load(file)
             filedata['desconto'] = produto_com_desconto
