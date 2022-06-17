@@ -41,8 +41,6 @@ class Produtos(db.Model):
     db.session.commit()
 
 # DataBase Clientes
-
-
 class Clientes(db.Model):
     __tablename__ = 'Usuarios'
     email = db.Column(db.String(128))
@@ -121,47 +119,51 @@ def lista_produtos():
 
 
 def fatura(lista_compras):
-    # futuramente adicionar forma de adicionar cada nova fatura ao prorio excel do usuario
     diretorio = "database/faturas_clientes/"+session['user']+"/"
     path = os.path.join(diretorio)
-
+    #Criamos uma pasta com o nome no utilizador
     try:
         os.mkdir(path)
+        #caso a pasta ja exista, printamos o erro, evitando erro no programa
     except Exception as e:
         print(e)
+    #Criamos uma planilha no excel para armazenas os dados da compra
     wb = Workbook()
     wb['Sheet'].title = 'Fatura'
     ws = wb.active
     fontStyle = Font(size="9")
     remetente_fatura = session['username'] + \
         '_'+str(random.randint(0, 999999999))
-    
+    #nome de colunas para organizar os dados
     ws['C7'] = 'Nome Produto'
     ws['D7'] = 'Quantidade'
     ws['E7'] = 'Valor Unidade'
     ws['F7'] = 'Valor Total'
     ws['G7'] = 'IVA'
     ws.append(["", "", "", "", "", ""])
+    #para cada item no carrinho, cria-se uma linha com as relativas informacoes
     for item in lista_compras:
         ws.append(['','', item['name'], item['quantidade'], "{:.2f}€".format(
             item['preco']), "{:.2f}€".format(item['total']), str(item['iva'])+'%'])
     ws.append(['',"", "", "", "", ""])
+    #cria-se uma linha no final da sheet com o total da fatura
     ws.append(['','', 'Total', session['all_total_quantidade'], '', "{:.2f}€".format(
         session['all_total_preco']), ""])
-    # incluir datetime na fatura!!
+
     for col in ws.columns:
         max_length = 0
-        column = col[0].column_letter  # Get the column name
+        column = col[0].column_letter  # obtem o nome da column
         for cell in col:
             cell.font = fontStyle
-            try:  # Necessary to avoid error on empty cells
+            try:  # Necessario para evitar erros em empty cells
                 if len(str(cell.value)) > max_length:
                     max_length = len(str(cell.value))
             except:
                 pass
-        adjusted_width = (max_length)*0.80
+        adjusted_width = (max_length)*0.80 #Ajusta o tamanho da cell
         ws.column_dimensions[column].width = adjusted_width
     
+    #Adiciona a data a fatura, para evitar em caso de erro no website ou se modifique a data da fatura
     ws['A1'] = 'Numero da Fatura'
     ws['A2'] = remetente_fatura
     ws['H1'] = time.strftime('%X')
@@ -170,12 +172,12 @@ def fatura(lista_compras):
 
     wb.save(diretorio+remetente_fatura+'.xlsx')
     wb.close()
+    
+    excel_file = diretorio+remetente_fatura+".xlsx" #nome ficheiro excel
+    pdf_file = diretorio+remetente_fatura+".pdf"    #nome ficheiro pdf
 
-    excel_file = diretorio+remetente_fatura+".xlsx"
-    pdf_file = diretorio+remetente_fatura+".pdf"
-
-    excel_path = str(pathlib.Path.cwd() / excel_file)
-    pdf_path = str(pathlib.Path.cwd() / pdf_file)
+    excel_path = str(pathlib.Path.cwd() / excel_file) #path desejado para excel
+    pdf_path = str(pathlib.Path.cwd() / pdf_file)     #path desejado para psd
     excel = win32com.client.Dispatch(
         "Excel.Application", pythoncom.CoInitialize())
     excel.Visible = False
@@ -211,14 +213,10 @@ def show_faturas(user_email):
 
 
 # criacao de Produto
-
-
 @root.route('/admin/criar-produto', methods=['GET', 'POST'])
 def criar_produto():
     if session['log_in_admin'] == True and request.method == 'POST':
-
-        # É preciso separar as descriçoes do request e depois aplicar a database \\reminder\\
-        # Alterar a forma de pedir o fornecedor do produto
+        
         especificacoes = {"especificacoes": {'sistema_operativo': [request.form['sistema_titulo'], request.form['sistema_informacao']],
                                              'memoria_ram': [request.form['titulo_ram'], request.form['informacao_ram']],
                                              'Processador': [request.form['titulo_processador'], request.form['informacao_processador']],
@@ -380,35 +378,45 @@ def editar_prod(code_edit):
         descricao_6 = [request.form['editar_tit_descr_6'],request.form['editar_descr_6']]
 
         #Atualiza as Especificacoes do Produto
-        def write_espec_json(new_descricao_1,new_descricao_2,new_descricao_3,new_descricao_4,new_descricao_5,new_descricao_6, filename=produto_em_edicao[10]):
+        def write_espec_json(new_descricao_1,new_descricao_2,new_descricao_3,new_descricao_4,
+        new_descricao_5,new_descricao_6, filename=produto_em_edicao[10]):
             
             with open(filename,'r+',encoding='utf8') as file:
                 file_data = json.load(file)
-                if new_descricao_1[0] != "" and new_descricao_1[1] !="":        #Atualiza a seccao 1 das especificacoes
+                #Atualiza a seccao 1 das especificacoes
+                if new_descricao_1[0] != "" and new_descricao_1[1] !="":        
                     file_data['descricoes']['descricao_1'] = new_descricao_1
                     file.seek(0)
-                elif new_descricao_1[0] == "" and new_descricao_1[1] != "":     #Atualiza apenas o texto da especificacao 1
+                #Atualiza apenas o texto da especificacao 1
+                elif new_descricao_1[0] == "" and new_descricao_1[1] != "":     
                     file_data['descricoes']['descricao_1'] = [old_descr_1[0],new_descricao_1[1]]
                     file.seek(0)
-                elif new_descricao_1[0] != "" and new_descricao_1[1] == "":     #Atualiza apenas o titulo da Especificacao 1
+                #Atualiza apenas o titulo da Especificacao 1
+                elif new_descricao_1[0] != "" and new_descricao_1[1] == "":     
                     file_data['descricoes']['descricao_1'] = [new_descricao_1[0],old_descr_1[1]]
                     file.seek(0)
-                elif new_descricao_1[0] == "" and new_descricao_1[1] == "":     #Mantem os dados antigos da Especificacao 1
+                #Mantem os dados antigos da Especificacao 1
+                elif new_descricao_1[0] == "" and new_descricao_1[1] == "":     
                     file_data['descricoes']['descricao_1'] = old_descr_1
                     file.seek(0)
-                if new_descricao_2[0] != "" and new_descricao_2[1] !="":        #Atualiza a seccao 2 das especificacoes
+                #Atualiza a seccao 2 das especificacoes
+                if new_descricao_2[0] != "" and new_descricao_2[1] !="":        
                     file_data['descricoes']['descricao_2'] = new_descricao_2
                     file.seek(0)
-                elif new_descricao_2[0] == "" and new_descricao_2[1] != "":     #Atualiza apenas o texto da especificacao 2
+                #Atualiza apenas o texto da especificacao 2
+                elif new_descricao_2[0] == "" and new_descricao_2[1] != "":     
                     file_data['descricoes']['descricao_2'] = [old_descr_2[0],new_descricao_2[1]]
                     file.seek(0)
-                elif new_descricao_2[0] != "" and new_descricao_2[1] == "":     #Atualiza apenas o titulo da Especificacao 2
+                #Atualiza apenas o titulo da Especificacao 2
+                elif new_descricao_2[0] != "" and new_descricao_2[1] == "":     
                     file_data['descricoes']['descricao_2'] = [new_descricao_2[0],old_descr_2[1]]
                     file.seek(0)
-                elif new_descricao_2[0] == "" and new_descricao_2[1] == "":     #Mantem os dados antigos da Especificacao 2
+                #Mantem os dados antigos da Especificacao 2
+                elif new_descricao_2[0] == "" and new_descricao_2[1] == "":     
                     file_data['descricoes']['descricao_2'] = old_descr_2
                     file.seek(0)
-                if new_descricao_3[0] != "" and new_descricao_3[1] !="":            #ETC...
+                #ETC...
+                if new_descricao_3[0] != "" and new_descricao_3[1] !="":            
                     file_data['descricoes']['descricao_3'] = new_descricao_3                    
                     file.seek(0)
                 elif new_descricao_3[0] == "" and new_descricao_3[1] != "":
@@ -456,7 +464,8 @@ def editar_prod(code_edit):
                 elif new_descricao_6[0] == "" and new_descricao_6[1] == "":
                     file_data['descricoes']['descricao_6'] = old_descr_6
                     file.seek(0)
-                json.dump(file_data,file,indent=6)                          #Fim das atualizacoes das especificacoes
+                #Fim das atualizacoes das especificacoes
+                json.dump(file_data,file,indent=6)                          
         write_espec_json(descricao_1,descricao_2,descricao_3,descricao_4,descricao_5,descricao_6)
 
         #Atualiza a Imagem do produto
@@ -497,8 +506,10 @@ def editar_prod(code_edit):
         old_preco = produto_em_edicao[5]
         old_preco_fornecedor = produto_em_edicao[4]
         old_img_path = especificacoes['img_path']
-        return render_template('editar_produtos.html', especificacoes=especificacoes, old_nome=old_nome, old_preco=old_preco,
-                               old_img_path=old_img_path, old_preco_fornecedor=old_preco_fornecedor, id_do_produto=produto_em_edicao[0])
+        return render_template('editar_produtos.html', especificacoes=especificacoes,
+                            old_nome=old_nome, old_preco=old_preco,
+                            old_img_path=old_img_path, old_preco_fornecedor=old_preco_fornecedor,
+                            id_do_produto=produto_em_edicao[0])
 
 
 # Listagem de fornecedores
@@ -527,15 +538,13 @@ def criar_fornecedor():
     # so para adicionar um fonecedor
     if request.method =='POST':
         fornecedor = Fornecedor(email_fornecedor = request.form['email_fornecedor'],nome_fornecedor = request.form['nome_fornecedor_reg'],
-                    contacto=request.form['contacto_fornecedor'], numero_IF = request.form['numero_If'], senha_login = request.form['password_fornecedor'],desp_fornecedor = 0,
-                    lucro_fornecedor = 0, desconto_fornecedor = 0)
+                    contacto=request.form['contacto_fornecedor'], numero_IF = request.form['numero_If'], senha_login = request.form['password_fornecedor'],
+                    desp_fornecedor = 0,lucro_fornecedor = 0, desconto_fornecedor = 0)
         db.session.add(fornecedor)
         db.session.commit()
         return redirect(url_for('.todos_produtos'))
 
 # Home Page
-
-
 @root.route('/', methods=['GET', 'POST'])
 def home():
     todos_os_produtos = lista_produtos()
@@ -590,16 +599,8 @@ def login():
         user_loggin = request.form['email_login']
         user_pswd = request.form['password_login']
 
-        # Base de dados User
-        #dados_database = "SELECT * FROM Usuarios"
         verificado_email = db_verificar_email()  # dados_database
-
-        # Base de dados admin
-        #dados_database_admin = "SELECT * FROM Admin"
         verificado_email_admin = db_verificar_email_admin()  # dados_database_admin
-
-        # Base de dados fornecedor
-        #dados_database_fornecedor = "SELECT * FROM Fornecedores"
         verificar_email_fornecedor = db_verificar_fornecedor()  # dados_database_fornecedor
 
         todos_os_produto = lista_produtos()
@@ -613,7 +614,8 @@ def login():
                 session['user'] = user_loggin
                 session["password"] = user_pswd
                 session['username'] = user[2]
-                return redirect(url_for('.todos_produtos',  log_in_admin=session['log_in_admin'], user=session['username']))
+                return redirect(url_for('.todos_produtos',  log_in_admin=session['log_in_admin'],
+                                        user=session['username']))
 
         # Verificar fornecedor
         for user in verificar_email_fornecedor:
@@ -625,7 +627,8 @@ def login():
                 session['password'] = user_pswd
                 session['username'] = user[2]
                 session['id'] = user[0]
-                return redirect(url_for('.todos_produtos',  log_in_fornecedor=session['log_in_fornecedor'], user=session['username']))
+                return redirect(url_for('.todos_produtos',  log_in_fornecedor=session['log_in_fornecedor'],
+                                        user=session['username']))
 
         # Verificar se user e cliente
         for user in verificado_email:
@@ -670,8 +673,8 @@ def login():
                     session["password"] = user_pswd
 
                 # session['carrinho']
-                    return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_forneccedor=session['log_in_fornecedor'], user=session['username'],
-                                            lista_fornecedores=todos_os_fornecedores))
+                    return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_forneccedor=session['log_in_fornecedor'],
+                                            user=session['username'], lista_fornecedores=todos_os_fornecedores))
 
             else:
                 return redirect(url_for('login'))
@@ -680,8 +683,6 @@ def login():
         return render_template('login.html')
 
 # Log Out
-
-
 @root.route("/logout")
 def logout():
 
@@ -726,7 +727,8 @@ def carrinho():
         path = request.form['path']
         os.startfile(path)
         try:
-            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'], carrinho=session['carrinho'], faturas=faturas, faturas_len = len(faturas))
+            return render_template('carrinho.html', log_in=session['log_in'], user=session['username'],
+                                    carrinho=session['carrinho'], faturas=faturas, Dfaturas_len = len(faturas))
         except:
             return render_template('carrinho.html', log_in=None, user=None, faturas=faturas, faturas_len = len(faturas))
 
@@ -877,7 +879,6 @@ def finalizar_compra():
         fornecedor_id = row[9]
         get_desconto = open(row[10], encoding="utf8")
         desconto = json.load(get_desconto)
-        
         # seleciona o fornecedor na base de dados, atraves dos dados obtidos pelo produto
         cursor.execute(
             "SELECT * FROM Fornecedores WHERE id_fornecedor={}".format(fornecedor_id))
@@ -1304,7 +1305,7 @@ def monitor_dell_s2721hgf():
                                    2],
                                descricao_prod=descricao_prod, especificacoes=especificacoes)
 
-
+#Apresenta produtos para venda
 @root.route('/<code_prod>', methods=['GET'])
 def show_room(code_prod):
     con = sqlite3.connect('database/dados_informacoes2.db')
@@ -1315,7 +1316,6 @@ def show_room(code_prod):
     print(produto_select)
     get_especificacoes = open(produto_select[10], encoding="utf8")
     detalhes = json.load(get_especificacoes)
-
     numero_serie = produto_select[0]
     nome_produto = produto_select[1]
     preco_produto = produto_select[5]
@@ -1351,4 +1351,4 @@ def show_room(code_prod):
 if __name__ == "__main__":
     root.run()
     db.create_all()
-    db.session.commit()
+    db.session.commit() 

@@ -114,7 +114,7 @@
         {%if session['log_in_admin'] == True%}
 
         <br><br>
-        <div class="col-12 my-auto container" style="margin-left: auto" methods="get">
+        <div class="col-12 my-auto " style="margin-left: auto" methods="get">
             <nav class="row col-sm-10 offset-1">
                 <div class="aligncenter">
                     <div class="card row">
@@ -131,7 +131,6 @@
                                         <th style="text-align:center;" width="10%">Contacto</th>
                                         <th style="text-align:center;" width="10%">Email</th>
                                         <th style="text-align:center;" width="10%">NIF</th>
-                                        <th style="text-align:center;" width="10%">Descontos</th>
                                     </tr>
 
                                     {%for fornecedor in fornecedores%}
@@ -142,7 +141,6 @@
                                     {% set contacto = fornecedor[5] %}
                                     {% set numero_IF = fornecedor[6] %}
                                     {% set lucro_fornecedor = fornecedor[4]%}
-                                    {% set desconto = fornecedor[9]%}
 
 
 
@@ -156,7 +154,6 @@
                                         <td style="text-align:center;" width="10%">{{ contacto }}</td>
                                         <td style="text-align:center;" width="10%">{{ email_fornecedor }}</td>
                                         <td style="text-align:center;" width="5%">{{ numero_IF }}</td>
-                                        <td style="text-align:center;" width="5%">{{ desconto }}</td>
                                     </tr>
                                 </tbody>{%endfor%}
                             </table>
