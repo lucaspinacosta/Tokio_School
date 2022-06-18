@@ -21,7 +21,6 @@ root.secret_key = "aht278945ht2h49sdfgsdfg5t9h"
 db = SQLAlchemy(root)
 root.config['DEBUG'] = True
 
-
 # DataBase Produtos
 class Produtos(db.Model):
     __tablename__ = "Produtos"
@@ -54,8 +53,6 @@ class Clientes(db.Model):
     db.session.commit()
 
 # DataBase Fornecedor
-
-
 class Fornecedor(db.Model):
     __tablename__ = 'Fornecedores'
     id_fornecedor = db.Column(db.Integer, primary_key=True)
@@ -67,11 +64,8 @@ class Fornecedor(db.Model):
     numero_IF = db.Column(db.Integer)
     senha_login = db.Column(db.String)
     desconto_fornecedor = db.Column(db.Integer)
-
     db.create_all()
     db.session.commit()
-
-
 
 # Verificar Admin
 def db_verificar_email_admin():
@@ -82,7 +76,6 @@ def db_verificar_email_admin():
     con.close()
     return emails
 
-
 # Verificar Usuario
 def db_verificar_email():
     con = sqlite3.connect('database/dados_informacoes2.db')
@@ -92,7 +85,6 @@ def db_verificar_email():
     con.close()
     return emails
 
-
 # Verificar Fornecedor
 def db_verificar_fornecedor():
     con = sqlite3.connect('database/dados_informacoes2.db')
@@ -101,7 +93,6 @@ def db_verificar_fornecedor():
     emails = cursor.fetchall()
     con.close()
     return emails
-
 
 # Lista Produtos
 def lista_produtos():
@@ -132,6 +123,7 @@ def fatura(lista_compras):
     wb['Sheet'].title = 'Fatura'
     ws = wb.active
     fontStyle = Font(size="9")
+    #nome da fatura + random para evitar nomes iguais em faturas
     remetente_fatura = session['username'] + \
         '_'+str(random.randint(0, 999999999))
     #nome de colunas para organizar os dados
@@ -149,10 +141,11 @@ def fatura(lista_compras):
     #cria-se uma linha no final da sheet com o total da fatura
     ws.append(['','', 'Total', session['all_total_quantidade'], '', "{:.2f}€".format(
         session['all_total_preco']), ""])
-
+    #verifica tamanho da colunm
     for col in ws.columns:
         max_length = 0
         column = col[0].column_letter  # obtem o nome da column
+        #verifica tamanho da cell
         for cell in col:
             cell.font = fontStyle
             try:  # Necessario para evitar erros em empty cells
@@ -163,13 +156,13 @@ def fatura(lista_compras):
         adjusted_width = (max_length)*0.80 #Ajusta o tamanho da cell
         ws.column_dimensions[column].width = adjusted_width
     
-    #Adiciona a data a fatura, para evitar em caso de erro no website ou se modifique a data da fatura
+    #Adiciona a data a fatura e numero da fatura
     ws['A1'] = 'Numero da Fatura'
-    ws['A2'] = remetente_fatura
-    ws['H1'] = time.strftime('%X')
+    ws['A2'] = remetente_fatura        
+    ws['H1'] = time.strftime("%H:%M")
     date.today()
-    ws['H2'] = time.strftime('%x')
-
+    ws['H2'] = time.strftime("%d/%m/%y")
+    #salva o ficheiro xlsx
     wb.save(diretorio+remetente_fatura+'.xlsx')
     wb.close()
     
@@ -186,8 +179,6 @@ def fatura(lista_compras):
         ws = wb.Worksheets[0]
         wb.SaveAs(pdf_path, FileFormat=57)
         wb.close()
-        excel_path.unlink()
-        
     except Exception as e:
         print('Fail')
         print(e)
@@ -195,29 +186,32 @@ def fatura(lista_compras):
         print('Sucess')
     finally:
         excel.Quit()
-    
-    
+    # elimina o ficheiro xlsx
+    os.remove(excel_file)
 
 # Apresentacao das faturas
-
 def show_faturas(user_email):
-    #Cria uma lista com os paths das faturas do cliente X 
+    #Cria uma lista com os files das faturas do cliente X 
     source_faturas = "database/faturas_clientes/"+session['user']+"/"
     faturas = []
+    #verifica ficheiros existentes no folder
     for file in glob(source_faturas+"*"+".pdf"):
-        #faturas.append(file)
+        #obtemos a hora de criacao do ficheiro
         tic_c = os.path.getctime(file)
         time_c = time.ctime(tic_c)
+        #lista com nome do ficheiro e a data de criacao  
         faturas.append({"path":file,"data_c":time_c})
-
+        #OBS: Em caso de alteracao do ficheiro ou transferencia entre pastas
+        #ira alterar a data de criacao
     return faturas
 
 
 # criacao de Produto
 @root.route('/admin/criar-produto', methods=['GET', 'POST'])
 def criar_produto():
+    #Verificar se login e administrador ao tentar criar produto
     if session['log_in_admin'] == True and request.method == 'POST':
-        
+        #request para especificacoes
         especificacoes = {"especificacoes": {'sistema_operativo': [request.form['sistema_titulo'], request.form['sistema_informacao']],
                                              'memoria_ram': [request.form['titulo_ram'], request.form['informacao_ram']],
                                              'Processador': [request.form['titulo_processador'], request.form['informacao_processador']],
@@ -229,25 +223,24 @@ def criar_produto():
                                              'interface': [request.form['titulo_interface'], request.form['informacao_interface1'],
                                                            request.form['informacao_interface2'], request.form['informacao_interface3'],
                                                            request.form['informacao_interface4']]}}
+        #obtem a localizacao do produto a ser criado
         diretorio = "static/produtos/"+request.form['nome_produto']
-
         path = os.path.join(diretorio)
         try:
-            os.mkdir(path)
+            os.mkdir(path)      #tenta criar o folder do produto caso nao exista
         except Exception as e:
-            print(e)
+            print(e)            #Ira informar de um erro caso o folder ja exista
 
-        # Adicionar forma de criar pasta caso ainda nao exista
         with open("static/produtos/"+request.form['nome_produto']+"/espec_produtos.json", "w", encoding='utf-8') as outfile:
             json.dump(especificacoes, outfile)
-
+        #requests das descricoes do produto
         descricoes_prod = {"descricao_1": [request.form['arquitetura_titulo'], request.form['arquitetura_descricao']],
                            "descricao_2": [request.form['aceleracao_titulo'], request.form['aceleracao_descricao']],
                            "descricao_3": [request.form['extra_titulo'], request.form['extra_descricao']],
                            "descricao_4": [request.form['extra2_titulo'], request.form['extra2_descricao']],
                            "descricao_5": [request.form['extra3_titulo'], request.form['extra3_descricao']],
                            "descricao_6": [request.form['extra4_titulo'], request.form['extra4_descricao']]}
-
+        #adiciona novos dados ao ficheiro json
         def write_json(new_descricao, new_img_path, filename="static/produtos/"+request.form['nome_produto']+"/espec_produtos.json"):
             with open(filename, 'r+') as file:
                 file_data = json.load(file)
@@ -256,15 +249,14 @@ def criar_produto():
                 file.seek(0)
                 json.dump(file_data, file, indent=6)
         write_json(descricoes_prod, request.form['myfile'])
-
+        #acesso a database
         con = sqlite3.connect('database/dados_informacoes2.db')
         cursor = con.cursor()
+        #obtem o id do fornecedor a qual o produto pertence
         cursor.execute("SELECT id_fornecedor FROM Fornecedores WHERE nome_fornecedor = ?", (request.form['nome_fornecedor'],))
         id_fornecedor = cursor.fetchone()
         con.close()
-
-
-        # apagar  as colunas descricoes, url request e img request da database
+        #adiciona as informacoes do produto a database
         produto = Produtos(nome_produto=request.form['nome_produto'], em_armazem=0, vendidos=0,
                            preco_fornecedor=request.form['preco_fornecedor'], valor_venda=request.form['valor_venda'],
                            prateleira=request.form['Prateleira'], fornecedor=request.form['nome_fornecedor'],
@@ -274,19 +266,19 @@ def criar_produto():
         db.session.add(produto)
         db.session.commit()
         return redirect(url_for('.criar_produto'))
-
+    
     elif session['log_in_admin'] == True and request.method == 'GET':
         fornecedor = lista_fornecedores()
         return render_template('criar_produtos.html',fornecedores = fornecedor)
     else:
+        #caso login seja fornecedor ou cliente sera automatimente redirecionado
+        #para a home page
         return redirect(url_for('.home'))
 
 # Editar produtos
-
-
 @root.route('/admin/editar/<code_edit>', methods=['GET', 'POST'])
 def editar_prod(code_edit):
-
+    #Verificar se login e administrador ao tentar criar produto
     if session['log_in_admin'] == True and request.method == 'POST':
         modificar_produro = False
         query = "UPDATE Produtos SET nome_produto =?, valor_venda=?,preco_fornecedor=? WHERE numero_serie =?"
@@ -294,16 +286,16 @@ def editar_prod(code_edit):
         cursor = con.cursor()
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie=?", (code_edit,))
-        produto_em_edicao = cursor.fetchone()
-        get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
-        especificacoes = json.load(get_especificacoes)
+        produto_em_edicao = cursor.fetchone()  #produto que sera alterado
+        get_especificacoes = open(produto_em_edicao[10], encoding="utf8") #path das especificacoes 
+        especificacoes = json.load(get_especificacoes) #carrega ficheiro json com as espeficacoes
 
-        #Guardamos as informacoes antigas caso nao sejam alteradas poderemos reutiliza-las
+        #Informacoes antigas que caso nao sejam alteradas poderemos reutiliza-las
         old_nome = produto_em_edicao[1]
         old_preco = produto_em_edicao[5]
         old_preco_fornecedor = produto_em_edicao[4]
         old_img_path = especificacoes['img_path']
-        # Terminar a edicao dos produtos
+        # Novas informacoes
         novo_nome = request.form['novo_nome']
         novo_preco = request.form['novo_preco']
         novo_preco_fornecedor = request.form['novo_preco_fornecedor']
@@ -313,16 +305,18 @@ def editar_prod(code_edit):
         if novo_nome != '' and novo_preco != '' and novo_preco_fornecedor != '':
             parametros = (novo_nome, novo_preco,
                           novo_preco_fornecedor, code_edit)
+            #altera o nome do path para o novo nome do produto
             os.rename(os.path.join("static/produtos/",old_nome),
                       os.path.join("static/produtos/",novo_nome))
+            #caso se altere o nome do produto, altera-se o path do produto
             update_path = "UPDATE Produtos SET especificacoes=? where numero_serie=?"
             cursor.execute(update_path,(code_edit,))
             db.session.commit()
-               
             modificar_produro = True
         elif novo_nome != '' and novo_preco != '' and novo_preco_fornecedor == '':
             parametros = (novo_nome, novo_preco,
                           old_preco_fornecedor, code_edit)
+            #altera o nome do path para o novo nome do produto
             os.rename(os.path.join("static/produtos/",old_nome),
                       os.path.join("static/produtos/",novo_nome))
             update_path = "UPDATE Produtos SET especificacoes=? where numero_serie=?"
@@ -381,7 +375,6 @@ def editar_prod(code_edit):
         #Atualiza as Especificacoes do Produto
         def write_espec_json(new_descricao_1,new_descricao_2,new_descricao_3,new_descricao_4,
         new_descricao_5,new_descricao_6, filename=produto_em_edicao[10]):
-            
             with open(filename,'r+',encoding='utf8') as file:
                 file_data = json.load(file)
                 #Atualiza a seccao 1 das especificacoes
@@ -466,9 +459,8 @@ def editar_prod(code_edit):
                     file_data['descricoes']['descricao_6'] = old_descr_6
                     file.seek(0)
                 #Fim das atualizacoes das especificacoes
-                json.dump(file_data,file,indent=6)                          
+                json.dump(file_data,file,indent=6)           #escre as atualizacoes               
         write_espec_json(descricao_1,descricao_2,descricao_3,descricao_4,descricao_5,descricao_6)
-
         #Atualiza a Imagem do produto
         if nova_img_path != '':
             get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
@@ -484,18 +476,18 @@ def editar_prod(code_edit):
             write_json(nova_img_path)
         else:
             pass
-        
         #Guarda Alteracoes
         if modificar_produro == True:
-            cursor.execute(query, parametros)
+            cursor.execute(query, parametros) #Guarda as alteracoes
             db.session.commit()
             db.session.close()
         else:
             pass
-
+        #redireciona o admin para pagina do produto apos a edicao
         return redirect(url_for('.show_room', code_prod=code_edit))
 
     elif session['log_in_admin'] == True and request.method == 'GET':
+        #Apresenta produto em edicao
         con = sqlite3.connect('database/dados_informacoes2.db')
         cursor = con.cursor()
         cursor.execute(
@@ -514,7 +506,6 @@ def editar_prod(code_edit):
 
 
 # Listagem de fornecedores
-
 def lista_fornecedores():
     try:
         con = sqlite3.connect('database/dados_informacoes2.db')
@@ -535,8 +526,6 @@ def criar_fornecedor():
     if request.method == 'GET':
         return render_template('criar_fornecedor.html',fornecedores = fornecedor)
     # adicionar forncedor
-    # experimentar aplicar na pagina de criacao de produto e criar uma propria pagina
-    # so para adicionar um fonecedor
     if request.method =='POST':
         fornecedor = Fornecedor(email_fornecedor = request.form['email_fornecedor'],nome_fornecedor = request.form['nome_fornecedor_reg'],
                     contacto=request.form['contacto_fornecedor'], numero_IF = request.form['numero_If'], senha_login = request.form['password_fornecedor'],
@@ -548,19 +537,19 @@ def criar_fornecedor():
 # Home Page
 @root.route('/', methods=['GET', 'POST'])
 def home():
-    todos_os_produtos = lista_produtos()
+    todos_os_produtos = lista_produtos() #lista com todos os produtos
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
-    apresentacao = []
+    apresentacao = []  #produtos que serao apresentados na home page
     for produto in todos_os_produtos:
-        prod_img_desj = produto[0]
+        prod_img_desj = produto[0]  #imagem do produto
         cursor.execute(
-            "SELECT * FROM Produtos WHERE numero_serie = ? ", (prod_img_desj,))
+            "SELECT * FROM Produtos WHERE numero_serie = ? ", (prod_img_desj,)) #dados do produto
         produto_select = cursor.fetchone()
-        get_especificacoes = open(produto_select[10], encoding="utf8")
-        detalhes = json.load(get_especificacoes)
-        novos_detalhes = produto+(detalhes['img_path'],)
-        apresentacao.append(novos_detalhes)
+        get_especificacoes = open(produto_select[10], encoding="utf8") 
+        detalhes = json.load(get_especificacoes)  #espeficacoes do produto
+        novos_detalhes = produto+(detalhes['img_path'],)  #dados do produto a ser apresentado + path da imagem
+        apresentacao.append(novos_detalhes)         #adiciona a lista de produtos a apresentar
     if request.method == 'GET':
         try:
             if session['log_in'] == True:
@@ -570,8 +559,8 @@ def home():
         except:
             return render_template('index.html', todos_os_produtos=apresentacao, log_in=False, user=None)
     if request.method == 'POST':
+        #redireciona para login ao tentar comprar produto e nao se tenha feito login previamente
         return redirect(url_for('/user-login'))
-
 
 # Pagina de Registro de utilizador
 @root.route('/sign-up', methods=['GET', 'POST'])
@@ -580,12 +569,13 @@ def sign_up():
         return render_template('sign_up.html')
 
     if request.method == 'POST':
+        #obtem dados para o registo de novo cliente
         email = Clientes(email=request.form['email_signup'], password_user=request.form['password_signup'],
                          nome_usuario=request.form['nome_usuario_signup'], morada_user=request.form['morada_usuario_signup'],
                          codigo_postal=request.form[
                              'codigoPostal_usuario_signup'], cidade_destino=request.form['cidade_usuario_signup'],
                          )
-        db.session.add(email)
+        db.session.add(email) #adiciona os dados a database
         db.session.commit()
         return redirect(url_for('login'))
 
@@ -606,7 +596,7 @@ def login():
 
         todos_os_produto = lista_produtos()
 
-        # Verificar se user e admin
+        # Verificar se email in database Admin
         for user in verificado_email_admin:
             if user_loggin == user[1] and user_pswd == user[3]:
                 session['log_in_admin'] = True
@@ -618,7 +608,7 @@ def login():
                 return redirect(url_for('.todos_produtos',  log_in_admin=session['log_in_admin'],
                                         user=session['username']))
 
-        # Verificar fornecedor
+        # Verificar se email in database Fornecedor
         for user in verificar_email_fornecedor:
             if user_loggin == user[1] and user_pswd == user[7]:
                 session['log_in_fornecedor'] = True
@@ -631,7 +621,7 @@ def login():
                 return redirect(url_for('.todos_produtos',  log_in_fornecedor=session['log_in_fornecedor'],
                                         user=session['username']))
 
-        # Verificar se user e cliente
+        # Verificar se email in database cliente
         for user in verificado_email:
             if user_loggin == user[0] and user_pswd == user[3]:
                 session['log_in'] = True
@@ -658,7 +648,7 @@ def login():
                 session["password"] = user_pswd
                 # session['carrinho']
                 return redirect(url_for(".home", log_in=session['log_in'], user=session['username'], todos_os_produtos=todos_os_produto, lista_fornecedores=None))
-        # Iniciar como admin
+        # Iniciar como admin ou fornecedor
         except:
             if 'log_in_admin' in session:
                 if session['log_in_admin'] == True and session['pass_word_admin'] == True:
@@ -667,16 +657,13 @@ def login():
                 # session['carrinho']
                     return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_admin=session['log_in_admin'], user=session['username'],
                                             lista_fornecedores=todos_os_fornecedores,))
-
             elif 'log_in_fornecedor' in session:
                 if session['log_in_fornecedor'] == True and session['pass_word_fornecedor'] == True:
                     session["user"] = user_loggin
                     session["password"] = user_pswd
-
                 # session['carrinho']
                     return redirect(url_for('todos_produtos', todos_os_produtos=todos_os_produto, log_in_forneccedor=session['log_in_fornecedor'],
                                             user=session['username'], lista_fornecedores=todos_os_fornecedores))
-
             else:
                 return redirect(url_for('login'))
 
@@ -686,7 +673,7 @@ def login():
 # Log Out
 @root.route("/logout")
 def logout():
-
+    #elimina a seccao do cliente
     if 'log_in' in session:
         if session['log_in'] == True:
             session.pop('log_in')
@@ -694,7 +681,7 @@ def logout():
             session.pop('user')
             session.pop('username')
             session.clear()
-
+    #elmina a seccao do admin
     if 'log_in_admin' in session:
         if session['log_in_admin'] == True:
             session.pop('log_in_admin')
@@ -702,7 +689,7 @@ def logout():
             session.pop('user')
             session.pop('username')
             session.clear()
-
+    #elimina seccao do fornecedor
     elif 'log_in_fornecedor' in session:
         if session['log_in_fornecedor'] == True:
             session.pop('log_in_fornecedor')
@@ -711,22 +698,19 @@ def logout():
             session.pop('username')
             session.pop('id')
             session.clear()
-
     return redirect(url_for('home'))
-
 
 # pagina carrinho
 @root.route('/user-login/carrinho', methods=['GET', 'POST'])
 def carrinho():
     if request.method == 'GET':
-        faturas = show_faturas(session['user'])
-
+        faturas = show_faturas(session['user']) # apresenta faturas do cliente
         return render_template('carrinho.html', faturas=faturas, faturas_len = len(faturas))
 
     if request.method == 'POST':
-        faturas = show_faturas(session['user'])
+        faturas = show_faturas(session['user']) #obtem fatura com o email do utilizador
         path = request.form['path']
-        os.startfile(path)
+        os.startfile(path) #abre a fatura em PDF
         try:
             return render_template('carrinho.html', log_in=session['log_in'], user=session['username'],
                                     carrinho=session['carrinho'], faturas=faturas, Dfaturas_len = len(faturas))
@@ -737,10 +721,8 @@ def carrinho():
 # Adicionar ao carrinho
 @root.route('/add', methods=['POST'])
 def add_product_to_cart():
-
-    _quantity = int(request.form['quantidade'])
-    _code = request.form['code']
-
+    _quantity = int(request.form['quantidade']) #quantidade dos produtos
+    _code = request.form['code']     #ID do produto
     # validar valores recebidos
     if _quantity and _code and request.method == 'POST':
         con = sqlite3.connect('database/dados_informacoes2.db')
@@ -749,7 +731,7 @@ def add_product_to_cart():
             "SELECT * FROM Produtos WHERE numero_serie={}".format(_code))
         row = cursor.fetchone()
 
-        if _quantity <= row[2]:
+        if _quantity <= row[2]: #Verifica se a quantidade desejada é menor ou igual a quantidade em armazem
             itemArray = {'id': row[0], 'name': row[1], 'preco': row[5], 'iva': row[11],
                          'quantidade': _quantity, 'total': _quantity*row[5]}
             all_total_preco = 0
@@ -760,7 +742,6 @@ def add_product_to_cart():
                     for item in session['carrinho']:
                         if itemArray['id'] == item['id']:
                             # soma produto que ja se encontra na lista
-
                             old_quantity = item['quantidade']
                             total_quantidade = old_quantity + \
                                 itemArray['quantidade']
@@ -769,19 +750,17 @@ def add_product_to_cart():
                             preco_com_iva = itemArray['preco'] * iva
                             preco_total = (itemArray['preco'] * itemArray['quantidade']) + item['preco']
                             item['total'] = preco_total
-
                             break
                         elif itemArray['id'] != item['id']:
-                            # This is not a bug, its a feature
+                            # Nao é um bug, é um feature
                             print('adiciona produto que nao se encontra na lista')
-
                         else:
+                            #Para prevenir erros
                             print('Erro ao somar produto')
                     else:
                         try:
                             session['carrinho'].append(itemArray)
                             print("feature")
-
                         except Exception as e:
                             session['carrinho'] = list(session['carrinho'])
                             print(e)
