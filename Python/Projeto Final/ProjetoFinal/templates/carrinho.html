@@ -127,7 +127,18 @@
                             <td align="right">{{ session['all_total_quantidade'] }}</td>
                             <td align="right" colspan="2"><strong>{{ '%.2f' % session["all_total_preco"] }}€</strong>
                             </td>
-                            <td></td>
+                            
+                            <td><div class="popup" onclick="myFunction()"><img  type="image/png" sizes="16x16" src="/static/img/question.png">
+                                <span class="popuptext" id="myPopup">Valor c/ iva incluido</span>
+                              </div><script>
+                                
+                                function myFunction() {
+                                  var popup = document.getElementById("myPopup");
+                                  popup.classList.toggle("show");
+                                }
+                                </script></td>
+                            
+                            
                             {% if session['all_total_quantidade'] > 0%} 
                             <td style="text-align:center;">
                                 <a href="{{url_for('.finalizar_compra') }}" class="btnRemoveAction">

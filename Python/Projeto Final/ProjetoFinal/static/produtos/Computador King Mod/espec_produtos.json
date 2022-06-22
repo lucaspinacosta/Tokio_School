@@ -1,71 +1,71 @@
 {
-    "especificacoes": {
-        "sistema_operativo": [
-            "Sistema Operativo",
-            "Nao incluido"
-        ],
-        "Processador": [
-            "Processador",
-            "Intel Core i5 11400F (2.6GHz-4.4GHz) 12MB Socket 1200"
-        ],
-        "memoria_ram": [
-            "Memoria Ram",
-            "Kit 16GB (2 x 8GB) DDR4 3200MHz"
-        ],
-        "armazenamento": [
-            "Armazenamento",
-            "Disco SSD 500GB M.2 NVMe"
-        ],
-        "audio": [
-            "Fonte de Alimentacao",
-            "Fonte 600W 80+ Gold"
-        ],
-        "ecra": [
-            "Motherboard",
-            "Motherboard MSI H510 PRO"
-        ],
-        "grafica": [
-            "Grafica",
-            "Placa Gráfica MSI GeForce® RTX 2060"
-        ],
-        "cor": [
-            "Cor",
-            "Caixa ATX, Preta, Vidro Temperado"
-        ],
-        "interface": [
-            "Interface",
-            "1 x USB 3.2 Gen 1 Type-A",
-            "1 x USB 3.2 Gen 1 Type-C",
-            "2 x USB 2.0 Tipo A",
-            "1 x HDMI 1.4",
-            "1 x Leitor de auscultadores/micro SD card"
-        ]
-    },
-    "descricoes": {
-        "descricao_1": [
-            "COMPONENTES"
-        ],
-        "descricao_2": [
-            "CAIXA",
-            "Caixa ATX com o painel lateral em vidro temperado com capacidade para placas gráficas até 395 mm de comprimento."
-        ],
-        "descricao_3": [
-            "PROCESSADOR",
-            "Socket 1200 \n Processador Intel Core de 6 núcleos, com velocidade de 2.6GHz até 4.4GHz, socket 1200."
-        ],
-        "descricao_4": [
-            "MOTHERBOARD",
-            "Motherboard com suporte para processadores Intel 11ª e 10ª geração para Socket 1200, suporta a arquitetura Dual Channel."
-        ],
-        "descricao_5": [
-            "MEMORIAS",
-            "Kit de Memórias com velocidade de 3200MHz. Compatível com a tecnologia Intel XMP 2.0"
-        ],
-        "descricao_6": [
-            " PLACA GRÁFICA",
-            "Placa gráfica de alta performance com 6GB de memória VRAM GDDR6, suporta até 4 monitores. Velocidade de Memória de 14Gbps."
-        ]
-    },
-    "img_path": "/static/produtos/Computador King Mod/Computador King Mod.png",
-    "desconto": "0.00"
+      "especificacoes": {
+            "sistema_operativo": [
+                  "Sistema Operativo",
+                  "Nao incluido"
+            ],
+            "Processador": [
+                  "Processador",
+                  "Intel Core i5 11400F (2.6GHz-4.4GHz) 12MB Socket 1200"
+            ],
+            "memoria_ram": [
+                  "Memoria Ram",
+                  "Kit 16GB (2 x 8GB) DDR4 3200MHz"
+            ],
+            "armazenamento": [
+                  "Armazenamento",
+                  "Disco SSD 500GB M.2 NVMe"
+            ],
+            "audio": [
+                  "Fonte de Alimentacao",
+                  "Fonte 600W 80+ Gold"
+            ],
+            "ecra": [
+                  "Motherboard",
+                  "Motherboard MSI H510 PRO"
+            ],
+            "grafica": [
+                  "Grafica",
+                  "Placa Gr\u00e1fica MSI GeForce\u00ae RTX 2060"
+            ],
+            "cor": [
+                  "Cor",
+                  "Caixa ATX, Preta, Vidro Temperado"
+            ],
+            "interface": [
+                  "Interface",
+                  "1 x USB 3.2 Gen 1 Type-A",
+                  "1 x USB 3.2 Gen 1 Type-C",
+                  "2 x USB 2.0 Tipo A",
+                  "1 x HDMI 1.4",
+                  "1 x Leitor de auscultadores/micro SD card"
+            ]
+      },
+      "descricoes": {
+            "descricao_1": [
+                  "COMPONENTES"
+            ],
+            "descricao_2": [
+                  "CAIXA",
+                  "Caixa ATX com o painel lateral em vidro temperado com capacidade para placas gr\u00e1ficas at\u00e9 395 mm de comprimento."
+            ],
+            "descricao_3": [
+                  "PROCESSADOR",
+                  "Socket 1200 \n Processador Intel Core de 6 n\u00facleos, com velocidade de 2.6GHz at\u00e9 4.4GHz, socket 1200."
+            ],
+            "descricao_4": [
+                  "MOTHERBOARD",
+                  "Motherboard com suporte para processadores Intel 11\u00aa e 10\u00aa gera\u00e7\u00e3o para Socket 1200, suporta a arquitetura Dual Channel."
+            ],
+            "descricao_5": [
+                  "MEMORIAS",
+                  "Kit de Mem\u00f3rias com velocidade de 3200MHz. Compat\u00edvel com a tecnologia Intel XMP 2.0"
+            ],
+            "descricao_6": [
+                  " PLACA GR\u00c1FICA",
+                  "Placa gr\u00e1fica de alta performance com 6GB de mem\u00f3ria VRAM GDDR6, suporta at\u00e9 4 monitores. Velocidade de Mem\u00f3ria de 14Gbps."
+            ]
+      },
+      "img_path": "/static/produtos/Computador King Mod/Computador King Mod.png",
+      "desconto": "0.00"
 }

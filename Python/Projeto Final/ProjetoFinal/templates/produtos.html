@@ -88,11 +88,20 @@
                         </p>
                     </div>
                 </ul>
-                <div class="aligncenter ">
-                    <p></p>
+                <div class="aligncenter row-1">
+                    
                     <h4>{{nome_produto}}</h4>
-                    <p></p>
                     <h4 class="value_showstyle">{{ '%.2f' % preco_produto}}€</h4>
+                    <div class="popup" onclick="myFunction()"><img type="image/png" sizes="16x16"
+                            src="/static/img/question.png">
+                        <span class="popuptext" id="myPopup">Sem IVA</span>
+                        <script>
+                            function myFunction() {
+                                var popup = document.getElementById("myPopup");
+                                popup.classList.toggle("show");
+                            }
+                        </script>
+                    </div><br></br>
                     {%if session['log_in']==null and session['log_in_admin'] == null and
                     session['log_in_fornecedor']==null %}
                     <form action="/user-login" method="get"><input type="submit" value="Login" class="btnAddAction" />
@@ -247,7 +256,7 @@
                     </ul>
                 </div>
             </nav>
-            
+
         </div><br><br>
     </main>
 </body>
