@@ -301,12 +301,14 @@ def editar_prod(code_edit):
         nova_img_path = request.form['nova_img_path']
         
         #Verifica se cada parametro foi alterado e guarda as novas alteracoes
-        #if novo_nome!="" and novo_preco!="" and novo_preco_fornecedor!="": 
-        #    cursor.execute(query,(novo_nome,novo_preco,novo_preco_fornecedor))
         if novo_nome!="":
             cursor.execute("UPDATE Produtos SET nome_produto=? WHERE numero_serie=?",(novo_nome,produto_em_edicao[0]))
             con.commit()
             db.session.commit()
+            #Muda o nome do folder para o novo_nome do produto
+            old_path = ""   #antigo folder name
+            new_path = ""   #novo folder name
+
         else:pass
         if novo_preco !="":
             cursor.execute("UPDATE Produtos SET valor_venda=? WHERE numero_serie=?",(novo_preco,produto_em_edicao[0]))
@@ -423,7 +425,7 @@ def editar_prod(code_edit):
                     file.seek(0)
                     file_data.update(new_img_path)
         #Guarda Alteracoes    
-                json.dump(file_data,file, indent=3)
+                #json.dump(file_data,file, indent=3)
         write_espec_json(new_descricoes_1,nova_img_path)
         specs_url = "static/produtos/"+produto_em_edicao[1]+"/espec_produtos.json"
         cursor.execute("UPDATE produtos set especificacoes=? WHERE numero_serie=?",(specs_url,produto_em_edicao[0]))
