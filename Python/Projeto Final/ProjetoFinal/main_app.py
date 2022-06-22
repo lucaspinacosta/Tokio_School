@@ -429,13 +429,6 @@ def editar_prod(code_edit):
         cursor.execute("UPDATE produtos set especificacoes=? WHERE numero_serie=?",(specs_url,produto_em_edicao[0]))
         con.commit()
         db.session.commit()
-        try:
-            os.chdir(r"static/produtos/")
-            os.rename(old_nome,produto_em_edicao[1])
-        except Exception as e:
-            print(e)
-        cursor.close()
-        con.close()
     
         #redireciona o admin para pagina do produto apos a edicao
         return redirect(url_for('.show_room', code_prod=code_edit))
@@ -470,9 +463,7 @@ def lista_fornecedores():
         return fornecedores
     except Exception as e:
         print(e)
-    finally:
-        cursor.close()
-        con.close()
+    
 
 # Criacao de fornecedor
 @root.route('/admin/criar-fornecedor', methods=['GET', 'POST'])
@@ -1291,4 +1282,4 @@ def show_room(code_prod):
 if __name__ == "__main__":
     root.run()
     db.create_all()
-    db.session.commit() 
+    db.session.commit()
