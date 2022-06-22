@@ -1,6 +1,6 @@
 # imports
 from datetime import date
-from glob import glob
+import glob,shutil
 import sqlite3
 import json
 import os
@@ -306,10 +306,21 @@ def editar_prod(code_edit):
             con.commit()
             db.session.commit()
             #Muda o nome do folder para o novo_nome do produto
-            old_path = ""   #antigo folder name
-            new_path = ""   #novo folder name
-
+            old_path = str("static/produtos/"+old_nome+'/')   #antigo folder name
+            new_path = str("static/produtos/"+novo_nome+'/')   #novo folder name
+            #Criar nova pasta e mover ficheiros da pasta antiga 
+            try:
+                print(old_path.split('/'))
+                os.mkdir(new_path)
+                for file in glob.glob(old_path+'*'):
+                    shutil.move(file,new_path)
+                os.remove(old_path)
+                
+                new_img_change = {'img_path':new_path+''}
+            except Exception as e:
+                print(e)
         else:pass
+
         if novo_preco !="":
             cursor.execute("UPDATE Produtos SET valor_venda=? WHERE numero_serie=?",(novo_preco,produto_em_edicao[0]))
             con.commit()
@@ -424,10 +435,15 @@ def editar_prod(code_edit):
                     #criar uma copia da imagem!! inc
                     file.seek(0)
                     file_data.update(new_img_path)
-        #Guarda Alteracoes    
-                #json.dump(file_data,file, indent=3)
+                #Guarda Alteracoes    
+                json.dump(file_data,file, indent=4)
+                pass
+            
         write_espec_json(new_descricoes_1,nova_img_path)
-        specs_url = "static/produtos/"+produto_em_edicao[1]+"/espec_produtos.json"
+        #Para evitar mudar path das especificações caso nao se mude o nome do ficheiro
+        if novo_nome !='':
+            specs_url = "static/produtos/"+request.form['novo_nome']+"/espec_produtos.json"
+        else: specs_url = "static/produtos/"+produto_em_edicao[1]+"/espec_produtos.json"
         cursor.execute("UPDATE produtos set especificacoes=? WHERE numero_serie=?",(specs_url,produto_em_edicao[0]))
         con.commit()
         db.session.commit()
