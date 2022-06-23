@@ -305,20 +305,6 @@ def editar_prod(code_edit):
             cursor.execute("UPDATE Produtos SET nome_produto=? WHERE numero_serie=?",(novo_nome,produto_em_edicao[0]))
             con.commit()
             db.session.commit()
-            #Muda o nome do folder para o novo_nome do produto
-            old_path = str("static/produtos/"+old_nome+'/')   #antigo folder name
-            new_path = str("static/produtos/"+novo_nome+'/')   #novo folder name
-            #Criar nova pasta e mover ficheiros da pasta antiga 
-            try:
-                print(old_path.split('/'))
-                os.mkdir(new_path)
-                for file in glob.glob(old_path+'*'):
-                    shutil.move(file,new_path)
-                os.remove(old_path)
-                
-                new_img_change = {'img_path':new_path+''}
-            except Exception as e:
-                print(e)
         else:pass
 
         if novo_preco !="":
@@ -430,8 +416,8 @@ def editar_prod(code_edit):
                 #Fim das atualizacoes das especificacoes
                 #Atualiza a Imagem do produto                          
                 if nova_img_path != '':#Atualizar link imagem
-                    new_img_path = {'img_path' : "/static/produtos/" + \
-                                produto_em_edicao[1] + '/' + new_img_path}
+                    url_split = old_img_path.split('/')
+                    new_img_path = {'img_path' : "/static/produtos/"+ url_split[2] + '/' + new_img_path}
                     #criar uma copia da imagem!! inc
                     file.seek(0)
                     file_data.update(new_img_path)
@@ -440,15 +426,7 @@ def editar_prod(code_edit):
                 pass
             
         write_espec_json(new_descricoes_1,nova_img_path)
-        #Para evitar mudar path das especificações caso nao se mude o nome do ficheiro
-        if novo_nome !='':
-            specs_url = "static/produtos/"+request.form['novo_nome']+"/espec_produtos.json"
-        else: specs_url = "static/produtos/"+produto_em_edicao[1]+"/espec_produtos.json"
-        cursor.execute("UPDATE produtos set especificacoes=? WHERE numero_serie=?",(specs_url,produto_em_edicao[0]))
-        con.commit()
-        db.session.commit()
-    
-        #redireciona o admin para pagina do produto apos a edicao
+        
         return redirect(url_for('.show_room', code_prod=code_edit))
 
     elif session['log_in_admin'] == True and request.method == 'GET':
@@ -465,6 +443,8 @@ def editar_prod(code_edit):
         old_preco_fornecedor = produto_em_edicao[4]
         
         old_img_path = especificacoes['img_path']
+       
+        
         return render_template('editar_produtos.html', especificacoes=especificacoes,
                             old_nome=old_nome, old_preco=old_preco,
                             old_img_path=old_img_path, old_preco_fornecedor=old_preco_fornecedor,

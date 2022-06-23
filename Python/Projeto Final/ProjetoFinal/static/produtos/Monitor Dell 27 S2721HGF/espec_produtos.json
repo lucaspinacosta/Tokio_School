@@ -1,44 +1,40 @@
 {
     "especificacoes": {
         "sistema_operativo": [
-            "Sistema Operativo",
-            "Windows 10 Home"
+            "Velocidade de actualizacao",
+            "144hz"
         ],
         "Processador": [
-            "Processador",
-            "Intel\u00ae Core\u2122 i5-1135G7, 2.4 GHz (8M Cache, at\u00e9 4.2 GHz, 4 cores)"
+            "Marca",
+            "Dell"
         ],
         "memoria_ram": [
-            "Memoria Ram",
-            " 8GB de mem\u00f3ria RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)"
+            "Resolucao",
+            "1920x1080"
         ],
         "armazenamento": [
-            "Armazenamento",
-            "SSD de 512GB M.2 NVMe\u2122 PCIe\u00ae 3.0"
+            "Constraste",
+            "3000:1"
         ],
         "audio": [
-            "Audio",
-            "Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)"
+            "Video Input",
+            "DisplayPort, HDMI"
         ],
         "ecra": [
-            "Ecra",
-            "15.6' FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut"
+            "Dimensao",
+            "19.4 by 24 by 7.5 inches "
         ],
         "grafica": [
-            "Grafica",
-            "Placa Gr\u00e1fica NVIDIA\u00ae GeForce\u00ae MX330, com 2GB de mem\u00f3ria VRAM GDDR5"
+            "Aspect Ratio",
+            "16:9"
         ],
         "cor": [
-            "Cor",
-            "Prateado"
+            "",
+            ""
         ],
         "interface": [
-            "Interface",
-            "1 x USB 3.2 Gen 1 Type-A",
-            "1 x USB 3.2 Gen 1 Type-C",
-            "2 x USB 2.0 Tipo A",
-            "1 x HDMI 1.4",
-            "1 x Leitor de auscultadores//micro SD card"
+            "",
+            ""
         ]
     },
     "descricoes": {
