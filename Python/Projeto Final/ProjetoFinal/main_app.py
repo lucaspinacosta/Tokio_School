@@ -9,6 +9,7 @@ import pathlib
 import time
 import win32com.client
 import pythoncom
+from PIL import Image
 from openpyxl import Workbook
 from openpyxl.styles import Font
 from flask import Flask, redirect, render_template, request, url_for, session
@@ -17,6 +18,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 root = Flask(__name__)
 root.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/dados_informacoes2.db'
+root.config['UPLOADFOLDER'] = 'static/produtos/'
 root.secret_key = "aht278945ht2h49sdfgsdfg5t9h"
 db = SQLAlchemy(root)
 root.config['DEBUG'] = True
@@ -195,7 +197,7 @@ def show_faturas(user_email):
     source_faturas = "database/faturas_clientes/"+session['user']+"/"
     faturas = []
     #verifica ficheiros existentes no folder
-    for file in glob(source_faturas+"*"+".pdf"):
+    for file in glob.glob(source_faturas+"*"+".pdf"):
         #obtemos a hora de criacao do ficheiro
         tic_c = os.path.getctime(file)
         time_c = time.ctime(tic_c)
@@ -205,13 +207,13 @@ def show_faturas(user_email):
         #ira alterar a data de criacao
     return faturas
 
-
 # criacao de Produto
 @root.route('/admin/criar-produto', methods=['GET', 'POST'])
 def criar_produto():
     #Verificar se login e administrador ao tentar criar produto
     if session['log_in_admin'] == True and request.method == 'POST':
         #request para especificacoes
+        
         especificacoes = {"especificacoes": {'sistema_operativo': [request.form['sistema_titulo'], request.form['sistema_informacao']],
                                              'memoria_ram': [request.form['titulo_ram'], request.form['informacao_ram']],
                                              'Processador': [request.form['titulo_processador'], request.form['informacao_processador']],
@@ -224,14 +226,15 @@ def criar_produto():
                                                            request.form['informacao_interface2'], request.form['informacao_interface3'],
                                                            request.form['informacao_interface4']]}}
         #obtem a localizacao do produto a ser criado
-        diretorio = "static/produtos/"+request.form['nome_produto']+"/"
+        diretorio = "static/produtos/"+request.form['nome_produto']+'/'
+        
         path = os.path.join(diretorio)
         try:
             os.mkdir(path)      #tenta criar o folder do produto caso nao exista
         except Exception as e:
             print(e)            #Ira informar de um erro caso o folder ja exista
 
-        with open("static/produtos/"+request.form['nome_produto']+"/espec_produtos.json", "w", encoding='utf-8') as outfile:
+        with open(diretorio+"espec_produtos.json", "w", encoding='utf-8') as outfile:
             json.dump(especificacoes, outfile)
         #requests das descricoes do produto
         descricoes_prod = {"descricao_1": [request.form['arquitetura_titulo'], request.form['arquitetura_descricao']],
@@ -242,13 +245,19 @@ def criar_produto():
                            "descricao_6": [request.form['extra4_titulo'], request.form['extra4_descricao']]}
         #adiciona novos dados ao ficheiro json
         def write_json(new_descricao, new_img_path, filename="static/produtos/"+request.form['nome_produto']+"/espec_produtos.json"):
+            
+            imagem = new_img_path #variavel FileStorage com informacao da imagem
             with open(filename, 'r+') as file:
                 file_data = json.load(file)
-                file_data['descricoes'] = new_descricao
-                file_data['img_path'] = diretorio + "/" + new_img_path
+                file_data['descricoes'] = new_descricao #cria dict com as descricoes
+                file_data['img_path'] = "/"+diretorio + imagem.filename #dict com o path da imagem
+                file_data['desconto'] = "0.00" #desconto sera de 0% 
                 file.seek(0)
-                json.dump(file_data, file, indent=6)
-        write_json(descricoes_prod, request.form['myfile'])
+                json.dump(file_data, file, indent=6) #guarda os informacoes em ficheiro json
+        write_json(descricoes_prod, request.files['myfile'])
+        #utiliza a biblioteca Pillow para poder gerir a imagem temporariamente sem erros de permissao
+        imagem_save = Image.open(request.files['myfile']) #contem os objetos da imagem 
+        imagem_save.save(path+request.files['myfile'].filename)  #salva uma copia da imagem na pasta do produto
         #acesso a database
         con = sqlite3.connect('database/dados_informacoes2.db')
         cursor = con.cursor()
@@ -265,7 +274,7 @@ def criar_produto():
                            quantidade_encomenda=0, id_fornecedor=id_fornecedor[0], iva = request.form['iva'])
         db.session.add(produto)
         db.session.commit()
-        return redirect(url_for('.criar_produto'))
+        return redirect(url_for('.todos_produtos'))
     
     elif session['log_in_admin'] == True and request.method == 'GET':
         fornecedor = lista_fornecedores()
@@ -298,7 +307,7 @@ def editar_prod(code_edit):
         novo_nome = request.form['novo_nome']
         novo_preco = request.form['novo_preco']
         novo_preco_fornecedor = request.form['novo_preco_fornecedor']
-        nova_img_path = request.form['nova_img_path']
+        img_path = request.files['nova_img_path']
         
         #Verifica se cada parametro foi alterado e guarda as novas alteracoes
         if novo_nome!="":
@@ -317,7 +326,7 @@ def editar_prod(code_edit):
             con.commit()
             db.session.commit()
         else:pass
-        new_descricoes_1 ={"descricoes":{"descricao_1":[request.form['editar_tit_descr_1'],request.form['editar_descr_1']],
+        new_descricao_1 ={"descricoes":{"descricao_1":[request.form['editar_tit_descr_1'],request.form['editar_descr_1']],
         "descricao_2":[request.form['editar_tit_descr_2'],request.form['editar_descr_2']],
         "descricao_3":[request.form['editar_tit_descr_3'],request.form['editar_descr_3']],
         "descricao_4":[request.form['editar_tit_descr_4'],request.form['editar_descr_4']],
@@ -333,100 +342,104 @@ def editar_prod(code_edit):
         old_descr_6 = especificacoes['descricoes']['descricao_6']
 
         #Atualiza as Especificacoes do Produto
-        def write_espec_json(new_descricao_1,new_img_path, filename=produto_em_edicao[10]):
-            with open(filename,'r+',encoding='utf8') as file:
-                file_data = json.load(file) 
-                #Atualiza a seccao 1 das especificacoes
-                if new_descricao_1['descricoes']['descricao_1'][0] != "" and new_descricao_1['descricoes']['descricao_1'][1] !="":
-                    pass
-                #Atualiza apenas o texto da especificacao 1
-                elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] != "":
-                    new_descricao_1["descricoes"]['descricao_1'][0]=old_descr_1[0]
-
-                #Atualiza apenas o titulo da Especificacao 1
-                elif new_descricao_1['descricoes']['descricao_1'][0] != "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
-                    new_descricao_1["descricoes"]['descricao_1'][1]=old_descr_1[1]
-                #Mantem os dados antigos da Especificacao 1
-                elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
-                    new_descricao_1['descricoes']['descricao_1'] = old_descr_1
-                #Atualiza a seccao 2 das especificacoes
-                if new_descricao_1['descricoes']['descricao_2'][0] != "" and new_descricao_1['descricoes']['descricao_2'][1] !="":
-                    pass
-                #Atualiza apenas o texto da especificacao 2
-                elif new_descricao_1['descricoes']['descricao_2'][0] == "" and new_descricao_1['descricoes']['descricao_2'][1] != "":
-                    new_descricao_1['descricoes']['descricao_2'] = [old_descr_2[0],new_descricao_1['descricoes']['descricao_2'][1]]
-                #Atualiza apenas o titulo da Especificacao 2
-                elif new_descricao_1['descricoes']['descricao_2'][0] != "" and new_descricao_1['descricoes']['descricao_2'][1] == "":
-                    new_descricao_1['descricoes']['descricao_2'] = [new_descricao_1['descricoes']['descricao_2'][0],old_descr_2[1]]
-                    
-                #Mantem os dados antigos da Especificacao 2
-                elif new_descricao_1['descricoes']['descricao_2'][0] == "" and new_descricao_1['descricoes']['descricao_2'][1] == "":
-                    new_descricao_1['descricoes']['descricao_2'] = old_descr_2
-                    
-                #ETC...
-                if new_descricao_1['descricoes']['descricao_3'][0] != "" and new_descricao_1['descricoes']['descricao_3'][1] !="":
-                    pass                  
-                    
-                elif new_descricao_1['descricoes']['descricao_3'][0] == "" and new_descricao_1['descricoes']['descricao_3'][1] != "":
-                    new_descricao_1['descricoes']['descricao_3'] = [old_descr_3[0],new_descricao_1['descricoes']['descricao_3'][1]]
-                    
-                elif new_descricao_1['descricoes']['descricao_3'][0] != "" and new_descricao_1['descricoes']['descricao_3'][1] == "":
-                    new_descricao_1['descricoes']['descricao_3'] = [new_descricao_1['descricoes']['descricao_1'][0],old_descr_3[1]]
-                    
-                elif new_descricao_1['descricoes']['descricao_3'][0] == "" and new_descricao_1['descricoes']['descricao_3'][1] == "":
-                    new_descricao_1['descricoes']['descricao_3'] = old_descr_3
-                    
-                if new_descricao_1['descricoes']['descricao_4'][0] != ""and new_descricao_1['descricoes']['descricao_4'][1] !="":
-                    pass
-                    
-                elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_4'][1] != "":
-                    new_descricao_1['descricoes']['descricao_4'] = [old_descr_4[0],new_descricao_1['descricoes']['descricao_4'][1]]
-                    
-                elif new_descricao_1['descricoes']['descricao_4'][0] != "" and new_descricao_1['descricoes']['descricao_4'][1] == "":
-                    new_descricao_1['descricoes']['descricao_4'] = [new_descricao_1['descricoes']['descricao_4'][1],old_descr_4[0]]
-                    
-                elif new_descricao_1['descricoes']['descricao_4'][0] == "" and new_descricao_1['descricoes']['descricao_4'][1] == "":
-                    new_descricao_1['descricoes']['descricao_4'] = old_descr_4
-                    
-                if new_descricao_1['descricoes']['descricao_5'][0] != "" and new_descricao_1['descricoes']['descricao_5'][1] !="":
-                    pass
-                    
-                elif new_descricao_1['descricoes']['descricao_5'][0] == "" and new_descricao_1['descricoes']['descricao_5'][1] != "":
-                    new_descricao_1['descricoes']['descricao_5'] = [old_descr_5[0],new_descricao_1['descricoes']['descricao_5'][1]]
-                    
-                elif new_descricao_1['descricoes']['descricao_5'][0] != "" and new_descricao_1['descricoes']['descricao_5'][1] == "":
-                    new_descricao_1['descricoes']['descricao_5'] = [new_descricao_1['descricoes']['descricao_5'][1],old_descr_5[0]]
-                    
-                elif new_descricao_1['descricoes']['descricao_5'][0] == "" and new_descricao_1['descricoes']['descricao_5'][1] == "":
-                    new_descricao_1['descricoes']['descricao_5'] = old_descr_5
-                    
-                if new_descricao_1['descricoes']['descricao_6'][0] != "" and new_descricao_1['descricoes']['descricao_6'][1] != "":
-                    pass
-                    
-                elif new_descricao_1['descricoes']['descricao_6'][0] == "" and new_descricao_1['descricoes']['descricao_6'][1] != "":
-                    new_descricao_1['descricoes']['descricao_6'] = [old_descr_6[0],new_descricao_1['descricoes']['descricao_6'][1]]
-                    
-                elif new_descricao_1['descricoes']['descricao_6'][0] != "" and new_descricao_1['descricoes']['descricao_6'][1] == "":
-                    new_descricao_1['descricoes']['descricao_6'] = [new_descricao_1['descricoes']['descricao_1'][0],old_descr_6[1]]
-                    
-                elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
-                    new_descricao_1['descricoes']['descricao_6'] = old_descr_6
-                file.seek(0)
-                file_data.update(new_descricao_1)
-                #Fim das atualizacoes das especificacoes
-                #Atualiza a Imagem do produto                          
-                if nova_img_path != '':#Atualizar link imagem
-                    url_split = old_img_path.split('/')
-                    new_img_path = {'img_path' : "/static/produtos/"+ url_split[2] + '/' + new_img_path}
-                    #criar uma copia da imagem!! inc
-                    file.seek(0)
-                    file_data.update(new_img_path)
-                #Guarda Alteracoes    
-                json.dump(file_data,file, indent=4)
+    
+        with open(produto_em_edicao[10]) as file:
+            file_data = json.load(file) 
+            #Atualiza a seccao 1 das especificacoes
+            if new_descricao_1['descricoes']['descricao_1'][0] != "" and new_descricao_1['descricoes']['descricao_1'][1] !="":
                 pass
+            #Atualiza apenas o texto da especificacao 1
+            elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] != "":
+                new_descricao_1["descricoes"]['descricao_1'][0]=old_descr_1[0]
+
+            #Atualiza apenas o titulo da Especificacao 1
+            elif new_descricao_1['descricoes']['descricao_1'][0] != "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
+                new_descricao_1["descricoes"]['descricao_1'][1]=old_descr_1[1]
+            #Mantem os dados antigos da Especificacao 1
+            elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
+                new_descricao_1['descricoes']['descricao_1'] = old_descr_1
+            #Atualiza a seccao 2 das especificacoes
+            if new_descricao_1['descricoes']['descricao_2'][0] != "" and new_descricao_1['descricoes']['descricao_2'][1] !="":
+                pass
+            #Atualiza apenas o texto da especificacao 2
+            elif new_descricao_1['descricoes']['descricao_2'][0] == "" and new_descricao_1['descricoes']['descricao_2'][1] != "":
+                new_descricao_1['descricoes']['descricao_2'] = [old_descr_2[0],new_descricao_1['descricoes']['descricao_2'][1]]
+            #Atualiza apenas o titulo da Especificacao 2
+            elif new_descricao_1['descricoes']['descricao_2'][0] != "" and new_descricao_1['descricoes']['descricao_2'][1] == "":
+                new_descricao_1['descricoes']['descricao_2'] = [new_descricao_1['descricoes']['descricao_2'][0],old_descr_2[1]]
+                
+            #Mantem os dados antigos da Especificacao 2
+            elif new_descricao_1['descricoes']['descricao_2'][0] == "" and new_descricao_1['descricoes']['descricao_2'][1] == "":
+                new_descricao_1['descricoes']['descricao_2'] = old_descr_2
+                
+            #ETC...
+            if new_descricao_1['descricoes']['descricao_3'][0] != "" and new_descricao_1['descricoes']['descricao_3'][1] !="":
+                pass                  
+                
+            elif new_descricao_1['descricoes']['descricao_3'][0] == "" and new_descricao_1['descricoes']['descricao_3'][1] != "":
+                new_descricao_1['descricoes']['descricao_3'] = [old_descr_3[0],new_descricao_1['descricoes']['descricao_3'][1]]
+                
+            elif new_descricao_1['descricoes']['descricao_3'][0] != "" and new_descricao_1['descricoes']['descricao_3'][1] == "":
+                new_descricao_1['descricoes']['descricao_3'] = [new_descricao_1['descricoes']['descricao_1'][0],old_descr_3[1]]
+                
+            elif new_descricao_1['descricoes']['descricao_3'][0] == "" and new_descricao_1['descricoes']['descricao_3'][1] == "":
+                new_descricao_1['descricoes']['descricao_3'] = old_descr_3
+                
+            if new_descricao_1['descricoes']['descricao_4'][0] != ""and new_descricao_1['descricoes']['descricao_4'][1] !="":
+                pass
+                
+            elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_4'][1] != "":
+                new_descricao_1['descricoes']['descricao_4'] = [old_descr_4[0],new_descricao_1['descricoes']['descricao_4'][1]]
+                
+            elif new_descricao_1['descricoes']['descricao_4'][0] != "" and new_descricao_1['descricoes']['descricao_4'][1] == "":
+                new_descricao_1['descricoes']['descricao_4'] = [new_descricao_1['descricoes']['descricao_4'][1],old_descr_4[0]]
+                
+            elif new_descricao_1['descricoes']['descricao_4'][0] == "" and new_descricao_1['descricoes']['descricao_4'][1] == "":
+                new_descricao_1['descricoes']['descricao_4'] = old_descr_4
+                
+            if new_descricao_1['descricoes']['descricao_5'][0] != "" and new_descricao_1['descricoes']['descricao_5'][1] !="":
+                pass
+                
+            elif new_descricao_1['descricoes']['descricao_5'][0] == "" and new_descricao_1['descricoes']['descricao_5'][1] != "":
+                new_descricao_1['descricoes']['descricao_5'] = [old_descr_5[0],new_descricao_1['descricoes']['descricao_5'][1]]
+                
+            elif new_descricao_1['descricoes']['descricao_5'][0] != "" and new_descricao_1['descricoes']['descricao_5'][1] == "":
+                new_descricao_1['descricoes']['descricao_5'] = [new_descricao_1['descricoes']['descricao_5'][1],old_descr_5[0]]
+                
+            elif new_descricao_1['descricoes']['descricao_5'][0] == "" and new_descricao_1['descricoes']['descricao_5'][1] == "":
+                new_descricao_1['descricoes']['descricao_5'] = old_descr_5
+                
+            if new_descricao_1['descricoes']['descricao_6'][0] != "" and new_descricao_1['descricoes']['descricao_6'][1] != "":
+                pass
+                
+            elif new_descricao_1['descricoes']['descricao_6'][0] == "" and new_descricao_1['descricoes']['descricao_6'][1] != "":
+                new_descricao_1['descricoes']['descricao_6'] = [old_descr_6[0],new_descricao_1['descricoes']['descricao_6'][1]]
+                
+            elif new_descricao_1['descricoes']['descricao_6'][0] != "" and new_descricao_1['descricoes']['descricao_6'][1] == "":
+                new_descricao_1['descricoes']['descricao_6'] = [new_descricao_1['descricoes']['descricao_1'][0],old_descr_6[1]]
+                
+            elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
+                new_descricao_1['descricoes']['descricao_6'] = old_descr_6
+            file.seek(0)
+            file_data.update(new_descricao_1)
+            #Fim das atualizacoes das especificacoes
+            #Atualiza a Imagem do produto                          
+            if img_path.filename != '':#Atualizar link imagem
+                url_split = old_img_path.split('/')
+                new_img_path = {'img_path' : "/static/produtos/"+ url_split[3] + '/' + img_path.filename}
+                #criar uma copia da imagem!! inc
+                file.seek(0)
+                file_data.update(new_img_path)
+        try:
+            #tenta gravar a imagem no folder, caso a imagem ja exista printa um erro evitato o termino do programa
+            new_img_save = Image.open(img_path)
+            new_img_save.save("static/produtos/"+url_split[3]+"/"+img_path.filename)
+        except Exception as e:
+            print(e)
+        with open(produto_em_edicao[10],"w",encoding='utf-8') as file:
+            #Guarda Alteracoes    
+            json.dump(file_data,file, indent=4)
             
-        write_espec_json(new_descricoes_1,nova_img_path)
-        
         return redirect(url_for('.show_room', code_prod=code_edit))
 
     elif session['log_in_admin'] == True and request.method == 'GET':
@@ -1278,6 +1291,7 @@ def show_room(code_prod):
 
 
 if __name__ == "__main__":
+    
     root.run()
     db.create_all()
     db.session.commit()

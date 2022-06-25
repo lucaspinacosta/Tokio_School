@@ -1,39 +1,70 @@
 {
-    "especificacoes": {
-        "sistema_operativo": [
-            "",
-            ""
-        ],
-        "memoria_ram": [
-            "",
-            ""
-        ],
-        "armazenamento": [
-            "",
-            ""
-        ],
-        "audio": [
-            "",
-            ""
-        ],
-        "ecra": [
-            "",
-            ""
-        ],
-        "grafica": [
-            "",
-            ""
-        ],
-        "cor": [
-            "",
-            ""
-        ],
-        "interface": [
-            "",
-            "",
-            "",
-            "",
-            ""
-        ]
-    }
+      "especificacoes": {
+            "sistema_operativo": [
+                  "",
+                  ""
+            ],
+            "memoria_ram": [
+                  "",
+                  ""
+            ],
+            "Processador": [
+                  "",
+                  ""
+            ],
+            "armazenamento": [
+                  "",
+                  ""
+            ],
+            "audio": [
+                  "",
+                  ""
+            ],
+            "ecra": [
+                  "",
+                  ""
+            ],
+            "grafica": [
+                  "",
+                  ""
+            ],
+            "cor": [
+                  "",
+                  ""
+            ],
+            "interface": [
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+            ]
+      },
+      "descricoes": {
+            "descricao_1": [
+                  "",
+                  ""
+            ],
+            "descricao_2": [
+                  "",
+                  ""
+            ],
+            "descricao_3": [
+                  "",
+                  ""
+            ],
+            "descricao_4": [
+                  "",
+                  ""
+            ],
+            "descricao_5": [
+                  "",
+                  ""
+            ],
+            "descricao_6": [
+                  "",
+                  ""
+            ]
+      },
+      "img_path": ""
 }

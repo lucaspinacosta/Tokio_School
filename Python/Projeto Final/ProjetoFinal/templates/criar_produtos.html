@@ -82,40 +82,43 @@
 
         <p></p>
         <div class="card col-sm-8 offset-2 my-auto">
-            <form action="/admin/criar-produto" method="post">
+            <form action="/admin/criar-produto" method="post" enctype="multipart/form-data">
                 <nav class="row container-fluid row-cols-2">
+
                     <div class="aligncenter">
-                        <ul>
-                            <label for="myfile">Selecione uma imagem:</label>
-                            <input type="file" id="myfile" name="myfile" />
+                        <ul><br><br>
+                            <label for="myfile">Selecione uma imagem:</label><br><br><br>
+                            <input type="file" name="myfile" autocomplete="off" required />
                         </ul>
                     </div>
-                    
-                    <div class="aligncenter">
+
+                    <div class="aligncenter col-4">
                         <ul>
-                            <a>Nome do Produto</a>
-                            <h6><input type="text" name="nome_produto" placeholder="Nome Produto"></h6>
-                            <p></p>
-                            <a>Preco de compra ao fornecedor</a>
+                            <br><a>Nome do Produto</a>
+                            <h6><input type="text" name="nome_produto" placeholder="Nome Produto"
+                                    style="width: 80%; height: 5%; text-align: center;" required></h6>
+                            <a>Preco de compra ao fornecedor</a><br>
                             <input type="number" name="preco_fornecedor" step="0.01"
-                                width="5%" placeholder="Preco Fornecedor">
-                            <p></p>
-                            <input type="number" name="iva" step="0" placeholder="IVA">
-                            <p></p>
-                            <a>Valor de Vendas</a>
-                            <input type="number" name="valor_venda" step="0.01" class="form-control" width="5%">
-                            
-                            <br>
-                            <a>Armazem</a>
-                            <input type="text" name="Prateleira" placeholder="Prateleira do Armazem"
-                                class="form-control">
-                                <br><br>
-                            <label for="fornecedores">Fornecedor: </label>
-                            <select name="nome_fornecedor"> 
+                                style="width:50%; height: 5%; text-align: center;" placeholder="Preco Fornecedor"
+                                required>
+
+                            <br><a>Iva</a><br>
+                            <input type="number" name="iva" step="0" placeholder="IVA"
+                                style="width:50%; height: 5%; text-align: center;" required>
+
+                            <br><a>Preco produto</a><br>
+                            <input type="number" name="valor_venda" step="0.01"
+                                style="width:45%; height: 5%; text-align: center;" required>
+
+                            <br><a>Local em armazem</a><br>
+                            <input type="text" name="Prateleira" placeholder="ex: P1"
+                                style="width:20%; height: 5%; text-align: center;" required>
+                            <br><label for="fornecedores">Fornecedor: </label><br>
+                            <select name="nome_fornecedor">
                                 {% for fornecedor in fornecedores%}
                                 {% set id_fornecedor = fornecedor[0]%}
                                 {% set nome_fornecedor = fornecedor[2]%}
-                                
+
                                 <option value="{{nome_fornecedor}}">{{nome_fornecedor}}</option>
                                 {% endfor %}
                             </select>
@@ -124,111 +127,144 @@
 
                     <p></p>
                     <div class="col-sm-12">
-                        <div class="card-body sub_titulo ">Caracteristicas</button>
+                        <div class="card-body aligncenter">
+                            <h4>Descricoes</h4>
                             <ul>
                                 <p></p>
-                                <h4 class="aligncenter"><input type="text" name="arquitetura_titulo"
-                                        placeholder="Titulo da descricao" class="form-control"></h4>
-                                <p><input type="text" name="arquitetura_descricao" placeholder="Descricao 1"
-                                        class="form-control">
+                                <h4><input type="text" name="arquitetura_titulo" placeholder="Titulo da descricao"
+                                        style=" width:600px; ">
+                                </h4>
+                                <p>
+                                    <textarea type="text" name="arquitetura_descricao" placeholder="Editar Descricao 1"
+                                        style="height:120px; width:600px; "></textarea>
                                 </p>
                                 <p></p>
-                                <h4 class="aligncenter"><input type="text" name="aceleracao_titulo"
-                                        placeholder="Titulo da descricao" class="form-control"></h4>
-                                <p><input type="text" name="aceleracao_descricao" placeholder="Descricao 2"
-                                        class="form-control"></p>
+                                <h4><input type="text" name="aceleracao_titulo" placeholder="Titulo da descricao"
+                                        style=" width:600px; ">
+                                </h4>
+                                <p><textarea type="text" name="aceleracao_descricao" placeholder="Descricao 2"
+                                        style=" width:600px; height: 120px; "></textarea></p>
                                 <p></p>
-                                <h4 class="aligncenter"><input type="text" name="extra_titulo"
-                                        placeholder="Informacao Extra" class="form-control"></h4>
-                                <p><input type="text" name="extra_descricao" placeholder="Descricao 3"
-                                        class="form-control"></p>
+                                <h4><input type="text" name="extra_titulo" placeholder="Titulo da descricao"
+                                        style=" width:600px;"></h4>
+                                <p><textarea type="text" name="extra_descricao" placeholder="Descricao 3"
+                                        style=" width:600px; height:120px;"></textarea></p>
                                 <p></p>
-                                <h4 class="aligncenter"><input type="text" name="extra2_titulo"
-                                        placeholder="Titulo da descricao" class="form-control"></h4>
-                                <p><input type="text" name="extra2_descricao" placeholder="Descricao 4"
-                                        class="form-control"></p>
+                                <h4><input type="text" name="extra2_titulo" placeholder="Titulo da descricao"
+                                        style=" width:600px;">
+                                </h4>
+                                <p><textarea type="text" name="extra2_descricao" placeholder="Descricao 4"
+                                        style=" width:600px; height:120px;"></textarea></p>
                                 <p></p>
                                 <p></p>
-                                <h4 class="aligncenter"><input type="text" name="extra3_titulo"
-                                        placeholder="Titulo da descricao" class="form-control"></h4>
-                                <p><input type="text" name="extra3_descricao" placeholder="Descricao 5"
-                                        class="form-control"></p>
-                                        <p></p>
-                                <h4 class="aligncenter"><input type="text" name="extra4_titulo"
-                                        placeholder="Titulo da descricao" class="form-control"></h4>
-                                <p><input type="text" name="extra4_descricao" placeholder="Descricao 6"
-                                        class="form-control"></p>
+                                <h4><input type="text" name="extra3_titulo" placeholder="Titulo da descricao"
+                                        style=" width:600px;">
+                                </h4>
+                                <p><textarea type="text" name="extra3_descricao" placeholder="Descricao 5"
+                                        style=" width:600px; height:120px;"></textarea></p>
+                                <p></p>
+                                <h4><input type="text" name="extra4_titulo" placeholder="Titulo da descricao"
+                                        style=" width:600px;">
+                                </h4>
+                                <p><textarea type="text" name="extra4_descricao" placeholder="Descricao 6"
+                                        style=" width:600px; height:120px;"></textarea></p>
                             </ul>
-                            <div class="card-body sub_titulo">Especificacoes</button>
-                                <p></p>
-                                <ul>
-                                    <p>Info 1<input type="text" name="sistema_titulo"
-                                            placeholder="ex: Sistema Operativo" class="form-control">
-                                        Informacao do Sistema <input type="text" name="sistema_informacao"
-                                            placeholder="ex: Windows 11" class="form-control"></p>
-                                    <p>
-                                        Info 2<input type="text" name="titulo_ram" placeholder="Memoria Ram"
-                                            class="form-control"> Inforamacao da
-                                        Ram<input type="text" name="informacao_ram" placeholder="Informacao da Ram"
+                        </div>
+                        <div class="card-body">
+                            <h4>Especificacoes</h4>
+                            <p></p>
+                            <ul>
+                                <dl class="row">
+
+                                    <dt class="col-sm-3">Especificao 1<input type="text" name="sistema_titulo"
+                                            placeholder="Sistema Operativo" class="form-control">
+                                    </dt>
+                                    <dd class="col-sm-9"><br>
+                                        <input type="text" name="sistema_informacao" placeholder="Windows 11"
                                             class="form-control">
-                                    </p>
-                                    <p>
-                                        Info 3 <input type="text" name="titulo_armazenamento"
-                                            placeholder="Capacidade de Armazenamento" class="form-control"> Capacidade
-                                        de
-                                        Armazenamento<input type="text" name="informacao_armazenamento"
+                                    </dd>
+                                    <dt class="col-sm-3">
+                                        Especificao 2<input type="text" name="titulo_ram" placeholder="Memoria Ram"
+                                            class="form-control">
+                                    </dt>
+                                    <dd class="col-sm-9"><br>
+                                        <input type="text" name="informacao_ram" placeholder="Informacao da Ram"
+                                            class="form-control">
+                                    </dd>
+
+                                    <dt class="col-sm-3">
+                                        Especificao 3 <input type="text" name="titulo_armazenamento"
+                                            placeholder="Capacidade de Armazenamento" class="form-control">
+                                    </dt>
+                                    <dd class="col-sm-9"><br>
+                                        <input type="text" name="informacao_armazenamento"
                                             placeholder="Informacao do armazenamento" class="form-control">
-                                    </p>
-                                    <p>
-                                        Info 4 <input type="text" name="titulo_audio" placeholder=""
+                                    </dd>
+
+                                    <dt class="col-sm-3">
+                                        Especificao 4 <input type="text" name="titulo_audio" placeholder=""
                                             class="form-control">
-                                        Informacao audio
+                                    </dt>
+                                    <dd class="col-sm-9"><br>
                                         <input type="text" name="informacao_audio" placeholder="" class="form-control">
-                                    </p>
-                                    <p>
-                                        Info 5 <input type="text" name="titulo_ecra" placeholder=""
+                                    </dd>
+
+                                    <dt class="col-sm-3">
+                                        Especificao 5 <input type="text" name="titulo_ecra" placeholder=""
+                                            class="form-control"></dt>
+                                    <dd class="col-sm-9"><br>
+                                        <input type="text" name="informacao_ecra" placeholder="" class="form-control">
+                                    </dd>
+
+                                    <dt class="col-sm-3">
+                                        Especificao 6 <input type="text" name="titulo_grafica" placeholder=""
+                                            class="form-control"></dt>
+                                    <dd class="col-sm-9"><br>
+                                        <input type="text" name="informacao_grafica" placeholder=""
                                             class="form-control">
-                                        Informacao do ecra ou
-                                        outros <input type="text" name="informacao_ecra" placeholder=""
-                                            class="form-control">
-                                    </p>
-                                    <p>
-                                        Info 6 <input type="text" name="titulo_grafica" placeholder=""
-                                            class="form-control">
-                                        Informacao da
-                                        Grafica ou outros <input type="text" name="informacao_grafica" placeholder=""
-                                            class="form-control">
-                                    </p>
-                                    <p>
-                                        Info 7 <input type="text" name="titulo_cor" placeholder="" class="form-control">
-                                        Outras informacoes
+                                    </dd>
+
+                                    <dt class="col-sm-3">
+                                        Especificao 7 <input type="text" name="titulo_cor" placeholder=""
+                                            class="form-control"></dt>
+                                    <dd class="col-sm-9"><br>
                                         <input type="text" name="informacao_cor" placeholder="" class="form-control">
-                                    </p>
-                                    <p>
-                                        Info 9<input type="text" name="titulo_processador" placeholder="Memoria Ram"
-                                            class="form-control"> Inforamacao da
-                                        Ram<input type="text" name="informacao_processador" placeholder="Informacao da Ram"
+                                    </dd>
+
+                                    <dt class="col-sm-3">
+                                        Especificao 9<input type="text" name="titulo_processador" placeholder=""
+                                            class="form-control"></dt>
+                                    <dd class="col-sm-9"><br>
+                                        <input type="text" name="informacao_processador" placeholder=""
                                             class="form-control">
-                                    </p>
-                                    <p>
-                                        Info 9 <input type="text" name="titulo_interface" placeholder=""
-                                            class="form-control"> Informacao de
-                                        interface ou outras <input type="text" name="informacao_interface1"
+                                    </dd>
+
+                                    <dt class="col-sm-3"><br><br>
+                                        <p></p><br>
+                                        Especificao Extra <input type="text" name="titulo_interface" placeholder=""
+                                            class="form-control">
+                                    </dt>
+                                    <dd class="col-sm-9"><br> <input type="text" name="informacao_interface1"
                                             placeholder="" class="form-control">
-                                            <input type="text" name="informacao_interface2"
-                                            placeholder="" class="form-control">
-                                            <input type="text" name="informacao_interface3"
-                                            placeholder="" class="form-control">
-                                            <input type="text" name="informacao_interface4"
-                                            placeholder="" class="form-control">
-                                    </p>
-                                </ul>
-                            </div>
+                                        <p></p>
+                                        <input type="text" name="informacao_interface2" placeholder=""
+                                            class="form-control">
+                                        <p></p>
+                                        <input type="text" name="informacao_interface3" placeholder=""
+                                            class="form-control">
+                                        <p></p>
+                                        <input type="text" name="informacao_interface4" placeholder=""
+                                            class="form-control">
+                                    </dd>
+
+                                </dl>
+                            </ul>
                         </div>
                     </div>
 
                 </nav>
-                <button type="submit" class="btn btn_links aligncenter btn-block" onclick="alert('Produto criado com sucesso')">Confirm</button>
+                <button type="submit" class="btn btn_links aligncenter btn-block"
+                    onclick="alert('Produto criado com sucesso')">Confirm</button>
             </form>
 
         </div>

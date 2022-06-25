@@ -71,7 +71,7 @@
             {% endif%}
         </ul>
         {%if session['log_in_admin']==True%}
-        
+
         <p></p>
         <div class="container">
             <a href="/">
@@ -81,24 +81,24 @@
             </a>
         </div>
 
-        <div class="card col-sm-8 offset-2 my-auto">
-            <form type="button" action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="post">
+        <div class="card col-sm-8 offset-2">
+            <form action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="post"
+                enctype="multipart/form-data">
                 <nav class="row container-fluid row-cols-2">
-
-                    <ul>
+                    <a>
                         <div class="card-body">
                             <div class="aligncenter ">
                                 <img alt="centered" src="{{old_img_path}}" height="300">
                             </div>
                         </div>
                         <ul>
-                            <label>Selecionar imagem:</label>
+                            <label for="nova_img_path">Selecionar imagem:</label>
                             <p></p>
-                            <input type="file" id="nova_img_path" name="nova_img_path" />
+                            <input type="file" name="nova_img_path" autocomplete="off" />
                         </ul>
 
+                    </a>
 
-                    </ul>
                     <div class="aligncenter value_showstyle">
                         <p></p>
                         <h4>{{old_nome}}</h4>
@@ -114,7 +114,7 @@
                     </div>
 
                     <p></p>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 aligncenter">
                         <h2 class="btn_links titulo"> Caracteristicas </h2>
                         <ul>
                             <p>
@@ -172,7 +172,9 @@
                                 style="height:120px; width:600px; "></textarea>
                             <p></p>
                         </ul>
-                        <h2 class="btn_links titulo"> Especificacoes </h2>
+                    </div>
+                    <div class="col-sm-12">
+                        <h2 class="btn_links titulo aligncenter"> Especificacoes </h2>
                         <ul>
                             <dl class="row">
                                 <dt class="col-sm-3">
@@ -217,25 +219,29 @@
                                 <p></p>
                                 <dt class="col-sm-3">{{especificacoes['especificacoes']["interface"][0]}}</dt>
                                 <dd class="col-sm-8">
-                                    <a>{{especificacoes['especificacoes']["interface"][1]}}</a>
-                                    <br></br>
-                                    <a>{{especificacoes['especificacoes']["interface"][2]}}</a>
-                                    <br></br>
-                                    <a>{{especificacoes['especificacoes']["interface"][3]}}</a>
-                                    <br></br>
-                                    <a>{{especificacoes['especificacoes']["interface"][4]}}</a>
-                                    <br></br>
-                                    <a>{{especificacoes['especificacoes']["interface"][5]}}</a>
-                                    <br></br>
+                                    <a>{{especificacoes['especificacoes']["interface"][1]}}<br></a>
+
+                                    <a>{{especificacoes['especificacoes']["interface"][2]}}<br></a>
+
+                                    <a>{{especificacoes['especificacoes']["interface"][3]}}<br></a>
+
+                                    <a>{{especificacoes['especificacoes']["interface"][4]}}<br></a>
+
+                                    <a>{{especificacoes['especificacoes']["interface"][5]}}<br></a>
+
                                     {%endif%}
                                 </dd>
-                                <button type="submit" class="btn btn-sm btn-outline-secondary titulo"
-                                    onclick="alert('Produto editado com sucesso')"
-                                    style="background-color:rgb(33, 147, 176) ;">Confirmar</button>
                             </dl>
+
                         </ul>
                     </div>
                 </nav>
+                <div class="aligncenter">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary titulo"
+                        onclick="alert('Produto editado com sucesso')"
+                        style="background-color:rgb(33, 147, 176) ;">Confirmar</button>
+                </div>
+
             </form>
         </div>
 

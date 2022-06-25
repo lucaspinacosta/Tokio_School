@@ -1,0 +1,71 @@
+{
+    "especificacoes": {
+        "sistema_operativo": [
+            "Socket",
+            "AM4"
+        ],
+        "memoria_ram": [
+            "N\u00famero de Cores",
+            "8"
+        ],
+        "Processador": [
+            "Tipo de mem\u00f3ria",
+            "DDR4 at\u00e9 3200MHz"
+        ],
+        "armazenamento": [
+            "N\u00famero de Threads",
+            "16"
+        ],
+        "audio": [
+            "Frequ\u00eancia",
+            "Base: 3.4 GHz / Turbo: At\u00e9 4.6 Ghz"
+        ],
+        "ecra": [
+            "Litografia",
+            "TSMC 7nm FinFET"
+        ],
+        "grafica": [
+            "TDP M\u00e1ximo",
+            "65 W"
+        ],
+        "cor": [
+            "Arquitetura",
+            "Zen 3"
+        ],
+        "interface": [
+            "Cache",
+            "Cache L2 total: 4 MB",
+            " Cache L3 total: 32 MB",
+            "",
+            ""
+        ]
+    },
+    "descricoes": {
+        "descricao_1": [
+            "PROCESSADOR AMD RYZEN 7 5700X",
+            "De volta por demanda popular, um eficiente 65W 8-core / 16 threads, desta vez alimentado por Zen3. Ideal para quem procura um \u00f3timo pre\u00e7o/desempenho de um processador de 8 n\u00facleos para jogar e ser produtivo.\r\n\r\nA configura\u00e7\u00e3o de 65W significa o seu ideal tamb\u00e9m para sistemas de factor de forma pequenos, mantendo-se fresco e silencioso sem ter de investir em solu\u00e7\u00f5es de refrigera\u00e7\u00e3o dispendiosas. Estamos a fixar o pre\u00e7o desta parte para subcotar significativamente o 12700K, sendo simultaneamente uma oferta muito melhor do que o 11700K."
+        ],
+        "descricao_2": [
+            "O MELHOR PROCESSADOR DE DESKTOP DO MUNDO",
+            "Quando se tem a arquitetura mais avan\u00e7ada do mundo para processador de desktop para gamers e criadores de conte\u00fados, as possibilidades s\u00e3o infinitas. Quer esteja a jogar os jogos mais recentes, a desenhar o pr\u00f3ximo arranha-c\u00e9us, ou a triturar dados, precisa de um processador poderoso que possa tratar de tudo - e muito mais. Os processadores da s\u00e9rie AMD Ryzen\u2122 5000 definem a fasquia tanto para os jogadores como para os artistas."
+        ],
+        "descricao_3": [
+            "OS PROCESSADORES OFERECEM O MELHOR DESEMPENHO",
+            "AMD Ryzen\u2122 5000 Series processadores alimentam a pr\u00f3xima gera\u00e7\u00e3o de jogos exigentes, proporcionando experi\u00eancias imersivas \u00fanicas e dominam qualquer tarefa multi-tarefa como 3D e renderiza\u00e7\u00e3o de v\u00eddeo, e compila\u00e7\u00e3o de software."
+        ],
+        "descricao_4": [
+            "M\u00c1XIMO DESEMPENHO QUANDO SE JOGA OU SE CRIA",
+            "Com grande poder de processamento v\u00eam as tecnologias de ponta para apoiar. Todos os processadores AMD Ryzen\u2122 s\u00e9rie 5000 v\u00eam com um conjunto completo de tecnologias concebidas para elevar o poder de processamento do seu PC, incluindo o Precision Boost 27, Precision Boost Overdrive8, PCIe\u00ae 4.0 em processadores seleccionados e BAR redimension\u00e1vel.\r\n\r\n Estes processadores n\u00e3o s\u00f3 est\u00e3o prontos para serem introduzidos no AMD 500 e selecionar motherboards da s\u00e9rie 4009 com uma simples atualiza\u00e7\u00e3o BIOS, como tamb\u00e9m pode facilmente afinar e ajustar o seu processador com Ryzen\u2122 Master e AMD StoreMI."
+        ],
+        "descricao_5": [
+            "",
+            ""
+        ],
+        "descricao_6": [
+            "",
+            ""
+        ]
+    },
+    "img_path": "/static/produtos/Processador AMD Ryzen 7 5700X/100-100000926WOF.jpg",
+    "desconto": "0.00"
+}

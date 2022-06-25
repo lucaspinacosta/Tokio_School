@@ -1,0 +1,71 @@
+{
+    "especificacoes": {
+        "sistema_operativo": [
+            "Capacidade",
+            "250GB"
+        ],
+        "memoria_ram": [
+            "Dimens\u00f5es",
+            "80.15 x 22.15 x 2.38 mm"
+        ],
+        "Processador": [
+            "Escrita Aleat\u00f3ria 4kb (QD32)",
+            "At\u00e9 320000 IOPS"
+        ],
+        "armazenamento": [
+            "Interface",
+            "PCIe Gen 3.0 x4, NVMeTM 1.4"
+        ],
+        "audio": [
+            "Form factor",
+            "M.2 (2280)"
+        ],
+        "ecra": [
+            "Velocidade de Leitura Sequencial",
+            "At\u00e9 2900 Mb/s"
+        ],
+        "grafica": [
+            "Velocidade de Escrita Sequencial",
+            "At\u00e9 1300 Mb/s"
+        ],
+        "cor": [
+            "Leitura Aleat\u00f3ria 4kb (QD32)",
+            "At\u00e9 230000 IOPS"
+        ],
+        "interface": [
+            "Consumo de energia",
+            "3.7 W (M\u00e9dia)",
+            " 5.6 W (M\u00e1ximo)",
+            "",
+            ""
+        ]
+    },
+    "descricoes": {
+        "descricao_1": [
+            "O SSD QUE VAI MAIS AL\u00c9M",
+            "Tire o maior partido do seu PC com o SSD 980. Quer precise de um boost enquanto joga ou de trabalhar imagens pesadas, o SSD 980 \u00e9 a escolha certa. Conseguindo um desempenho excecional, gra\u00e7as \u00e0 interface NVMeTM e \u00e0 tecnologia Pcle 3.0.E24"
+        ],
+        "descricao_2": [
+            "VELOCIDADE N\u00c3O LHE FALTA",
+            "Vai direto ao assunto. O SSD 980 aproveita as vantagens que o PCle 3.0 lhe d\u00e1 ao n\u00edvel da velocidade, atrav\u00e9s da tecnologia HBM e da incr\u00edvel efici\u00eancia NVMe. Consiga uma experi\u00eancia excecional gra\u00e7as ao design DRAM-less, alcan\u00e7ando at\u00e9 3,500/3,000 MB/s* de velocidade de leitura/escrita sequencial. Uma velocidade 6,2x superior \u00e0 dos SSD SATA."
+        ],
+        "descricao_3": [
+            "PREPARADO PARA O QUE DER E VIER",
+            "Ponha o seu SSD a trabalhar ao mais alto n\u00edvel, de forma consistente e sem parar, com o Full Power Mode. Ligue-o atrav\u00e9s do software Samsung Magic e mantenha o seu SSD sempre ativo. \u00c0 altura de qualquer desafio. Sejam dias de trabalho intenso, ficheiros enormes, jogos com um grafismo pesado ou at\u00e9 mesmo as tarefas do dia-a-dia."
+        ],
+        "descricao_4": [
+            "FEITO PARA DURAR",
+            "Mantenha os seus ficheiros em seguran\u00e7a com um SSD que foi feito para durar. Com at\u00e9 600 TBW e uma garantia limitada de 5 anos, a durabilidade otimizada do SSD 980 conta com fiabilidade comprovada - gra\u00e7as \u00e0s solu\u00e7\u00f5es desenvolvidas internamente pela Samsung. Desde o controlador V-NAND de \u00faltima gera\u00e7\u00e3o, ao firmware mais recente."
+        ],
+        "descricao_5": [
+            "",
+            ""
+        ],
+        "descricao_6": [
+            "",
+            ""
+        ]
+    },
+    "img_path": "/static/produtos/Disco SSD Samsung 980 250GB M.2 NVMe/MZ-V8V250BW.jpg",
+    "desconto": "0.00"
+}

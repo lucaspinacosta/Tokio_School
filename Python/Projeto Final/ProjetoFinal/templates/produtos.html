@@ -113,7 +113,12 @@
                             {%if quanti_armazem >=1 %}
                             <input type="hidden" name="code" value="{{id_do_produto}}" />
                             <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2" />
+                            {% if quantidade <= quantidade_armazem %}
                             <input type="submit" value="Add Cart" class="btnAddAction" />
+                            {%elif quantidade> quantidade_armazem%}
+                            <button onClick="alert('Quantidade de produto nao disponivel')"></button>
+                            {%endif%}
+
                             {%elif quanti_armazem <=0%}<p>
                                 </p>
                                 <p> Sem Stock <img src="static/img/out-of-stock.png" class="img justify-content-between"
