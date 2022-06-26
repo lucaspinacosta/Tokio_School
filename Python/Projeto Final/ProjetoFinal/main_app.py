@@ -326,14 +326,14 @@ def editar_prod(code_edit):
             con.commit()
             db.session.commit()
         else:pass
+        #dicionario descricao
         new_descricao_1 ={"descricoes":{"descricao_1":[request.form['editar_tit_descr_1'],request.form['editar_descr_1']],
         "descricao_2":[request.form['editar_tit_descr_2'],request.form['editar_descr_2']],
         "descricao_3":[request.form['editar_tit_descr_3'],request.form['editar_descr_3']],
         "descricao_4":[request.form['editar_tit_descr_4'],request.form['editar_descr_4']],
         "descricao_5":[request.form['editar_tit_descr_5'],request.form['editar_descr_5']],
         "descricao_6":[request.form['editar_tit_descr_6'],request.form['editar_descr_6']]}}
-
-        #Armazenamos as especificacoes atuais
+        #Armazenamos as descricoes atuais
         old_descr_1 = especificacoes['descricoes']['descricao_1']
         old_descr_2 = especificacoes['descricoes']['descricao_2']
         old_descr_3 = especificacoes['descricoes']['descricao_3']
@@ -341,8 +341,29 @@ def editar_prod(code_edit):
         old_descr_5 = especificacoes['descricoes']['descricao_5']
         old_descr_6 = especificacoes['descricoes']['descricao_6']
 
+        #dicionario request novas especificacoes
+        new_especificacoes = {"especificacoes":{"sistema_operativo":[request.form['editar_col_A1'],request.form['editar_col_B1']],
+        "Processador":[request.form['editar_col_A2'],request.form['editar_col_B2']],
+        "memoria_ram":[request.form['editar_col_A3'],request.form['editar_col_B3']],
+        "armazenamento":[request.form['editar_col_A4'],request.form['editar_col_B4']],
+        "audio":[request.form['editar_col_A5'],request.form['editar_col_B5']],
+        "ecra":[request.form['editar_col_A6'],request.form['editar_col_B6']],
+        "grafica":[request.form['editar_col_A7'],request.form['editar_col_B7']],
+        "cor":[request.form['editar_col_A8'],request.form['editar_col_B8']],
+        "interface":[request.form['editar_col_A9'],request.form['editar_col_B9'],request.form['editar_col_B10'], \
+        request.form['editar_col_B11'],request.form['editar_col_B12'],request.form['editar_col_B13']]}}
+        #Armazenameto das espepecificacoes atuais
+        old_especs_1 = especificacoes['especificacoes']['sistema_operativo']
+        old_especs_2 = especificacoes['especificacoes']['Processador']
+        old_especs_3 = especificacoes['especificacoes']['memoria_ram']
+        old_especs_4 = especificacoes['especificacoes']['armazenamento']
+        old_especs_5 = especificacoes['especificacoes']['audio']
+        old_especs_6 = especificacoes['especificacoes']['ecra']
+        old_especs_7 = especificacoes['especificacoes']['grafica']
+        old_especs_8 = especificacoes['especificacoes']['cor']
+        old_especs_9 = especificacoes['especificacoes']['interface']
+
         #Atualiza as Especificacoes do Produto
-    
         with open(produto_em_edicao[10]) as file:
             file_data = json.load(file) 
             #Atualiza a seccao 1 das especificacoes
@@ -420,6 +441,16 @@ def editar_prod(code_edit):
                 
             elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
                 new_descricao_1['descricoes']['descricao_6'] = old_descr_6
+
+            if new_especificacoes['especificacoes']['editar_col_A1'][0] !="" and new_especificacoes['especificacoes']['editar_col_B1']!="":
+                pass
+            elif new_especificacoes['especificacoes']['sistema_operativo'][0]=="" and new_especificacoes['especificacoes']['sistema_operativo'][1]!="":
+                new_especificacoes['especificacoes']['sistema_operativo'][0] = old_especs_1[0]
+            elif new_especificacoes['especificacoes']['sistema_operativo'][0]!="" and new_especificacoes['especificacoes']['sistema_operativo'][1]=="":
+                new_especificacoes['especificacoes']['editar_col_B1'] = old_especs_1[1]
+            elif new_especificacoes['especificacoes']['sistema_operativo'][0]=="" and new_especificacoes['especificacoes']['sistema_operativo'][1]=="":
+                new_especificacoes['especificacoes']['sistema_operativo'] = old_especs_1
+            
             file.seek(0)
             file_data.update(new_descricao_1)
             #Fim das atualizacoes das especificacoes

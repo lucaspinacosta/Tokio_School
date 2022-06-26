@@ -178,56 +178,82 @@
                         <ul>
                             <dl class="row">
                                 <dt class="col-sm-3">
-                                    <p>{{especificacoes['especificacoes']['sistema_operativo'][0]}}</p>
+                                    {{especificacoes['especificacoes']['sistema_operativo'][0]}}<br>
+                                        <input type="text" name="editar_col_A1" placeholder="especs 1" style="width:120px">
+                                    
                                 </dt>
                                 <dd class="col-sm-9">
-                                    <p>{{especificacoes['especificacoes']['sistema_operativo'][1]}}</p>
+                                    {{especificacoes['especificacoes']['sistema_operativo'][1]}}<br>
+                                    <input type="text" name="editar_col_B1" placeholder="especs 1" style="width:450px;">
                                 </dd>
 
-                                <dt class="col-sm-3">{{especificacoes['especificacoes']['Processador'][0]}}</dt>
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']['Processador'][0]}}<br>
+                                    <input type="text" name="editar_col_A2" placeholder="especs 2" style="width:120px">
+                                </dt>
                                 <dd class="col-sm-9">
-                                    <p>{{especificacoes['especificacoes']['Processador'][1]}}</p>
+                                    {{especificacoes['especificacoes']['Processador'][1]}}
+                                        <input type="text" name="editar_col_B2" placeholder="especs 2" style="width:450px;">
+                                    
                                 </dd>
                                 <dt class="col-sm-3">
-                                    <p>{{especificacoes['especificacoes']["memoria_ram"][0]}}</p>
+                                    {{especificacoes['especificacoes']["memoria_ram"][0]}}<br>
+                                    <input type="text" name="editar_col_A3" placeholder="especs 3" style="width:120px">
                                 </dt>
                                 <dd class="col-sm-9">{{especificacoes['especificacoes']["memoria_ram"][1]}}
+                                    <input type="text" name="editar_col_B3" placeholder="especs 3" style="width:450px;">
                                 </dd>
 
-                                <dt class="col-sm-3">{{especificacoes['especificacoes']["armazenamento"][0]}}</dt>
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["armazenamento"][0]}}<br>
+                                    <input type="text" name="editar_col_A4" placeholder="especs 4" style="width:120px"></dt>
                                 <dd class="col-sm-8">{{especificacoes['especificacoes']["armazenamento"][1]}}
-                                    <p>{{especificacoes['especificacoes']["armazenamento"][2]}}</p>
-                                    <p>{{especificacoes['especificacoes']["armazenamento"][3]}}</p>
+                                    <input type="text" name="editar_col_B4" placeholder="especs 4" style="width:450px;">
                                 </dd>
 
 
                                 <dt class="col-sm-3">
-                                    <p>{{especificacoes['especificacoes']["audio"][0]}}</p>
+                                    {{especificacoes['especificacoes']["audio"][0]}}<br>
+                                    <input type="text" name="editar_col_A5" placeholder="especs 5" style="width:120px">
                                 </dt>
-                                <dd class="col-sm-8">{{especificacoes['especificacoes']["audio"][1]}}</dd>
+                                <dd class="col-sm-8">{{especificacoes['especificacoes']["audio"][1]}}
+                                    <input type="text" name="editar_col_B5" placeholder="especs 5" style="width:450px;">
+                                </dd>
 
-                                <dt class="col-sm-3">{{especificacoes['especificacoes']["ecra"][0]}}</dt>
-                                <dd class="col-sm-8">{{especificacoes['especificacoes']["ecra"][1]}}</dd>
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["ecra"][0]}}<br>
+                                    <input type="text" name="editar_col_A6" placeholder="especs 6" style="width:120px"></dt>
+                                <dd class="col-sm-8">{{especificacoes['especificacoes']["ecra"][1]}}
+                                    <input type="text" name="editar_col_B6" placeholder="especs 6" style="width:450px;">
+                                </dd>
                                 <p></p>
-                                <dt class="col-sm-3">{{especificacoes['especificacoes']["grafica"][0]}}</dt>
-                                <dd class="col-sm-8">{{especificacoes['especificacoes']["grafica"][1]}}</dd>
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["grafica"][0]}}<br>
+                                    <input type="text" name="editar_col_A7" placeholder="especs 7" style="width:120px"></dt>
+                                <dd class="col-sm-8">{{especificacoes['especificacoes']["grafica"][1]}}
+                                    <input type="text" name="editar_col_B7" placeholder="especs 7" style="width:450px;">
+                                </dd>
                                 <p></p>
-                                <dt class="col-sm-3">{{especificacoes['especificacoes']["cor"][0]}}</dt>
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["cor"][0]}}<br>
+                                    <input type="text" name="editar_col_A8" placeholder="especs 8" style="width:120px"></dt>
                                 <dd class="col-sm-8">{{especificacoes['especificacoes']["cor"][1]}}
+                                    <input type="text" name="editar_col_B8" placeholder="especs 8" style="width:450px;">
                                     <p>{{especificacoes['especificacoes']['cor'][2]}}</p>
                                 </dd>
                                 <p></p>
-                                <dt class="col-sm-3">{{especificacoes['especificacoes']["interface"][0]}}</dt>
+                                <dt class="col-sm-3">{{especificacoes['especificacoes']["interface"][0]}}<br>
+                                    <input type="text" name="editar_col_A9" placeholder="especs 9" style="width:120px"></dt>
                                 <dd class="col-sm-8">
-                                    <a>{{especificacoes['especificacoes']["interface"][1]}}<br></a>
+                                    <a>{{especificacoes['especificacoes']["interface"][1]}}
+                                        <input type="text" name="editar_col_B9" placeholder="especs 9" style="width:450px;"><br></a>
 
-                                    <a>{{especificacoes['especificacoes']["interface"][2]}}<br></a>
+                                    <a>{{especificacoes['especificacoes']["interface"][2]}}
+                                        <input type="text" name="editar_col_B10" placeholder="especs 10" style="width:450px;"><br></a>
 
-                                    <a>{{especificacoes['especificacoes']["interface"][3]}}<br></a>
+                                    <a>{{especificacoes['especificacoes']["interface"][3]}}
+                                        <input type="text" name="editar_col_B11" placeholder="especs 11" style="width:450px;"><br></a>
 
-                                    <a>{{especificacoes['especificacoes']["interface"][4]}}<br></a>
+                                    <a>{{especificacoes['especificacoes']["interface"][4]}}
+                                        <input type="text" name="editar_col_B12" placeholder="especs 12" style="width:450px;"><br></a>
 
-                                    <a>{{especificacoes['especificacoes']["interface"][5]}}<br></a>
+                                    <a>{{especificacoes['especificacoes']["interface"][5]}}
+                                        <input type="text" name="editar_col_B13" placeholder="especs 13" style="width:450px;"><br></a>
 
                                     {%endif%}
                                 </dd>
