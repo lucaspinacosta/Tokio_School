@@ -204,7 +204,7 @@
                                         <h2 class="btn_links titulo img"> Descontos </h2>
                                         <nav class="row container-fluid row-cols-5 col-auto">
                                             <label class="alingcenter"> % Desconto : </label>
-                                            <input type="number" name ="submit_descontos" width="10px" height="5px">
+                                            <input type="number" name="submit_descontos" width="10px" height="5px">
                                             <label class="alingcenter"> Selecionar Produto: </label>
                                             <select name="desconto_produto">
                                                 {% for produto in todos_os_produtos%}
@@ -235,6 +235,7 @@
                                                 <th style="text-align:right;" width="5%">Stock</th>
                                                 <th style="text-align:right;" width="10%">Vendidos</th>
                                                 <th style="text-align:center;" width="5%">Preco para Revendedor</th>
+                                                <th style="text-align:center;"width="5%">Lucro</th>
                                                 <th style="text-align:right;" width="10%">Desconto</th>
                                                 <th style="text-align:center;" width="5%"> Encomendas </th>
                                                 <th style="text-align:center;" width="5%">Fornecer</th>
@@ -247,6 +248,7 @@
                                             {% set em_stock = produto[2] %}
                                             {% set vendidos = produto[3] %}
                                             {% set preco_fornecedor = produto[4]-produto[13] %}
+                                            {% set lucro_prod = preco_fornecedor * vendidos  %}
                                             {% set nome_fornecedor = produto[7] %}
                                             {% set id_fornecedor = produto[9]%}
                                             {% set encomenda = produto[8]%}
@@ -256,7 +258,9 @@
                                                 <td style="text-align:center;">{{ id_produto }}</td>
                                                 <td style="text-align:right;" width="5%">{{ em_stock }}</td>
                                                 <td style="text-align:right;" width="5%">{{ vendidos }}</td>
-                                                <td style="text-align:center;" width="5%">{{ '%.2f' % preco_fornecedor }}€</td>
+                                                <td style="text-align:center;" width="5%">{{ '%.2f' % preco_fornecedor
+                                                    }}€</td>
+                                                <td style="text-align:center;" width="5%">{{'%.2f' % lucro_prod}}€</td>
                                                 <td style="text-align:right;" width="10%">{{ '%.0f' % desconto }}%</td>
                                                 <td style="text-align:center;">{{ encomenda }}</td>
                                                 {%if encomenda > 0 : %}
@@ -323,7 +327,7 @@
                                         </div>
                                         <div class="aligncenter">
                                             <dt><a href="{{url_for('.show_room',code_prod=produtos[0]) }}">
-                                                    <img class="fit-picture " src="{{produtos[12]}}" height="200"></a>
+                                                    <img class="fit-picture " src="{{produtos[12]}}"  height="200"></a>
                                             <dt>{{ '%.2f' % produtos[5] }} € </dt>
                                             </dt>
                                         </div>
@@ -345,18 +349,15 @@
                                                     {%endif%}
                                                 </form>
                                             </div>
-                                        </div><br><br>
-
+                                        </div><br>
                                     </ul>
                                 </div>{%endfor%}
                                 <br>
                             </nav>
-                        </div>
+                        </div><br>
                     </div>
                 </nav>
-
-            </div>
-            <br><br>
-        </div>
+            </div><br><br>
+        </div><br>
     </main>
 </body>

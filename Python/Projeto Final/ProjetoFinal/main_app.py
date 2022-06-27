@@ -1,6 +1,6 @@
 # imports
 from datetime import date
-import glob,shutil
+import glob
 import sqlite3
 import json
 import os
@@ -367,92 +367,129 @@ def editar_prod(code_edit):
         with open(produto_em_edicao[10]) as file:
             file_data = json.load(file) 
             #Atualiza a seccao 1 das especificacoes
-            if new_descricao_1['descricoes']['descricao_1'][0] != "" and new_descricao_1['descricoes']['descricao_1'][1] !="":
-                pass
             #Atualiza apenas o texto da especificacao 1
-            elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] != "":
+            if new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] != "":
                 new_descricao_1["descricoes"]['descricao_1'][0]=old_descr_1[0]
-
             #Atualiza apenas o titulo da Especificacao 1
             elif new_descricao_1['descricoes']['descricao_1'][0] != "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
                 new_descricao_1["descricoes"]['descricao_1'][1]=old_descr_1[1]
             #Mantem os dados antigos da Especificacao 1
             elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
                 new_descricao_1['descricoes']['descricao_1'] = old_descr_1
-            #Atualiza a seccao 2 das especificacoes
-            if new_descricao_1['descricoes']['descricao_2'][0] != "" and new_descricao_1['descricoes']['descricao_2'][1] !="":
-                pass
+
             #Atualiza apenas o texto da especificacao 2
-            elif new_descricao_1['descricoes']['descricao_2'][0] == "" and new_descricao_1['descricoes']['descricao_2'][1] != "":
+            if new_descricao_1['descricoes']['descricao_2'][0] == "" and new_descricao_1['descricoes']['descricao_2'][1] != "":
                 new_descricao_1['descricoes']['descricao_2'] = [old_descr_2[0],new_descricao_1['descricoes']['descricao_2'][1]]
             #Atualiza apenas o titulo da Especificacao 2
             elif new_descricao_1['descricoes']['descricao_2'][0] != "" and new_descricao_1['descricoes']['descricao_2'][1] == "":
                 new_descricao_1['descricoes']['descricao_2'] = [new_descricao_1['descricoes']['descricao_2'][0],old_descr_2[1]]
-                
             #Mantem os dados antigos da Especificacao 2
             elif new_descricao_1['descricoes']['descricao_2'][0] == "" and new_descricao_1['descricoes']['descricao_2'][1] == "":
                 new_descricao_1['descricoes']['descricao_2'] = old_descr_2
                 
             #ETC...
-            if new_descricao_1['descricoes']['descricao_3'][0] != "" and new_descricao_1['descricoes']['descricao_3'][1] !="":
-                pass                  
-                
-            elif new_descricao_1['descricoes']['descricao_3'][0] == "" and new_descricao_1['descricoes']['descricao_3'][1] != "":
+            if new_descricao_1['descricoes']['descricao_3'][0] == "" and new_descricao_1['descricoes']['descricao_3'][1] != "":
                 new_descricao_1['descricoes']['descricao_3'] = [old_descr_3[0],new_descricao_1['descricoes']['descricao_3'][1]]
-                
             elif new_descricao_1['descricoes']['descricao_3'][0] != "" and new_descricao_1['descricoes']['descricao_3'][1] == "":
                 new_descricao_1['descricoes']['descricao_3'] = [new_descricao_1['descricoes']['descricao_1'][0],old_descr_3[1]]
-                
             elif new_descricao_1['descricoes']['descricao_3'][0] == "" and new_descricao_1['descricoes']['descricao_3'][1] == "":
                 new_descricao_1['descricoes']['descricao_3'] = old_descr_3
                 
-            if new_descricao_1['descricoes']['descricao_4'][0] != ""and new_descricao_1['descricoes']['descricao_4'][1] !="":
-                pass
-                
-            elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_4'][1] != "":
+            if new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_4'][1] != "":
                 new_descricao_1['descricoes']['descricao_4'] = [old_descr_4[0],new_descricao_1['descricoes']['descricao_4'][1]]
-                
             elif new_descricao_1['descricoes']['descricao_4'][0] != "" and new_descricao_1['descricoes']['descricao_4'][1] == "":
                 new_descricao_1['descricoes']['descricao_4'] = [new_descricao_1['descricoes']['descricao_4'][1],old_descr_4[0]]
-                
             elif new_descricao_1['descricoes']['descricao_4'][0] == "" and new_descricao_1['descricoes']['descricao_4'][1] == "":
                 new_descricao_1['descricoes']['descricao_4'] = old_descr_4
                 
-            if new_descricao_1['descricoes']['descricao_5'][0] != "" and new_descricao_1['descricoes']['descricao_5'][1] !="":
-                pass
-                
-            elif new_descricao_1['descricoes']['descricao_5'][0] == "" and new_descricao_1['descricoes']['descricao_5'][1] != "":
+            if new_descricao_1['descricoes']['descricao_5'][0] == "" and new_descricao_1['descricoes']['descricao_5'][1] != "":
                 new_descricao_1['descricoes']['descricao_5'] = [old_descr_5[0],new_descricao_1['descricoes']['descricao_5'][1]]
-                
             elif new_descricao_1['descricoes']['descricao_5'][0] != "" and new_descricao_1['descricoes']['descricao_5'][1] == "":
                 new_descricao_1['descricoes']['descricao_5'] = [new_descricao_1['descricoes']['descricao_5'][1],old_descr_5[0]]
-                
             elif new_descricao_1['descricoes']['descricao_5'][0] == "" and new_descricao_1['descricoes']['descricao_5'][1] == "":
                 new_descricao_1['descricoes']['descricao_5'] = old_descr_5
                 
-            if new_descricao_1['descricoes']['descricao_6'][0] != "" and new_descricao_1['descricoes']['descricao_6'][1] != "":
-                pass
-                
-            elif new_descricao_1['descricoes']['descricao_6'][0] == "" and new_descricao_1['descricoes']['descricao_6'][1] != "":
+            if new_descricao_1['descricoes']['descricao_6'][0] == "" and new_descricao_1['descricoes']['descricao_6'][1] != "":
                 new_descricao_1['descricoes']['descricao_6'] = [old_descr_6[0],new_descricao_1['descricoes']['descricao_6'][1]]
-                
             elif new_descricao_1['descricoes']['descricao_6'][0] != "" and new_descricao_1['descricoes']['descricao_6'][1] == "":
                 new_descricao_1['descricoes']['descricao_6'] = [new_descricao_1['descricoes']['descricao_1'][0],old_descr_6[1]]
-                
             elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
                 new_descricao_1['descricoes']['descricao_6'] = old_descr_6
 
-            if new_especificacoes['especificacoes']['editar_col_A1'][0] !="" and new_especificacoes['especificacoes']['editar_col_B1']!="":
-                pass
+            if new_especificacoes['especificacoes']['sistema_operativo'][0] =="" and new_especificacoes['especificacoes']['sistema_operativo'][1]=="":
+                new_especificacoes['especificacoes']['sistema_operativo'] = old_especs_1
             elif new_especificacoes['especificacoes']['sistema_operativo'][0]=="" and new_especificacoes['especificacoes']['sistema_operativo'][1]!="":
                 new_especificacoes['especificacoes']['sistema_operativo'][0] = old_especs_1[0]
             elif new_especificacoes['especificacoes']['sistema_operativo'][0]!="" and new_especificacoes['especificacoes']['sistema_operativo'][1]=="":
-                new_especificacoes['especificacoes']['editar_col_B1'] = old_especs_1[1]
-            elif new_especificacoes['especificacoes']['sistema_operativo'][0]=="" and new_especificacoes['especificacoes']['sistema_operativo'][1]=="":
-                new_especificacoes['especificacoes']['sistema_operativo'] = old_especs_1
-            
+                new_especificacoes['especificacoes']['sistema_operativo'][1] = old_especs_1[1]
+
+            if new_especificacoes['especificacoes']['Processador'][0] =="" and new_especificacoes['especificacoes']['Processador'][1]=="":
+                new_especificacoes['especificacoes']['Processador'] = old_especs_2
+            elif new_especificacoes['especificacoes']['Processador'][0]=="" and new_especificacoes['especificacoes']['Processador'][1]!="":
+                new_especificacoes['especificacoes']['Processador'][0] = old_especs_2[0]
+            elif new_especificacoes['especificacoes']['Processador'][0]!="" and new_especificacoes['especificacoes']['Processador'][1]=="":
+                new_especificacoes['especificacoes']['Processador'][1] = old_especs_2[1]
+
+            if new_especificacoes['especificacoes']['memoria_ram'][0] =="" and new_especificacoes['especificacoes']['memoria_ram'][1]=="":
+                new_especificacoes['especificacoes']['memoria_ram'] = old_especs_3
+            elif new_especificacoes['especificacoes']['memoria_ram'][0]=="" and new_especificacoes['especificacoes']['memoria_ram'][1]!="":
+                new_especificacoes['especificacoes']['memoria_ram'][0] = old_especs_3[0]
+            elif new_especificacoes['especificacoes']['memoria_ram'][0]!="" and new_especificacoes['especificacoes']['memoria_ram'][1]=="":
+                new_especificacoes['especificacoes']['memoria_ram'][1] = old_especs_3[1]
+
+            if new_especificacoes['especificacoes']['armazenamento'][0] =="" and new_especificacoes['especificacoes']['armazenamento'][1]=="":
+                new_especificacoes['especificacoes']['armazenamento'] = old_especs_4
+            elif new_especificacoes['especificacoes']['armazenamento'][0]=="" and new_especificacoes['especificacoes']['armazenamento'][1]!="":
+                new_especificacoes['especificacoes']['armazenamento'][0] = old_especs_4[0]
+            elif new_especificacoes['especificacoes']['armazenamento'][0]!="" and new_especificacoes['especificacoes']['armazenamento'][1]=="":
+                new_especificacoes['especificacoes']['armazenamento'][1] = old_especs_4[1]
+
+            if new_especificacoes['especificacoes']['audio'][0] =="" and new_especificacoes['especificacoes']['audio'][1]=="":
+                new_especificacoes['especificacoes']['audio'] = old_especs_5
+            elif new_especificacoes['especificacoes']['audio'][0]=="" and new_especificacoes['especificacoes']['audio'][1]!="":
+                new_especificacoes['especificacoes']['audio'][0] = old_especs_5[0]
+            elif new_especificacoes['especificacoes']['audio'][0]!="" and new_especificacoes['especificacoes']['audio'][1]=="":
+                new_especificacoes['especificacoes']['audio'][1] = old_especs_5[1]
+                
+            if new_especificacoes['especificacoes']['ecra'][0] =="" and new_especificacoes['especificacoes']['ecra'][1]=="":
+                new_especificacoes['especificacoes']['ecra'] = old_especs_6
+            elif new_especificacoes['especificacoes']['ecra'][0]=="" and new_especificacoes['especificacoes']['ecra'][1]!="":
+                new_especificacoes['especificacoes']['ecra'][0] = old_especs_6[0]
+            elif new_especificacoes['especificacoes']['ecra'][0]!="" and new_especificacoes['especificacoes']['ecra'][1]=="":
+                new_especificacoes['especificacoes']['ecra'][1] = old_especs_6[1]
+
+            if new_especificacoes['especificacoes']['grafica'][0] =="" and new_especificacoes['especificacoes']['grafica'][1]=="":
+                new_especificacoes['especificacoes']['grafica'] = old_especs_7
+            elif new_especificacoes['especificacoes']['grafica'][0]=="" and new_especificacoes['especificacoes']['grafica'][1]!="":
+                new_especificacoes['especificacoes']['grafica'][0] = old_especs_7[0]
+            elif new_especificacoes['especificacoes']['grafica'][0]!="" and new_especificacoes['especificacoes']['grafica'][1]=="":
+                new_especificacoes['especificacoes']['grafica'][1] = old_especs_7[1]
+
+            if new_especificacoes['especificacoes']['cor'][0] =="" and new_especificacoes['especificacoes']['cor'][1]=="":
+                new_especificacoes['especificacoes']['cor'] = old_especs_8
+            elif new_especificacoes['especificacoes']['cor'][0]=="" and new_especificacoes['especificacoes']['cor'][1]!="":
+                new_especificacoes['especificacoes']['cor'][0] = old_especs_8[0]
+            elif new_especificacoes['especificacoes']['cor'][0]!="" and new_especificacoes['especificacoes']['cor'][1]=="":
+                new_especificacoes['especificacoes']['cor'][1] = old_especs_8[1]
+            try:
+                if new_especificacoes['especificacoes']['interface'][0]=="":
+                    new_especificacoes['especificacoes']['interface'][0] = old_especs_9[0]
+                if new_especificacoes['especificacoes']['interface'][1]=="":
+                    new_especificacoes['especificacoes']['interface'][1] = old_especs_9[1]
+                if new_especificacoes['especificacoes']['interface'][2]=="":
+                    new_especificacoes['especificacoes']['interface'][2] = old_especs_9[2]
+                if new_especificacoes['especificacoes']['interface'][3]=="":
+                    new_especificacoes['especificacoes']['interface'][3] = old_especs_9[3]
+                if new_especificacoes['especificacoes']['interface'][4]=="":
+                    new_especificacoes['especificacoes']['interface'][4] = old_especs_9[4]
+                if new_especificacoes['especificacoes']['interface'][5]=="":
+                    new_especificacoes['especificacoes']['interface'][5] = old_especs_9[5]
+            except Exception as e:
+                print(e)
+
             file.seek(0)
             file_data.update(new_descricao_1)
+            file_data.update(new_especificacoes)
             #Fim das atualizacoes das especificacoes
             #Atualiza a Imagem do produto                          
             if img_path.filename != '':#Atualizar link imagem
@@ -526,10 +563,10 @@ def criar_fornecedor():
 @root.route('/', methods=['GET', 'POST'])
 def home():
     todos_os_produtos = lista_produtos() #lista com todos os produtos
-    print(todos_os_produtos)
     con = sqlite3.connect('database/dados_informacoes2.db')
     cursor = con.cursor()
     apresentacao = []  #produtos que serao apresentados na home page
+    destaques = []
     for produto in todos_os_produtos:
         prod_img_desj = produto[0]  #imagem do produto
         cursor.execute(
@@ -539,14 +576,33 @@ def home():
         detalhes = json.load(get_especificacoes)  #espeficacoes do produto
         novos_detalhes = produto+(detalhes["img_path"],)  #dados do produto a ser apresentado + path da imagem
         apresentacao.append(novos_detalhes)         #adiciona a lista de produtos a apresentar
+    
+    range = 0 
+    random.shuffle(apresentacao)
+    for produto in apresentacao:
+        range +=1
+        if range == 4:
+            break
+        
+        con = sqlite3.connect('database/dados_informacoes2.db')
+        cursor = con.cursor()
+        cursor.execute(
+            "SELECT * FROM Produtos WHERE numero_serie = ?", (produto[0],))
+        produto_select = cursor.fetchone()
+        get_especificacoes = open(produto_select[10], encoding="utf8")
+        detalhes = json.load(get_especificacoes)
+        novos_destaques = produto+(detalhes['especificacoes'],)
+        destaques.append(novos_destaques)
+        print(destaques)
+    
     if request.method == 'GET':
         try:
             if session['log_in'] == True:
-                return render_template('index.html', todos_os_produtos=apresentacao, log_in=session['log_in'], user=session['username'])
+                return render_template('index.html', todos_os_produtos=apresentacao,destaques=destaques,detalhes=detalhes, log_in=session['log_in'], user=session['username'])
             elif session['log_in_admin'] == True:
-                return render_template('index.html', todos_os_produtos=apresentacao, log_in=session['log_in_admin'], user=session['username'])
+                return render_template('index.html', todos_os_produtos=apresentacao,destaques=destaques ,detalhes=detalhes,log_in=session['log_in_admin'], user=session['username'])
         except:
-            return render_template('index.html', todos_os_produtos=apresentacao, log_in=False, user=None)
+            return render_template('index.html', todos_os_produtos=apresentacao,destaques=destaques,detalhes=detalhes, log_in=False, user=None)
     if request.method == 'POST':
         #redireciona para login ao tentar comprar produto e nao se tenha feito login previamente
         return redirect(url_for('/user-login'))
@@ -1294,31 +1350,33 @@ def show_room(code_prod):
     preco_produto = produto_select[5]
     imagem_produto = detalhes["img_path"]
     descricao_prod = produto_select[8]
+    prateleira = produto_select[6]
+    nome_fornecedor = produto_select[7]
     quantidade_armazem = produto_select[2]
 
     try:
         if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,
-                                   descricao_prod=descricao_prod, especificacoes=detalhes,
+                                   descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,
                                    log_in=session['log_in'], pass_word=session['pass_word'],
                                    user=session['username'])
         elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,
-                                   descricao_prod=descricao_prod, especificacoes=detalhes,
+                                   descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,
                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
                                    user=session['username'])
         elif session['log_in_fornecedor'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,
-                                   descricao_prod=descricao_prod, especificacoes=detalhes,
+                                   descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,
                                    log_in_fornecedor=session['log_in_fornecedor'], pass_word_fornecedor=session['pass_word_fornecedor'],
                                    user=session['username'])
     except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
+        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
                                preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,
-                               descricao_prod=descricao_prod, especificacoes=detalhes)
+                               descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira)
 
 
 if __name__ == "__main__":

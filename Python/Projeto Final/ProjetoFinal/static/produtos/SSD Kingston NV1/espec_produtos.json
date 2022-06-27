@@ -1,57 +1,60 @@
 {
-   "especificacoes": {
-      "sistema_operativo": [
-         "Sistema Operativo",
-         "Windows 10 Home"
-      ],
-      "Processador": [
-         "Processador",
-         "Intel\u00ae Core\u2122 i5-1135G7, 2.4 GHz (8M Cache, at\u00e9 4.2 GHz, 4 cores)"
-      ],
-      "memoria_ram": [
-         "Memoria Ram",
-         " 8GB de mem\u00f3ria RAM on board (4GB DDR4 on board + 4GB DDR4 SO-DIMM)"
-      ],
-      "armazenamento": [
-         "Armazenamento",
-         "SSD de 512GB M.2 NVMe\u2122 PCIe\u00ae 3.0"
-      ],
-      "audio": [
-         "Audio",
-         "Altifalante incorporadoa  Microfone/harman/kardon embutido (Mainstream)"
-      ],
-      "ecra": [
-         "Ecra",
-         "15.6' FHD (1920 x 1080) 16:9, LED Backlit, IPS-level Panel, 300nits, 100% sRGB color gamut"
-      ],
-      "grafica": [
-         "Grafica",
-         "Placa Gr\u00e1fica NVIDIA\u00ae GeForce\u00ae MX330, com 2GB de mem\u00f3ria VRAM GDDR5"
-      ],
-      "cor": [
-         "Cor",
-         "Prateado"
-      ],
-      "interface": [
-         "Interface",
-         "1 x USB 3.2 Gen 1 Type-A",
-         "1 x USB 3.2 Gen 1 Type-C",
-         "2 x USB 2.0 Tipo A",
-         "1 x HDMI 1.4",
-         "1 x Leitor de auscultadores/micro SD card"
-      ]
-   },
-   "descricoes": {
-      "descricao_1": [
-         "Kingston NV1",
-         "O SSD NV1 NVMe\u2122 PCIe da Kingston \u00e9 uma solu\u00e7\u00e3o de armazenamento substancial, que oferece velocidades de leitura/escrita elevadas, que s\u00e3o 3 a 4 vezes mais r\u00e1pidas que um SSD de base SATA e 35 vezes mais r\u00e1pidas que um disco r\u00edgido tradicional. O NV1 funciona com uma pot\u00eancia mais baixa, menos calor e tempos de carregamento mais r\u00e1pidos. O desempenho eficiente e o design de M.2 2280 (22x80 mm) de um \u00fanico lado fazem com que o NV1 seja ideal para port\u00e1teis e sistemas finos com espa\u00e7o limitado."
-      ],
-      "descricao_2": [],
-      "descricao_3": [],
-      "descricao_4": [],
-      "descricao_5": [],
-      "descricao_6": []
-   },
-   "img_path": "/static/produtos/SSD Kingston NV1/SSD Kingston NV1.png",
-   "desconto": "18.00"
+    "especificacoes": {
+        "sistema_operativo": [
+            "Form factor",
+            "M.2 2280"
+        ],
+        "Processador": [
+            "Interface",
+            "NVMe\u2122 PCIe Gen 3.0 x 4"
+        ],
+        "memoria_ram": [
+            "Capacidade",
+            "500GB"
+        ],
+        "armazenamento": [
+            "Velocidade de Leitura Sequencial",
+            "At\u00e9 2100MB/s"
+        ],
+        "audio": [
+            "Velocidade de Escrita Sequencial",
+            "At\u00e9 1700MB/s"
+        ],
+        "ecra": [
+            "Temperatura de armazenamento",
+            "-40\u00b0C~85\u00b0C"
+        ],
+        "grafica": [
+            "Temperatura de opera\u00e7\u00e3o",
+            "0\u00b0C~70\u00b0C"
+        ],
+        "cor": [
+            "Dimens\u00f5es",
+            "22mm x 80mm x 2.1mm"
+        ],
+        "interface": [
+            "Interface",
+            "1 x USB 3.2 Gen 1 Type-A",
+            "1 x USB 3.2 Gen 1 Type-C",
+            "2 x USB 2.0 Tipo A",
+            "1 x HDMI 1.4",
+            "1 x Leitor de auscultadores/micro SD card"
+        ]
+    },
+    "descricoes": {
+        "descricao_1": [
+            "Kingston NV1",
+            "O SSD NV1 NVMe\u2122 PCIe da Kingston \u00e9 uma solu\u00e7\u00e3o de armazenamento substancial, que oferece velocidades de leitura/escrita elevadas, que s\u00e3o 3 a 4 vezes mais r\u00e1pidas que um SSD de base SATA e 35 vezes mais r\u00e1pidas que um disco r\u00edgido tradicional. O NV1 funciona com uma pot\u00eancia mais baixa, menos calor e tempos de carregamento mais r\u00e1pidos. O desempenho eficiente e o design de M.2 2280 (22x80 mm) de um \u00fanico lado fazem com que o NV1 seja ideal para port\u00e1teis e sistemas finos com espa\u00e7o limitado."
+        ],
+        "descricao_2": [],
+        "descricao_3": [],
+        "descricao_4": [],
+        "descricao_5": [],
+        "descricao_6": [
+            "",
+            ""
+        ]
+    },
+    "img_path": "/static/produtos/SSD Kingston NV1/SSD Kingston NV1.png",
+    "desconto": "18.00"
 }

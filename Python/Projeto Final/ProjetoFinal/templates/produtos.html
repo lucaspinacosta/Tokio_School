@@ -64,7 +64,7 @@
                             type="image/png" src="/static/img/carrinho-de-compras.png" height="55" width="55">
                     </a>
                     <a class="nav-link py-1 px-2 " href="/logout">
-                        <img action="submit" alt="centered image" src="/static/img/logout.png" height="55" width="55">
+                        <img action="submit" alt="centered image" src="/static/img/logout.png" width="55">
                     </a>
                 </nav>
             </div>
@@ -92,7 +92,7 @@
                     
                     <h4>{{nome_produto}}</h4>
                     <h4 class="value_showstyle">{{ '%.2f' % preco_produto}}€</h4>
-                    <div class="popup" onclick="myFunction()"><img type="image/png" sizes="16x16"
+                    <div class="popup" onmouseover="myFunction()"><img type="image/png" sizes="16x16"
                             src="/static/img/question.png">
                         <span class="popuptext" id="myPopup">Sem IVA</span>
                         <script>
@@ -132,12 +132,12 @@
                     {%elif session['log_in_admin'] == True or session['log_in_fornecedor'] == True %}
                     <div class="btn-group">
                         <form action="/add" method="post">
-                            {%if quanti_armazem >10 %}
+                            {%if quanti_armazem > (100*10)/100 %}
                             <input type="hidden" name="code" value="{{id_do_produto}}" />
                             <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2" />
                             <input type="submit" value="Add Cart" class="btnAddAction" />
                             {%elif quanti_armazem > 0 and quanti_armazem
-                            < 11 %} <input type="hidden" name="code" value="{{id_do_produto}}" />
+                            <= (100*10)/100 %} <input type="hidden" name="code" value="{{id_do_produto}}" />
                             <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2" />
 
                             <input type="submit" value="Add Cart" class="btnAddAction" />
@@ -158,8 +158,9 @@
                     {% if session['log_in_admin']==True%}
                     <form type="button" action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="get">
                         <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </form>{%endif%}
-
+                    </form>{%endif%}<br>
+                    
+                    <h4>{{nome_fornecedor}}</h4><h6>Armazem: {{prateleira}}</h6>
 
                 </div>
 

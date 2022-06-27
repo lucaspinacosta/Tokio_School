@@ -4,13 +4,13 @@
             "Capacidade",
             "250GB"
         ],
-        "memoria_ram": [
-            "Dimens\u00f5es",
-            "80.15 x 22.15 x 2.38 mm"
-        ],
         "Processador": [
             "Escrita Aleat\u00f3ria 4kb (QD32)",
             "At\u00e9 320000 IOPS"
+        ],
+        "memoria_ram": [
+            "Dimens\u00f5es",
+            "80.15 x 22.15 x 2.38 mm"
         ],
         "armazenamento": [
             "Interface",
@@ -36,6 +36,7 @@
             "Consumo de energia",
             "3.7 W (M\u00e9dia)",
             " 5.6 W (M\u00e1ximo)",
+            " ",
             "",
             ""
         ]

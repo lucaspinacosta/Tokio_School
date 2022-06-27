@@ -71,7 +71,7 @@
             {% endif%}
         </ul>
 
-        
+
 
         <!--Logo empresa-->
         <div class="container">
@@ -83,211 +83,63 @@
         </div>
         <!--Categorias-->
         <div class="col-11 my-auto" style="margin-left: 5%;">
-            <div class="col-12">
-                <nav class="row col-12">
+            <div class="col-12 ">
+                <nav class="row col-12 ">
                     <div class=" card aligncenter">
-                        <link class="nav-item"><a href="#" class="nav-link sub_titulo link-dark px-1">Destaques</a>
+                        <link class="nav-item titulo" style="background-color:#0082c8;"><a href="#" class="nav-link sub_titulo link-dark px-1">Destaques</a>
                         </li>
 
                         <nav class="row row-cols-3 d-flex flex-wrap">
-                            <div class="card-highlight">
-                                <div class="card shadow-sm">
-                                    <dt name="nome_produto">Asus GeForce® RTX 3080 ROG Strix OC LHR 12GD6X</dt>
-                                    <a href="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x"
-                                        class="nav-link">
-                                        <p class="aligncenter imgautosize">
-                                            <img alt="centered"
-                                                src="/static/produtos/Asus GeForce RTX 3080 ROG Strix OC LHR 12GD6X/Asus GeForce RTX 3080 ROG Strix OC LHR 12GD6X.png">
-                                        </p>
-                                    </a>
-                                    <div class="card-body alignleft" style="font-size: smaller;">
-                                        <dl class="row">
+                            {% for produto in destaques%}
+                            <div class="card-header">
+
+                                <div class="cardshadow-sm " style="height: 400px; overflow-y:auto ;">
+                                    <a href="{{url_for('.show_room',code_prod=produto[0]) }}" class="nav-link">
+                                    <dt name="nome_produto" style="color:#0082c8;">{{produto[1]}}</dt>
+                                    <a class="aligncenter">
+                                        <img alt="centered" src="{{produto[12]}}" height="40%">
+
+                                    </a></a>
+
+                                    <div class="card-body alignleft" style="font-size: smaller; ">
+
+                                        <dl class="row" style="height: 5%;font-size: smaller;">
                                             <dt class="col-sm-3">
-                                                <p>Processador Grafico</p>
+                                                <p>{{produto[-1]['sistema_operativo'][0]}}</p>
                                             </dt>
                                             <dd class="col-sm-9">
-                                                <p>NVIDIA® GeForce® RTX 3080</p>
+                                                <p>{{produto[-1]['sistema_operativo'][1]}}</p>
                                             </dd>
 
-                                            <dt class="col-sm-3">BUS</dt>
+                                            <dt class="col-sm-3">{{produto[-1]['Processador'][0]}}</dt>
                                             <dd class="col-sm-9">
-                                                <p>PCI Express 4.0 16x</p>
+                                                <p>{{produto[-1]['Processador'][1]}}</p>
                                             </dd>
                                             <dt class="col-sm-3">
-                                                <p>Memoria de Video</p>
+                                                <p>{{produto[-1]["memoria_ram"][0]}}</p>
                                             </dt>
-                                            <dd class="col-sm-9">12GB GDDR6X
+                                            <dd class="col-sm-9">{{produto[-1]["memoria_ram"][1]}}
                                             </dd>
 
-                                            <dt class="col-sm-3">Velocidade</dt>
-                                            <dd class="col-sm-8">OC mode: 1890 MHz (Boost Clock)
-                                                <p>Gaming mode: 1860 MHz (Boost Clock)</p>
+                                            <dt class="col-sm-3">{{produto[-1]["armazenamento"][0]}}</dt>
+                                            <dd class="col-sm-8">{{produto[-1]["armazenamento"][1]}}
+                                                <p>{{produto[-1]["armazenamento"][2]}}</p>
+                                                <p>{{produto[-1]["armazenamento"][3]}}</p>
                                             </dd>
-
 
                                             <dt class="col-sm-3">
-                                                <p>CUDA Cores</p>
+                                                <p>{{produto[-1]["audio"][0]}}</p>
                                             </dt>
-                                            <dd class="col-sm-8">8960</dd>
+                                            <dd class="col-sm-8">{{produto[-1]["audio"][1]}}</dd>
 
-                                            <dt class="col-sm-3">Velocidade de Memoria</dt>
-                                            <dd class="col-sm-8">19 Gbps</dd>
+                                            <dt class="col-sm-3">{{produto[-1]["ecra"][0]}}</dt>
+                                            <dd class="col-sm-8">{{produto[-1]["ecra"][1]}}</dd>
                                         </dl>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <ul>
-                                                <div class="btn-group">
-                                                    <form
-                                                        action="/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x"
-                                                        method="get">
-                                                        <button type="submit"
-                                                            class="btn  btn-sm btn-outline-secondary">Buy</button>
-                                                    </form>
-                                                    {% if session['log_in_admin'] == True%}
-                                                    <form type="button" action="{{url_for('.editar_prod',code_edit=2)}}"
-                                                        method="GET">
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                    </form>{%endif%}
 
-                                                </div>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    </div><br>
                                 </div>
-                            </div>
-                            <div class="card-highlight">
-                                <div class="card shadow-sm ">
-                                    <dt>Gigabyte GeForce® RTX 3070 Aorus Master LHR 8GB GD6</dt>
-                                    <a href="/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6"
-                                        class="nav-link">
-                                        <p class="aligncenter">
-                                            <img alt="centered"
-                                                src="static/produtos/Gigabyte GeForce RTX 3070 Aorus Master LHR 8GB GD6/Gigabyte GeForce RTX 3070 Aorus Master LHR 8GB GD6.png">
-                                        </p>
-                                    </a>
-                                    <div class="card-body alignleft" style="font-size: smaller;">
-                                        <dl class="row">
-                                            <dt class="col-sm-3">
-                                                <p>Processador Grafico</p>
-                                            </dt>
-                                            <dd class="col-sm-9">NVIDIA® GeForce® RTX 3070</dd>
 
-                                            <dt class="col-sm-3">
-                                                <p>BUS</p>
-                                            </dt>
-                                            <dd class="col-sm-9">PCI Express 4.0 16x
-                                            </dd>
-
-                                            <dt class="col-sm-3">
-                                                <p>Memoria de Video</p>
-                                            </dt>
-                                            <dd class="col-sm-9">8GB GDDR6
-                                            </dd>
-
-                                            <dt class="col-sm-3 text-truncate">
-                                                <p>Velocidade</p>
-                                            </dt>
-                                            <dd class="col-sm-9">Base Clock: 1725 MHz
-                                                <p>Boost Clock: 1845 MHz</p>
-                                            </dd>
-
-                                            <dt class="col-sm-3">
-                                                <p>CUDA Cores</p>
-                                            </dt>
-                                            <dd class="col-sm-9">5888</dd>
-
-                                            <dt class="col-sm-3">Velocidade de Memoria</dt>
-                                            <dd class="col-sm-9">14 Gbps</dd>
-                                        </dl>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <ul>
-                                                <form
-                                                    action="/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6"
-                                                    method="get">
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
-                                                </form>
-                                                {% if session['log_in_admin'] == True%}
-                                                <form type="button" action="{{url_for('.editar_prod',code_edit=3)}}"
-                                                    method="GET">
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                </form>
-                                                {%endif%}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-highlight">
-                                <div class="card shadow-sm ">
-                                    <dt>Asus VivoBook K513EP</dt>
-                                    <a href="/listagem_produto/armazem/Asus-VivoBook-K513EP" class="nav-link">
-                                        <p class="aligncenter">
-                                            <img alt="centered"
-                                                src="static/produtos/Asus VivoBook K513EP/Asus VivoBook K513EP.png">
-                                        </p>
-                                    </a>
-                                    <div class="card-body alignleft" style="font-size: smaller;">
-                                        <dl class="row">
-                                            <dt class="col-sm-3">
-                                                <p>Processador Sistema </p>
-                                            </dt>
-                                            <dd class="col-sm-9">Intel® Core™ i5-1135G7, 2.4 GHz (8M Cache, até 4.2 GHz,
-                                                4 cores)</dd>
-                                            <p></p>
-
-                                            <dt class="col-sm-3">
-                                                <p>Sistema Operativo</p>
-                                            </dt>
-                                            <dd class="col-sm-9">
-                                                <p>Windows 10 Home</p>
-                                            </dd>
-
-                                            <dt class="col-sm-3">
-                                                <p>Memoria</p>
-                                            </dt>
-                                            <dd class="col-sm-9">8GB de memória RAM on board (4GB DDR4 on board + 4GB
-                                                DDR4 SO-DIMM)
-                                            </dd>
-
-                                            <dt class="col-sm-4 text-truncate">
-                                                <p>Armazenamento</p>
-                                            </dt>
-                                            <dd class="col-sm-8">SSD de 512GB M.2 NVMe™ PCIe® 3.0
-                                            </dd>
-
-                                            <dt class="col-sm-3">
-                                                <p>Ecrã</p>
-                                            </dt>
-                                            <dd class="col-sm-9">15.6" FHD (1920 x 1080) 16:9, LED Backlit, IPS-level
-                                                Panel, 300nits, 100% sRGB color gamut</dd>
-
-                                            <dt class="col-sm-3">
-                                                <p>Gráfica</p>
-                                            </dt>
-                                            <dd class="col-sm-9">Placa Gráfica NVIDIA® GeForce® MX330, com 2GB de
-                                                memória VRAM GDDR5</dd>
-
-                                        </dl>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <ul>
-                                                <form action="/listagem_produto/armazem/Asus-VivoBook-K513EP"
-                                                    method="get">
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-secondary">Buy</button>
-                                                </form>
-                                                {% if session['log_in_admin'] == True%}
-                                                <form type="button" action="{{url_for('.editar_prod',code_edit=4)}}"
-                                                    method="GET">
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                </form>{%endif%}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </div>{%endfor%}
                         </nav>
                     </div>
                 </nav>
@@ -302,55 +154,53 @@
                         </li>
                         <div class="col-12 my-auto" style="margin-left: auto">
                             <div class="col-12">
-                                
-                                    <div class="aligncenter">
-                                        <p></p>
 
-                                        <nav class="row container-fluid row-cols-5 col-auto">
-                                            {%for produtos in todos_os_produtos%}
-                                            <div class="card  row-cols-auto">
+                                <div class="aligncenter">
+                                    <p></p>
 
-                                                <div class="aligncenter col-row-2">
-                                                    <dt>{{produtos[1]}}</dt>
+                                    <nav class="row container-fluid row-cols-5 col-auto">
+                                        {%for produtos in todos_os_produtos%}
+                                        <div class="card  row-cols-auto">
+
+                                            <div class="aligncenter col-row-2">
+                                                <dt>{{produtos[1]}}</dt>
 
 
-                                                    <div class="aligncenter">
-                                                        <dt><a href="{{url_for('.show_room',code_prod=produtos[0]) }}">
-                                                                <img class="fit-picture " src="{{produtos[12]}}"
-                                                                    height="200"></a>
-                                                        <dt>{{ '%.2f' % produtos[5]}} € </dt>
-                                                        </dt>
-                                                    </div>
+                                                <div class="aligncenter">
+                                                    <dt><a href="{{url_for('.show_room',code_prod=produtos[0]) }}">
+                                                            <img class="fit-picture " src="{{produtos[12]}}"
+                                                                height="200"></a>
+                                                    <dt>{{ '%.2f' % produtos[5]}} € </dt>
+                                                    </dt>
+                                                </div>
 
-                                                    <div class="btn-group">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <form action="/add" method="post">
-                                                                <input type="hidden" name="code"
-                                                                    value="{{produtos[0]}}" />
-                                                                <input type="text" class="quantidade-produto"
-                                                                    name="quantidade" value="1" size="2" />
+                                                <div class="btn-group">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <form action="/add" method="post">
+                                                            <input type="hidden" name="code" value="{{produtos[0]}}" />
+                                                            <input type="text" class="quantidade-produto"
+                                                                name="quantidade" value="1" size="2" />
 
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-outline-secondary">Buy</button>
-                                                            </form>
-                                                        </div>
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-secondary">Buy</button>
+                                                        </form>
                                                     </div>
                                                 </div>
-                                                <br>
+                                            </div>
+                                            <br>
 
 
 
-                                                {% if session['log_in_admin']==True%}
-                                                <form type="button"
-                                                    action="{{url_for('.editar_prod',code_edit=produtos[0])}}"
-                                                    method="get">
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                </form>{%endif%}
-                                            </div>{%endfor%}
-                                        </nav>
-                                    </div>
-                                
+                                            {% if session['log_in_admin']==True%}
+                                            <form type="button"
+                                                action="{{url_for('.editar_prod',code_edit=produtos[0])}}" method="get">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">Edit</button>
+                                            </form>{%endif%}
+                                        </div>{%endfor%}
+                                    </nav>
+                                </div>
+
                             </div>
                         </div>
                     </div>
