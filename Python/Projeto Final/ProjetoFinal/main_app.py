@@ -912,7 +912,7 @@ def finalizar_compra():
             des_fornecedores, lucro_fornecedor, fornecedor_id))
         con.commit()
         db.session.commit()
-
+    #Atualiza quantidade de produto vendido e retira quantidade do armazem 
     for item in session['carrinho']:
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
@@ -923,7 +923,7 @@ def finalizar_compra():
             produto_quantidade_armazem, produto_quantidade_vendida, item['id']))
         con.commit()
         db.session.commit()
-    fatura(session['carrinho'])
+    fatura(session['carrinho']) #Criar fatura
     empty_cart()
     return redirect(url_for('.carrinho'))
 
@@ -985,7 +985,7 @@ def todos_produtos():
         #calcula a percentagem de desconto
         
         produto_com_desconto = {"desconto":"{:.2f}".format(lista_produtos_money[0]* int(submit_descontos) /100)}
-        print(produto_com_desconto)
+       
 
         # guarda a percentagem do desconto no ficheiro json do produto
         # mantendo assim o valor inicial inalteravel e disponivel para futuros descontos
