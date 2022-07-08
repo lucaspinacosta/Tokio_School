@@ -227,7 +227,7 @@ def criar_produto():
                                                            request.form['informacao_interface4']]}}
         #obtem a localizacao do produto a ser criado
         diretorio = "static/produtos/"+request.form['nome_produto']+'/'
-        
+        #Path especifico do praduto
         path = os.path.join(diretorio)
         try:
             os.mkdir(path)      #tenta criar o folder do produto caso nao exista
@@ -387,91 +387,93 @@ def editar_prod(code_edit):
             elif new_descricao_1['descricoes']['descricao_2'][0] == "" and new_descricao_1['descricoes']['descricao_2'][1] == "":
                 new_descricao_1['descricoes']['descricao_2'] = old_descr_2
                 
-            #ETC...
+            #Atualizacao descriçoes 3
             if new_descricao_1['descricoes']['descricao_3'][0] == "" and new_descricao_1['descricoes']['descricao_3'][1] != "":
                 new_descricao_1['descricoes']['descricao_3'] = [old_descr_3[0],new_descricao_1['descricoes']['descricao_3'][1]]
             elif new_descricao_1['descricoes']['descricao_3'][0] != "" and new_descricao_1['descricoes']['descricao_3'][1] == "":
                 new_descricao_1['descricoes']['descricao_3'] = [new_descricao_1['descricoes']['descricao_1'][0],old_descr_3[1]]
             elif new_descricao_1['descricoes']['descricao_3'][0] == "" and new_descricao_1['descricoes']['descricao_3'][1] == "":
                 new_descricao_1['descricoes']['descricao_3'] = old_descr_3
-                
+            #Atualização descricaçao 4  
             if new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_4'][1] != "":
                 new_descricao_1['descricoes']['descricao_4'] = [old_descr_4[0],new_descricao_1['descricoes']['descricao_4'][1]]
             elif new_descricao_1['descricoes']['descricao_4'][0] != "" and new_descricao_1['descricoes']['descricao_4'][1] == "":
                 new_descricao_1['descricoes']['descricao_4'] = [new_descricao_1['descricoes']['descricao_4'][1],old_descr_4[0]]
             elif new_descricao_1['descricoes']['descricao_4'][0] == "" and new_descricao_1['descricoes']['descricao_4'][1] == "":
                 new_descricao_1['descricoes']['descricao_4'] = old_descr_4
-                
+            #Atualização descricação 5 
             if new_descricao_1['descricoes']['descricao_5'][0] == "" and new_descricao_1['descricoes']['descricao_5'][1] != "":
                 new_descricao_1['descricoes']['descricao_5'] = [old_descr_5[0],new_descricao_1['descricoes']['descricao_5'][1]]
             elif new_descricao_1['descricoes']['descricao_5'][0] != "" and new_descricao_1['descricoes']['descricao_5'][1] == "":
                 new_descricao_1['descricoes']['descricao_5'] = [new_descricao_1['descricoes']['descricao_5'][1],old_descr_5[0]]
             elif new_descricao_1['descricoes']['descricao_5'][0] == "" and new_descricao_1['descricoes']['descricao_5'][1] == "":
                 new_descricao_1['descricoes']['descricao_5'] = old_descr_5
-                
+            #Atualização descricação 6 
             if new_descricao_1['descricoes']['descricao_6'][0] == "" and new_descricao_1['descricoes']['descricao_6'][1] != "":
                 new_descricao_1['descricoes']['descricao_6'] = [old_descr_6[0],new_descricao_1['descricoes']['descricao_6'][1]]
             elif new_descricao_1['descricoes']['descricao_6'][0] != "" and new_descricao_1['descricoes']['descricao_6'][1] == "":
                 new_descricao_1['descricoes']['descricao_6'] = [new_descricao_1['descricoes']['descricao_1'][0],old_descr_6[1]]
             elif new_descricao_1['descricoes']['descricao_1'][0] == "" and new_descricao_1['descricoes']['descricao_1'][1] == "":
                 new_descricao_1['descricoes']['descricao_6'] = old_descr_6
-
+            #Atualização especificações 1
             if new_especificacoes['especificacoes']['sistema_operativo'][0] =="" and new_especificacoes['especificacoes']['sistema_operativo'][1]=="":
                 new_especificacoes['especificacoes']['sistema_operativo'] = old_especs_1
             elif new_especificacoes['especificacoes']['sistema_operativo'][0]=="" and new_especificacoes['especificacoes']['sistema_operativo'][1]!="":
                 new_especificacoes['especificacoes']['sistema_operativo'][0] = old_especs_1[0]
             elif new_especificacoes['especificacoes']['sistema_operativo'][0]!="" and new_especificacoes['especificacoes']['sistema_operativo'][1]=="":
                 new_especificacoes['especificacoes']['sistema_operativo'][1] = old_especs_1[1]
-
+            #Atualização especificações 2
             if new_especificacoes['especificacoes']['Processador'][0] =="" and new_especificacoes['especificacoes']['Processador'][1]=="":
                 new_especificacoes['especificacoes']['Processador'] = old_especs_2
             elif new_especificacoes['especificacoes']['Processador'][0]=="" and new_especificacoes['especificacoes']['Processador'][1]!="":
                 new_especificacoes['especificacoes']['Processador'][0] = old_especs_2[0]
             elif new_especificacoes['especificacoes']['Processador'][0]!="" and new_especificacoes['especificacoes']['Processador'][1]=="":
                 new_especificacoes['especificacoes']['Processador'][1] = old_especs_2[1]
-
+            #Atualização especificações 3
             if new_especificacoes['especificacoes']['memoria_ram'][0] =="" and new_especificacoes['especificacoes']['memoria_ram'][1]=="":
                 new_especificacoes['especificacoes']['memoria_ram'] = old_especs_3
             elif new_especificacoes['especificacoes']['memoria_ram'][0]=="" and new_especificacoes['especificacoes']['memoria_ram'][1]!="":
                 new_especificacoes['especificacoes']['memoria_ram'][0] = old_especs_3[0]
             elif new_especificacoes['especificacoes']['memoria_ram'][0]!="" and new_especificacoes['especificacoes']['memoria_ram'][1]=="":
                 new_especificacoes['especificacoes']['memoria_ram'][1] = old_especs_3[1]
-
+            #Atualização especificações 4
             if new_especificacoes['especificacoes']['armazenamento'][0] =="" and new_especificacoes['especificacoes']['armazenamento'][1]=="":
                 new_especificacoes['especificacoes']['armazenamento'] = old_especs_4
             elif new_especificacoes['especificacoes']['armazenamento'][0]=="" and new_especificacoes['especificacoes']['armazenamento'][1]!="":
                 new_especificacoes['especificacoes']['armazenamento'][0] = old_especs_4[0]
             elif new_especificacoes['especificacoes']['armazenamento'][0]!="" and new_especificacoes['especificacoes']['armazenamento'][1]=="":
                 new_especificacoes['especificacoes']['armazenamento'][1] = old_especs_4[1]
-
+            #Atualização especificações 5
             if new_especificacoes['especificacoes']['audio'][0] =="" and new_especificacoes['especificacoes']['audio'][1]=="":
                 new_especificacoes['especificacoes']['audio'] = old_especs_5
             elif new_especificacoes['especificacoes']['audio'][0]=="" and new_especificacoes['especificacoes']['audio'][1]!="":
                 new_especificacoes['especificacoes']['audio'][0] = old_especs_5[0]
             elif new_especificacoes['especificacoes']['audio'][0]!="" and new_especificacoes['especificacoes']['audio'][1]=="":
                 new_especificacoes['especificacoes']['audio'][1] = old_especs_5[1]
-                
+            #Atualização especificações 6
             if new_especificacoes['especificacoes']['ecra'][0] =="" and new_especificacoes['especificacoes']['ecra'][1]=="":
                 new_especificacoes['especificacoes']['ecra'] = old_especs_6
             elif new_especificacoes['especificacoes']['ecra'][0]=="" and new_especificacoes['especificacoes']['ecra'][1]!="":
                 new_especificacoes['especificacoes']['ecra'][0] = old_especs_6[0]
             elif new_especificacoes['especificacoes']['ecra'][0]!="" and new_especificacoes['especificacoes']['ecra'][1]=="":
                 new_especificacoes['especificacoes']['ecra'][1] = old_especs_6[1]
-
+            #Atualização especificações 7
             if new_especificacoes['especificacoes']['grafica'][0] =="" and new_especificacoes['especificacoes']['grafica'][1]=="":
                 new_especificacoes['especificacoes']['grafica'] = old_especs_7
             elif new_especificacoes['especificacoes']['grafica'][0]=="" and new_especificacoes['especificacoes']['grafica'][1]!="":
                 new_especificacoes['especificacoes']['grafica'][0] = old_especs_7[0]
             elif new_especificacoes['especificacoes']['grafica'][0]!="" and new_especificacoes['especificacoes']['grafica'][1]=="":
                 new_especificacoes['especificacoes']['grafica'][1] = old_especs_7[1]
-
+            #Atualização especificações 8
             if new_especificacoes['especificacoes']['cor'][0] =="" and new_especificacoes['especificacoes']['cor'][1]=="":
                 new_especificacoes['especificacoes']['cor'] = old_especs_8
             elif new_especificacoes['especificacoes']['cor'][0]=="" and new_especificacoes['especificacoes']['cor'][1]!="":
                 new_especificacoes['especificacoes']['cor'][0] = old_especs_8[0]
             elif new_especificacoes['especificacoes']['cor'][0]!="" and new_especificacoes['especificacoes']['cor'][1]=="":
                 new_especificacoes['especificacoes']['cor'][1] = old_especs_8[1]
+            #Atualização especificações 9
             try:
+                #Verifica input a input
                 if new_especificacoes['especificacoes']['interface'][0]=="":
                     new_especificacoes['especificacoes']['interface'][0] = old_especs_9[0]
                 if new_especificacoes['especificacoes']['interface'][1]=="":
@@ -488,8 +490,8 @@ def editar_prod(code_edit):
                 print(e)
 
             file.seek(0)
-            file_data.update(new_descricao_1)
-            file_data.update(new_especificacoes)
+            file_data.update(new_descricao_1)  #Atualiza os dados json "Descricoes"
+            file_data.update(new_especificacoes)  #Atualiza os dados json "Especificacoes"
             #Fim das atualizacoes das especificacoes
             #Atualiza a Imagem do produto                          
             if img_path.filename != '':#Atualizar link imagem
@@ -504,6 +506,8 @@ def editar_prod(code_edit):
             new_img_save.save("static/produtos/"+url_split[3]+"/"+img_path.filename)
         except Exception as e:
             print(e)
+
+        #Escreve atualizacoes
         with open(produto_em_edicao[10],"w",encoding='utf-8') as file:
             #Guarda Alteracoes    
             json.dump(file_data,file, indent=4)
@@ -519,18 +523,15 @@ def editar_prod(code_edit):
         produto_em_edicao = cursor.fetchone()
         get_especificacoes = open(produto_em_edicao[10], encoding="utf8")
         especificacoes = json.load(get_especificacoes)
-        old_nome = produto_em_edicao[1]
+        old_nome = produto_em_edicao[1]  
         old_preco = produto_em_edicao[5]
         old_preco_fornecedor = produto_em_edicao[4]
-        
         old_img_path = especificacoes['img_path']
        
-        
         return render_template('editar_produtos.html', especificacoes=especificacoes,
                             old_nome=old_nome, old_preco=old_preco,
                             old_img_path=old_img_path, old_preco_fornecedor=old_preco_fornecedor,
                             id_do_produto=produto_em_edicao[0])
-
 
 # Listagem de fornecedores
 def lista_fornecedores():
@@ -542,7 +543,6 @@ def lista_fornecedores():
         return fornecedores
     except Exception as e:
         print(e)
-    
 
 # Criacao de fornecedor
 @root.route('/admin/criar-fornecedor', methods=['GET', 'POST'])
@@ -577,11 +577,12 @@ def home():
         novos_detalhes = produto+(detalhes["img_path"],)  #dados do produto a ser apresentado + path da imagem
         apresentacao.append(novos_detalhes)         #adiciona a lista de produtos a apresentar
     
-    range = 0 
+    range = 0
+    #Randomize os destaques
     random.shuffle(apresentacao)
     for produto in apresentacao:
         range +=1
-        if range == 4:
+        if range == 4: #Limite de 3 produtos a ser apresentado
             break
         
         con = sqlite3.connect('database/dados_informacoes2.db')
@@ -592,9 +593,8 @@ def home():
         get_especificacoes = open(produto_select[10], encoding="utf8")
         detalhes = json.load(get_especificacoes)
         novos_destaques = produto+(detalhes['especificacoes'],)
-        destaques.append(novos_destaques)
-        print(destaques)
-    
+        destaques.append(novos_destaques) #adiciona produtos a lista de destaques
+
     if request.method == 'GET':
         try:
             if session['log_in'] == True:
@@ -624,14 +624,12 @@ def sign_up():
         db.session.commit()
         return redirect(url_for('login'))
 
-
 # Pagina de LOGIN
 @root.route('/user-login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         # Permissoes de login
-
-        # Input for log in
+        # Input for login
         user_loggin = request.form['email_login']
         user_pswd = request.form['password_login']
 
@@ -639,7 +637,8 @@ def login():
         verificado_email_admin = db_verificar_email_admin()  # dados_database_admin
         verificar_email_fornecedor = db_verificar_fornecedor()  # dados_database_fornecedor
 
-        todos_os_produto = lista_produtos()
+        todos_os_produto = lista_produtos() #Lista de produtos
+        todos_os_fornecedores = lista_fornecedores() #Lista de fornecedores
 
         # Verificar se email in database Admin
         for user in verificado_email_admin:
@@ -686,12 +685,9 @@ def login():
 
         # Iniciar como Buyer
         try:
-            todos_os_fornecedores = lista_fornecedores()
-            todos_os_produto = lista_produtos()
             if session['log_in'] == True and session['pass_word'] == True:
                 session["user"] = user_loggin
                 session["password"] = user_pswd
-                # session['carrinho']
                 return redirect(url_for(".home", log_in=session['log_in'], user=session['username'], todos_os_produtos=todos_os_produto, lista_fornecedores=None))
         # Iniciar como admin ou fornecedor
         except:
@@ -779,8 +775,8 @@ def add_product_to_cart():
         if _quantity <= row[2]: #Verifica se a quantidade desejada é menor ou igual a quantidade em armazem
             itemArray = {'id': row[0], 'name': row[1], 'preco': row[5], 'iva': row[11],
                          'quantidade': _quantity, 'total': _quantity*row[5]}
-            all_total_preco = 0
-            all_total_quantidade = 0
+            all_total_preco = 0 #Sera somado o preço total da conta
+            all_total_quantidade = 0 #Sera somado a quantidade total de produtos
             session.modified = True
             if'carrinho' in session:
                 try:
@@ -788,8 +784,7 @@ def add_product_to_cart():
                         if itemArray['id'] == item['id']:
                             # soma produto que ja se encontra na lista
                             old_quantity = item['quantidade']
-                            total_quantidade = old_quantity + \
-                                itemArray['quantidade']
+                            total_quantidade = old_quantity + itemArray['quantidade']
                             item['quantidade'] = total_quantidade
                             iva = item['iva'] / 100
                             preco_com_iva = itemArray['preco'] * iva
@@ -818,6 +813,7 @@ def add_product_to_cart():
                         session['carrinho'].append(itemArray)
 
             else:
+                #Caso o carrinho esteja vazio , cria uma lista e adiciona os produto 
                 session['carrinho'] = []
                 session['carrinho'].append(itemArray)
 
@@ -830,25 +826,23 @@ def add_product_to_cart():
                 all_total_quantidade += quantidade_individual
                 all_total_preco += preco_total
 
-            session['all_total_quantidade'] = all_total_quantidade
-            session['all_total_preco'] = all_total_preco
-            print(session['carrinho'])
-
+            session['all_total_quantidade'] = all_total_quantidade #Quantidade de produtos total
+            session['all_total_preco'] = all_total_preco    #Valor total a pagar
             cursor.close()
             con.close()
-
             return redirect(url_for('.carrinho'))
         else:
             print('Quantidade de produto nao disponivel')
             return redirect(url_for('.carrinho'))
     else:
-        return 'erro ao adicionar'
+        return redirect(url_for('.home'))
 
 
 # Limpar Carrinho
 @root.route('/empty')
 def empty_cart():
     try:
+        #Elimina a sessao atual 
         del(session['carrinho'])
         del(session['all_total_preco'])
         del(session['all_total_quantidade'])
@@ -857,24 +851,22 @@ def empty_cart():
     except Exception as e:
         print(e)
     finally:
-        return redirect(url_for('.carrinho'))
-
+        return redirect(url_for('.home'))
 
 # Remover item do carrinho
 @root.route('/delete/<string:code>')
 def delete_product(code):
-    all_total_preco = session['all_total_preco']
-    all_total_quantidade = session['all_total_quantidade']
+    all_total_preco = session['all_total_preco'] #Obtem o valor total da conta
+    all_total_quantidade = session['all_total_quantidade'] #obtem quantidade total dos produtos
     session.modified = True
     for item in session['carrinho']:
-        print(type(code))
         item_id = item['id']
         iva = item['iva'] / 100
-        preco_iva = item['preco'] * iva
+        preco_iva = item['preco'] * iva 
 
         if int(item_id) == int(code):
-            retirar_daconta = item['quantidade'] * (item['preco'] + preco_iva)
-            session['all_total_preco'] = all_total_preco - retirar_daconta
+            retirar_daconta = item['quantidade'] * (item['preco'] + preco_iva) #Calcula o valor do produto
+            session['all_total_preco'] = all_total_preco - retirar_daconta #Subtrai o valor do produto retirado
             session['all_total_quantidade'] = all_total_quantidade - \
                 item['quantidade']
             session['carrinho'].remove(item)
@@ -920,7 +912,7 @@ def finalizar_compra():
             des_fornecedores, lucro_fornecedor, fornecedor_id))
         con.commit()
         db.session.commit()
-
+    #Atualiza quantidade de produto vendido e retira quantidade do armazem 
     for item in session['carrinho']:
         cursor.execute(
             "SELECT * FROM Produtos WHERE numero_serie={}".format(item['id']))
@@ -931,7 +923,7 @@ def finalizar_compra():
             produto_quantidade_armazem, produto_quantidade_vendida, item['id']))
         con.commit()
         db.session.commit()
-    fatura(session['carrinho'])
+    fatura(session['carrinho']) #Criar fatura
     empty_cart()
     return redirect(url_for('.carrinho'))
 
@@ -993,7 +985,7 @@ def todos_produtos():
         #calcula a percentagem de desconto
         
         produto_com_desconto = {"desconto":"{:.2f}".format(lista_produtos_money[0]* int(submit_descontos) /100)}
-        print(produto_com_desconto)
+       
 
         # guarda a percentagem do desconto no ficheiro json do produto
         # mantendo assim o valor inicial inalteravel e disponivel para futuros descontos
@@ -1069,269 +1061,6 @@ def fornecer_produto():
         except Exception as e:
             print(e)
 
-
-# Produtos disponiveis para destaque
-# Pagina Exibicao do produto detalhado asus geforce 3080
-
-
-@root.route('/listagem_produto/armazem/asus-geforce-rtx-3080-rog-strix-oc-lhr-12gb6x', methods=['GET'])
-def asusgeforce_rtx3080():
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Produtos WHERE numero_serie=2")
-    produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[10], encoding="utf8")
-    especificacoes = json.load(get_especificacoes)
-
-    numero_serie = produto_select[0]
-    nome_produto = produto_select[1]
-    preco_produto = produto_select[5]
-    imagem_produto = especificacoes['img_path']
-    descricao_prod = produto_select[8]
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                   2],
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-
-# Pagina Exibicao do produto detalhado asus geforce 3070
-@root.route('/listagem_produto/armazem/Gigabyte-GeForce-RTX-3070-Aorus-Master-LHR-8GB-GD6', methods=['GET'])
-def geforce_3070():
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Produtos WHERE numero_serie=3")
-    produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[10], encoding="utf8")
-    especificacoes = json.load(get_especificacoes)
-
-    numero_serie = produto_select[0]
-    nome_produto = produto_select[1]
-    preco_produto = produto_select[5]
-    imagem_produto = especificacoes['img_path']
-    descricao_prod = produto_select[8]
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                   2],
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-
-# Pagina Exibicao do produto detalhado Computador King
-@root.route('/listagem_produto/armazem/Computador-King-Mod', methods=['GET'])
-def kingModDesktop():
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Produtos WHERE numero_serie=4")
-    produto_select = cursor.fetchone()
-    numero_serie = produto_select[0]
-    nome_produto = produto_select[1]
-    preco_produto = produto_select[5]
-    imagem_produto = produto_select[10]
-    descricao_prod = produto_select[8]
-    get_especificacoes = open(produto_select[10], encoding="utf8")
-
-    especificacoes = json.load(get_especificacoes)
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                   2],
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-
-# Pagina Exibicao do produto detalhado Asus VivoBook K513EP
-@root.route('/listagem_produto/armazem/Asus-VivoBook-K513EP', methods=['GET'])
-def vivoBook_K513EP():
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Produtos WHERE numero_serie=5")
-    produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[10], encoding="utf8")
-    especificacoes = json.load(get_especificacoes)
-
-    numero_serie = produto_select[0]
-    nome_produto = produto_select[1]
-    preco_produto = produto_select[5]
-    imagem_produto = especificacoes['img_path']
-    descricao_prod = produto_select[8]
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                   2],
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-
-# Pagina Exibicao do produto detalhado Asus VivoBook K513EP
-@root.route('/listagem_produto/armazem/HP-Pavillon-x360', methods=['GET'])
-def hp_pavillon_360():
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Produtos WHERE numero_serie=6")
-    produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[10], encoding="utf8")
-    especificacoes = json.load(get_especificacoes)
-
-    numero_serie = produto_select[0]
-    nome_produto = produto_select[1]
-    preco_produto = produto_select[5]
-    imagem_produto = especificacoes['img_path']
-    descricao_prod = produto_select[8]
-
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                   2],
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-
-# Pagina Exibicao do produto detalhado SSD Kingston NV1
-@root.route('/listagem_produto/armazem/SSD-Kingston-NV1', methods=['GET'])
-def ssd_kingston_nv1():
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Produtos WHERE numero_serie=7")
-    produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[10], encoding="utf8")
-    especificacoes = json.load(get_especificacoes)
-
-    numero_serie = produto_select[0]
-    nome_produto = produto_select[1]
-    preco_produto = produto_select[5]
-    imagem_produto = especificacoes['img_path']
-    descricao_prod = produto_select[8]
-
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                   2],
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
-
-
-# Pagina Exibicao do produto detalhado Monitor Dell 27 S2721HGF Curvo FHD
-@root.route('/listagem_produto/armazem/Monitor-Dell-27-S2721HGF-Curvo-FHD', methods=['GET'])
-def monitor_dell_s2721hgf():
-    con = sqlite3.connect('database/dados_informacoes2.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM Produtos WHERE numero_serie=8")
-    produto_select = cursor.fetchone()
-    get_especificacoes = open(produto_select[10], encoding="utf8")
-    especificacoes = json.load(get_especificacoes)
-
-    numero_serie = produto_select[0]
-    nome_produto = produto_select[1]
-    preco_produto = produto_select[5]
-    imagem_produto = especificacoes['img_path']
-    descricao_prod = produto_select[8]
-    try:
-        if session['log_in'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
-                                   user=session['username'])
-        elif session['log_in_admin'] == True:
-            return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                       2],
-                                   descricao_prod=descricao_prod, especificacoes=especificacoes,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
-                                   user=session['username'])
-    except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=produto_select[
-                                   2],
-                               descricao_prod=descricao_prod, especificacoes=especificacoes)
 
 #Apresenta produtos para venda
 @root.route('/<code_prod>', methods=['GET'])
