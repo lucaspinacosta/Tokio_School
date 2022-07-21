@@ -22,6 +22,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="static/img/LIC_Informatica3.png">
     <!-- Background color-->
     <link rel="stylesheet" href="static/main.css">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+
 </head>
 
 <body>
@@ -217,13 +222,60 @@
                                             </select>
                                             <input type="submit">
                                         </nav>
-
                                     </div>
                                 </div>
                             </form>
-
                             <br>
+                            <div class="card aligncenter" style="margin-left:auto;">
+                                <nav class="container-fluid col-auto">
+                                    <p type="list" id="lista_prods">{{todos_os_produtos}} </p>
+                                    {% for produto in todos_os_produtos%}
+                                    {% if produto[9] == session['user_id']%}
+                                    {% set produto_nome = produto[1] %}
+                                    {% set produto_vendido = produto[3] %}
+                                    {% set produto_armazem = produto[2] %}
+                                    
+                                    
+                                    <p type="text" id="produto_nome">{{produto_nome}}
+                                    </p>
+                                    <p type="number" id="produto_vendido">
+                                        {{produto_vendido}}</p>
 
+
+                                    {%endif%}
+                                    {%endfor%}<canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+
+                                    <script type="text/javascript">
+                                        var xValues = "";
+                                        var yValues = "";
+                                        //var zValues = "";
+                                        xValues += document.getElementById("produto_nome").innerHTML;
+                                        yValues += document.getElementById("produto_vendido").innerHTML;
+                                        //zValues += document.getElementById("produto_armazem").innerHTML;
+
+                                        var barColor = ["blue", "red"];
+                                        var myChart = new Chart("myChart", {
+                                            type: "pie",
+                                            data: {
+                                                labels: [xValues],
+                                                datasets: [{
+                                                    backgroundColor: barColor,
+                                                    data: [yValues]
+                                                }]
+                                            },
+                                            options: {
+                                                legend: { display: false },
+                                                title: {
+                                                    display: false
+
+                                                }
+                                            }
+                                        });
+                                    </script>
+
+                                </nav>
+                            </div>
+                            <br>
                             <div class="card">
                                 <h2 class="btn_links titulo"> Encomendas </h2>
                                 <nav class="row container-fluid row-cols-1 col-auto">
@@ -235,7 +287,7 @@
                                                 <th style="text-align:right;" width="5%">Stock</th>
                                                 <th style="text-align:right;" width="10%">Vendidos</th>
                                                 <th style="text-align:center;" width="5%">Preco para Revendedor</th>
-                                                <th style="text-align:center;"width="5%">Lucro</th>
+                                                <th style="text-align:center;" width="5%">Lucro</th>
                                                 <th style="text-align:right;" width="10%">Desconto</th>
                                                 <th style="text-align:center;" width="5%"> Encomendas </th>
                                                 <th style="text-align:center;" width="5%">Fornecer</th>
@@ -248,7 +300,7 @@
                                             {% set em_stock = produto[2] %}
                                             {% set vendidos = produto[3] %}
                                             {% set preco_fornecedor = produto[4]-produto[13] %}
-                                            {% set lucro_prod = preco_fornecedor * vendidos  %}
+                                            {% set lucro_prod = preco_fornecedor * vendidos %}
                                             {% set nome_fornecedor = produto[7] %}
                                             {% set id_fornecedor = produto[9]%}
                                             {% set encomenda = produto[8]%}
@@ -327,7 +379,7 @@
                                         </div>
                                         <div class="aligncenter">
                                             <dt><a href="{{url_for('.show_room',code_prod=produtos[0]) }}">
-                                                    <img class="fit-picture " src="{{produtos[12]}}"  height="200"></a>
+                                                    <img class="fit-picture " src="{{produtos[12]}}" height="200"></a>
                                             <dt>{{ '%.2f' % produtos[5] }} € </dt>
                                             </dt>
                                         </div>

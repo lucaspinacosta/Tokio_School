@@ -22,6 +22,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/static/img/LIC_Informatica3.png">
     <!-- Background color-->
     <link rel="stylesheet" href="/static/main.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
 </head>
 
 <body>
@@ -89,7 +92,7 @@
                     </div>
                 </ul>
                 <div class="aligncenter row-1">
-                    
+
                     <h4>{{nome_produto}}</h4>
                     <h4 class="value_showstyle">{{ '%.2f' % preco_produto}}€</h4>
                     <div class="popup" onmouseover="myFunction()"><img type="image/png" sizes="16x16"
@@ -112,13 +115,9 @@
                         <form action="/add" method="post">
                             {%if quanti_armazem >=1 %}
                             <input type="hidden" name="code" value="{{id_do_produto}}" />
-                            <input type="text" class="quantidade-produto" name="quantidade" value="1" size="2" />
-                            {% if quantidade <= quantidade_armazem %}
+                            <input type="text" class="quantidade-produto" name="quantidade" id="quantidade" value="1"
+                                size="2" />
                             <input type="submit" value="Add Cart" class="btnAddAction" />
-                            {%elif quantidade> quantidade_armazem%}
-                            <button onClick="alert('Quantidade de produto nao disponivel')"></button>
-                            {%endif%}
-
                             {%elif quanti_armazem <=0%}<p>
                                 </p>
                                 <p> Sem Stock <img src="static/img/out-of-stock.png" class="img justify-content-between"
@@ -160,7 +159,50 @@
                         <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </form>{%endif%}<br>
                     
-                    <h4>{{nome_fornecedor}}</h4><h6>Armazem: {{prateleira}}</h6>
+                    <h4>{{nome_fornecedor}}</h4>
+                    <h6>Armazem: {{prateleira}}</h6>
+                    {% if session['log_in_fornecedor']%}
+                    <div class="card aligncenter" style="margin-left:auto;">
+                        <nav class="container-fluid col-auto">
+                            <canvas id="myChart" style="width:90%;max-width:700px"></canvas>
+
+                            <p hidden type="text" id="produto_nome">{{nome_produto}}
+                            </p>
+                            <p hidden type="number" id="produto_vendido">
+                                {{vendidos}}</p>
+                            <p hidden type="number" id="armazenados">{{em_armazem}}</p>
+
+                            <script type="text/javascript">
+                                var xValues = "Armazem";
+                                var wValues = "Vendidas";
+                                var yValues = "";
+                                var zValues = "";
+                                yValues += document.getElementById("produto_vendido").innerHTML;
+                                zValues += document.getElementById("armazenados").innerHTML;
+                                var barColor = ["blue","red"];
+                                var myChart = new Chart("myChart", {
+                                    type: "pie",
+                                    data: {
+                                        labels: [xValues,wValues],
+                                        datasets: [{
+                                            backgroundColor: barColor,
+                                            data: [zValues,yValues]
+                                        }]
+                                    },
+                                    options: {
+                                        legend: { display: false },
+                                        title: {
+                                            display: false
+                                            
+                                        }
+                                    }
+                                })
+                                    ;
+                            </script>
+
+                        </nav>
+                    </div>
+                    {%endif%}
 
                 </div>
 

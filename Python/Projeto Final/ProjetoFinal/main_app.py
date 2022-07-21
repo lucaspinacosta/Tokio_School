@@ -9,6 +9,7 @@ import pathlib
 import time
 import win32com.client
 import pythoncom
+import matplotlib.pyplot as plt
 from PIL import Image
 from openpyxl import Workbook
 from openpyxl.styles import Font
@@ -110,10 +111,33 @@ def lista_produtos():
         cursor.close()
         con.close()
 
+def graphProds():
+    dictProds = lista_produtos()
+    left = [] #nomes dos dados a informar
+    height = [] #lucro dos produtos
+    tick_label = []#nome dos produtos
+    for item in dictProds[:5]:
+        print(item)
+        height.append(item[3]*item[5])
+        left.append(item[0])
+        tick_label.append(item[0])
+    plt.bar(left,height,tick_label=tick_label,width=0.2,color = ['blue'])
+    plt.xlabel('Produto')
+    plt.ylabel('Lucro')
+    #graphShow = plt.show()
+
+    return plt.bar(left,height,tick_label=tick_label,width=0.2,color=['blue'])
 
 def fatura(lista_compras):
+    pastaFaturas = "database/faturas_clientes/"
+    pathFaturas = os.path.join(pastaFaturas)
     diretorio = "database/faturas_clientes/"+session['user']+"/"
     path = os.path.join(diretorio)
+    #Cria a pasta das faturas caso ainda nao exista
+    try:
+        os.mkdir(pathFaturas)
+    except Exception as e:
+        print(e)
     #Criamos uma pasta com o nome no utilizador
     try:
         os.mkdir(path)
@@ -1076,6 +1100,8 @@ def show_room(code_prod):
     detalhes = json.load(get_especificacoes)
     numero_serie = produto_select[0]
     nome_produto = produto_select[1]
+    vendidos = produto_select[3]
+    em_armazem = produto_select[2]
     preco_produto = produto_select[5]
     imagem_produto = detalhes["img_path"]
     descricao_prod = produto_select[8]
@@ -1086,30 +1112,29 @@ def show_room(code_prod):
     try:
         if session['log_in'] == True:
             return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,vendidos=vendidos,
                                    descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],
+                                   log_in=session['log_in'], pass_word=session['pass_word'],em_armazem=em_armazem,
                                    user=session['username'])
         elif session['log_in_admin'] == True:
             return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,vendidos=vendidos,
                                    descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,
-                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],
+                                   log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],em_armazem=em_armazem,
                                    user=session['username'])
         elif session['log_in_fornecedor'] == True:
             return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
-                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,
+                                   preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,vendidos=vendidos,
                                    descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,
-                                   log_in_fornecedor=session['log_in_fornecedor'], pass_word_fornecedor=session['pass_word_fornecedor'],
+                                   log_in_fornecedor=session['log_in_fornecedor'], pass_word_fornecedor=session['pass_word_fornecedor'],em_armazem=em_armazem,
                                    user=session['username'])
     except:
         return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
-                               preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,
-                               descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira)
+                               preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,vendidos=vendidos,
+                               descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,em_armazem=em_armazem)
 
 
 if __name__ == "__main__":
-    
     root.run()
     db.create_all()
     db.session.commit()

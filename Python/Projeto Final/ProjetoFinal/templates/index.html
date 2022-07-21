@@ -165,7 +165,6 @@
                                             <div class="aligncenter col-row-2">
                                                 <dt>{{produtos[1]}}</dt>
 
-
                                                 <div class="aligncenter">
                                                     <dt><a href="{{url_for('.show_room',code_prod=produtos[0]) }}">
                                                             <img class="fit-picture " src="{{produtos[12]}}"
@@ -188,9 +187,6 @@
                                                 </div>
                                             </div>
                                             <br>
-
-
-
                                             {% if session['log_in_admin']==True%}
                                             <form type="button"
                                                 action="{{url_for('.editar_prod',code_edit=produtos[0])}}" method="get">
