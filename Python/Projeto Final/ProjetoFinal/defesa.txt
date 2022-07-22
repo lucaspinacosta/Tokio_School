@@ -1,0 +1,17 @@
+1- Relativemente as escolhas do desenvolvimento do website, obtei por escolher um layout simples, que ao entrar no site sera exibido todos os produtos e ainda os destaques. Nos destaques optei por apresentar 3 produtos e as suas respetivas especificações, assim o cliente podera ver logo de inicio um pequeno resumo do produto.
+Abaixo dos destaques temos a lista com todos os produtos em loja, para evitar que a quantidade de cliques do cliente e facilitando a interação cliente-website. Para a exposição dos produtos, escolhi apresentar a imagem, o seu valor e nome,para manter a primeira impressão mais "Clean", e sem muita informação destinada ao produto, pois assim torna-se mais facil a visualização e não temos uma quantidade exceciva de textos o que tornaria toda a listagem dos produtos um pouco mais confusa.
+
+O cliente pode adicionar o  produto ao seu carrinho apartir da pagina inicial, mas caso tenha alguma duvida sobre o produto, ao selecionao, o produto, o cliente sera redirecionado para uma pagina onde lhe sera apresentado as suas especificações, e ai tambem poderá adicionar o produto ao carrinho caso lhe agrade.
+
+
+No Fornecedor, optei por apresentar um resumo dos produtos que é fornecido ao website, assim o fornecedor tera um resumo das encomendas/vendas o que permite ao fornecedor ter uma ideia de qual dos seus produtos tem mais sucesso entre os clientes, assim como aplicar descontos ao administrador caso assim o deseje fazer.
+
+Ja com o  Administrador forneci uma tabela com as informacoes dos fornecedor, assim o adminstrador consegue manter uma ideia de quais sao os seus lucros e despesas, assim como formas de contactar o fornecedor.
+A tabela do armazem apresenta um resumo dos lucros por produto vendido, e ainda oferece ao administrador como quantidades em stock e quantidades vendidas, deixando assim o administrador, estar pre-informado, caso seja preciso re-encomendar novos produtos.
+
+
+2- Os graficos e tabelas informativas, fora um erro que cometi, pois criei as tabelas com as informações, no caso do adminstrador, mas nao as apliquei a um gráfico pois estava a ter alguma dificuldade em aplicar as informações de forma correta, e como dizia no enunciado, "Também poderemos procurar uma alternativa para os gráficos, calculando estatísticas de vendas e compras e mostrando esses resultados", presumi que como utilizei uma tabela em administrador que nos informasse os resultados desejados, que não seria necessario a aplicação dos graficos. Porem caso fizesse o gráfico, no caso do administrador, teria utilizado dados como quantidade vendida, informando assim quais seriam os 5 pordutos que tem mais saida em loja.
+Já no caso do fornecedor, utilizaria dados como lucro sobre o fornecedor e passando essa informação, obteriamos quais produtos dão mais lucro ao fornecedor.
+Para o caso do cliente optaria por irnformar somente os produtos que tem mais saida, no caso os mais populares.
+
+
