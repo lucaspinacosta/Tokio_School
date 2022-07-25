@@ -600,6 +600,7 @@ def home():
         detalhes = json.load(get_especificacoes)  #espeficacoes do produto
         novos_detalhes = produto+(detalhes["img_path"],)  #dados do produto a ser apresentado + path da imagem
         apresentacao.append(novos_detalhes)         #adiciona a lista de produtos a apresentar
+        
     
     range = 0
     #Randomize os destaques
@@ -1105,31 +1106,33 @@ def show_room(code_prod):
     preco_produto = produto_select[5]
     imagem_produto = detalhes["img_path"]
     descricao_prod = produto_select[8]
+    id_fornecedor = produto_select[9]
     prateleira = produto_select[6]
     nome_fornecedor = produto_select[7]
     quantidade_armazem = produto_select[2]
+    lucro_forne = (produto_select[5]-(produto_select[4]-produto_select[13]))*produto_select[3]
 
     try:
         if session['log_in'] == True:
             return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,vendidos=vendidos,
                                    descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,
-                                   log_in=session['log_in'], pass_word=session['pass_word'],em_armazem=em_armazem,
+                                   log_in=session['log_in'], pass_word=session['pass_word'],em_armazem=em_armazem,id_fornecedor=id_fornecedor,
                                    user=session['username'])
         elif session['log_in_admin'] == True:
             return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,vendidos=vendidos,
-                                   descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,
+                                   descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,id_fornecedor=id_fornecedor,lucro_forne=lucro_forne,
                                    log_in_admin=session['log_in_admin'], pass_word_admin=session['pass_word_admin'],em_armazem=em_armazem,
                                    user=session['username'])
         elif session['log_in_fornecedor'] == True:
             return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
                                    preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,vendidos=vendidos,
-                                   descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,
+                                   descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,id_fornecedor=id_fornecedor,
                                    log_in_fornecedor=session['log_in_fornecedor'], pass_word_fornecedor=session['pass_word_fornecedor'],em_armazem=em_armazem,
                                    user=session['username'])
     except:
-        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,
+        return render_template('produtos.html', nome_produto=nome_produto, id_do_produto=numero_serie,nome_fornecedor=nome_fornecedor,id_fornecedor=id_fornecedor,
                                preco_produto=preco_produto, imagem_produto=imagem_produto, quanti_armazem=quantidade_armazem,vendidos=vendidos,
                                descricao_prod=descricao_prod, especificacoes=detalhes,prateleira=prateleira,em_armazem=em_armazem)
 

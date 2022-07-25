@@ -157,11 +157,52 @@
                     {% if session['log_in_admin']==True%}
                     <form type="button" action="{{url_for('.editar_prod',code_edit=id_do_produto)}}" method="get">
                         <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </form>{%endif%}<br>
+                    </form>
                     
+                    <div class="card aligncenter" style="margin-left:auto;">
+                        <nav class="container-fluid col-auto">
+                            <canvas id="myChart" style="width:90%;max-width:700px"></canvas>
+
+                            <p hidden type="text" id="produto_nome">{{nome_produto}}
+                            </p>
+                            <p hidden type="number" id="produto_vendido">
+                                {{vendidos}}</p>
+                            <p hidden type="number" id="lucro">{{lucro_forne}}</p>
+
+                            <script type="text/javascript">
+                                var xValues = "Lucro";
+                                var wValues = "Vendidos";
+                                var yValues = "";
+                                var zValues = "";
+                                yValues += document.getElementById("lucro").innerHTML;
+                                zValues += document.getElementById("produto_vendido").innerHTML;
+                                var barColor = ["green", "blue"];
+                                var myChart = new Chart("myChart", {
+                                    type: "bar",
+                                    data: {
+                                        labels: [xValues, wValues],
+                                        datasets: [{
+                                            backgroundColor: barColor,
+                                            data: [zValues, yValues]
+                                        }]
+                                    },
+                                    options: {
+                                        legend: { display: false },
+                                        title: {
+                                            display: false
+
+                                        }
+                                    }
+                                });
+                            </script>
+
+                        </nav>
+                    </div>{%endif%}<br>
+
                     <h4>{{nome_fornecedor}}</h4>
                     <h6>Armazem: {{prateleira}}</h6>
                     {% if session['log_in_fornecedor']%}
+                    {%if id_fornecedor == session['user_id']%}
                     <div class="card aligncenter" style="margin-left:auto;">
                         <nav class="container-fluid col-auto">
                             <canvas id="myChart" style="width:90%;max-width:700px"></canvas>
@@ -179,29 +220,29 @@
                                 var zValues = "";
                                 yValues += document.getElementById("produto_vendido").innerHTML;
                                 zValues += document.getElementById("armazenados").innerHTML;
-                                var barColor = ["blue","red"];
+                                var barColor = ["blue", "red"];
                                 var myChart = new Chart("myChart", {
-                                    type: "pie",
+                                    type: "bar",
                                     data: {
-                                        labels: [xValues,wValues],
+                                        labels: [xValues, wValues],
                                         datasets: [{
                                             backgroundColor: barColor,
-                                            data: [zValues,yValues]
+                                            data: [zValues, yValues]
                                         }]
                                     },
                                     options: {
                                         legend: { display: false },
                                         title: {
                                             display: false
-                                            
+
                                         }
                                     }
-                                })
-                                    ;
+                                });
                             </script>
 
                         </nav>
                     </div>
+                    {%endif%}
                     {%endif%}
 
                 </div>
