@@ -1110,7 +1110,7 @@ def show_room(code_prod):
     prateleira = produto_select[6]
     nome_fornecedor = produto_select[7]
     quantidade_armazem = produto_select[2]
-    lucro_forne = (produto_select[5]-(produto_select[4]-produto_select[13]))*produto_select[3]
+    lucro_forne = (produto_select[5]-(produto_select[4]))*produto_select[3]
 
     try:
         if session['log_in'] == True:

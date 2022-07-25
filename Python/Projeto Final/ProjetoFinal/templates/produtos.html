@@ -125,6 +125,45 @@
                                 {%endif%}
                         </form>
                     </div>
+                    <div class="card aligncenter" style="margin-left:auto;">
+                        <nav class="container-fluid col-auto">
+                            <canvas id="myChart" style="width:90%;max-width:700px"></canvas>
+
+                            <p hidden type="text" id="produto_nome">{{nome_produto}}
+                            </p>
+                            <p hidden type="number" id="produto_vendido">
+                                {{vendidos}}</p>
+                            <p hidden type="number" id="lucro">{{lucro_forne}}</p>
+
+                            <script type="text/javascript">
+                                var xValues = "Vendidos";
+                                var wValues = "Lucro";
+                                var yValues = "";
+                                var zValues = "";
+                                yValues += document.getElementById("lucro").innerHTML;
+                                zValues += document.getElementById("produto_vendido").innerHTML;
+                                var barColor = ["green", "blue"];
+                                var myChart = new Chart("myChart", {
+                                    type: "bar",
+                                    data: {
+                                        labels: [xValues, wValues],
+                                        datasets: [{
+                                            backgroundColor: barColor,
+                                            data: [zValues, yValues]
+                                        }]
+                                    },
+                                    options: {
+                                        legend: { display: false },
+                                        title: {
+                                            display: false
+
+                                        }
+                                    }
+                                });
+                            </script>
+
+                        </nav>
+                    </div>
 
 
 
@@ -170,15 +209,15 @@
                             <p hidden type="number" id="lucro">{{lucro_forne}}</p>
 
                             <script type="text/javascript">
-                                var xValues = "Lucro";
-                                var wValues = "Vendidos";
+                                var xValues = "Vendidos";
+                                var wValues = "Lucro";
                                 var yValues = "";
                                 var zValues = "";
                                 yValues += document.getElementById("lucro").innerHTML;
                                 zValues += document.getElementById("produto_vendido").innerHTML;
                                 var barColor = ["green", "blue"];
                                 var myChart = new Chart("myChart", {
-                                    type: "bar",
+                                    type: "pie",
                                     data: {
                                         labels: [xValues, wValues],
                                         datasets: [{

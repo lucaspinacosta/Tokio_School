@@ -226,56 +226,7 @@
                                 </div>
                             </form>
                             <br>
-                            <div class="card aligncenter" style="margin-left:auto;">
-                                <nav class="container-fluid col-auto">
-                                    <p hidden type="list" id="lista_prods">{{todos_os_produtos}} </p>
-                                    {% for produto in todos_os_produtos%}
-                                    {% if produto[9] == session['user_id']%}
-                                    {% set produto_nome = produto[1] %}
-                                    {% set produto_vendido = produto[3] %}
-                                    {% set produto_armazem = produto[2] %}
-                                    
-                                    
-                                    <p hidden type="text" id="produto_nome">{{produto_nome}}
-                                    </p>
-                                    <p hidden type="number" id="produto_vendido">
-                                        {{produto_vendido}}</p>
-
-
-                                    
-                                    <canvas id="myChart" width="140px" style="max-width:700px"></canvas>
-{%endif%}{%endfor%}
-                                    <script type="text/javascript">
-                                        var xValues = "";
-                                        var yValues = "";
-                                        //var zValues = "";
-                                        xValues += document.getElementById("produto_nome").innerHTML;
-                                        yValues += document.getElementById("produto_vendido").innerHTML;
-                                        //zValues += document.getElementById("produto_armazem").innerHTML;
-
-                                        var barColor = ["blue", "red"];
-                                        var myChart = new Chart("myChart", {
-                                            type: "pie",
-                                            data: {
-                                                labels: [xValues],
-                                                datasets: [{
-                                                    backgroundColor: barColor,
-                                                    data: [yValues]
-                                                }]
-                                            },
-                                            options: {
-                                                legend: { display: false },
-                                                title: {
-                                                    display: false
-
-                                                }
-                                            }
-                                        });
-                                    </script>
-
-                                </nav>
-                            </div>
-                            <br>
+                            
                             <div class="card">
                                 <h2 class="btn_links titulo"> Encomendas </h2>
                                 <nav class="row container-fluid row-cols-1 col-auto">
