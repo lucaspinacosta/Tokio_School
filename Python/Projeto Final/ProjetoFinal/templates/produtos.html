@@ -129,27 +129,21 @@
                         <nav class="container-fluid col-auto">
                             <canvas id="myChart" style="width:90%;max-width:700px"></canvas>
 
-                            <p hidden type="text" id="produto_nome">{{nome_produto}}
-                            </p>
                             <p hidden type="number" id="produto_vendido">
                                 {{vendidos}}</p>
-                            <p hidden type="number" id="lucro">{{lucro_forne}}</p>
 
                             <script type="text/javascript">
                                 var xValues = "Vendidos";
-                                var wValues = "Lucro";
-                                var yValues = "";
                                 var zValues = "";
-                                yValues += document.getElementById("lucro").innerHTML;
                                 zValues += document.getElementById("produto_vendido").innerHTML;
-                                var barColor = ["green", "blue"];
+                                var barColor = ["green"];
                                 var myChart = new Chart("myChart", {
                                     type: "bar",
                                     data: {
-                                        labels: [xValues, wValues],
+                                        labels: [xValues],
                                         datasets: [{
                                             backgroundColor: barColor,
-                                            data: [zValues, yValues]
+                                            data: [zValues]
                                         }]
                                     },
                                     options: {
@@ -200,29 +194,46 @@
                     
                     <div class="card aligncenter" style="margin-left:auto;">
                         <nav class="container-fluid col-auto">
-                            <canvas id="myChart" style="width:90%;max-width:700px"></canvas>
+                            <canvas id="lucroChart" style="width:90%;max-width:700px"></canvas>
+                            <canvas id="soldChart" style="width:90%;max-width:700px"></canvas>
 
-                            <p hidden type="text" id="produto_nome">{{nome_produto}}
-                            </p>
                             <p hidden type="number" id="produto_vendido">
                                 {{vendidos}}</p>
-                            <p hidden type="number" id="lucro">{{lucro_forne}}</p>
+                            <p hidden type="number" id="lucro">{{"%.2f" % lucro_prod}}</p>
 
                             <script type="text/javascript">
-                                var xValues = "Vendidos";
                                 var wValues = "Lucro";
+                                var xValues = "Vendidos";
                                 var yValues = "";
                                 var zValues = "";
                                 yValues += document.getElementById("lucro").innerHTML;
                                 zValues += document.getElementById("produto_vendido").innerHTML;
-                                var barColor = ["green", "blue"];
-                                var myChart = new Chart("myChart", {
-                                    type: "pie",
+                                var barColor1 = ["green"];
+                                var barColor2 = ["blue"];
+                                var lucroChart = new Chart("lucroChart", {
+                                    type: "bar",
                                     data: {
-                                        labels: [xValues, wValues],
+                                        labels: [wValues],
                                         datasets: [{
-                                            backgroundColor: barColor,
-                                            data: [zValues, yValues]
+                                            backgroundColor: barColor1,
+                                            data: [yValues],
+                                        }]
+                                    },
+                                    options: {
+                                        legend: { display: false },
+                                        title: {
+                                            display: false
+
+                                        }
+                                    }
+                                });
+                                var soldChart = new Chart("soldChart", {
+                                    type: "bar",
+                                    data: {
+                                        labels: [xValues],
+                                        datasets: [{
+                                            backgroundColor: barColor2,
+                                            data: [zValues],
                                         }]
                                     },
                                     options: {
